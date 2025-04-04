@@ -5,90 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESL Lessons with Mike - Free Range Tutors</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Add any tutor-specific overrides here */
-        .tutor-profile-pic {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            margin: 20px auto; /* Center the image */
-            display: block;
-        }
-        .text-center {
-            text-align: center;
-        }
-         /* Ensure main content area has some padding */
-        main.tutor-page {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #fff8e1; /* Light background for content */
-            border-radius: 8px;
-             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-        /* Style sections within the main area */
-         main.tutor-page section {
-             background: none; /* Remove double background */
-             box-shadow: none;
-             padding: 15px 0; /* Adjust padding */
-             margin-bottom: 25px;
-         }
-         .contact-form input, .contact-form textarea {
-             width: calc(100% - 24px); /* Adjust width for padding */
-             padding: 12px;
-             margin-bottom: 10px;
-             border-radius: 5px;
-             border: 1px solid #ccc;
-             font-size: 16px;
-         }
+     <style>
+         /* Tutor-specific styles remain the same */
+         .tutor-profile-pic { border-radius: 50%; width: 150px; height: 150px; margin: 20px auto; display: block; }
+         .text-center { text-align: center; }
+         main.tutor-page { max-width: 900px; margin: 40px auto; padding: 20px; background-color: #fff8e1; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); }
+         main.tutor-page section { background: none; box-shadow: none; padding: 15px 0; margin-bottom: 25px; }
+         .contact-form input, .contact-form textarea { width: calc(100% - 24px); padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
     </style>
 </head>
 <body>
     <header>
-        <img class="logo" src="images/logo.png" alt="Free Range Tutors Logo">
+         <a href="index.html">
+            <img class="logo" src="images/logo.png" alt="Free Range Tutors Logo">
+         </a>
          ESL Lessons with Mike
-         <nav>
-             <a href="index.html">Find a Tutor</a> |
-             <a href="materials.html">Free Materials</a> |
-             <a href="index.html#contact">Get Your Page</a>
-         </nav>
+        <nav>
+            <a href="index.html">Find a Tutor</a> |
+            <a href="materials.html">Materials</a> |
+            <a href="tools.html">Tools</a> |
+            <a href="index.html#contact">Get Your Page</a>
+        </nav>
     </header>
 
     <main class="tutor-page">
-        <section class="about-section text-center">
-            <h2>About Me</h2>
-            <img src="images/mike-profile.png" alt="Profile picture of Mike, ESL Tutor" class="tutor-profile-pic">
-            <p>Hello! I'm Mike, an experienced ESL teacher passionate about helping students improve their English skills. With 3 years of teaching experience, I specialize in conversation, business English, and IELTS preparation.</p>
-        </section>
-
-        <section class="services-section">
-            <h2>My Services & Booking</h2>
-            <ul>
-                <li>One-on-one lessons tailored to your needs</li>
-                <li>Group classes for interactive learning</li>
-                <li>Specialized courses (e.g., Business English, Academic Writing)</li>
-            </ul>
-            <div class="text-center">
-                <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ04hjqlxspkxUgCjbU9FQvSHZWq76e1TC2qYuLY7M-rKD0Reolm7OBnJ0PjY0nqF_uZrWo1vlXK?gv=true" class="button" target="_blank" rel="noopener noreferrer">Book an Appointment</a>
-            </div>
-        </section>
-
-        <section class="contact-section">
-            <h2>Contact Me</h2>
-             <p>Have questions? Send me a message using the form below.</p>
-            <form class="contact-form" action="#" method="POST"> <input type="text" name="name" placeholder="Your Name" required>
-                <input type="email" name="email" placeholder="Your Email" required>
-                <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
-                <div class="text-center">
-                     <button type="submit" class="button">Send Message</button>
-                </div>
-            </form>
-        </section>
+         <section class="about-section text-center"> <h2>About Me</h2> <img src="images/mike-profile.png" alt="Profile picture of Mike, ESL Tutor" class="tutor-profile-pic"> <p>Hello! I'm Mike, an experienced ESL teacher passionate about helping students improve their English skills. With 3 years of teaching experience, I specialize in conversation, business English, and IELTS preparation.</p> </section>
+         <section class="services-section"> <h2>My Services & Booking</h2> <ul> <li>One-on-one lessons tailored to your needs</li> <li>Group classes for interactive learning</li> <li>Specialized courses (e.g., Business English, Academic Writing)</li> </ul> <div class="text-center"> <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ04hjqlxspkxUgCjbU9FQvSHZWq76e1TC2qYuLY7M-rKD0Reolm7OBnJ0PjY0nqF_uZrWo1vlXK?gv=true" class="button" target="_blank" rel="noopener noreferrer">Book an Appointment</a> </div> </section>
+         <section class="contact-section"> <h2>Contact Me</h2> <p>Have questions? Send me a message using the form below.</p> <form class="contact-form" action="#" method="POST"> <input type="text" name="name" placeholder="Your Name" required> <input type="email" name="email" placeholder="Your Email" required> <textarea name="message" placeholder="Your Message" rows="4" required></textarea> <div class="text-center"> <button type="submit" class="button">Send Message</button> </div> </form> </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Free Range Tutors. All rights reserved. | <a href="index.html">Back to Tutor Directory</a></p>
-    </footer>
+        <p>&copy; 2025 Free Range Tutors. All rights reserved. | <a href="index.html">Back to Tutor Directory</a> | <a href="#">Back to Top</a></p>
+         </footer>
 
     <script src="scripts.js"></script>
 </body>
