@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplified ESL Lesson Plan Generator</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: sans-serif;
+            line-height: 1.6; margin: 20px; background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 700px; margin: auto; padding: 20px; background: #fff;
+            border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        h1 { /* Form Title */
+           font-size: 1.7em; color: #333; border-bottom: 1px solid #eee;
+           padding-bottom: 8px; margin-bottom: 20px;
+        }
+        fieldset {
+            border: 1px solid #ddd; padding: 15px; margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        legend {
+            font-weight: bold; padding: 0 8px; color: #555; font-size: 1.2em;
+        }
+        label {
+            display: block; margin-bottom: 4px; font-weight: bold;
+            color: #555; font-size: 0.95em;
+        }
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; padding: 9px; margin-bottom: 12px;
+            border: 1px solid #ccc; border-radius: 4px;
+            box-sizing: border-box; font-size: 1em;
+        }
+        textarea {
+            min-height: 90px; resize: vertical; white-space: pre-wrap;
+        }
+        .button-container { display: flex; gap: 10px; margin-top: 15px; }
+        .submit-button, .preview-button, .copy-button {
+            color: white; padding: 10px 15px; border: none;
+            border-radius: 4px; cursor: pointer; font-size: 1em;
+            text-align: center; flex-grow: 1;
+        }
+        .submit-button { background-color: #28a745; }
+        .submit-button:hover { background-color: #218838; }
+        .preview-button { background-color: #17a2b8; }
+        .preview-button:hover { background-color: #138496; }
+        .copy-button {
+            background-color: #6c757d; display: block; width: 100%;
+            margin-top: 10px; margin-bottom: 5px; flex-grow: 0;
+        }
+        .copy-button:hover { background-color: #5a6268; }
+
+        /* --- Output Area Styling Adjustments --- */
+        #lessonOutput {
+            margin-top: 5px; padding: 10px; background-color: #f1f1f1;
+            border: 1px solid #ddd; border-radius: 5px;
+            white-space: pre-wrap; font-family: sans-serif;
+            font-size: 1.05em;
+            line-height: 1.4; /* *** FURTHER REDUCED LINE HEIGHT *** */
+            overflow-wrap: break-word; /* *** ADDED FOR TEXT WRAPPING *** */
+        }
+        #lessonOutput h2 { /* Output main headings */
+            font-size: 1.5em; color: #333;
+            border-bottom: 1px solid #ccc; padding-bottom: 2px; /* Reduced padding */
+            margin-top: 10px; /* *** FURTHER REDUCED MARGIN *** */
+            margin-bottom: 3px; /* *** FURTHER REDUCED MARGIN *** */
+        }
+        #lessonOutput h3 { /* Output sub-headings */
+             font-size: 1.25em; color: #444;
+             border-bottom: 1px dashed #ccc; padding-bottom: 1px; /* Reduced padding */
+             margin-top: 8px; /* *** FURTHER REDUCED MARGIN *** */
+             margin-bottom: 3px; /* *** FURTHER REDUCED MARGIN *** */
+        }
+         #lessonOutput p {
+             margin-top: 0;
+             margin-bottom: 4px; /* *** FURTHER REDUCED MARGIN *** */
+         }
+         #lessonOutput strong { color: #000; font-weight: bold; }
+         .optional-label { font-weight: normal; font-style: italic; color: #777; margin-left: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Simplified ESL Lesson Plan</h1>
+
+    <form id="lessonForm" action="submit-lesson.php" method="POST">
+        <fieldset>
+            <legend>Core Information</legend>
+            <label for="lesson_title">Lesson Title:</label>
+            <input type="text" id="lesson_title" name="lesson_title" required>
+            <label for="target_language_skill">Target Language/Skill:</label>
+            <input type="text" id="target_language_skill" name="target_language_skill" placeholder="e.g., Past Simple regular verbs, Vocabulary: Food" required>
+            <label for="cefr_level">CEFR Level:</label>
+            <select id="cefr_level" name="cefr_level" required> <option value="" disabled selected>-- Select --</option> <option value="A1">A1</option> <option value="A2">A2</option> <option value="B1">B1</option> <option value="B2">B2</option> <option value="C1">C1</option> <option value="C2">C2</option> </select>
+            <label for="estimated_time">Est. Time (mins):</label>
+            <input type="number" id="estimated_time" name="estimated_time" min="5" step="5" placeholder="e.g., 45" required>
+            <label for="lesson_objectives">Lesson Objective(s):</label>
+            <textarea id="lesson_objectives" name="lesson_objectives" placeholder="By the end..., students will be able to..." required></textarea>
+            <label for="materials_needed">Materials Needed:</label>
+            <textarea id="materials_needed" name="materials_needed" placeholder="e.g., Whiteboard, Markers, Handout 1, Pictures of food"></textarea>
+        </fieldset>
+        <fieldset>
+            <legend>Lesson Procedure</legend>
+            <label for="warm_up">Warm-up: <span class="optional-label">(Optional)</span></label>
+            <textarea id="warm_up" name="warm_up" placeholder="Briefly describe warm-up activity."></textarea>
+            <label for="presentation">Presentation:</label>
+            <textarea id="presentation" name="presentation" placeholder="How to introduce/explain the target language (context, meaning, form). Include key examples." required></textarea>
+            <label for="practice">Practice Activities:</label>
+            <textarea id="practice" name="practice" placeholder="Describe controlled and/or semi-controlled practice tasks." required></textarea>
+            <label for="production">Production Activity:</label>
+            <textarea id="production" name="production" placeholder="Describe the communicative task for freer practice." required></textarea>
+            <label for="extras">Cool-down / Homework: <span class="optional-label">(Optional)</span></label>
+            <textarea id="extras" name="extras" placeholder="Briefly describe review, wrap-up, or homework task."></textarea>
+        </fieldset>
+        <div class="button-container">
+            <button type="button" id="previewButton" class="preview-button">Preview Text Below</button>
+            <button type="submit" class="submit-button">Submit Lesson to Database</button>
+        </div>
+    </form> <button type="button" id="copyButton" class="copy-button">Copy Preview Text</button>
+
+    <div id="lessonOutput">
+        <p><em>Click "Preview Text Below" to generate the lesson plan text here. Then click "Copy Preview Text". Remember to "Submit" to save!</em></p>
+    </div>
+
+</div> <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const previewButton = document.getElementById('previewButton');
+        const outputArea = document.getElementById('lessonOutput');
+        const copyButton = document.getElementById('copyButton');
+
+        // --- Preview Button Logic ---
+        previewButton.addEventListener('click', function() {
+            // Get Data (same as before)
+            const title = document.getElementById('lesson_title').value;
+            const targetLang = document.getElementById('target_language_skill').value;
+            const level = document.getElementById('cefr_level').value;
+            const time = document.getElementById('estimated_time').value;
+            const objectives = document.getElementById('lesson_objectives').value;
+            const materials = document.getElementById('materials_needed').value;
+            const warmUp = document.getElementById('warm_up').value;
+            const presentation = document.getElementById('presentation').value;
+            const practice = document.getElementById('practice').value;
+            const production = document.getElementById('production').value;
+            const extras = document.getElementById('extras').value;
+
+            // Format Output HTML
+            // *** Further Reduced HR margin here ***
+            let outputHTML = `
+                <h2>${title || 'Lesson Title Not Entered'}</h2>
+                <p><strong>Target:</strong> ${targetLang || 'N/A'}</p>
+                <p><strong>Level:</strong> ${level || 'N/A'} | <strong>Time:</strong> ${time ? time + ' mins' : 'N/A'}</p>
+                
+                <h3>Objective(s)</h3>
+                <p>${objectives || 'N/A'}</p>
+                
+                <h3>Materials</h3>
+                <p>${materials || 'N/A'}</p>
+                
+                <hr style="border: none; border-top: 1px solid #ddd; margin: 8px 0;"> 
+                <h2>Procedure</h2>
+                
+                ${warmUp ? `<h3>Warm-up</h3><p>${warmUp}</p>` : ''}
+                
+                <h3>Presentation</h3>
+                <p>${presentation || 'N/A'}</p>
+                
+                <h3>Practice Activities</h3>
+                <p>${practice || 'N/A'}</p>
+
+                <h3>Production Activity</h3>
+                <p>${production || 'N/A'}</p>
+
+                ${extras ? `<h3>Cool-down / Homework</h3><p>${extras}</p>` : ''}
+            `;
+
+            // Display Formatted Text
+            outputArea.innerHTML = outputHTML;
+        });
+
+        // --- Copy Button Logic (remains the same) ---
+        copyButton.addEventListener('click', function() {
+            const textToCopy = outputArea.innerText; // Get the visible text content
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = copyButton.innerText;
+                copyButton.innerText = 'Copied!';
+                copyButton.style.backgroundColor = '#28a745';
+                setTimeout(() => {
+                    copyButton.innerText = originalText;
+                    copyButton.style.backgroundColor = '#6c757d';
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy text. Please try selecting and copying manually.');
+            });
+        });
+
+    }); // End DOMContentLoaded
+</script>
+
+</body>
+</html>
