@@ -10,7 +10,7 @@
     <style>
         /* Tool Specific Styles */
         main.tool-main-content {
-            font-family: Arial, sans-serif; /* Override base font for tool */
+            font-family: Arial, sans-serif; /* Base font for tool controls */
             max-width: 900px;
             margin: 20px auto;
             padding: 25px;
@@ -19,56 +19,16 @@
             border: 1px solid #ddd;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        h1.tool-title {
-            text-align: center;
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            font-weight: bold;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        .rubric-section {
-            flex: 1 1 45%;
-            min-width: 300px;
-            background-color: #fdfdfd;
-            padding: 20px;
-            border-radius: 5px;
-            border: 1px solid #eee;
-        }
-         .rubric-section h2 {
-            font-size: 1.3em;
-            color: #5c4033;
-            margin-top: 0;
-            margin-bottom: 15px;
-             border-bottom: 1px solid #eee;
-             padding-bottom: 5px;
-             font-weight: bold;
-         }
-         .rubric-section h3 {
-            font-size: 1.1em;
-            color: #5c4033;
-            margin-top: 15px;
-             margin-bottom: 8px;
-             font-weight: bold;
-         }
-        select {
-             width: 100%;
-             padding: 10px;
-             margin-bottom: 15px;
-             border: 1px solid #ccc;
-             border-radius: 4px;
-             box-sizing: border-box;
-             font-size: 1em;
-             background-color: #fff;
-         }
+        h1.tool-title { text-align: center; color: #333; margin-top: 0; margin-bottom: 20px; font-size: 1.8em; font-weight: bold; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+        .rubric-section { flex: 1 1 45%; min-width: 300px; background-color: #fdfdfd; padding: 20px; border-radius: 5px; border: 1px solid #eee; }
+        .rubric-section h2 { font-size: 1.3em; color: #5c4033; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; font-weight: bold; }
+        .rubric-section h3 { font-size: 1.1em; color: #5c4033; margin-top: 15px; margin-bottom: 8px; font-weight: bold; }
+        select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1em; background-color: #fff; }
+
+        /* --- Styles for Report Output Area (Copied from Standalone Version) --- */
         .report-output {
-             background-color: #ffffff;
+             background-color: #ffffff; /* White background */
              padding: 30px;
              border-radius: 5px;
              border: 1px solid #ccc;
@@ -76,83 +36,57 @@
              min-height: 200px;
              text-align: left;
              font-size: 1em;
-             font-family: 'Times New Roman', Times, serif; /* Document-like font for output */
-             line-height: 1.4;
+             font-family: 'Times New Roman', Times, serif; /* Document-like font */
+             line-height: 1.4; /* Tighter line spacing */
          }
+        /* Style for the main title inside the report */
         .report-output p.report-main-title {
              font-weight: bold;
              text-transform: uppercase;
-             font-size: 1.3em;
+             font-size: 1.3em; /* Slightly larger main title */
              margin-top: 0;
              margin-bottom: 1.5em;
-             color: #000000;
+             color: #000000; /* Black title */
              text-align: center;
-             font-family: inherit;
+             font-family: inherit; /* Inherit serif */
          }
-        .report-output p {
-             margin-top: 0.2em;
-             margin-bottom: 0.2em;
+         /* Style for regular paragraphs inside the report */
+         .report-output p {
+             margin-top: 0.2em; /* Reduced space above paragraph */
+             margin-bottom: 0.2em; /* Reduced space below paragraph */
              white-space: pre-line;
-             font-family: inherit;
+             font-family: inherit; /* Inherit serif */
          }
+        /* Style for headings inside the report */
         .report-output h4.report-heading {
              font-weight: bold;
              text-transform: uppercase;
-             font-size: 1.15em;
-             margin-top: 1.0em;
-             margin-bottom: 0.3em;
-             color: #000000;
-             border-bottom: none;
+             font-size: 1.15em; /* Slightly larger than body text */
+             margin-top: 1.0em; /* Space above heading */
+             margin-bottom: 0.3em; /* Less space below heading */
+             color: #000000; /* Black heading */
+             border-bottom: none; /* Remove underline */
              padding-bottom: 0;
-             font-family: inherit;
+             font-family: inherit; /* Inherit serif */
          }
+        /* --- End of Report Output Styles --- */
+
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 1.05em; color: #5c4033;}
-        input[type="text"], textarea {
-             width: 100%;
-             padding: 10px;
-             box-sizing: border-box;
-             border: 1px solid #ccc;
-             border-radius: 4px;
-             font-size: 1em;
-         }
+        input[type="text"], textarea { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; }
         textarea { min-height: 100px; resize: vertical; }
-        button.tool-button { /* Specific button styles for this tool */
-             color: white;
-             padding: 12px 20px;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-             font-size: 1.05em;
-             margin-top: 15px;
-             margin-right: 10px;
-             transition: background-color 0.3s ease, transform 0.1s ease;
-         }
-         button.tool-button:hover { opacity: 0.9; }
-         button.tool-button:active { transform: scale(0.98); }
-
+        button.tool-button { color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.05em; margin-top: 15px; margin-right: 10px; transition: background-color 0.3s ease, transform 0.1s ease; }
+        button.tool-button:hover { opacity: 0.9; }
+        button.tool-button:active { transform: scale(0.98); }
         #generateBtn { background-color: #4CAF50; }
         #copyBtn { background-color: #2196F3; }
-        .language-btn {
-             background-color: #ff9800;
-             float: right;
-             margin-top: 0;
-             color: white;
-             padding: 10px 15px;
-             border: none;
-             border-radius: 4px;
-             cursor: pointer;
-             font-size: 1em;
-             transition: background-color 0.3s ease, transform 0.1s ease;
-         }
-         .language-btn:hover { background-color: #e68a00; }
-         .language-btn:active { transform: scale(0.98); }
-
+        .language-btn { background-color: #ff9800; float: right; margin-top: 0; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.3s ease, transform 0.1s ease; }
+        .language-btn:hover { background-color: #e68a00; }
+        .language-btn:active { transform: scale(0.98); }
         .comments-section { margin-top: 25px; margin-bottom: 15px; }
         .hidden { display: none; }
         .clearfix::after { content: ""; clear: both; display: table; }
-
-         /* Responsive Adjustments for Tool */
+         /* Basic Responsive Adjustments */
         @media (max-width: 768px) {
             .container { flex-direction: column; }
             main.tool-main-content { margin: 10px; padding: 15px; }
