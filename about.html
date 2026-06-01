@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!--
+    about.css — additions only.
+    No existing rules are overridden.
+    New classes are prefixed with .about- or use the
+    established .section-about, .about-inner, .about-body
+    hooks already defined in style.css.
+  -->
+  <style>
+
+    /* ============================================================
+       ABOUT PAGE — ADDITIONAL STYLES
+       Only new rules required for the full About page.
+       The existing .section-about, .about-inner, .about-body
+       rules in style.css are reused as-is for the lead section.
+       ============================================================ */
+
+
+    /* ── Page intro (hero equivalent) ───────────────────────────
+       Mirrors .section-intro in weight and spacing but simpler:
+       single-column, no status aside.
+       ─────────────────────────────────────────────────────────── */
+
+    .section-about-intro {
+      padding: var(--space-16) 0 var(--space-12);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .about-page-heading {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-5);
+      max-width: 22ch;
+    }
+
+    .about-page-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 52ch;
+      line-height: 1.75;
+    }
+
+
+    /* ── Philosophy sections ─────────────────────────────────────
+       Reuses .section-about background rhythm (alternating
+       --color-bg / --color-surface) for visual separation
+       without introducing new layout primitives.
+       ─────────────────────────────────────────────────────────── */
+
+    .section-philosophy {
+      padding: var(--space-16) 0;
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    /* Alternate background: matches .section-resources / .section-about */
+    .section-philosophy--tinted {
+      background-color: var(--color-surface);
+      border-bottom: 1.5px solid var(--color-border);
+    }
+
+    /* Constrained prose column — matches .about-inner (680px) */
+    .philosophy-inner {
+      max-width: 680px;
+    }
+
+    .philosophy-heading {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .philosophy-body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    /* Reuse .about-body p style — identical intent */
+    .philosophy-body p {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      line-height: 1.75;
+    }
+
+
+    /* ── Principles list ─────────────────────────────────────────
+       A minimal, document-style list. No icons, no decorative
+       elements. Uses existing token values throughout.
+       ─────────────────────────────────────────────────────────── */
+
+    .principles-list {
+      margin-top: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      /* No gap — dashed dividers provide rhythm instead */
+    }
+
+    .principles-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: var(--space-6);
+      padding: var(--space-5) 0;
+      border-bottom: 1px dashed var(--color-border-light);
+      align-items: baseline;
+    }
+
+    .principles-item:first-child {
+      border-top: 1px dashed var(--color-border-light);
+    }
+
+    .principles-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--color-text-faint);
+      padding-top: 2px; /* optical baseline align with p */
+      flex-shrink: 0;
+    }
+
+    .principles-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.65;
+    }
+
+    /* Responsive: stack label above desc on narrow screens */
+    @media (max-width: 560px) {
+      .principles-item {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+      }
+    }
+
+
+    /* ── How to use section ──────────────────────────────────────
+       Plain prose. No special components needed.
+       ─────────────────────────────────────────────────────────── */
+
+    /* (uses .section-philosophy + .philosophy-inner — no new rules) */
+
+
+    /* ── Closing note ────────────────────────────────────────────
+       Quiet sign-off at the end of the document. Mimics the
+       site-status-panel tone: faint, honest, un-marketed.
+       ─────────────────────────────────────────────────────────── */
+
+    .about-closing {
+      padding: var(--space-16) 0;
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .about-closing-inner {
+      max-width: 580px;
+    }
+
+    .about-closing p {
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    .about-closing p + p {
+      margin-top: var(--space-4);
+    }
+
+    .about-closing-meta {
+      margin-top: var(--space-6);
+      padding-top: var(--space-5);
+      border-top: 1px dashed var(--color-border-light);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SITE HEADER / NAVIGATION
+       Identical across all pages — "about" nav link is active.
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container header-inner">
+
+      <div class="site-identity">
+        <a href="index.html" class="site-wordmark">Free Range Tutors</a>
+        <span class="site-tagline">Teaching tools. Made by teachers.</span>
+      </div>
+
+      <!-- Desktop navigation -->
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="tools/index.html" class="nav-link">Tools</a>
+        <a href="resources/index.html" class="nav-link">Resources</a>
+        <a href="pdfs/index.html" class="nav-link">PDFs</a>
+        <a href="about.html" class="nav-link active">About</a>
+      </nav>
+
+      <!-- Mobile menu toggle -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile navigation drawer -->
+    <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="tools/index.html" class="mobile-nav-link">Tools</a>
+      <a href="resources/index.html" class="mobile-nav-link">Resources</a>
+      <a href="pdfs/index.html" class="mobile-nav-link">PDFs</a>
+      <a href="about.html" class="mobile-nav-link">About</a>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- ============================================================
+         PAGE INTRO
+         Single-column. No status aside on this page.
+         ============================================================ -->
+    <section class="section-about-intro">
+      <div class="container">
+
+        <h1 class="about-page-heading">Tools built for teaching,<br>not for software.</h1>
+        <p class="about-page-lead">A note on what this site is, how it was made, and why it looks the way it does.</p>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 1 — WHY THIS EXISTS
+         ============================================================ -->
+    <section class="section-philosophy">
+      <div class="container">
+        <div class="philosophy-inner">
+
+          <h2 class="philosophy-heading">Why this exists</h2>
+
+          <div class="philosophy-body">
+            <p>After enough years of teaching, the weight of repetitive admin, mediocre platform tools, and bloated edtech systems becomes genuinely exhausting. A lot of what passes for "teaching technology" adds friction rather than removing it. Lesson plan templates too long to complete in a planning period. Trackers that require more maintenance than the teaching itself. Platforms that cost too much and do too little of what you actually need in a classroom.</p>
+
+            <p>Most of it is also designed for the buyer — a department head, an IT coordinator, a procurement decision — not for the teacher who will use it daily. The result is software that performs capability rather than delivering it. Feature lists over usefulness. Dashboards over clarity.</p>
+
+            <p>Free Range Tutors is an attempt to build something different: small tools, specific resources, and things that solve one problem well and stay out of the way. Everything here was built because it was needed and a decent free version didn't exist. The goal is lower mental fatigue during planning and admin, not higher productivity metrics.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 2 — DESIGN PRINCIPLES
+         Tinted background (--color-surface) for visual separation.
+         ============================================================ -->
+    <section class="section-philosophy section-philosophy--tinted">
+      <div class="container">
+        <div class="philosophy-inner">
+
+          <h2 class="philosophy-heading">How things are designed here</h2>
+
+          <div class="philosophy-body">
+            <p>The visual language of this site is deliberately document-like. It does not try to look like a SaaS product. There are no dashboards, no onboarding flows, no progress rings. The interface is meant to recede — to feel closer to a well-organised worksheet than an application.</p>
+
+            <p>This is a considered choice. Teachers already carry a significant cognitive load. The tools and resources here should not add to it. A calm, readable layout with clear hierarchy and no unnecessary animation is more useful than a visually impressive one that requires attention to navigate.</p>
+
+            <p>No tool on this site uses a fixed sidebar, a sticky header, or a modal-heavy interaction pattern. Everything scrolls as a single document. The interfaces behave predictably on any device, at any screen size, including when projected onto a classroom display mid-lesson.</p>
+          </div>
+
+          <!-- Principles list: minimal, document-style -->
+          <div class="principles-list" role="list" aria-label="Design principles">
+
+            <div class="principles-item" role="listitem">
+              <span class="principles-label">Low friction</span>
+              <p class="principles-desc">Every tool should be usable immediately, without setup, account creation, or a tutorial. If it needs explaining, it needs simplifying.</p>
+            </div>
+
+            <div class="principles-item" role="listitem">
+              <span class="principles-label">Document-like UI</span>
+              <p class="principles-desc">Interfaces should behave like well-designed documents, not applications. Scroll naturally. No fixed chrome. No persistent panels demanding attention.</p>
+            </div>
+
+            <div class="principles-item" role="listitem">
+              <span class="principles-label">Reduced cognitive load</span>
+              <p class="principles-desc">Calm colours, legible type, and clear structure. The interface should be forgettable in the best sense — it gets out of the way so the teaching work can happen.</p>
+            </div>
+
+            <div class="principles-item" role="listitem">
+              <span class="principles-label">Classroom-first</span>
+              <p class="principles-desc">Practical usefulness in a real lesson, with real students, takes priority over theoretical completeness or visual impressiveness.</p>
+            </div>
+
+            <div class="principles-item" role="listitem">
+              <span class="principles-label">Honest about state</span>
+              <p class="principles-desc">Things in progress are labelled as such. Experimental tools say they are experimental. Nothing is dressed up beyond its actual maturity.</p>
+            </div>
+
+          </div><!-- /principles-list -->
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 3 — HOW TO USE THIS SITE
+         Back to plain background.
+         ============================================================ -->
+    <section class="section-philosophy">
+      <div class="container">
+        <div class="philosophy-inner">
+
+          <h2 class="philosophy-heading">How to use this site</h2>
+
+          <div class="philosophy-body">
+            <p>There is no intended order. Browse the tools and resources sections and take what is useful. Nothing requires registration or installation. Most tools save state locally in your browser if they need to persist anything — nothing is sent to a server.</p>
+
+            <p>The resources section contains printable and downloadable materials: speaking activities, field packs, task cards, and similar items. They are organised by type and level. Use them as-is, adapt them, or ignore the ones that do not suit your context. They are not prescriptive.</p>
+
+            <p>The tools section contains web apps that run entirely in the browser. Some are stable and well-tested. Some are marked as beta or experimental — meaning they work but may have rough edges, or are still being refined based on classroom use. The badges on each card are an honest indication of where a tool currently sits.</p>
+
+            <p>If something does not work as expected, the contact page is there. This is a small project and feedback goes directly to the person who built it.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         CLOSING NOTE
+         Quiet, human, non-marketed. Keeps the reflective tone
+         without becoming dramatic.
+         ============================================================ -->
+    <div class="about-closing">
+      <div class="container">
+        <div class="about-closing-inner">
+
+          <p>This site is built and maintained by one teacher, outside of working hours. It is not a startup. It is not angled toward monetisation. The tools are free because they were built to solve a teaching problem, not a commercial one.</p>
+
+          <p>It is, by design, always unfinished. Teaching practice changes. Resources get revised. Tools get rebuilt when a better approach becomes clear. That is the intention.</p>
+
+          <p class="about-closing-meta mono">Free Range Tutors · v0.4-beta · 2025</p>
+
+        </div>
+      </div>
+    </div>
+
+
+  </main>
+
+
+  <!-- ============================================================
+       SITE FOOTER
+       Identical across all pages.
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+
+      <div class="footer-left">
+        <p class="footer-wordmark">Free Range Tutors</p>
+        <p class="footer-desc">Independent teaching tools and resources.<br>Made by one teacher. Shared freely.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Tools</p>
+          <a href="tools/lessontrak/index.html" class="footer-link">LessonTrak</a>
+          <a href="tools/report-writer/index.html" class="footer-link">Report Writer</a>
+          <a href="tools/zard/index.html" class="footer-link">ZARD</a>
+          <a href="tools/lesson-plan-viewer/index.html" class="footer-link">Lesson Plan Viewer</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Resources</p>
+          <a href="resources/speaking-experiments/index.html" class="footer-link">Speaking Experiments</a>
+          <a href="resources/information-gap/index.html" class="footer-link">Information Gap Files</a>
+          <a href="resources/field-packs/index.html" class="footer-link">Field Packs</a>
+          <a href="resources/student-missions/index.html" class="footer-link">Student Missions</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Site</p>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="changelog.html" class="footer-link">Changelog</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </div>
+      </nav>
+
+    </div>
+
+    <div class="container footer-base">
+      <p class="footer-meta mono">Free Range Tutors · v0.4-beta · 2025 · No tracking · No ads · No login required</p>
+    </div>
+
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

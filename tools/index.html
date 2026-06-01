@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Apps — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <!-- Base design system: load first -->
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Web Apps page additions: extends, never overrides -->
+  <link rel="stylesheet" href="apps.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       SITE HEADER / NAVIGATION
+       Identical to homepage. Active link is "Tools".
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container header-inner">
+
+      <div class="site-identity">
+        <a href="../index.html" class="site-wordmark">Free Range Tutors</a>
+        <span class="site-tagline">Teaching tools. Made by teachers.</span>
+      </div>
+
+      <!-- Desktop navigation -->
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-link active">Tools</a>
+        <a href="../resources/index.html" class="nav-link">Resources</a>
+        <a href="../pdfs/index.html" class="nav-link">PDFs</a>
+        <a href="../about.html" class="nav-link">About</a>
+      </nav>
+
+      <!-- Mobile menu toggle -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile navigation drawer -->
+    <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="index.html" class="mobile-nav-link">Tools</a>
+      <a href="../resources/index.html" class="mobile-nav-link">Resources</a>
+      <a href="../pdfs/index.html" class="mobile-nav-link">PDFs</a>
+      <a href="../about.html" class="mobile-nav-link">About</a>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- ============================================================
+         PAGE INTRO
+         No hero section. A modest page header: context + status.
+         The breadcrumb and restrained heading set the document tone.
+         ============================================================ -->
+    <section class="page-intro">
+      <div class="container">
+        <div class="page-intro-inner">
+
+          <div class="page-intro-text">
+            <p class="page-breadcrumb mono">Free Range Tutors / Web Apps</p>
+            <h1 class="page-title">Web Apps</h1>
+            <p class="page-desc">Small browser tools for real teaching situations. Each one solves a specific problem — logging what happened in a lesson, writing reports without burning out, thinking through how a session is paced. Nothing installs. Nothing syncs to a server. Nothing requires an account.</p>
+          </div>
+
+          <!-- Workshop status note — mirrors the homepage aside style -->
+          <aside class="page-meta-aside">
+            <p class="status-label">Tools shelf</p>
+            <p class="status-note">4 tools currently available. 2 stable, 1 in beta, 1 experimental. All free, all run in your browser.</p>
+            <p class="status-meta mono">Last updated: 09 May 2025</p>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         APPS SHELF — FILTER STRIP + CARD GRID
+         Filter strip narrows the grid by category or status.
+         Actual filter logic is in apps.js.
+         ============================================================ -->
+    <section class="section-apps-shelf">
+      <div class="container">
+
+        <!-- Filter strip: category buttons + status buttons -->
+        <div class="filter-strip apps-filter-strip" role="toolbar" aria-label="Filter tools by category">
+          <button class="filter-btn filter-btn--active" data-filter="all">All tools</button>
+          <button class="filter-btn" data-filter="planning">Planning</button>
+          <button class="filter-btn" data-filter="reports">Reports</button>
+          <button class="filter-btn" data-filter="lesson-design">Lesson design</button>
+          <button class="filter-btn" data-filter="classroom">Classroom</button>
+          <span class="filter-sep mono" aria-hidden="true">—</span>
+          <button class="filter-btn filter-btn--status" data-filter="live">Live only</button>
+          <button class="filter-btn filter-btn--status" data-filter="experimental">Incl. experimental</button>
+        </div>
+
+        <!-- Apps grid: 2 columns on desktop, 1 on mobile -->
+        <div class="card-grid card-grid--apps" id="apps-grid">
+
+          <!-- ────────────────────────────────────────────────────
+               Card 01: LessonTrak
+               tags: planning, tracking | status: live
+               ──────────────────────────────────────────────────── -->
+          <article class="card card--tool card--app"
+                   data-tags="planning tracking"
+                   data-status="live"
+                   id="card-lessontrak">
+            <span class="card-index mono" aria-hidden="true">01</span>
+            <div class="card-header">
+              <h2 class="card-title">LessonTrak</h2>
+              <div class="card-badges">
+                <span class="badge badge--live">LIVE</span>
+                <span class="badge badge--free">FREE</span>
+              </div>
+            </div>
+            <p class="card-desc">A lightweight lesson logger. Keep track of what you covered, what worked, and what to revisit — without the overhead of a full CRM or spreadsheet system.</p>
+            <div class="card-meta">
+              <span class="tag">planning</span>
+              <span class="tag">tracking</span>
+              <span class="meta-version">v1.4</span>
+            </div>
+            <div class="card-footer">
+              <a href="lessontrak/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Works offline · Saves locally</span>
+            </div>
+          </article>
+
+          <!-- ────────────────────────────────────────────────────
+               Card 02: Report Writer
+               tags: reports, writing | status: beta
+               ──────────────────────────────────────────────────── -->
+          <article class="card card--tool card--app"
+                   data-tags="reports writing"
+                   data-status="beta"
+                   id="card-report-writer">
+            <span class="card-index mono" aria-hidden="true">02</span>
+            <div class="card-header">
+              <h2 class="card-title">Report Writer</h2>
+              <div class="card-badges">
+                <span class="badge badge--beta">BETA</span>
+                <span class="badge badge--free">FREE</span>
+              </div>
+            </div>
+            <p class="card-desc">Generates varied, human-sounding student report comments from simple input. Takes the repetitive strain out of report season without sounding like a robot wrote it.</p>
+            <div class="card-meta">
+              <span class="tag">reports</span>
+              <span class="tag">writing</span>
+              <span class="meta-version">v0.8</span>
+            </div>
+            <div class="card-footer">
+              <a href="report-writer/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Still testing comment variety</span>
+            </div>
+          </article>
+
+          <!-- ────────────────────────────────────────────────────
+               Card 03: ZARD
+               tags: lesson-design, pacing | status: experimental
+               ──────────────────────────────────────────────────── -->
+          <article class="card card--tool card--app"
+                   data-tags="lesson-design pacing"
+                   data-status="experimental"
+                   id="card-zard">
+            <span class="card-index mono" aria-hidden="true">03</span>
+            <div class="card-header">
+              <h2 class="card-title">ZARD</h2>
+              <div class="card-badges">
+                <span class="badge badge--experimental">EXPERIMENTAL</span>
+              </div>
+            </div>
+            <p class="card-desc">Zone-based Activity and Resource Designer. An exploratory tool for mapping lesson activities to energy levels and cognitive load across a session arc.</p>
+            <div class="card-meta">
+              <span class="tag">lesson design</span>
+              <span class="tag">pacing</span>
+              <span class="meta-version">v0.3</span>
+            </div>
+            <div class="card-footer">
+              <a href="zard/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Early experiment — rough edges expected</span>
+            </div>
+          </article>
+
+          <!-- ────────────────────────────────────────────────────
+               Card 04: Lesson Plan Viewer
+               tags: planning, classroom | status: live
+               ──────────────────────────────────────────────────── -->
+          <article class="card card--tool card--app"
+                   data-tags="planning classroom"
+                   data-status="live"
+                   id="card-lesson-plan-viewer">
+            <span class="card-index mono" aria-hidden="true">04</span>
+            <div class="card-header">
+              <h2 class="card-title">Lesson Plan Viewer</h2>
+              <div class="card-badges">
+                <span class="badge badge--live">LIVE</span>
+                <span class="badge badge--free">FREE</span>
+              </div>
+            </div>
+            <p class="card-desc">A clean, distraction-free view for lesson plans. Paste or load a plan and get a calm, readable layout for during-class reference. Now with local save.</p>
+            <div class="card-meta">
+              <span class="tag">planning</span>
+              <span class="tag">classroom</span>
+              <span class="meta-version">v2.1</span>
+            </div>
+            <div class="card-footer">
+              <a href="lesson-plan-viewer/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Local save added — 09 May 2025</span>
+            </div>
+          </article>
+
+        </div><!-- /apps-grid -->
+
+        <!-- Empty state: shown by apps.js when no cards match the active filter -->
+        <div class="apps-empty" id="apps-empty" hidden>
+          <p class="apps-empty-text">Nothing matches that filter just yet — more tools in progress.</p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         TOOL CATALOGUE — INDIVIDUAL APP PREVIEW SECTIONS
+         Each tool gets an expanded entry: what it does, why it was
+         built, feature chips, tech notes, and a mini update log.
+         Laid out as a series of catalogue entries — part binder,
+         part readme, part workshop documentation.
+         ============================================================ -->
+    <section class="section-app-catalogue">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">Tool notes</h2>
+          <p class="section-subtitle">More detail on each tool — what it does, why it exists, and where it's headed.</p>
+        </div>
+
+
+        <!-- ────────────────────────────────────────────────────
+             App Entry 01: LessonTrak
+             ──────────────────────────────────────────────────── -->
+        <div class="app-entry" id="app-lessontrak">
+          <div class="app-entry-inner">
+
+            <!-- Main column: description + annotation + features -->
+            <div class="app-entry-main">
+              <div class="app-entry-header">
+                <span class="app-entry-num mono" aria-hidden="true">01</span>
+                <h3 class="app-entry-title">LessonTrak</h3>
+                <div class="card-badges">
+                  <span class="badge badge--live">LIVE</span>
+                  <span class="badge badge--free">FREE</span>
+                </div>
+                <span class="app-entry-version mono">v1.4</span>
+              </div>
+
+              <p class="app-entry-desc">LessonTrak is a lightweight, browser-based lesson logging tool. After each session, you record what you covered, what worked, and what to come back to. There are no student profiles, no synced data, no dashboards — just a clean place to keep running notes on your teaching.</p>
+
+              <!-- Teacher annotation: why it exists -->
+              <p class="app-entry-why">Built because keeping a proper lesson journal was always either too informal (notebook, then lost) or too heavy (spreadsheet, then abandoned). This sits in the middle — enough structure to be useful, not so much that maintaining it becomes a second job.</p>
+
+              <!-- Feature chips — prose-adjacent, not a bulleted list -->
+              <div class="app-features">
+                <span class="app-feature">Per-lesson notes</span>
+                <span class="app-feature">Works offline</span>
+                <span class="app-feature">Saves to browser storage</span>
+                <span class="app-feature">No account required</span>
+                <span class="app-feature">Export as plain text</span>
+                <span class="app-feature">Mobile-friendly</span>
+              </div>
+            </div>
+
+            <!-- Aside column: metadata panel -->
+            <aside class="app-entry-aside">
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Status</p>
+                <div class="app-meta-badges">
+                  <span class="badge badge--live">LIVE</span>
+                  <span class="badge badge--free">FREE</span>
+                </div>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Current version</p>
+                <p class="app-meta-value mono">v1.4 — stable</p>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Technical notes</p>
+                <ul class="app-tech-list">
+                  <li>Plain HTML / CSS / JS</li>
+                  <li>localStorage save</li>
+                  <li>No external dependencies</li>
+                  <li>No data leaves your device</li>
+                  <li>Works without a network</li>
+                </ul>
+              </div>
+              <div class="app-update-log">
+                <p class="app-meta-label mono">Recent updates</p>
+                <ul class="app-update-list">
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Mar 2025</span>
+                    <span>Export to plain text added</span>
+                  </li>
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Jan 2025</span>
+                    <span>Mobile layout reworked</span>
+                  </li>
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Nov 2024</span>
+                    <span>Initial release (v1.0)</span>
+                  </li>
+                </ul>
+              </div>
+              <a href="lessontrak/index.html" class="btn btn-secondary app-entry-cta">Open LessonTrak →</a>
+            </aside>
+
+          </div>
+        </div><!-- /app-lessontrak -->
+
+
+        <!-- ────────────────────────────────────────────────────
+             App Entry 02: Report Writer
+             ──────────────────────────────────────────────────── -->
+        <div class="app-entry" id="app-report-writer">
+          <div class="app-entry-inner">
+
+            <div class="app-entry-main">
+              <div class="app-entry-header">
+                <span class="app-entry-num mono" aria-hidden="true">02</span>
+                <h3 class="app-entry-title">Report Writer</h3>
+                <div class="card-badges">
+                  <span class="badge badge--beta">BETA</span>
+                  <span class="badge badge--free">FREE</span>
+                </div>
+                <span class="app-entry-version mono">v0.8 — beta</span>
+              </div>
+
+              <p class="app-entry-desc">Report Writer generates varied, human-sounding student report comments from a few simple inputs. You describe the student — their level, strengths, areas to develop, and a rough tone — and the tool produces a set of draft comments you can review and adjust. Designed to handle 20 or more students without the output becoming repetitive.</p>
+
+              <p class="app-entry-why">Report season is genuinely exhausting. Writing 30 individual comments that sound meaningfully different from each other, that accurately reflect real students, without sounding mechanical — it's a grinding task. This doesn't replace your judgement; it removes the blank-page problem and the fatigue of repetition.</p>
+
+              <div class="app-features">
+                <span class="app-feature">Describe level + strengths + areas to work on</span>
+                <span class="app-feature">Generates multiple variants</span>
+                <span class="app-feature">Avoids repetitive phrasing</span>
+                <span class="app-feature">Tone adjustment</span>
+                <span class="app-feature">Copy-to-clipboard output</span>
+                <span class="app-feature">No data stored</span>
+              </div>
+            </div>
+
+            <aside class="app-entry-aside">
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Status</p>
+                <div class="app-meta-badges">
+                  <span class="badge badge--beta">BETA</span>
+                  <span class="badge badge--free">FREE</span>
+                </div>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Current version</p>
+                <p class="app-meta-value mono">v0.8 — in testing</p>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Known limitations</p>
+                <ul class="app-tech-list">
+                  <li>Comment variety still being improved</li>
+                  <li>Best for batches of 10–30 students</li>
+                  <li>Output always needs human review</li>
+                </ul>
+              </div>
+              <div class="app-update-log">
+                <p class="app-meta-label mono">Recent updates</p>
+                <ul class="app-update-list">
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Apr 2025</span>
+                    <span>Comment repetition bug fixed</span>
+                  </li>
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Feb 2025</span>
+                    <span>Tone adjustment slider added</span>
+                  </li>
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Dec 2024</span>
+                    <span>Initial beta release</span>
+                  </li>
+                </ul>
+              </div>
+              <a href="report-writer/index.html" class="btn btn-secondary app-entry-cta">Open Report Writer →</a>
+            </aside>
+
+          </div>
+        </div><!-- /app-report-writer -->
+
+
+        <!-- ────────────────────────────────────────────────────
+             App Entry 03: ZARD
+             ──────────────────────────────────────────────────── -->
+        <div class="app-entry" id="app-zard">
+          <div class="app-entry-inner">
+
+            <div class="app-entry-main">
+              <div class="app-entry-header">
+                <span class="app-entry-num mono" aria-hidden="true">03</span>
+                <h3 class="app-entry-title">ZARD</h3>
+                <div class="card-badges">
+                  <span class="badge badge--experimental">EXPERIMENTAL</span>
+                </div>
+                <span class="app-entry-version mono">v0.3 — early</span>
+              </div>
+
+              <p class="app-entry-desc">ZARD — Zone-based Activity and Resource Designer — is an exploratory planning tool for thinking about the shape of a lesson. You map activities to energy zones (warm-up, focus, production, wind-down) and get a rough visual read on whether the cognitive load is distributed sensibly across the session.</p>
+
+              <p class="app-entry-why">There's a real difference between a lesson that's well-resourced and one that actually flows. I kept noticing that plans I thought were solid left students too flat too early, or too activated too late. ZARD is an attempt to build a thinking tool for that problem — not a lesson plan generator, more like a rough sketch you draw before writing the real thing.</p>
+
+              <div class="app-features">
+                <span class="app-feature">Activity zone mapping</span>
+                <span class="app-feature">Energy arc visualisation</span>
+                <span class="app-feature">Cognitive load estimate</span>
+                <span class="app-feature">Session arc view</span>
+              </div>
+
+              <!-- Caution note for experimental tools -->
+              <div class="app-entry-caution">
+                <p>This tool is at an early, exploratory stage. The concept is still being developed. Expect incomplete features, placeholder UI, and things that don't quite work yet. Shared as a public work-in-progress rather than a finished product.</p>
+              </div>
+            </div>
+
+            <aside class="app-entry-aside">
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Status</p>
+                <div class="app-meta-badges">
+                  <span class="badge badge--experimental">EXPERIMENTAL</span>
+                </div>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Current version</p>
+                <p class="app-meta-value mono">v0.3 — early experiment</p>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Development notes</p>
+                <ul class="app-tech-list">
+                  <li>Concept still being refined</li>
+                  <li>Zone model is provisional</li>
+                  <li>No save / export yet</li>
+                  <li>Mobile: partial support only</li>
+                </ul>
+              </div>
+              <div class="app-update-log">
+                <p class="app-meta-label mono">Dev log</p>
+                <ul class="app-update-list">
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Apr 2025</span>
+                    <span>Visual arc view added</span>
+                  </li>
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Feb 2025</span>
+                    <span>First working prototype</span>
+                  </li>
+                </ul>
+              </div>
+              <a href="zard/index.html" class="btn btn-secondary app-entry-cta">Open ZARD →</a>
+            </aside>
+
+          </div>
+        </div><!-- /app-zard -->
+
+
+        <!-- ────────────────────────────────────────────────────
+             App Entry 04: Lesson Plan Viewer
+             ──────────────────────────────────────────────────── -->
+        <div class="app-entry" id="app-lesson-plan-viewer">
+          <div class="app-entry-inner">
+
+            <div class="app-entry-main">
+              <div class="app-entry-header">
+                <span class="app-entry-num mono" aria-hidden="true">04</span>
+                <h3 class="app-entry-title">Lesson Plan Viewer</h3>
+                <div class="card-badges">
+                  <span class="badge badge--live">LIVE</span>
+                  <span class="badge badge--free">FREE</span>
+                </div>
+                <span class="app-entry-version mono">v2.1</span>
+              </div>
+
+              <p class="app-entry-desc">The Lesson Plan Viewer gives you a clean, distraction-free reading view for lesson plans during class. Paste in a plan or load a saved one, and you get a calm, readable layout — no editing mode, no menus, no clutter. Just the plan, readable at a glance from a laptop or tablet at the front of the room.</p>
+
+              <p class="app-entry-why">Teaching with a lesson plan document open in one tab, a timer in another, and a vocab list somewhere else is fine but fragmented. This gives one clean, scannable view for everything that matters during the lesson — with local save so you can load it back the next day without hunting for the file.</p>
+
+              <div class="app-features">
+                <span class="app-feature">Paste or load a plan</span>
+                <span class="app-feature">Clean reading view</span>
+                <span class="app-feature">Local save via browser storage</span>
+                <span class="app-feature">No editing distractions</span>
+                <span class="app-feature">Works offline</span>
+                <span class="app-feature">Mobile + tablet friendly</span>
+              </div>
+            </div>
+
+            <aside class="app-entry-aside">
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Status</p>
+                <div class="app-meta-badges">
+                  <span class="badge badge--live">LIVE</span>
+                  <span class="badge badge--free">FREE</span>
+                </div>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Current version</p>
+                <p class="app-meta-value mono">v2.1 — stable</p>
+              </div>
+              <div class="app-meta-block">
+                <p class="app-meta-label mono">Technical notes</p>
+                <ul class="app-tech-list">
+                  <li>Plain HTML / CSS / JS</li>
+                  <li>localStorage for saved plans</li>
+                  <li>No data leaves your device</li>
+                  <li>Works without a network</li>
+                </ul>
+              </div>
+              <div class="app-update-log">
+                <p class="app-meta-label mono">Recent updates</p>
+                <ul class="app-update-list">
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">May 2025</span>
+                    <span>Local save added (v2.1)</span>
+                  </li>
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Jan 2025</span>
+                    <span>Tablet layout improved</span>
+                  </li>
+                  <li class="app-update-item">
+                    <span class="app-update-date mono">Oct 2024</span>
+                    <span>Major rebuild — v2.0</span>
+                  </li>
+                </ul>
+              </div>
+              <a href="lesson-plan-viewer/index.html" class="btn btn-secondary app-entry-cta">Open Lesson Plan Viewer →</a>
+            </aside>
+
+          </div>
+        </div><!-- /app-lesson-plan-viewer -->
+
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         WORKSHOP BENCH — ON THE BENCH
+         What's being experimented with that isn't a tool yet.
+         Transparent, honest, low-key. Not a product roadmap.
+         ============================================================ -->
+    <section class="section-lab">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">On the bench</h2>
+          <p class="section-subtitle">Ideas and experiments that haven't become tools yet.</p>
+        </div>
+
+        <div class="lab-layout">
+
+          <!-- Lab items: current WIPs and ideas -->
+          <div class="lab-main">
+            <p class="lab-intro-text">These are things being actively thought about, prototyped, or just sketched. Some will become tools. Some will get quietly abandoned. Listed here for transparency — this isn't a product roadmap.</p>
+
+            <ul class="lab-items">
+
+              <li class="lab-item">
+                <span class="wip-label mono">WIP</span>
+                <div class="lab-item-content">
+                  <span class="lab-item-name">Vocabulary Gap-Fill Tool</span>
+                  <span class="lab-item-desc">Already live in a basic form. Currently reworking the mobile layout — the current version breaks on small screens. Not updating to v2 until it works well on all devices.</span>
+                </div>
+              </li>
+
+              <li class="lab-item">
+                <span class="wip-label mono">WIP</span>
+                <div class="lab-item-content">
+                  <span class="lab-item-name">Lesson Timing Tool</span>
+                  <span class="lab-item-desc">A simple session clock with labelled activity slots. Set durations for each phase, start the clock, and it tells you where you should be. First prototype is rough but usable. Needs proper mobile support before it goes on the shelf.</span>
+                </div>
+              </li>
+
+              <li class="lab-item">
+                <span class="wip-label mono wip-label--idea">IDEA</span>
+                <div class="lab-item-content">
+                  <span class="lab-item-name">Error Correction Card Generator</span>
+                  <span class="lab-item-desc">Type in student errors from a lesson, get a printable or digital set of correction prompts. The concept is clear — haven't decided yet if this is a web tool or a PDF generator.</span>
+                </div>
+              </li>
+
+              <li class="lab-item">
+                <span class="wip-label mono wip-label--idea">IDEA</span>
+                <div class="lab-item-content">
+                  <span class="lab-item-name">Student Progress Snapshot</span>
+                  <span class="lab-item-desc">A lightweight one-page summary of where a student is — built from a few quick inputs. Not a database, not a tracker. Just a snapshot to share with the student or keep for your records. Still thinking about the right format.</span>
+                </div>
+              </li>
+
+              <li class="lab-item">
+                <span class="wip-label mono wip-label--idea">IDEA</span>
+                <div class="lab-item-content">
+                  <span class="lab-item-name">Lesson Pace Checker</span>
+                  <span class="lab-item-desc">A companion to ZARD — simpler, faster. Describe the rough pace of a lesson and get a suggestion for redistribution. Might merge this into ZARD instead of making it a separate tool.</span>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+          <!-- Lab aside: stats panel + maintenance philosophy -->
+          <div class="lab-aside">
+
+            <div class="lab-stats-block">
+              <p class="app-meta-label mono" style="margin-bottom: var(--space-3);">Workshop inventory</p>
+              <div class="lab-stat-row mono">4 tools on the shelf</div>
+              <div class="lab-stat-row mono">2 WIP on the workbench</div>
+              <div class="lab-stat-row mono">3 ideas in the notepad</div>
+              <div class="lab-stat-row mono">v0.4-beta — site version</div>
+              <div class="lab-stat-row mono">Last update: 12 May 2025</div>
+            </div>
+
+            <div class="lab-note-block">
+              <p class="lab-note-text">Tools get added when they're genuinely useful in my own teaching, not on a schedule. "IDEA" doesn't mean it's coming soon — it just means it hasn't been ruled out yet.</p>
+            </div>
+
+            <div class="lab-note-block">
+              <p class="lab-note-text">If something in the "ideas" section sounds genuinely useful to you, feel free to say so — it occasionally changes the priority.</p>
+              <a href="../contact.html" class="lab-contact-link">Contact →</a>
+            </div>
+
+          </div>
+
+        </div><!-- /lab-layout -->
+
+      </div>
+    </section>
+
+
+  </main>
+
+
+  <!-- ============================================================
+       SITE FOOTER
+       Identical to homepage.
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+
+      <div class="footer-left">
+        <p class="footer-wordmark">Free Range Tutors</p>
+        <p class="footer-desc">Independent teaching tools and resources.<br>Made by one teacher. Shared freely.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Tools</p>
+          <a href="lessontrak/index.html" class="footer-link">LessonTrak</a>
+          <a href="report-writer/index.html" class="footer-link">Report Writer</a>
+          <a href="zard/index.html" class="footer-link">ZARD</a>
+          <a href="lesson-plan-viewer/index.html" class="footer-link">Lesson Plan Viewer</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Resources</p>
+          <a href="../resources/speaking-experiments/index.html" class="footer-link">Speaking Experiments</a>
+          <a href="../resources/information-gap/index.html" class="footer-link">Information Gap Files</a>
+          <a href="../resources/field-packs/index.html" class="footer-link">Field Packs</a>
+          <a href="../resources/student-missions/index.html" class="footer-link">Student Missions</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Site</p>
+          <a href="../about.html" class="footer-link">About</a>
+          <a href="../changelog.html" class="footer-link">Changelog</a>
+          <a href="../contact.html" class="footer-link">Contact</a>
+        </div>
+      </nav>
+
+    </div>
+
+    <div class="container footer-base">
+      <p class="footer-meta mono">Free Range Tutors · v0.4-beta · 2025 · No tracking · No ads · No login required</p>
+    </div>
+
+  </footer>
+
+
+  <!-- main.js handles mobile nav toggle + active nav link -->
+  <script src="../main.js"></script>
+  <!-- apps.js handles filter functionality specific to this page -->
+  <script src="apps.js"></script>
+
+</body>
+</html>

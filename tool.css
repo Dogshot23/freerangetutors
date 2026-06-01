@@ -1,0 +1,562 @@
+/* ============================================================
+   FREE RANGE TUTORS — tool.css
+   Shared stylesheet for all individual tool pages.
+
+   FILE LOCATION: /tools/tool.css
+   LOAD ORDER:    After style.css, before any per-tool overrides.
+
+   RULES:
+   · This file extends style.css. It never overrides it.
+   · All values reference CSS custom properties from style.css.
+   · No layout pattern in here creates a dashboard, app-shell,
+     split-screen, sticky element, or scroll container.
+   · Every section scrolls as part of the single document.
+   · Per-tool visual adjustments (if ever genuinely needed)
+     go in a separate file loaded after this one.
+   ============================================================ */
+
+
+/* ============================================================
+   TOOL HEADER
+   Breadcrumb + name + one-line description + status strip.
+   Shares the restrained page-intro weight from apps.html
+   and resources.html. Single column, no aside.
+   ============================================================ */
+
+.tool-header {
+  padding: var(--space-12) 0 var(--space-10);
+  border-bottom: 1.5px solid var(--color-border-light);
+}
+
+/* Breadcrumb link — within the existing .page-breadcrumb mono context */
+.breadcrumb-link {
+  color: var(--color-text-faint);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-light);
+  text-underline-offset: 2px;
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+
+.breadcrumb-link:hover {
+  color: var(--color-accent-ochre);
+  text-decoration-color: var(--color-accent-ochre);
+}
+
+/* Inner: name + desc above, status strip below — both in flow */
+.tool-header-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-top: var(--space-5);
+}
+
+.tool-name {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-3);
+}
+
+.tool-desc {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  line-height: 1.65;
+}
+
+/* Status strip: badges + version + optional short note, all inline */
+.tool-status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px dashed var(--color-border-light);
+}
+
+.tool-status-badges {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.tool-version {
+  color: var(--color-text-faint);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+}
+
+.tool-status-note {
+  color: var(--color-text-faint);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+}
+
+/* Separate version and note from badges with a faint divider */
+.tool-version::before {
+  content: "·";
+  margin-right: var(--space-3);
+  color: var(--color-border);
+}
+
+
+/* ============================================================
+   TOOL WORKSPACE
+   The main tool UI area. Clean white space. No chrome.
+
+   CRITICAL: No fixed heights. No overflow scroll. No position
+   fixed/sticky. Everything scrolls with the document.
+   ============================================================ */
+
+.tool-workspace {
+  padding: var(--space-12) 0 var(--space-16);
+  border-bottom: 1.5px solid var(--color-border-light);
+  /* Tinted to give the workspace a slightly distinct feel
+     from the surrounding document sections — matches the
+     .section-resources / .section-about pattern in style.css */
+  background-color: var(--color-surface);
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+/*
+  .tool-workspace-inner constrains the tool content width.
+  Default: full container width (max 1060px from style.css).
+
+  For text-heavy or form-heavy tools, applying a narrower
+  max-width here keeps line lengths comfortable.
+  Adjust per-tool if a wider canvas is genuinely needed.
+*/
+.tool-workspace-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+
+/* ── Tool panels ─────────────────────────────────────────────
+   .tool-panel groups a logical sub-section of the tool UI
+   (e.g. "Inputs", "Output", "Settings").
+   Styled as a calm, bordered surface — extends the .card
+   pattern from style.css but without hover effects, since
+   these are structural containers, not interactive elements.
+   ─────────────────────────────────────────────────────────── */
+
+.tool-panel {
+  background-color: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-8);
+}
+
+.tool-panel-heading {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+/* Placeholder note — visible only in template, remove in real tools */
+.tool-placeholder-note {
+  color: var(--color-text-faint);
+  font-size: var(--text-xs);
+  font-style: italic;
+  letter-spacing: 0.03em;
+  padding: var(--space-10) 0;
+  text-align: center;
+}
+
+
+/* ── Tool form elements ──────────────────────────────────────
+   Base styling for inputs, textareas, selects, and labels
+   used inside tool panels. Matches the calm document aesthetic.
+   ─────────────────────────────────────────────────────────── */
+
+.tool-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.tool-label-hint {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--color-text-faint);
+  font-style: italic;
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-3);
+  line-height: 1.5;
+}
+
+.tool-input,
+.tool-textarea,
+.tool-select {
+  display: block;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  line-height: 1.55;
+  transition: border-color var(--transition);
+  /* No box-shadow on focus — keep it calm */
+}
+
+.tool-input:focus,
+.tool-textarea:focus,
+.tool-select:focus {
+  outline: none;
+  border-color: var(--color-text-muted);
+}
+
+.tool-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.tool-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A9085' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-10);
+  cursor: pointer;
+}
+
+/* Field group: label + input together with consistent spacing */
+.tool-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-5);
+}
+
+.tool-field:last-child {
+  margin-bottom: 0;
+}
+
+/* Row of fields side by side (e.g. name + level on one line) */
+.tool-field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.tool-field-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Tool action row: primary button + secondary options */
+.tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-6);
+  border-top: 1px dashed var(--color-border-light);
+  margin-top: var(--space-2);
+}
+
+/* Output display: a bordered, readable block for tool results */
+.tool-output {
+  background-color: var(--color-surface-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  font-size: var(--text-md);
+  color: var(--color-text);
+  line-height: 1.75;
+  white-space: pre-wrap; /* preserve line breaks in generated output */
+}
+
+/* Empty output state */
+.tool-output:empty::before {
+  content: "Output will appear here.";
+  color: var(--color-text-faint);
+  font-style: italic;
+  font-size: var(--text-sm);
+}
+
+/* Monospaced output variant (e.g. log, raw data) */
+.tool-output--mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+
+/* ── Inline tool status message ──────────────────────────────
+   For displaying success, error, or loading feedback
+   without modals or toasts. Appears within the panel flow.
+   ─────────────────────────────────────────────────────────── */
+
+.tool-status-msg {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: var(--space-3) 0;
+}
+
+.tool-status-msg--ok {
+  color: var(--color-accent-teal);
+}
+
+.tool-status-msg--warn {
+  color: var(--color-wip);
+}
+
+
+/* ============================================================
+   GUIDANCE SECTION  [OPTIONAL]
+   Plain background. Constrained prose column.
+   Visually lighter than the workspace — this is context,
+   not content.
+   ============================================================ */
+
+.tool-guidance {
+  padding: var(--space-16) 0;
+  border-bottom: 1.5px solid var(--color-border-light);
+}
+
+/* Constrained to a comfortable reading width — matches
+   .about-inner and .philosophy-inner from about.html */
+.tool-guidance-inner {
+  max-width: 680px;
+}
+
+.tool-section-heading {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.tool-guidance-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Reuses the same type style as .about-body p and .philosophy-body p */
+.tool-guidance-body p {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+  line-height: 1.75;
+}
+
+/*
+  Teacher note within guidance — same pattern as .card-teacher-note
+  from style.css. Personal voice, faint, honest.
+*/
+.tool-teacher-note {
+  font-size: var(--text-sm) !important; /* override the .tool-guidance-body p size */
+  font-style: italic;
+  color: var(--color-text-faint) !important;
+  padding-top: var(--space-5);
+  border-top: 1px dashed var(--color-border-light);
+  line-height: 1.65 !important;
+}
+
+.tool-teacher-note::before {
+  /* Matches the .card-teacher-note arrow — signals personal annotation */
+  content: "↳ ";
+  color: var(--color-border);
+}
+
+
+/* ============================================================
+   EXAMPLE CONTENT  [OPTIONAL]
+   Tinted background — same rhythm as alternating sections
+   on the homepage and resources page.
+   ============================================================ */
+
+.tool-examples {
+  padding: var(--space-16) 0;
+  background-color: var(--color-surface);
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.tool-examples-inner {
+  max-width: 680px;
+}
+
+/* .tool-section-heading is shared with .tool-guidance — already defined */
+
+.tool-example-block {
+  background-color: var(--color-surface-alt);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.tool-example-block + .tool-example-block {
+  margin-top: var(--space-5);
+}
+
+.tool-example-label {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--color-border-light);
+}
+
+
+/* ============================================================
+   TOOL METADATA FOOTER
+   Horizontal metadata strip at the base of the tool.
+   Uses the same components as .app-entry-aside from apps.html
+   (.app-meta-label, .app-meta-value, .app-tech-list,
+   .app-update-list, .app-update-item, .app-update-date)
+   but arranged horizontally in document flow — not in a sidebar.
+   ============================================================ */
+
+.tool-meta-section {
+  padding: var(--space-12) 0 var(--space-16);
+  background-color: var(--color-surface-alt);
+  border-bottom: 1.5px solid var(--color-border);
+}
+
+.tool-meta-inner {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+.tool-meta-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Back link sits right-aligned in the last grid column */
+.tool-meta-group--back {
+  justify-self: end;
+  align-self: start;
+}
+
+.tool-back-link {
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-light);
+  text-underline-offset: 3px;
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+
+.tool-back-link:hover {
+  color: var(--color-accent-ochre);
+  text-decoration-color: var(--color-accent-ochre);
+}
+
+
+/* ============================================================
+   EXPERIMENTAL TOOL CAUTION NOTICE
+   For tools with badge--experimental — mirrors .app-entry-caution
+   from apps.html. Sits at the base of the workspace or guidance.
+   ============================================================ */
+
+.tool-caution {
+  background-color: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-left: 3px solid var(--color-wip); /* amber — signals caution, not error */
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.tool-caution p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  line-height: 1.65;
+}
+
+.tool-caution-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-wip);
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET (max 900px)
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+  .tool-meta-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .tool-meta-group--back {
+    justify-self: start;
+    /* Move back link to its own row — reads correctly in 2-col grid */
+    grid-column: 1 / -1;
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--color-border-light);
+  }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE (max 640px)
+   ============================================================ */
+
+@media (max-width: 640px) {
+
+  .tool-header {
+    padding: var(--space-10) 0 var(--space-8);
+  }
+
+  .tool-name {
+    font-size: var(--text-xl);
+  }
+
+  .tool-panel {
+    padding: var(--space-5) var(--space-5);
+  }
+
+  .tool-field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tool-meta-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .tool-meta-group--back {
+    grid-column: auto;
+    border-top: 1px dashed var(--color-border-light);
+    padding-top: var(--space-4);
+  }
+
+  .tool-status-strip {
+    gap: var(--space-2);
+  }
+
+}

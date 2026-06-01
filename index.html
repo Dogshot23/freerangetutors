@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Range Tutors — Independent Teaching Tools & Resources</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       SITE HEADER / NAVIGATION
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container header-inner">
+
+      <div class="site-identity">
+        <a href="index.html" class="site-wordmark">Free Range Tutors</a>
+        <span class="site-tagline">Teaching tools. Made by teachers.</span>
+      </div>
+
+      <!-- Desktop navigation -->
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="tools/index.html" class="nav-link">Tools</a>
+        <a href="resources/index.html" class="nav-link">Resources</a>
+        <a href="pdfs/index.html" class="nav-link">PDFs</a>
+        <a href="about.html" class="nav-link">About</a>
+      </nav>
+
+      <!-- Mobile menu toggle -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile navigation drawer -->
+    <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="tools/index.html" class="mobile-nav-link">Tools</a>
+      <a href="resources/index.html" class="mobile-nav-link">Resources</a>
+      <a href="pdfs/index.html" class="mobile-nav-link">PDFs</a>
+      <a href="about.html" class="mobile-nav-link">About</a>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- ============================================================
+         INTRO / WELCOME SECTION
+         ============================================================ -->
+    <section class="section-intro">
+      <div class="container intro-inner">
+
+        <div class="intro-text">
+          <h1 class="intro-heading">A quiet corner of the web<br>for English teachers who build things.</h1>
+          <p class="intro-body">Web tools, printable resources, lesson experiments, and teaching materials — made by one teacher, shared freely. No login required. No platform to subscribe to.</p>
+          <div class="intro-actions">
+            <a href="resources/index.html" class="btn btn-primary">Explore Resources</a>
+            <a href="tools/index.html" class="btn btn-secondary">Try a Web App</a>
+          </div>
+        </div>
+
+        <!-- Human presence: live status note -->
+        <aside class="intro-status">
+          <p class="status-label">Workshop status</p>
+          <p class="status-note">Currently reworking the vocabulary gap-fill tool for better mobile use. New B2 speaking pack almost ready. Lesson Plan Viewer now saves locally.</p>
+          <p class="status-meta"><span class="mono">Last updated: 19 May 2025</span></p>
+        </aside>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         FEATURED WEB APPS SECTION
+         ============================================================ -->
+    <section class="section-tools">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">Web Apps</h2>
+          <p class="section-subtitle">Small tools that run in your browser. No installation. No account.</p>
+          <a href="tools/index.html" class="section-link">View all tools →</a>
+        </div>
+
+        <div class="card-grid card-grid--tools">
+
+          <!-- Tool Card: LessonTrak -->
+          <article class="card card--tool">
+            <div class="card-header">
+              <h3 class="card-title">LessonTrak</h3>
+              <div class="card-badges">
+                <span class="badge badge--live">LIVE</span>
+                <span class="badge badge--free">FREE</span>
+              </div>
+            </div>
+            <p class="card-desc">A lightweight lesson logger. Keep track of what you covered, what worked, and what to revisit — without the overhead of a full CRM or spreadsheet system.</p>
+            <div class="card-meta">
+              <span class="tag">planning</span>
+              <span class="tag">tracking</span>
+              <span class="meta-version">v1.4</span>
+            </div>
+            <div class="card-footer">
+              <a href="tools/lessontrak/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Works offline. Saves locally.</span>
+            </div>
+          </article>
+
+          <!-- Tool Card: Report Writer -->
+          <article class="card card--tool">
+            <div class="card-header">
+              <h3 class="card-title">Report Writer</h3>
+              <div class="card-badges">
+                <span class="badge badge--beta">BETA</span>
+                <span class="badge badge--free">FREE</span>
+              </div>
+            </div>
+            <p class="card-desc">Generates varied, human-sounding student report comments from simple input. Built to take the repetitive strain out of report season without sounding like a robot wrote it.</p>
+            <div class="card-meta">
+              <span class="tag">reports</span>
+              <span class="tag">writing</span>
+              <span class="meta-version">v0.8</span>
+            </div>
+            <div class="card-footer">
+              <a href="tools/report-writer/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Still testing comment variety.</span>
+            </div>
+          </article>
+
+          <!-- Tool Card: ZARD -->
+          <article class="card card--tool">
+            <div class="card-header">
+              <h3 class="card-title">ZARD</h3>
+              <div class="card-badges">
+                <span class="badge badge--experimental">EXPERIMENTAL</span>
+              </div>
+            </div>
+            <p class="card-desc">Zone-based Activity and Resource Designer. An exploratory tool for mapping lesson activities to energy levels and cognitive load across a session arc.</p>
+            <div class="card-meta">
+              <span class="tag">lesson design</span>
+              <span class="tag">pacing</span>
+              <span class="meta-version">v0.3</span>
+            </div>
+            <div class="card-footer">
+              <a href="tools/zard/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Early experiment — rough edges expected.</span>
+            </div>
+          </article>
+
+          <!-- Tool Card: Lesson Plan Viewer -->
+          <article class="card card--tool">
+            <div class="card-header">
+              <h3 class="card-title">Lesson Plan Viewer</h3>
+              <div class="card-badges">
+                <span class="badge badge--live">LIVE</span>
+                <span class="badge badge--free">FREE</span>
+              </div>
+            </div>
+            <p class="card-desc">A clean, distraction-free view for lesson plans. Paste in or load a plan and get a calm, readable layout for during-class reference. Now with local save.</p>
+            <div class="card-meta">
+              <span class="tag">planning</span>
+              <span class="tag">classroom</span>
+              <span class="meta-version">v2.1</span>
+            </div>
+            <div class="card-footer">
+              <a href="tools/lesson-plan-viewer/index.html" class="btn btn-card">Open tool →</a>
+              <span class="card-note">Updated: local save added.</span>
+            </div>
+          </article>
+
+        </div><!-- /card-grid -->
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         FEATURED RESOURCES SECTION
+         ============================================================ -->
+    <section class="section-resources">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">Resources</h2>
+          <p class="section-subtitle">Printable materials, downloadable packs, and classroom experiments. Free to use and adapt.</p>
+          <a href="resources/index.html" class="section-link">Browse all resources →</a>
+        </div>
+
+        <!-- Resource filter strip -->
+        <div class="filter-strip" role="navigation" aria-label="Resource categories">
+          <button class="filter-btn filter-btn--active">All</button>
+          <button class="filter-btn">Speaking</button>
+          <button class="filter-btn">Information Gap</button>
+          <button class="filter-btn">Printable Packs</button>
+          <button class="filter-btn">Student Missions</button>
+          <button class="filter-btn">Systems</button>
+        </div>
+
+        <div class="card-grid card-grid--resources">
+
+          <!-- Resource Card: Speaking Experiments -->
+          <article class="card card--resource">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF pack</span>
+            </div>
+            <h3 class="card-title">Speaking Experiments</h3>
+            <p class="card-desc">Unusual speaking tasks that move away from standard discussion questions. Designed to create genuine communication rather than scripted practice.</p>
+            <div class="card-meta">
+              <span class="tag">B1–C1</span>
+              <span class="tag">speaking</span>
+              <span class="tag">printable</span>
+            </div>
+            <div class="card-footer">
+              <a href="resources/speaking-experiments/index.html" class="btn btn-card">View pack →</a>
+              <span class="meta-version">8 activities</span>
+            </div>
+            <p class="card-teacher-note">I use these when a class is going through the motions. They tend to wake things up.</p>
+          </article>
+
+          <!-- Resource Card: Information Gap Files -->
+          <article class="card card--resource">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF · printable</span>
+            </div>
+            <h3 class="card-title">Information Gap Files</h3>
+            <p class="card-desc">Classic information gap tasks rebuilt for adult learners. Printable A and B versions. Topics chosen for genuine interest, not textbook blandness.</p>
+            <div class="card-meta">
+              <span class="tag">A2–B2</span>
+              <span class="tag">pairs</span>
+              <span class="tag">speaking</span>
+            </div>
+            <div class="card-footer">
+              <a href="resources/information-gap/index.html" class="btn btn-card">View files →</a>
+              <span class="meta-version">12 pairs</span>
+            </div>
+            <p class="card-teacher-note">Built these because I couldn't find good adult-appropriate ones anywhere.</p>
+          </article>
+
+          <!-- Resource Card: Printable Field Packs -->
+          <article class="card card--resource">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF pack</span>
+            </div>
+            <h3 class="card-title">Printable Field Packs</h3>
+            <p class="card-desc">Self-contained lesson packs that can be printed and used without prep time. Each pack covers a full lesson arc with minimal teacher input required.</p>
+            <div class="card-meta">
+              <span class="tag">B1–B2</span>
+              <span class="tag">no-prep</span>
+              <span class="tag">complete lesson</span>
+            </div>
+            <div class="card-footer">
+              <a href="resources/field-packs/index.html" class="btn btn-card">View packs →</a>
+              <span class="meta-version">5 packs</span>
+            </div>
+            <p class="card-teacher-note">For the days when planning time runs out. These actually work.</p>
+          </article>
+
+          <!-- Resource Card: Student Missions -->
+          <article class="card card--resource">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF · cards</span>
+            </div>
+            <h3 class="card-title">Student Missions</h3>
+            <p class="card-desc">Short task cards that send students out into the world — or into their phone — to find, observe, and report back. Good for encouraging autonomous use of English.</p>
+            <div class="card-meta">
+              <span class="tag">B1+</span>
+              <span class="tag">autonomous</span>
+              <span class="tag">homework</span>
+            </div>
+            <div class="card-footer">
+              <a href="resources/student-missions/index.html" class="btn btn-card">View missions →</a>
+              <span class="meta-version">16 cards</span>
+            </div>
+            <p class="card-teacher-note">Students tend to actually do these. The mission framing seems to help.</p>
+          </article>
+
+          <!-- Resource Card: Conversation Systems -->
+          <article class="card card--resource">
+            <div class="card-resource-type">
+              <span class="file-type mono">system · PDF</span>
+            </div>
+            <h3 class="card-title">Conversation Systems</h3>
+            <p class="card-desc">Structured approaches for running conversation classes without falling into the question-answer loop. Includes facilitation guides and printable prompt sets.</p>
+            <div class="card-meta">
+              <span class="tag">B2–C1</span>
+              <span class="tag">conversation</span>
+              <span class="tag">facilitation</span>
+            </div>
+            <div class="card-footer">
+              <a href="resources/conversation-systems/index.html" class="btn btn-card">View systems →</a>
+              <span class="meta-version">3 systems</span>
+            </div>
+            <p class="card-teacher-note">Took me a few years of trial and error to develop these. Still evolving.</p>
+          </article>
+
+        </div><!-- /card-grid -->
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         RECENT ADDITIONS / WORKSHOP ACTIVITY
+         ============================================================ -->
+    <section class="section-activity">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">Workshop Activity</h2>
+          <p class="section-subtitle">What's been added, updated, and currently being worked on.</p>
+        </div>
+
+        <div class="activity-layout">
+
+          <!-- Recent additions list -->
+          <div class="activity-main">
+            <h3 class="activity-subheading">Recent additions</h3>
+            <ul class="activity-log">
+
+              <li class="activity-entry">
+                <span class="activity-date mono">12 May 2025</span>
+                <div class="activity-content">
+                  <span class="activity-action">Added</span>
+                  <a href="resources/speaking-experiments/index.html" class="activity-link">Speaking Experiments pack</a>
+                  <span class="activity-detail">— 8 new activities for B1–C1. Tested with three groups this month.</span>
+                </div>
+              </li>
+
+              <li class="activity-entry">
+                <span class="activity-date mono">09 May 2025</span>
+                <div class="activity-content">
+                  <span class="activity-action">Updated</span>
+                  <a href="tools/lesson-plan-viewer/index.html" class="activity-link">Lesson Plan Viewer</a>
+                  <span class="activity-detail">— now saves plans locally. No data leaves your browser.</span>
+                  <span class="badge badge--inline">v2.1</span>
+                </div>
+              </li>
+
+              <li class="activity-entry">
+                <span class="activity-date mono">02 May 2025</span>
+                <div class="activity-content">
+                  <span class="activity-action">Added</span>
+                  <a href="resources/field-packs/index.html" class="activity-link">Printable Field Pack 5</a>
+                  <span class="activity-detail">— "The Neighbourhood" — local area observation tasks.</span>
+                </div>
+              </li>
+
+              <li class="activity-entry">
+                <span class="activity-date mono">24 Apr 2025</span>
+                <div class="activity-content">
+                  <span class="activity-action">Fixed</span>
+                  <a href="tools/report-writer/index.html" class="activity-link">Report Writer</a>
+                  <span class="activity-detail">— comment repetition bug. Now generates better variety across 20+ students.</span>
+                  <span class="badge badge--inline">v0.8</span>
+                </div>
+              </li>
+
+              <li class="activity-entry">
+                <span class="activity-date mono">17 Apr 2025</span>
+                <div class="activity-content">
+                  <span class="activity-action">Added</span>
+                  <a href="resources/student-missions/index.html" class="activity-link">Student Missions cards</a>
+                  <span class="activity-detail">— 16 printable task cards. First batch. More in progress.</span>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+          <!-- Currently working on / experiments -->
+          <div class="activity-aside">
+
+            <div class="workshop-note">
+              <h3 class="workshop-note-heading">Currently working on</h3>
+              <ul class="workshop-list">
+                <li class="workshop-item">
+                  <span class="wip-label mono">WIP</span>
+                  Vocabulary gap-fill tool — mobile layout rework
+                </li>
+                <li class="workshop-item">
+                  <span class="wip-label mono">WIP</span>
+                  B2 speaking pack — almost ready, final review
+                </li>
+                <li class="workshop-item">
+                  <span class="wip-label mono">IDEA</span>
+                  Lesson timing tool — simple session clock with activity slots
+                </li>
+                <li class="workshop-item">
+                  <span class="wip-label mono">IDEA</span>
+                  Error correction card generator
+                </li>
+              </ul>
+            </div>
+
+            <div class="site-status-panel">
+              <p class="status-panel-line mono">v0.4-beta</p>
+              <p class="status-panel-line mono">23 resources · 7 tools</p>
+              <p class="status-panel-line mono">Last update: 12 May 2025</p>
+              <p class="status-panel-note">This site is a permanent work in progress. That's intentional.</p>
+            </div>
+
+          </div>
+
+        </div><!-- /activity-layout -->
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         PHILOSOPHY / ABOUT SECTION
+         ============================================================ -->
+    <section class="section-about">
+      <div class="container">
+
+        <div class="about-inner">
+
+          <h2 class="section-title">Why this exists</h2>
+
+          <div class="about-body">
+            <p>After enough years teaching, the weight of repetitive admin, mediocre platform tools, and bloated edtech systems becomes genuinely exhausting. A lot of what passes for "teaching technology" adds friction rather than removing it. The lesson plan templates are too long. The trackers require too much maintenance. The platforms cost too much and do too little of what you actually need.</p>
+
+            <p>Free Range Tutors is an attempt to build something different. Small tools. Specific resources. Things that solve one problem well and stay out of the way. The goal is lower mental fatigue, not higher productivity metrics.</p>
+
+            <p>Everything here was built because I needed it and couldn't find a decent free version. Most of it is still evolving. Some of it is experimental. All of it is made for teaching real students in real lessons.</p>
+          </div>
+
+          <div class="about-footer">
+            <a href="about.html" class="btn btn-secondary">More about this project →</a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+  </main>
+
+
+  <!-- ============================================================
+       SITE FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+
+      <div class="footer-left">
+        <p class="footer-wordmark">Free Range Tutors</p>
+        <p class="footer-desc">Independent teaching tools and resources.<br>Made by one teacher. Shared freely.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Tools</p>
+          <a href="tools/lessontrak/index.html" class="footer-link">LessonTrak</a>
+          <a href="tools/report-writer/index.html" class="footer-link">Report Writer</a>
+          <a href="tools/zard/index.html" class="footer-link">ZARD</a>
+          <a href="tools/lesson-plan-viewer/index.html" class="footer-link">Lesson Plan Viewer</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Resources</p>
+          <a href="resources/speaking-experiments/index.html" class="footer-link">Speaking Experiments</a>
+          <a href="resources/information-gap/index.html" class="footer-link">Information Gap Files</a>
+          <a href="resources/field-packs/index.html" class="footer-link">Field Packs</a>
+          <a href="resources/student-missions/index.html" class="footer-link">Student Missions</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Site</p>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="changelog.html" class="footer-link">Changelog</a>
+          <a href="contact.html" class="footer-link">Contact</a>
+        </div>
+      </nav>
+
+    </div>
+
+    <div class="container footer-base">
+      <p class="footer-meta mono">Free Range Tutors · v0.4-beta · 2025 · No tracking · No ads · No login required</p>
+    </div>
+
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

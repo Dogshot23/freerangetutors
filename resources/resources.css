@@ -1,0 +1,135 @@
+/* ============================================================
+   FREE RANGE TUTORS — resources.css
+   Page-specific styles for resources/index.html.
+   Extends style.css. Never overrides it.
+   ============================================================ */
+
+/* ── Page intro ──────────────────────────────────────────────── */
+
+.lib-page-intro {
+  padding: var(--space-12) 0 var(--space-10);
+  border-bottom: 1.5px solid var(--color-border-light);
+}
+
+.lib-page-intro-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-12);
+  align-items: start;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.page-breadcrumb {
+  color: var(--color-text-faint);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+.lib-page-title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: var(--space-4);
+}
+
+.lib-page-desc {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+  max-width: 52ch;
+  line-height: 1.7;
+}
+
+.lib-count-aside {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-left: 3px solid var(--color-accent-ochre);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-6);
+  max-width: 200px;
+  flex-shrink: 0;
+}
+
+.lib-count-line {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  letter-spacing: 0.03em;
+  line-height: 1.8;
+}
+
+/* ── Library section ─────────────────────────────────────────── */
+
+.section-library {
+  padding: var(--space-12) 0 var(--space-16);
+  border-bottom: 1.5px solid var(--color-border-light);
+}
+
+/* Recently added strip */
+.lib-recent {
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-left: 3px solid var(--color-accent-ochre);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.lib-recent-heading {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: var(--space-3);
+}
+
+.lib-recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.lib-recent-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.lib-recent-date {
+  color: var(--color-text-faint);
+  font-size: var(--text-xs);
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.lib-recent-name {
+  color: var(--color-accent-ochre);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 2px;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.lib-recent-name:hover {
+  color: #9E541A;
+}
+
+.lib-recent-detail {
+  color: var(--color-text-faint);
+  font-size: var(--text-xs);
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .lib-page-intro-inner { grid-template-columns: 1fr; gap: var(--space-6); }
+  .lib-count-aside      { max-width: 100%; }
+}

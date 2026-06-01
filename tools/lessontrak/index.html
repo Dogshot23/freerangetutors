@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LessonTrak — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <!-- ../../ = two levels up from tools/lessontrak/ to project root -->
+  <link rel="stylesheet" href="../../style.css" />
+  <!-- ../ = one level up from tools/lessontrak/ to tools/ -->
+  <link rel="stylesheet" href="../tool.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="site-identity">
+        <a href="../../index.html" class="site-wordmark">Free Range Tutors</a>
+        <span class="site-tagline">Teaching tools. Made by teachers.</span>
+      </div>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="../index.html"     class="nav-link active">Tools</a>
+        <a href="../../resources/index.html" class="nav-link">Resources</a>
+        <a href="../../pdfs/index.html"      class="nav-link">PDFs</a>
+        <a href="../../about.html"     class="nav-link">About</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+    <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="../index.html"     class="mobile-nav-link">Tools</a>
+      <a href="../../resources/index.html" class="mobile-nav-link">Resources</a>
+      <a href="../../pdfs/index.html"      class="mobile-nav-link">PDFs</a>
+      <a href="../../about.html"     class="mobile-nav-link">About</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="tool-header">
+      <div class="container">
+        <p class="page-breadcrumb mono">
+          Free Range Tutors / <a href="../index.html" class="breadcrumb-link">Web Apps</a> / LessonTrak
+        </p>
+        <div class="tool-header-inner">
+          <div class="tool-header-text">
+            <h1 class="tool-name">LessonTrak</h1>
+            <p class="tool-desc">A lightweight lesson logger — keep track of what you covered, what worked, and what to revisit, without the overhead of a spreadsheet or CRM.</p>
+          </div>
+          <div class="tool-status-strip">
+            <div class="tool-status-badges">
+              <span class="badge badge--live">LIVE</span>
+              <span class="badge badge--free">FREE</span>
+            </div>
+            <span class="tool-version mono">v1.4</span>
+            <span class="tool-status-note mono">Works offline · Saves locally</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-workspace">
+      <div class="container">
+        <div class="tool-workspace-inner">
+          <div class="tool-panel">
+            <h2 class="tool-panel-heading">Log a lesson</h2>
+            <p class="tool-placeholder-note mono">[ LessonTrak UI goes here ]</p>
+          </div>
+          <div class="tool-panel">
+            <h2 class="tool-panel-heading">Lesson history</h2>
+            <p class="tool-placeholder-note mono">[ Saved entries go here ]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-guidance">
+      <div class="container">
+        <div class="tool-guidance-inner">
+          <h2 class="tool-section-heading">How to use this in class</h2>
+          <div class="tool-guidance-body">
+            <p>Fill in the log immediately after a lesson — even two or three lines is enough. The goal is to capture what actually happened, not what you planned. What did you cover? What didn't land? What needs revisiting next time?</p>
+            <p>It works best as a quick end-of-session habit rather than a detailed record. The entries are searchable, so you can look back across a student or group over several weeks without hunting through a notebook.</p>
+            <p class="tool-teacher-note">I use it on my phone immediately after the lesson ends, before I lose the thread. Filling it in the next morning is better than nothing but you lose the honest detail.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-meta-section">
+      <div class="container">
+        <div class="tool-meta-inner">
+          <div class="tool-meta-group">
+            <p class="app-meta-label mono">Version</p>
+            <p class="app-meta-value mono">v1.4 — stable</p>
+          </div>
+          <div class="tool-meta-group">
+            <p class="app-meta-label mono">Technical notes</p>
+            <ul class="app-tech-list">
+              <li>Plain HTML / CSS / JS</li>
+              <li>localStorage — no data leaves your device</li>
+              <li>Works without a network connection</li>
+              <li>No external dependencies</li>
+            </ul>
+          </div>
+          <div class="tool-meta-group">
+            <p class="app-meta-label mono">Recent updates</p>
+            <ul class="app-update-list">
+              <li class="app-update-item">
+                <span class="app-update-date mono">Mar 2025</span>
+                <span>Export to plain text added</span>
+              </li>
+              <li class="app-update-item">
+                <span class="app-update-date mono">Jan 2025</span>
+                <span>Mobile layout reworked</span>
+              </li>
+              <li class="app-update-item">
+                <span class="app-update-date mono">Nov 2024</span>
+                <span>Initial release (v1.0)</span>
+              </li>
+            </ul>
+          </div>
+          <div class="tool-meta-group tool-meta-group--back">
+            <a href="../index.html" class="tool-back-link">← All tools</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <p class="footer-wordmark">Free Range Tutors</p>
+        <p class="footer-desc">Independent teaching tools and resources.<br>Made by one teacher. Shared freely.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Tools</p>
+          <a href="index.html"         class="footer-link">LessonTrak</a>
+          <a href="../report-writer/index.html"      class="footer-link">Report Writer</a>
+          <a href="../zard/index.html"               class="footer-link">ZARD</a>
+          <a href="../lesson-plan-viewer/index.html" class="footer-link">Lesson Plan Viewer</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Resources</p>
+          <a href="../../resources/speaking-experiments/index.html" class="footer-link">Speaking Experiments</a>
+          <a href="../../resources/information-gap/index.html"      class="footer-link">Information Gap Files</a>
+          <a href="../../resources/field-packs/index.html"          class="footer-link">Field Packs</a>
+          <a href="../../resources/student-missions/index.html"     class="footer-link">Student Missions</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Site</p>
+          <a href="../../about.html"     class="footer-link">About</a>
+          <a href="../../changelog.html" class="footer-link">Changelog</a>
+          <a href="../../contact.html"   class="footer-link">Contact</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container footer-base">
+      <p class="footer-meta mono">Free Range Tutors · v0.4-beta · 2025 · No tracking · No ads · No login required</p>
+    </div>
+  </footer>
+
+  <!-- ../../ = two levels up from tools/lessontrak/ to project root -->
+  <script src="../../main.js"></script>
+
+</body>
+</html>

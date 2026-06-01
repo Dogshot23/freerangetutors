@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resource Library — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <!-- Base design system — load first, always -->
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Resources page additions — extends, does not override -->
+  <link rel="stylesheet" href="resources.css" />
+</head>
+<body>
+
+
+  <!-- ============================================================
+       SITE HEADER / NAVIGATION
+       Identical to homepage. Active link: Resources.
+       Header scrolls with the page — no position: sticky.
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container header-inner">
+
+      <div class="site-identity">
+        <a href="../index.html" class="site-wordmark">Free Range Tutors</a>
+        <span class="site-tagline">Teaching tools. Made by teachers.</span>
+      </div>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="../tools/index.html"     class="nav-link">Tools</a>
+        <a href="index.html" class="nav-link active">Resources</a>
+        <a href="../pdfs/index.html"      class="nav-link">PDFs</a>
+        <a href="../about.html"     class="nav-link">About</a>
+      </nav>
+
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+    </div>
+
+    <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="../tools/index.html"     class="mobile-nav-link">Tools</a>
+      <a href="index.html" class="mobile-nav-link">Resources</a>
+      <a href="../pdfs/index.html"      class="mobile-nav-link">PDFs</a>
+      <a href="../about.html"     class="mobile-nav-link">About</a>
+    </nav>
+  </header>
+
+
+  <main>
+
+
+    <!-- ============================================================
+         PAGE INTRO
+         No hero section. No call-to-action buttons.
+         A breadcrumb, a heading, one line of context, and a small
+         library stats aside. That is all this needs to be.
+         ============================================================ -->
+    <section class="lib-page-intro">
+      <div class="container lib-page-intro-inner">
+
+        <div>
+          <p class="page-breadcrumb mono">Free Range Tutors / Resources</p>
+          <h1 class="lib-page-title">Resource Library</h1>
+          <p class="lib-page-desc">Teaching materials for English lessons — worksheets, activity packs, printable resources, and reference sheets. Everything here is free to download, adapt, and use in class. No login required.</p>
+        </div>
+
+        <aside class="lib-count-aside">
+          <p class="status-label">Library</p>
+          <p class="lib-count-line mono">12 resources</p>
+          <p class="lib-count-line mono">A2 – C1</p>
+          <p class="lib-count-line mono">5 resource types</p>
+          <p class="status-meta mono">Updated: 12 May 2025</p>
+        </aside>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         MAIN LIBRARY
+         Three parts in sequence: recently added strip, filter groups,
+         then the card grid. All in normal document flow — no wrappers
+         with fixed heights, no overflow regions, no sticky elements.
+         ============================================================ -->
+    <section class="section-library">
+      <div class="container">
+
+
+        <!-- ·········································································
+             RECENTLY ADDED STRIP
+             Compact annotation above the filters. Log/archive feeling.
+             Uses the ochre left-border signal — same as the homepage
+             .intro-status teal-bordered aside, different accent.
+             ········································································· -->
+        <div class="lib-recent" aria-label="Recently added resources">
+          <p class="lib-recent-heading mono">Recently added</p>
+          <ul class="lib-recent-list">
+
+            <li class="lib-recent-item">
+              <span class="lib-recent-date mono">12 May 2025</span>
+              <a href="speaking-experiments/index.html" class="lib-recent-name">Speaking Experiments</a>
+              <span class="lib-recent-detail">— PDF pack, B1–C1 · 8 activities</span>
+            </li>
+
+            <li class="lib-recent-item">
+              <span class="lib-recent-date mono">02 May 2025</span>
+              <a href="field-packs/index.html" class="lib-recent-name">Printable Field Pack 5</a>
+              <span class="lib-recent-detail">— "The Neighbourhood" · observation tasks, B1–B2</span>
+            </li>
+
+            <li class="lib-recent-item">
+              <span class="lib-recent-date mono">17 Apr 2025</span>
+              <a href="student-missions/index.html" class="lib-recent-name">Student Missions</a>
+              <span class="lib-recent-detail">— first batch of 16 task cards, B1+</span>
+            </li>
+
+          </ul>
+        </div>
+
+
+        <!-- ·········································································
+             FILTER GROUPS — Level / Skill / Type
+             Three independent labelled rows. Clicking a button in one
+             group does not reset the others (AND logic across groups).
+             All buttons use the existing .filter-btn from style.css.
+             ········································································· -->
+        <div class="lib-filter-groups" role="group" aria-label="Filter resources by level, skill, and type">
+
+          <!-- Level -->
+          <div class="lib-filter-row">
+            <span class="lib-filter-label" id="filter-label-level">Level</span>
+            <div class="filter-strip" role="radiogroup" aria-labelledby="filter-label-level">
+              <button class="filter-btn filter-btn--active" data-group="level" data-value="all"  aria-pressed="true">All levels</button>
+              <button class="filter-btn"                   data-group="level" data-value="a2"   aria-pressed="false">A2</button>
+              <button class="filter-btn"                   data-group="level" data-value="b1"   aria-pressed="false">B1</button>
+              <button class="filter-btn"                   data-group="level" data-value="b2"   aria-pressed="false">B2</button>
+              <button class="filter-btn"                   data-group="level" data-value="c1"   aria-pressed="false">C1+</button>
+            </div>
+          </div>
+
+          <!-- Skill -->
+          <div class="lib-filter-row">
+            <span class="lib-filter-label" id="filter-label-skill">Skill</span>
+            <div class="filter-strip" role="radiogroup" aria-labelledby="filter-label-skill">
+              <button class="filter-btn filter-btn--active" data-group="skill" data-value="all"        aria-pressed="true">All skills</button>
+              <button class="filter-btn"                   data-group="skill" data-value="speaking"   aria-pressed="false">Speaking</button>
+              <button class="filter-btn"                   data-group="skill" data-value="grammar"    aria-pressed="false">Grammar</button>
+              <button class="filter-btn"                   data-group="skill" data-value="vocabulary" aria-pressed="false">Vocabulary</button>
+              <button class="filter-btn"                   data-group="skill" data-value="writing"    aria-pressed="false">Writing</button>
+              <button class="filter-btn"                   data-group="skill" data-value="reading"    aria-pressed="false">Reading</button>
+            </div>
+          </div>
+
+          <!-- Type -->
+          <div class="lib-filter-row">
+            <span class="lib-filter-label" id="filter-label-type">Type</span>
+            <div class="filter-strip" role="radiogroup" aria-labelledby="filter-label-type">
+              <button class="filter-btn filter-btn--active" data-group="type" data-value="all"        aria-pressed="true">All types</button>
+              <button class="filter-btn"                   data-group="type" data-value="worksheet"   aria-pressed="false">Worksheet</button>
+              <button class="filter-btn"                   data-group="type" data-value="info-gap"    aria-pressed="false">Info-gap</button>
+              <button class="filter-btn"                   data-group="type" data-value="pdf-pack"    aria-pressed="false">PDF pack</button>
+              <button class="filter-btn"                   data-group="type" data-value="cards"       aria-pressed="false">Cards</button>
+              <button class="filter-btn"                   data-group="type" data-value="printable"   aria-pressed="false">Printable</button>
+            </div>
+          </div>
+
+        </div><!-- /lib-filter-groups -->
+
+
+        <!-- Live count — updated by filter JS -->
+        <p class="lib-results-count mono" id="lib-results-count" aria-live="polite">12 resources</p>
+
+
+        <!-- ·········································································
+             RESOURCE CARD GRID
+             Uses the existing .card-grid--resources (3 col → 2 → 1).
+             Card structure mirrors homepage .card--resource exactly.
+             data-* attrs drive JS filtering; no hidden CSS involved.
+             ········································································· -->
+        <div class="card-grid card-grid--resources" id="lib-grid">
+
+
+          <!-- ── Card 01: Speaking Experiments ─────────────────────────── -->
+          <!-- level: b1 b2 c1 | skill: speaking | type: pdf-pack          -->
+          <article class="card card--resource"
+                   data-level="b1 b2 c1"
+                   data-skill="speaking"
+                   data-type="pdf-pack">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF pack</span>
+              <span class="badge badge--new">NEW</span>
+            </div>
+            <h3 class="card-title">Speaking Experiments</h3>
+            <p class="card-desc">Unusual speaking tasks that move away from standard discussion questions — designed to create genuine communication rather than scripted practice.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1–C1</span>
+              <span class="tag">speaking</span>
+              <span class="tag">printable</span>
+              <span class="meta-version">8 activities</span>
+            </div>
+            <div class="card-footer">
+              <a href="speaking-experiments/index.html" class="btn btn-card">View pack →</a>
+            </div>
+            <p class="card-teacher-note">I use these when a class is going through the motions. They tend to wake things up.</p>
+          </article>
+
+
+          <!-- ── Card 02: Information Gap Files ────────────────────────── -->
+          <!-- level: a2 b1 b2 | skill: speaking | type: info-gap          -->
+          <article class="card card--resource"
+                   data-level="a2 b1 b2"
+                   data-skill="speaking"
+                   data-type="info-gap">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF · info-gap</span>
+            </div>
+            <h3 class="card-title">Information Gap Files</h3>
+            <p class="card-desc">Classic information gap tasks rebuilt for adult learners — printable A and B versions, with topics chosen for genuine interest rather than textbook blandness.</p>
+            <div class="card-meta">
+              <span class="tag tag--a2">A2–B2</span>
+              <span class="tag">pairs</span>
+              <span class="tag">speaking</span>
+              <span class="meta-version">12 pairs</span>
+            </div>
+            <div class="card-footer">
+              <a href="information-gap/index.html" class="btn btn-card">View files →</a>
+            </div>
+            <p class="card-teacher-note">Built these because I couldn't find good adult-appropriate info-gap tasks anywhere.</p>
+          </article>
+
+
+          <!-- ── Card 03: Printable Field Packs ────────────────────────── -->
+          <!-- level: b1 b2 | skill: speaking grammar vocabulary           -->
+          <!-- type: pdf-pack                                               -->
+          <article class="card card--resource"
+                   data-level="b1 b2"
+                   data-skill="speaking grammar vocabulary"
+                   data-type="pdf-pack">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF pack</span>
+              <span class="badge badge--new">NEW</span>
+            </div>
+            <h3 class="card-title">Printable Field Packs</h3>
+            <p class="card-desc">Self-contained lesson packs that can be printed and used without prep time. Each pack covers a full lesson arc with minimal teacher input required.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1–B2</span>
+              <span class="tag">no-prep</span>
+              <span class="tag">complete lesson</span>
+              <span class="meta-version">5 packs</span>
+            </div>
+            <div class="card-footer">
+              <a href="field-packs/index.html" class="btn btn-card">View packs →</a>
+            </div>
+            <p class="card-teacher-note">For the days when planning time runs out. These actually work.</p>
+          </article>
+
+
+          <!-- ── Card 04: Student Missions ──────────────────────────────── -->
+          <!-- level: b1 b2 c1 | skill: speaking writing | type: cards      -->
+          <article class="card card--resource"
+                   data-level="b1 b2 c1"
+                   data-skill="speaking writing"
+                   data-type="cards">
+            <div class="card-resource-type">
+              <span class="file-type mono">PDF · cards</span>
+              <span class="badge badge--new">NEW</span>
+            </div>
+            <h3 class="card-title">Student Missions</h3>
+            <p class="card-desc">Short task cards that send students out into the world to find, observe, and report back — good for encouraging autonomous use of English outside the classroom.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1+</span>
+              <span class="tag">autonomous</span>
+              <span class="tag">homework</span>
+              <span class="meta-version">16 cards</span>
+            </div>
+            <div class="card-footer">
+              <a href="student-missions/index.html" class="btn btn-card">View missions →</a>
+            </div>
+            <p class="card-teacher-note">Students tend to actually do these. The mission framing seems to help.</p>
+          </article>
+
+
+          <!-- ── Card 05: Conversation Systems ─────────────────────────── -->
+          <!-- level: b2 c1 | skill: speaking | type: printable             -->
+          <article class="card card--resource"
+                   data-level="b2 c1"
+                   data-skill="speaking"
+                   data-type="printable">
+            <div class="card-resource-type">
+              <span class="file-type mono">system · PDF</span>
+            </div>
+            <h3 class="card-title">Conversation Systems</h3>
+            <p class="card-desc">Structured approaches for running conversation classes without falling into the question-answer loop. Includes facilitation guides and printable prompt sets.</p>
+            <div class="card-meta">
+              <span class="tag tag--b2">B2–C1</span>
+              <span class="tag">conversation</span>
+              <span class="tag">facilitation</span>
+              <span class="meta-version">3 systems</span>
+            </div>
+            <div class="card-footer">
+              <a href="conversation-systems/index.html" class="btn btn-card">View systems →</a>
+            </div>
+            <p class="card-teacher-note">Took me a few years of trial and error to develop these. Still evolving.</p>
+          </article>
+
+
+          <!-- ── Card 06: Past Simple Gap-Fill ─────────────────────────── -->
+          <!-- level: a2 | skill: grammar | type: worksheet                 -->
+          <article class="card card--resource"
+                   data-level="a2"
+                   data-skill="grammar"
+                   data-type="worksheet">
+            <div class="card-resource-type">
+              <span class="file-type mono">worksheet · PDF</span>
+            </div>
+            <h3 class="card-title">Past Simple Gap-Fill</h3>
+            <p class="card-desc">Controlled practice for past simple regular and irregular verbs, using context sentences with enough substance that students have something to think about while they drill.</p>
+            <div class="card-meta">
+              <span class="tag tag--a2">A2</span>
+              <span class="tag">grammar</span>
+              <span class="tag">past simple</span>
+              <span class="meta-version">2 pages</span>
+            </div>
+            <div class="card-footer">
+              <a href="past-simple-gap-fill/index.html" class="btn btn-card">Download →</a>
+            </div>
+            <p class="card-teacher-note">Good for drilling without boring stronger students. The context sentences make a difference.</p>
+          </article>
+
+
+          <!-- ── Card 07: Present Perfect Worksheet ────────────────────── -->
+          <!-- level: b1 | skill: grammar | type: worksheet                 -->
+          <article class="card card--resource"
+                   data-level="b1"
+                   data-skill="grammar"
+                   data-type="worksheet">
+            <div class="card-resource-type">
+              <span class="file-type mono">worksheet · PDF</span>
+            </div>
+            <h3 class="card-title">Present Perfect Worksheet</h3>
+            <p class="card-desc">Focuses on the "relevance now" function of the present perfect — the aspect that consistently confuses B1 students and tends to get bypassed in standard coursebook treatment.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1</span>
+              <span class="tag">grammar</span>
+              <span class="tag">present perfect</span>
+              <span class="meta-version">3 pages</span>
+            </div>
+            <div class="card-footer">
+              <a href="present-perfect/index.html" class="btn btn-card">Download →</a>
+            </div>
+            <p class="card-teacher-note">The "still relevant now" function is what always trips students up. This goes after that specifically.</p>
+          </article>
+
+
+          <!-- ── Card 08: Phrasal Verbs: Movement ──────────────────────── -->
+          <!-- level: b1 b2 | skill: vocabulary | type: worksheet           -->
+          <article class="card card--resource"
+                   data-level="b1 b2"
+                   data-skill="vocabulary"
+                   data-type="worksheet">
+            <div class="card-resource-type">
+              <span class="file-type mono">worksheet · PDF</span>
+            </div>
+            <h3 class="card-title">Phrasal Verbs: Movement &amp; Direction</h3>
+            <p class="card-desc">One focused group of movement and direction phrasal verbs — organised semantically, with gap-fill practice and a short writing task to help consolidate the set.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1–B2</span>
+              <span class="tag">vocabulary</span>
+              <span class="tag">phrasal verbs</span>
+              <span class="meta-version">2 pages</span>
+            </div>
+            <div class="card-footer">
+              <a href="phrasal-verbs-movement/index.html" class="btn btn-card">Download →</a>
+            </div>
+            <p class="card-teacher-note">I introduce one group at a time, spread across a few weeks. All at once doesn't stick.</p>
+          </article>
+
+
+          <!-- ── Card 09: Job Interview Role-Play ──────────────────────── -->
+          <!-- level: b2 | skill: speaking | type: printable                -->
+          <article class="card card--resource"
+                   data-level="b2"
+                   data-skill="speaking"
+                   data-type="printable">
+            <div class="card-resource-type">
+              <span class="file-type mono">printable · pairs</span>
+            </div>
+            <h3 class="card-title">Job Interview Role-Play</h3>
+            <p class="card-desc">A structured role-play pack for job interviews using real question types rather than textbook ones. Includes separate interviewer and candidate role cards.</p>
+            <div class="card-meta">
+              <span class="tag tag--b2">B2</span>
+              <span class="tag">speaking</span>
+              <span class="tag">professional</span>
+              <span class="meta-version">1 pack</span>
+            </div>
+            <div class="card-footer">
+              <a href="job-interview-roleplay/index.html" class="btn btn-card">Download →</a>
+            </div>
+            <p class="card-teacher-note">Real question types, not textbook ones. Students take it seriously when it feels authentic.</p>
+          </article>
+
+
+          <!-- ── Card 10: Error Correction Drill Sheet ─────────────────── -->
+          <!-- level: b1 b2 | skill: writing grammar | type: worksheet      -->
+          <article class="card card--resource"
+                   data-level="b1 b2"
+                   data-skill="writing grammar"
+                   data-type="worksheet">
+            <div class="card-resource-type">
+              <span class="file-type mono">worksheet · PDF</span>
+            </div>
+            <h3 class="card-title">Error Correction Drill Sheet</h3>
+            <p class="card-desc">Twenty common B1–B2 written errors for students to identify and correct — covering article use, word order, verb forms, and prepositions, the usual suspects.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1–B2</span>
+              <span class="tag">writing</span>
+              <span class="tag">error correction</span>
+              <span class="meta-version">20 sentences</span>
+            </div>
+            <div class="card-footer">
+              <a href="error-correction-drill/index.html" class="btn btn-card">Download →</a>
+            </div>
+            <p class="card-teacher-note">Works well as a quick starter or end-of-class cool-down. Takes about eight minutes.</p>
+          </article>
+
+
+          <!-- ── Card 11: Conditionals Reference & Practice ─────────────── -->
+          <!-- level: b1 b2 | skill: grammar | type: printable              -->
+          <article class="card card--resource"
+                   data-level="b1 b2"
+                   data-skill="grammar"
+                   data-type="printable">
+            <div class="card-resource-type">
+              <span class="file-type mono">reference · PDF</span>
+            </div>
+            <h3 class="card-title">Conditionals Reference &amp; Practice</h3>
+            <p class="card-desc">Two separate pages: a single reference sheet covering all main conditional forms with example sentences, plus a practice exercise page that students can use independently.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1–B2</span>
+              <span class="tag">grammar</span>
+              <span class="tag">conditionals</span>
+              <span class="meta-version">2 pages</span>
+            </div>
+            <div class="card-footer">
+              <a href="conditionals-reference/index.html" class="btn btn-card">Download →</a>
+            </div>
+            <p class="card-teacher-note">The reference sheet is genuinely useful — students keep it. The practice page is more standard.</p>
+          </article>
+
+
+          <!-- ── Card 12: Reading Strategies Pocket Guide ───────────────── -->
+          <!-- level: b1 b2 c1 | skill: reading | type: printable           -->
+          <article class="card card--resource"
+                   data-level="b1 b2 c1"
+                   data-skill="reading"
+                   data-type="printable">
+            <div class="card-resource-type">
+              <span class="file-type mono">reference · PDF</span>
+            </div>
+            <h3 class="card-title">Reading Strategies Pocket Guide</h3>
+            <p class="card-desc">A single-page guide to approaching unfamiliar texts — skimming, scanning, inferring from context — designed to be kept by students as a reference they actually reach for.</p>
+            <div class="card-meta">
+              <span class="tag tag--b1">B1+</span>
+              <span class="tag">reading</span>
+              <span class="tag">strategies</span>
+              <span class="meta-version">1 page</span>
+            </div>
+            <div class="card-footer">
+              <a href="reading-strategies/index.html" class="btn btn-card">Download →</a>
+            </div>
+            <p class="card-teacher-note">Not a comprehension exercise — a guide to approaching texts. Students treat it differently when it's framed that way.</p>
+          </article>
+
+
+        </div><!-- /lib-grid -->
+
+
+        <!-- Empty state — shown by JS only, hidden by default -->
+        <div class="lib-empty" id="lib-empty" hidden>
+          <p>No resources match that combination. Try adjusting the filters, or <button class="lib-empty-reset" id="lib-reset">clear all filters</button>.</p>
+        </div>
+
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         TEACHING NOTES
+         Short, plain, honest. Mirrors the .section-about structure
+         from style.css: surface background, max-width prose column.
+         No special components needed — reuses existing patterns.
+         ============================================================ -->
+    <section class="section-lib-notes">
+      <div class="container">
+        <div class="lib-notes-inner">
+
+          <h2 class="section-title">A note on these materials</h2>
+
+          <div class="lib-notes-body">
+            <p>Everything here was made because I needed it and couldn't find a decent free version elsewhere. Most started as one-offs for a specific class — tidied up and shared here when they proved useful enough to keep using.</p>
+
+            <p>They're not perfect. Some have rough edges. The teacher notes on each card are honest about what works well and what doesn't. If you adapt something and the adapted version is better, that's a good outcome — that's what they're here for.</p>
+
+            <p>No licence text to worry about. Use them freely, adapt them, print them, give them to other teachers. The only thing that would feel strange is claiming to have made them.</p>
+          </div>
+
+          <div class="about-footer">
+            <a href="../contact.html" class="btn btn-secondary">Get in touch if something's useful →</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+
+  <!-- ============================================================
+       SITE FOOTER — identical to homepage
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+
+      <div class="footer-left">
+        <p class="footer-wordmark">Free Range Tutors</p>
+        <p class="footer-desc">Independent teaching tools and resources.<br>Made by one teacher. Shared freely.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Tools</p>
+          <a href="../tools/lessontrak/index.html"        class="footer-link">LessonTrak</a>
+          <a href="../tools/report-writer/index.html"     class="footer-link">Report Writer</a>
+          <a href="../tools/zard/index.html"              class="footer-link">ZARD</a>
+          <a href="../tools/lesson-plan-viewer/index.html" class="footer-link">Lesson Plan Viewer</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Resources</p>
+          <a href="speaking-experiments/index.html" class="footer-link">Speaking Experiments</a>
+          <a href="information-gap/index.html"      class="footer-link">Information Gap Files</a>
+          <a href="field-packs/index.html"          class="footer-link">Field Packs</a>
+          <a href="student-missions/index.html"     class="footer-link">Student Missions</a>
+        </div>
+        <div class="footer-nav-group">
+          <p class="footer-nav-heading">Site</p>
+          <a href="../about.html"     class="footer-link">About</a>
+          <a href="../changelog.html" class="footer-link">Changelog</a>
+          <a href="../contact.html"   class="footer-link">Contact</a>
+        </div>
+      </nav>
+
+    </div>
+
+    <div class="container footer-base">
+      <p class="footer-meta mono">Free Range Tutors · v0.4-beta · 2025 · No tracking · No ads · No login required</p>
+    </div>
+
+  </footer>
+
+
+  <!-- main.js handles mobile nav toggle + active nav link marking -->
+  <script src="../main.js"></script>
+
+
+  <!-- ============================================================
+       RESOURCE LIBRARY FILTER
+       Three independent groups: Level / Skill / Type.
+       AND logic across groups: a card must satisfy all three active
+       filters to be shown (or "all" for any group = no constraint).
+       Operates on data-level, data-skill, data-type attributes.
+       No external dependencies. No frameworks.
+       ============================================================ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* State: one active value per group. 'all' = no constraint. */
+    var state = { level: 'all', skill: 'all', type: 'all' };
+
+    var grid     = document.getElementById('lib-grid');
+    var countEl  = document.getElementById('lib-results-count');
+    var emptyEl  = document.getElementById('lib-empty');
+    var resetBtn = document.getElementById('lib-reset');
+
+    /* All filterable cards in the grid */
+    var cards = Array.prototype.slice.call(
+      grid.querySelectorAll('.card--resource')
+    );
+
+    /*
+       matches(cardValue, filterValue)
+       Returns true if filterValue is 'all', or if filterValue appears
+       in the space-separated cardValue string.
+       e.g. matches('b1 b2', 'b1') → true
+            matches('b1 b2', 'c1') → false
+            matches('b1 b2', 'all') → true
+    */
+    function matches(cardValue, filterValue) {
+      if (filterValue === 'all') return true;
+      if (!cardValue) return false;
+      return cardValue.split(' ').indexOf(filterValue) !== -1;
+    }
+
+    /* Apply all three active filters and update the count display */
+    function applyFilters() {
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        var show =
+          matches(card.dataset.level, state.level) &&
+          matches(card.dataset.skill, state.skill) &&
+          matches(card.dataset.type,  state.type);
+
+        card.hidden = !show;
+        if (show) visible++;
+      });
+
+      countEl.textContent = visible + (visible === 1 ? ' resource' : ' resources');
+      emptyEl.hidden = visible > 0;
+    }
+
+    /* Update aria-pressed on buttons within a group */
+    function syncGroupAriaState(group, activeBtn) {
+      document.querySelectorAll('[data-group="' + group + '"]')
+        .forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b === activeBtn));
+        });
+    }
+
+    /* Wire all filter buttons */
+    document.querySelectorAll('[data-group]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var group = btn.dataset.group;
+        var value = btn.dataset.value;
+
+        /* Update state */
+        state[group] = value;
+
+        /* Update active visual class within this group only */
+        document.querySelectorAll('[data-group="' + group + '"]')
+          .forEach(function (b) {
+            b.classList.toggle('filter-btn--active', b === btn);
+          });
+
+        syncGroupAriaState(group, btn);
+        applyFilters();
+      });
+    });
+
+    /* Reset button inside the empty state */
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        state = { level: 'all', skill: 'all', type: 'all' };
+
+        ['level', 'skill', 'type'].forEach(function (group) {
+          var allBtn = document.querySelector(
+            '[data-group="' + group + '"][data-value="all"]'
+          );
+          document.querySelectorAll('[data-group="' + group + '"]')
+            .forEach(function (b) {
+              b.classList.toggle('filter-btn--active', b === allBtn);
+            });
+          if (allBtn) syncGroupAriaState(group, allBtn);
+        });
+
+        applyFilters();
+      });
+    }
+
+  })();
+  </script>
+
+
+</body>
+</html>
