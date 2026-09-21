@@ -9,32 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../style.css" />
   <link rel="stylesheet" href="../tool.css" />
+  <!-- Dispatch-era header/nav only — same pattern about.html uses, see about-nav.css -->
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="site-identity">
-        <a href="/" class="site-wordmark">Free Range Tutors</a>
-        <span class="site-tagline">Teaching tools. Made by teachers.</span>
-      </div>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="/tools"     class="nav-link active">Tools</a>
-        <a href="/resources" class="nav-link">Resources</a>
-        <a href="/pdfs"      class="nav-link">PDFs</a>
-        <a href="/about"     class="nav-link">About</a>
-      </nav>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </button>
-    </div>
-    <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
-      <a href="/tools"     class="mobile-nav-link">Tools</a>
-      <a href="/resources" class="mobile-nav-link">Resources</a>
-      <a href="/pdfs"      class="mobile-nav-link">PDFs</a>
-      <a href="/about"     class="mobile-nav-link">About</a>
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
     </nav>
   </header>
 
@@ -43,7 +29,7 @@
     <section class="tool-header">
       <div class="container">
         <p class="page-breadcrumb mono">
-          Free Range Tutors / <a href="/tools" class="breadcrumb-link">Web Apps</a> / Report Writer
+          Free Range Tutors / <a href="../../browse.html?intent=manage" class="breadcrumb-link">Toolkit</a> / Report Writer
         </p>
         <div class="tool-header-inner">
           <div class="tool-header-text">
@@ -123,7 +109,7 @@
             </ul>
           </div>
           <div class="tool-meta-group tool-meta-group--back">
-            <a href="/tools" class="tool-back-link">← All tools</a>
+            <a href="../../browse.html?intent=manage" class="tool-back-link">← All tools</a>
           </div>
         </div>
       </div>

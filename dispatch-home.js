@@ -205,24 +205,10 @@
     return d.innerHTML;
   }
 
-  function renderFeatured(allResources) {
-    // Stage 2 verification set: every real resource, in manifest order, so the
-    // card component is exercised against all 11 migrated entries at once —
-    // long titles, no-image, multi-level, collection, GapTheMind, external,
-    // and FRT-original tools all appear here. Not a "featured" editorial
-    // selection; that's a separate, smaller set (see the `featured` flag) for
-    // whichever future homepage section actually wants a curated few.
-    const grid = document.getElementById('dispatch-featured-grid');
-    allResources.forEach(function (r) {
-      grid.appendChild(renderResourceCard(r));
-    });
-  }
-
   FRT.ready().then(function (allResources) {
     renderBoard(allResources);
     renderReadout(allResources);
     renderJustAdded(allResources);
-    renderFeatured(allResources);
   }).catch(function (err) {
     console.error('Dispatch homepage failed to load resource data:', err);
     document.getElementById('dispatch-readout').textContent = 'data unavailable';
