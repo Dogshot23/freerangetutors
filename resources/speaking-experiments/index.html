@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speaking Experiments — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    /* ============================================================
+       RESOURCE PAGE — shared minimal pattern for print-and-go
+       resources (used identically by student-missions/index.html).
+       Reuses style.css tokens throughout; only new layout rules
+       for the resource intro/list/print behaviour live here.
+       ============================================================ */
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .res-item {
+      padding: var(--space-6) 0;
+      border-bottom: 1px dashed var(--color-border-light);
+    }
+
+    .res-item:first-child { border-top: 1px dashed var(--color-border-light); }
+
+    .res-item-head {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .res-item-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      flex-shrink: 0;
+    }
+
+    .res-item-title {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .res-item-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      max-width: 58ch;
+    }
+
+    .res-item-prompt {
+      margin-top: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      border-radius: 2px;
+    }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    /* ── Print ────────────────────────────────────────────────────
+       Strip chrome, keep the content readable on paper. No new
+       print layout system — just hide what doesn't belong on a
+       printed page and let the rest flow in normal document order.
+       ─────────────────────────────────────────────────────────── */
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-item { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=teach">Toolkit</a> / Speaking Experiments
+        </p>
+        <h1 class="res-title">Speaking Experiments</h1>
+        <p class="res-lead">Eight short speaking tasks built to produce genuine communication instead of scripted Q&amp;A. Each one is designed to feel like an experiment, not a worksheet — something students actually have to work out in the moment, not recite.</p>
+        <div class="res-meta-row">
+          <span>~8 min each</span>
+          <span>B1–C1</span>
+          <span>Teen / Adult</span>
+          <span>Pairs or groups</span>
+          <span>No prep</span>
+        </div>
+        <p class="res-teacher-note">"I use these when a class is going through the motions. They tend to wake things up."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <ol class="res-list">
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">01</span>
+              <span class="res-item-title">The Liar's Advantage</span>
+            </div>
+            <p class="res-item-body">One student tells a short story from their week — but changes exactly one detail to make it false. The partner asks follow-up questions and has one guess to name the false detail. The storyteller can't reveal it; the round ends on the guess, right or wrong.</p>
+            <p class="res-item-prompt">"Tell me about something that happened to you this week — but one part of it isn't true."</p>
+          </li>
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">02</span>
+              <span class="res-item-title">Three Words, No Repeats</span>
+            </div>
+            <p class="res-item-body">Give each pair three unrelated words (e.g. "umbrella," "deadline," "grandmother"). They have to build one short opinion or story that uses all three naturally — no repeating a word, no explaining why it's there. Forces real sentence construction instead of memorized phrases.</p>
+            <p class="res-item-prompt">"Use all three words in one connected story — don't just list them."</p>
+          </li>
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">03</span>
+              <span class="res-item-title">Defend the Indefensible</span>
+            </div>
+            <p class="res-item-body">Each student gets an absurd position to argue seriously for 90 seconds ("Mornings are better than evenings," "Cats are more useful than dogs at a workplace"). The partner isn't allowed to agree — only push back. Removes the pressure of having a "correct" real opinion.</p>
+            <p class="res-item-prompt">"You have 90 seconds to convince me — seriously — that [position]. I'm going to disagree with everything."</p>
+          </li>
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">04</span>
+              <span class="res-item-title">The Interruption Rule</span>
+            </div>
+            <p class="res-item-body">Normal small talk on any topic the pair chooses — except every 30–40 seconds, call out "switch," and the listener has to immediately summarize what the speaker just said before responding. Trains real listening, not just waiting for a turn to speak.</p>
+            <p class="res-item-prompt">Teacher calls "switch" every 30–40 seconds. Listener must summarize in one sentence before continuing.</p>
+          </li>
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">05</span>
+              <span class="res-item-title">Escalating Confession</span>
+            </div>
+            <p class="res-item-body">Each student shares three things about themselves, one at a time, getting slightly more surprising or personal each round (a preference, then a habit, then a genuine confession). The partner reacts genuinely rather than just nodding — this one relies on real curiosity, so it works best with groups who already know each other a little.</p>
+            <p class="res-item-prompt">"Tell me something small, then something a bit more surprising, then something true that might surprise me."</p>
+          </li>
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">06</span>
+              <span class="res-item-title">The One-Sided Phone Call</span>
+            </div>
+            <p class="res-item-body">One student "calls" the other about a minor everyday problem (a delayed order, a mix-up at a booking, a confusing bill) — but the listener can only respond, never see or hear anything written down. Good pressure-test for functional, real-time listening and negotiation language.</p>
+            <p class="res-item-prompt">"Call your partner about a problem with [an order / a booking / a bill]. They can only respond by voice — no notes."</p>
+          </li>
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">07</span>
+              <span class="res-item-title">Change My Mind</span>
+            </div>
+            <p class="res-item-body">Student A states a genuine (not absurd) opinion on something low-stakes — a film, a food, a daily habit. Student B's only job is to ask questions that might genuinely shift A's view, not argue against it. Runs 3–4 minutes. Works well as a cooldown after a louder activity.</p>
+            <p class="res-item-prompt">"Ask questions only — no arguing. See if you can get your partner to see it differently by the end."</p>
+          </li>
+
+          <li class="res-item">
+            <div class="res-item-head">
+              <span class="res-item-num">08</span>
+              <span class="res-item-title">The Missing Instruction</span>
+            </div>
+            <p class="res-item-body">One student explains how to do something ordinary (make coffee, tie a shoelace, set an alarm) to a partner who has to follow along literally — and the explainer deliberately leaves out one essential step. The listener has to notice the gap and ask the right question to find it.</p>
+            <p class="res-item-prompt">"Explain the process, but leave out one step on purpose. Your partner has to catch what's missing."</p>
+          </li>
+
+        </ol>
+
+        <p class="res-footer-note">Run any of these cold, in any order — none depend on the others. Most work as written for B1–C1; for the lower end of that range, slow the pace and allow the listener to ask for repetition rather than simplifying the task itself.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

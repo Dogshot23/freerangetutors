@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Missions — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    /* ============================================================
+       RESOURCE PAGE — shared minimal pattern for print-and-go
+       resources (identical rules to speaking-experiments/index.html,
+       duplicated per this project's existing per-page CSS convention
+       rather than factored into a shared stylesheet).
+       ============================================================ */
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-how {
+      margin-bottom: var(--space-10);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .res-how strong { color: var(--color-text); }
+
+    .res-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+    }
+
+    @media (max-width: 640px) {
+      .res-grid { grid-template-columns: 1fr; }
+    }
+
+    .res-card {
+      padding: var(--space-5);
+      border: 1px solid var(--color-border-light);
+      border-radius: 2px;
+      background: var(--color-bg);
+    }
+
+    .res-card-head {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .res-card-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      flex-shrink: 0;
+    }
+
+    .res-card-title {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .res-card-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-grid { grid-template-columns: 1fr 1fr; }
+      .res-card { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=homework">Toolkit</a> / Student Missions
+        </p>
+        <h1 class="res-title">Student Missions</h1>
+        <p class="res-lead">Sixteen short task cards built from a student's own memory, imagination, and everyday objects — each with a clear mechanic and something real to report back. Works equally well handed out at the end of a lesson or set as standalone homework; no teacher has to be present for a mission to work.</p>
+        <div class="res-meta-row">
+          <span>Individual</span>
+          <span>B1–C1</span>
+          <span>Teen / Adult</span>
+          <span>In-class or homework</span>
+          <span>No prep</span>
+        </div>
+        <p class="res-teacher-note">"Students tend to actually do these. The mission framing seems to help."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <p class="res-how"><strong>How to run a mission:</strong> hand out one card (or let the student pick), set a deadline — next lesson is usually enough — and have them report back in whatever form suits the class: two minutes of speaking, a short written note, or optionally a photo with a caption if the mission suits one. The report-back is where the language actually happens; the mission itself is just the reason to have something real to report.</p>
+
+        <div class="res-grid">
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">01</span><span class="res-card-title">The Five-Minute Rewind</span></div>
+            <p class="res-card-body">Think of something that happened to you in the last few days. Retell it backwards — starting from how it ended, and working back to how it started. Report back your backwards version.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">02</span><span class="res-card-title">The Object Interrogation</span></div>
+            <p class="res-card-body">Pick one real object within reach. Describe it in as much detail as you can — size, material, use, how it feels — without ever saying what it is. Report back your description, then reveal the object.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">03</span><span class="res-card-title">The Category Break</span></div>
+            <p class="res-card-body">List four ordinary things that belong to the same group (four foods, four jobs, four animals). Explain the rule that connects them — then add a fifth thing that almost fits, but breaks the rule, and explain exactly why it doesn't belong. Report back your group, your rule, and your odd one out.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">04</span><span class="res-card-title">The Bad Advice Fix</span></div>
+            <p class="res-card-body">Invent one piece of advice that sounds wrong, too formal, or slightly odd (e.g. "You should to eat before you are hungry"). Report back the bad version, then your corrected, natural-sounding version — and explain what you changed.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">05</span><span class="res-card-title">Two Roads</span></div>
+            <p class="res-card-body">Invent two realistic options for a small decision — two jobs, two apartments, two daily routines. Report back which one you'd choose and at least two specific reasons why, not just a preference.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">06</span><span class="res-card-title">The Impossible Budget</span></div>
+            <p class="res-card-body">Imagine you have a small, fixed amount of money (you choose the amount and the currency) and one goal to spend it on. Report back exactly how you'd spend it, item by item, and why.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">07</span><span class="res-card-title">Yesterday, Reconstructed</span></div>
+            <p class="res-card-body">Without writing anything down in advance, describe your entire day yesterday out loud, in order, for one full minute, in English. Report back how far you got before you had to pause and think.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">08</span><span class="res-card-title">The Complaint Letter</span></div>
+            <p class="res-card-body">Think of something mildly annoying that happened this week. Write four sentences complaining about it politely, as if to a company. Report back your four sentences.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">09</span><span class="res-card-title">Somebody Else's Shoes</span></div>
+            <p class="res-card-body">Think of a small real event from your week. Retell it again, but from another person's point of view — a shopkeeper, a bus driver, even a pet. Same event, different eyes. Report back your retelling.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">10</span><span class="res-card-title">Set the Trap</span></div>
+            <p class="res-card-body">Write three true statements and one false one — about yourself or an invented topic — worded so the false one isn't obvious. Report back your four statements, ready to give to a partner or classmate to guess.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">11</span><span class="res-card-title">The Alibi</span></div>
+            <p class="res-card-body">Pick a specific time yesterday (e.g. 6pm). Say exactly where you were and what you were doing — then add three convincing details that back it up (who else was there, what you could see, what happened right before or after). Make it airtight. Report back your alibi, details included.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">12</span><span class="res-card-title">Photo, No Caption Needed</span></div>
+            <p class="res-card-body">Take one photo of something in your daily life. Report back three full sentences describing it — what it is, where it is, why you chose it.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">13</span><span class="res-card-title">The Upgrade</span></div>
+            <p class="res-card-body">Describe something ordinary — your morning, your room, your walk to somewhere — in one plain, boring sentence. Now rewrite that same sentence to make it more interesting. Do it three times, each version better than the last. Report back all four sentences, plain to final.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">14</span><span class="res-card-title">The Instruction Manual</span></div>
+            <p class="res-card-body">Pick something you already know how to do well — a recipe, a game, a skill. Explain it step by step as if you're teaching someone who has genuinely never done it before. Report back your steps, in order.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">15</span><span class="res-card-title">The Missing Middle</span></div>
+            <p class="res-card-body">Here's a beginning: "I left the house in a hurry." And an end: "...and that's how I ended up laughing on the floor." Invent a believable middle that connects the two — or invent your own beginning and end, and fill the gap. Report back the full story, beginning to end.</p>
+          </div>
+
+          <div class="res-card">
+            <div class="res-card-head"><span class="res-card-num">16</span><span class="res-card-title">Tomorrow's Plan</span></div>
+            <p class="res-card-body">Normally you'd say what you <em>will</em> do tomorrow. Instead, pretend tomorrow is already over and tell the story of what you "did" — using the past tense the whole way through. Report back your story of tomorrow.</p>
+          </div>
+
+        </div>
+
+        <p class="res-footer-note">Missions don't need to be assigned in order, and a student can repeat a favourite format with a new topic. The report-back is the part worth protecting time for — a mission without one is just a task nobody checks.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
