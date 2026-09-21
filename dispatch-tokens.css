@@ -1,0 +1,66 @@
+/* ============================================================
+   THE DISPATCH — design tokens
+   Approved visual system for the Free Range Tutors rebuild.
+   Source of truth: "The Dispatch" visual prototype (locked).
+
+   Load this before any page-specific stylesheet. Nothing in this
+   file lays anything out — it only declares the palette,
+   typography and the semantic colour-to-data-field bindings.
+   ============================================================ */
+
+:root {
+
+  /* ---- Ground ---- */
+  --paper:        #F2E9D8;   /* warm unbleached card stock */
+  --paper-card:   #F7F1E3;   /* card surface, slightly lighter than the page ground */
+  --ink:          #1E1B16;   /* near-black warm ink — primary text, rules, borders */
+  --ink-muted:    #5B554A;   /* secondary text */
+  --ink-faint:    #8C8474;   /* metadata labels, captions */
+  --rule:         #C7BC9F;   /* dividers */
+
+  /* ---- Semantic signal colours ----
+     Bound permanently to one data field each. Never used
+     decoratively or for section theming — see data/SCHEMA.md
+     and the Dispatch brief's colour-binding rule. */
+  --signal-time:   #E4572E;  /* vermillion — TIME only */
+  --signal-type:   #1B7A6E;  /* deep teal — TYPE only */
+  --signal-level:  #F0B429;  /* marigold — LEVEL only */
+  --signal-attn:   #C43D6B;  /* raspberry — ATTENTION only (flags, "no exact match", beta) */
+
+  /* On-signal text colours (for filled backgrounds) */
+  --signal-time-ink:  #FBEDE5;
+  --signal-type-ink:  #F2E9D8;
+  --signal-level-ink: #1E1B16;
+  --signal-attn-ink:  #FBEDE5;
+
+  /* ---- Typography ----
+     Approved pairing: Libre Caslon Display + IBM Plex Mono.
+     Fraunces was tested and rejected — see prototype design review. */
+  --font-display: 'Libre Caslon Display', Georgia, 'Times New Roman', serif;
+  --font-body:    'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+  /* ---- Spacing (kept from the existing site's scale — no reason to invent a new one) ---- */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+
+  /* ---- Layout ---- */
+  --max-width: 1180px;
+  --gutter:    24px;
+
+}
+
+/* Google Fonts load — one <link>, added once per page in <head>,
+   not repeated here as an @import (avoids a render-blocking
+   second request chain). Pages must include:
+
+   <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+*/
