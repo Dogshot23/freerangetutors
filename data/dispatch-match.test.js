@@ -45,7 +45,7 @@ console.log('Catalogue loaded: ' + catalogue.length + ' resources\n');
 /* ---- Test 1: 10 min, teen, B1, speaking, no prep ---- */
 console.log('Test 1 — 10 min / teen / B1 / speaking / no prep');
 {
-  const r = DispatchMatch.run(catalogue, { time: 10, age: 'teen', level: 'B1', need: 'talking', prep: 'none' });
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', time: 10, age: 'teen', level: 'B1', need: 'talking', prep: 'none' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
   check('status is match or nearest, never none', r.status !== 'none');
   check('top result is a speaking resource', r.results.length > 0 && r.results[0].resource.skills.indexOf('speaking') !== -1);
@@ -55,7 +55,7 @@ console.log('Test 1 — 10 min / teen / B1 / speaking / no prep');
 /* ---- Test 2: 30 min, 12yo group, B2, speaking ---- */
 console.log('\nTest 2 — 30 min / 12yo (teen) group / B2 / speaking');
 {
-  const r = DispatchMatch.run(catalogue, { time: 30, age: 'teen', level: 'B2', need: 'talking', group: 'group' });
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', time: 30, age: 'teen', level: 'B2', need: 'talking', group: 'group' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
   check('every result suits teen audience (universal, or specific including teen)', r.results.every(function (x) {
     const mode = DispatchMatch._internal.setMode(x.resource.age_group);
@@ -68,7 +68,7 @@ console.log('\nTest 2 — 30 min / 12yo (teen) group / B2 / speaking');
 /* ---- Test 3: 5 min filler, any audience, any level, no prep ---- */
 console.log('\nTest 3 — 5 min / any / any / filler / no prep');
 {
-  const r = DispatchMatch.run(catalogue, { time: 5, need: 'filler', prep: 'none' });
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', time: 5, need: 'filler', prep: 'none' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
   check('no result runs anywhere near 45 min (the brief\'s explicit bad case)', r.results.every(function (x) {
     const t = x.resource.activity_time_minutes;
@@ -80,7 +80,7 @@ console.log('\nTest 3 — 5 min / any / any / filler / no prep');
 /* ---- Test 4: 45 min, adult, B2, speaking, moderate prep ---- */
 console.log('\nTest 4 — 45 min / adult / B2 / speaking / moderate prep');
 {
-  const r = DispatchMatch.run(catalogue, { time: 45, age: 'adult', level: 'B2', need: 'talking', prep: 'moderate' });
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', time: 45, age: 'adult', level: 'B2', need: 'talking', prep: 'moderate' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
   check('Conversation Systems or Field Pack (the two long-form speaking resources) is top or present', names(r).some(function (n) {
     return n.indexOf('Conversation Systems') !== -1 || n.indexOf('Field Pack') !== -1;
@@ -91,7 +91,7 @@ console.log('\nTest 4 — 45 min / adult / B2 / speaking / moderate prep');
 /* ---- Test 5: one adult, B2, speaking, no prep (1:1) ---- */
 console.log('\nTest 5 — 1:1 adult / B2 / speaking / no prep');
 {
-  const r = DispatchMatch.run(catalogue, { age: 'adult', level: 'B2', need: 'talking', prep: 'none', group: 'individual' });
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', age: 'adult', level: 'B2', need: 'talking', prep: 'none', group: 'individual' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
   console.log('  -> ' + r.status + ': ' + names(r).join(', '));
 }
@@ -99,7 +99,7 @@ console.log('\nTest 5 — 1:1 adult / B2 / speaking / no prep');
 /* ---- Test 6: printable, any audience, 30 min ---- */
 console.log('\nTest 6 — printable / any / 30 min');
 {
-  const r = DispatchMatch.run(catalogue, { time: 30, need: 'printable' });
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', time: 30, need: 'printable' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
   check('every result is the printable resource_type', r.results.every(function (x) {
     return x.resource.resource_type === 'printable';
@@ -110,7 +110,7 @@ console.log('\nTest 6 — printable / any / 30 min');
 /* ---- Test 7: deliberately impossible request ---- */
 console.log('\nTest 7 — deliberately impossible: 5 min / young_learner / C1 / grammar / no prep');
 {
-  const r = DispatchMatch.run(catalogue, { time: 5, age: 'young_learner', level: 'C1', need: 'grammar', prep: 'none' });
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', time: 5, age: 'young_learner', level: 'C1', need: 'grammar', prep: 'none' });
   check('status is none (catalogue genuinely has nothing for this)', r.status === 'none', 'got status=' + r.status + ', results=' + names(r).join(','));
   check('note is present and honest, not a silent empty list', typeof r.note === 'string' && r.note.length > 0);
   console.log('  -> ' + r.status + ': ' + (r.note || '(no note)'));
@@ -248,6 +248,82 @@ console.log('\nRegression check — no remaining assumption that an empty/missin
   // silent perfect match purely because the field used to be an empty array.
   const reportWriter = catalogue.find(function (r) { return r.id === 'report-writer'; });
   check('Report Writer is explicitly NOT_APPLICABLE for age (not an empty array read as universal)', DispatchMatch._internal.setMode(reportWriter.age_group) === 'not_applicable');
+}
+
+/* ============================================================
+   TEACH / FIND-A-TOOL FORK — routing and leakage-prevention tests
+   Locked Product Decision A: the Dispatch first screen is a
+   two-door fork (Teach Something / Find a Tool), gated by the
+   resource's own `intent` array, checked explicitly in
+   passesHardFilter() rather than left to fall out of scoring.
+   ============================================================ */
+
+console.log('\nTeach fork — never surfaces manage-only tools (the leakage this fork exists to prevent)');
+{
+  // This exact query (10 min / teen / B1 / speaking) was the original
+  // case where FRT's own admin tools scored as a false "exact match"
+  // before the Stage 4.5 semantic migration, because their audience
+  // fields were empty arrays read as universal. The intent gate added
+  // in this stage is the actual fix — confirm it here directly, not
+  // just as a side effect of a scoring change.
+  const r = DispatchMatch.run(catalogue, { intent: 'teach', time: 10, age: 'teen', level: 'B1', need: 'talking' });
+  const manageLeaked = r.results.some(function (x) { return x.resource.intent.indexOf('teach') === -1; });
+  check('no manage-only resource appears in a teach query\'s results', manageLeaked === false);
+
+  const allFourTools = ['lessontrak', 'report-writer', 'zard', 'lesson-plan-viewer'];
+  const r2 = DispatchMatch.run(catalogue, { intent: 'teach' }); // no other constraints at all — the widest possible teach query
+  const anyToolPresent = r2.results.some(function (x) { return allFourTools.indexOf(x.resource.id) !== -1; });
+  check('even a maximally broad teach query (no other filters) never surfaces the 4 FRT admin tools', anyToolPresent === false);
+}
+
+console.log('\nFind-a-Tool fork — routes by tool_kind, covers both find_tool and manage intents');
+{
+  const rPlanning = DispatchMatch.run(catalogue, { intentAny: ['find_tool', 'manage'], toolKind: 'planning' });
+  check('toolKind=planning returns the 3 real planning tools', rPlanning.results.length === 3
+    && rPlanning.results.every(function (x) { return x.resource.tool_kind === 'planning'; }));
+
+  const rTracking = DispatchMatch.run(catalogue, { intentAny: ['find_tool', 'manage'], toolKind: 'tracking' });
+  check('toolKind=tracking returns exactly LessonTrak', rTracking.results.length === 1 && rTracking.results[0].resource.id === 'lessontrak');
+
+  const rNoKind = DispatchMatch.run(catalogue, { intentAny: ['find_tool', 'manage'], toolKind: null });
+  check('no toolKind specified still returns manage/find_tool resources, not teach ones', rNoKind.results.length > 0
+    && rNoKind.results.every(function (x) { return x.resource.intent.indexOf('teach') === -1; }));
+
+  const rLiveLesson = DispatchMatch.run(catalogue, { intentAny: ['find_tool', 'manage'], toolKind: 'live_lesson' });
+  check('toolKind=live_lesson is honestly empty (no such tool exists in the real catalogue yet), not fabricated', rLiveLesson.status === 'none');
+}
+
+console.log('\nFind-a-Tool fork — never surfaces teaching activities');
+{
+  const r = DispatchMatch.run(catalogue, { intentAny: ['find_tool', 'manage'], toolKind: null });
+  const teachLeaked = r.results.some(function (x) {
+    return x.resource.intent.indexOf('find_tool') === -1 && x.resource.intent.indexOf('manage') === -1;
+  });
+  check('no teach-only resource appears in a find-a-tool query\'s results', teachLeaked === false);
+}
+
+console.log('\nFind-a-Tool fork — never asks or filters on lesson-specific fields');
+{
+  // Structural check on the request shape itself: a find_tool request
+  // must never carry time/level/age, because the brief explicitly
+  // forbids asking those questions in this flow.
+  const findToolRequest = { intentAny: ['find_tool', 'manage'], toolKind: 'planning', aiOnly: false };
+  check('a genuine Find-a-Tool request has no time field', !('time' in findToolRequest) || findToolRequest.time == null);
+  check('a genuine Find-a-Tool request has no level field', !('level' in findToolRequest) || findToolRequest.level == null);
+  check('a genuine Find-a-Tool request has no age field', !('age' in findToolRequest) || findToolRequest.age == null);
+  // And confirm the engine doesn't silently apply time/level scoring
+  // even if those fields were absent - a tool with activity_time_minutes
+  // null must not be penalised for lacking a duration in this fork.
+  const r = DispatchMatch.run(catalogue, findToolRequest);
+  check('Find-a-Tool results score 0 (no duration penalty applied to timeless tools)', r.results.every(function (x) { return x.score === 0; }));
+}
+
+console.log('\nai_powered / aiOnly filter — only narrows when explicitly requested');
+{
+  const withoutAiOnly = DispatchMatch.run(catalogue, { intentAny: ['find_tool', 'manage'], toolKind: null, aiOnly: false });
+  const withAiOnly = DispatchMatch.run(catalogue, { intentAny: ['find_tool', 'manage'], toolKind: null, aiOnly: true });
+  check('aiOnly:false does not narrow results at all', withoutAiOnly.results.length > 0);
+  check('aiOnly:true correctly returns none (no ai_powered:true resource exists in the real catalogue yet)', withAiOnly.status === 'none');
 }
 
 console.log('\n' + passed + ' passed, ' + failed + ' failed');

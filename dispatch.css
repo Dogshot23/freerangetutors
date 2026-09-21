@@ -114,6 +114,50 @@ a { color: inherit; }
 .ticket-answered-chip button:hover { color: var(--signal-attn); }
 .ticket-answered-chip .chip-check { color: var(--signal-type); }
 
+/* ---- the fork: two equal first-class doors ---- */
+.fork-wrap { margin-bottom: 4px; }
+.fork-doors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+.fork-door {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  text-align: left;
+  padding: 22px 20px;
+  border-radius: 2px;
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  min-height: 96px;
+}
+.fork-door:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.fork-door-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: inherit;
+}
+.fork-door-sub {
+  font-family: var(--font-body);
+  font-size: 12px;
+  opacity: .85;
+}
+/* Neither door outranks the other — same border weight, same size, only
+   fill colour differs, using the two signal hues already bound to real
+   data elsewhere on the site (time=teach, type=find-a-tool) so the choice
+   reads as consistent with the rest of the Dispatch system, not arbitrary. */
+.fork-door--teach {
+  background: var(--signal-time);
+  color: var(--signal-time-ink);
+}
+.fork-door--tool {
+  background: var(--signal-type);
+  color: var(--signal-type-ink);
+}
+
 /* the active question */
 .ticket-question {
   margin-bottom: 4px;
@@ -258,4 +302,5 @@ a { color: inherit; }
   .ticket-wrap { padding: 26px 16px 44px; }
   .ticket-options { gap: 6px; }
   .ticket-option { padding: 10px 14px; font-size: 13px; }
+  .fork-doors { grid-template-columns: 1fr; }
 }

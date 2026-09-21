@@ -49,16 +49,28 @@
   /* ============================================================
      REQUEST SHAPE
      {
-       time: number | null,            // minutes the teacher actually has
+       intent: 'teach'|'find_tool'|'homework'|'manage'|null,  // exact single-value gate (Teach fork)
+       intentAny: string[] | null,     // any-of gate (Find-a-Tool fork — see below)
+       time: number | null,            // minutes the teacher actually has (Teach fork only)
        age: 'young_learner'|'teen'|'adult'|null,
        level: 'A1'..'C1'|null,
        need: 'talking'|'play'|'vocab'|'grammar'|'listen_watch'|'filler'|'printable'|null,
        prep: 'none'|'light'|'moderate'|null,   // teacher's prep tolerance, not the resource's prep_level
-       group: 'individual'|'pair'|'group'|null
+       group: 'individual'|'pair'|'group'|null,
+       toolKind: 'live_lesson'|'planning'|'tracking'|'ai'|null,  // Find-a-Tool fork only
+       aiOnly: boolean                 // Find-a-Tool fork only — optional narrow-further filter
      }
      Every field is optional — "any" / not asked is null. Progressive
      disclosure in the UI means most real requests will have 2-4 fields
-     set, not all 6.
+     set, not all 8.
+
+     Dispatch fork (Teach Something / Find a Tool): 'intent' is the hard
+     gate between the two flows — set by dispatch.js from which door the
+     teacher picked. A 'teach' request only ever sees resources whose own
+     intent array includes 'teach'; a 'find_tool' request only sees
+     find_tool resources, filtered further by 'toolKind'. This is checked
+     explicitly in passesHardFilter(), not left to fall out of scoring —
+     see the intent-gate comment there for why that distinction matters.
 
      Stage 4.5 migration note: 'need' still uses these same request-side
      values (this is the UI's question vocabulary, unchanged by the data
@@ -81,6 +93,41 @@
      asked." */
   function passesHardFilter(resource, req) {
     if (resource.card_style === 'collection') return false; // Dispatch needs one resolvable time/level pair — see data/SCHEMA.md
+
+    // Intent gate (Teach/Find-a-Tool fork): a 'teach' request must only ever
+    // surface resources whose own intent includes 'teach'. This is a hard,
+    // explicit exclusion — not something that falls out of scoring — because
+    // relying on NOT_APPLICABLE's zero-penalty scoring to keep admin tools
+    // out of teaching-activity results was exactly the leak this check
+    // closes: a tool with NOT_APPLICABLE audience/level fields still scores
+    // 0 on those dimensions (correctly — the dimension is genuinely absent),
+    // which is indistinguishable from a perfect match unless intent itself
+    // is checked directly. req.intent is set by dispatch.js depending on
+    // which fork (Teach vs Find a Tool) the teacher chose.
+    //
+    // req.intentAny (Find-a-Tool only): the UI's two-door fork collapses
+    // the taxonomy's two non-teaching intents (find_tool = live-lesson
+    // tech, manage = admin/planning) into one door, because the brief
+    // requires exactly two first-class choices. So the Find-a-Tool
+    // request checks "does this resource's intent include ANY of these
+    // values" rather than one exact value — still a hard, explicit gate,
+    // just matching a set instead of a single value.
+    if (req.intentAny && resource.intent) {
+      const overlaps = req.intentAny.some(function (v) { return resource.intent.indexOf(v) !== -1; });
+      if (!overlaps) return false;
+    } else if (req.intent && resource.intent) {
+      if (resource.intent.indexOf(req.intent) === -1) return false;
+    }
+
+    // Tool kind (Find-a-Tool fork only): once intent has already gated to
+    // find_tool/manage, a stated tool_kind narrows further (only excludes
+    // when the resource declares ITS OWN specific kind that doesn't match —
+    // a tool with tool_kind: null is never excluded by this).
+    if (req.toolKind && resource.tool_kind && resource.tool_kind !== req.toolKind) return false;
+
+    // AI filter (Find-a-Tool fork only, optional): only ever narrows when
+    // explicitly requested — never excludes when the teacher didn't ask.
+    if (req.aiOnly && !resource.ai_powered) return false;
 
     // Audience: only a 'specific' age_group can exclude — 'universal' is a
     // deliberate assertion (never excludes), 'unknown'/'not_applicable' also

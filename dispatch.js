@@ -2,19 +2,25 @@
    THE DISPATCH — ticket interaction (UI layer only)
    Talks to DispatchMatch (matching) and FRT (data) but contains
    no scoring logic itself — see data/dispatch-match.js for that.
+
+   Two-door fork (locked Product Decision A): the first screen
+   presents TEACH SOMETHING and FIND A TOOL as two equal, first-
+   class choices before any other question. Teach keeps the
+   original validated TIME->NEED->LEVEL->AGE(->PREP->GROUP) flow
+   unchanged. Find a Tool is a short, separate flow that only asks
+   what's actually relevant to a tool lookup — never lesson
+   duration, CEFR level, or student age.
    ============================================================ */
 
 (function () {
 
   const TICKET_NO = String(Math.floor(1000 + Math.random() * 8999));
 
-  /* Question order: TIME and NEED first — the two fields the brief
-     calls out as having the strongest influence on a useful result.
-     LEVEL and AGE follow. PREP and GROUP are offered but explicitly
-     skippable-by-default framing, since most requests won't need them
-     to land a good result (progressive disclosure, not a fixed wizard —
-     every question can be skipped, not just the last two). */
-  const QUESTIONS = [
+  /* ---- TEACH SOMETHING — unchanged from the original Dispatch flow ----
+     Question order: TIME and NEED first, then LEVEL and AGE, with PREP
+     and GROUP as skippable extras. Every question can be skipped, not
+     just the last two — progressive disclosure, not a fixed wizard. */
+  const TEACH_QUESTIONS = [
     {
       key: 'time',
       label: 'How long have you actually got?',
@@ -75,34 +81,76 @@
       ]
     }
   ];
+  const TEACH_CORE_QUESTIONS = 4; // time, need, level, age — always offered; prep/group are the two extra, more-skippable ones
 
-  const LABELS = {}; // key -> value -> display label, built once for the answered-chips
-  QUESTIONS.forEach(function (q) {
-    LABELS[q.key] = {};
-    q.options.forEach(function (o) { LABELS[q.key][o.value] = o.label; });
-  });
+  /* ---- FIND A TOOL — a genuinely separate, much shorter flow ----
+     Only one required question (what kind of tool), plus an optional
+     AI-only narrower. No time/level/age question exists here at all —
+     those fields don't apply to a tool lookup, per the brief. */
+  const TOOL_QUESTIONS = [
+    {
+      key: 'toolKind',
+      label: 'What kind of tool?',
+      options: [
+        { value: 'live_lesson', label: 'Something to use live in a lesson' },
+        { value: 'planning', label: 'Planning / prep' },
+        { value: 'tracking', label: 'Tracking students' },
+        { value: 'ai', label: 'An AI tool' }
+      ]
+    }
+  ];
+  const TOOL_CORE_QUESTIONS = 1; // just toolKind — genuinely a short flow, not a scaled-down teach flow
+
+  function buildLabels(questions) {
+    const labels = {};
+    questions.forEach(function (q) {
+      labels[q.key] = {};
+      q.options.forEach(function (o) { labels[q.key][o.value] = o.label; });
+    });
+    return labels;
+  }
+  const TEACH_LABELS = buildLabels(TEACH_QUESTIONS);
+  const TOOL_LABELS = buildLabels(TOOL_QUESTIONS);
 
   const state = {
-    answers: {}, // { time: 10, need: 'talking', ... } — only keys the teacher actually answered (or explicitly skipped, tracked separately)
-    skipped: {},
-    step: 0,
+    fork: null,       // null (door screen) | 'teach' | 'find_tool'
+    answers: {},       // { time: 10, need: 'talking', ... } — only keys actually answered
+    skipped: {},       // explicitly skipped keys, tracked separately from answered
     resolved: false
   };
 
-  function answeredCount() {
-    return Object.keys(state.answers).length + Object.keys(state.skipped).length;
+  function activeQuestions() {
+    return state.fork === 'find_tool' ? TOOL_QUESTIONS : TEACH_QUESTIONS;
+  }
+  function activeLabels() {
+    return state.fork === 'find_tool' ? TOOL_LABELS : TEACH_LABELS;
+  }
+  function activeCoreCount() {
+    return state.fork === 'find_tool' ? TOOL_CORE_QUESTIONS : TEACH_CORE_QUESTIONS;
   }
 
   function nextUnansweredIndex() {
-    for (let i = 0; i < QUESTIONS.length; i++) {
-      const k = QUESTIONS[i].key;
+    const questions = activeQuestions();
+    for (let i = 0; i < questions.length; i++) {
+      const k = questions[i].key;
       if (!(k in state.answers) && !(k in state.skipped)) return i;
     }
     return -1;
   }
 
   function buildRequest() {
+    if (state.fork === 'find_tool') {
+      // The Find-a-Tool door covers both the taxonomy's 'find_tool'
+      // (live-lesson tech) and 'manage' (admin/planning) intents — see
+      // the intentAny comment in data/dispatch-match.js for why.
+      return {
+        intentAny: ['find_tool', 'manage'],
+        toolKind: state.answers.toolKind || null,
+        aiOnly: state.answers.toolKind === 'ai'
+      };
+    }
     return {
+      intent: 'teach',
       time: state.answers.time != null ? state.answers.time : null,
       age: state.answers.age || null,
       level: state.answers.level || null,
@@ -123,15 +171,52 @@
     return node;
   }
 
+  /* ---- THE FIRST SCREEN: the two-door fork ----
+     Two equal, first-class choices — neither is visually or
+     structurally subordinate to the other. Selecting a door sets
+     state.fork and moves straight into that flow's first question. */
+  function renderFork(body) {
+    const wrap = el('div', { class: 'fork-wrap' }, [
+      el('div', { class: 'ticket-question-label', text: 'WHAT ARE YOU TRYING TO DO?' })
+    ]);
+
+    const doors = el('div', { class: 'fork-doors' }, []);
+
+    const teachDoor = el('button', { type: 'button', class: 'fork-door fork-door--teach' }, [
+      el('span', { class: 'fork-door-title', text: 'Teach Something' }),
+      el('span', { class: 'fork-door-sub', text: 'A time-boxed activity for the next lesson' })
+    ]);
+    teachDoor.addEventListener('click', function () {
+      state.fork = 'teach';
+      render();
+    });
+
+    const toolDoor = el('button', { type: 'button', class: 'fork-door fork-door--tool' }, [
+      el('span', { class: 'fork-door-title', text: 'Find a Tool' }),
+      el('span', { class: 'fork-door-sub', text: 'A whiteboard, planner, tracker, or AI tool' })
+    ]);
+    toolDoor.addEventListener('click', function () {
+      state.fork = 'find_tool';
+      render();
+    });
+
+    doors.appendChild(teachDoor);
+    doors.appendChild(toolDoor);
+    wrap.appendChild(doors);
+    body.appendChild(wrap);
+  }
+
   function renderAnsweredChips(body) {
-    const answeredKeys = QUESTIONS.map(function (q) { return q.key; })
+    const questions = activeQuestions();
+    const labels = activeLabels();
+    const answeredKeys = questions.map(function (q) { return q.key; })
       .filter(function (k) { return k in state.answers; });
     if (answeredKeys.length === 0) return;
 
     const wrap = el('div', { class: 'ticket-answered' }, []);
     answeredKeys.forEach(function (key) {
       const val = state.answers[key];
-      const label = LABELS[key][val] || val;
+      const label = labels[key][val] || val;
       const chip = el('span', { class: 'ticket-answered-chip' }, [
         el('span', { class: 'chip-check', text: '✓' }),
         el('span', { text: label })
@@ -198,6 +283,13 @@
   }
 
   function whySummary(resource) {
+    if (state.fork === 'find_tool') {
+      const parts = [];
+      if (resource.tool_kind) parts.push(toolKindLabel(resource.tool_kind));
+      if (resource.ai_powered) parts.push('AI-powered');
+      parts.push(resource.cost);
+      return parts.join(' · ');
+    }
     const parts = [];
     if (resource.activity_time_minutes != null) parts.push(resource.activity_time_minutes + ' min');
     const levelSet = resource.cefr_level;
@@ -212,10 +304,16 @@
     return parts.join(' · ');
   }
 
+  function toolKindLabel(k) {
+    const map = { live_lesson: 'live lesson', planning: 'planning', tracking: 'tracking', ai: 'AI tool' };
+    return map[k] || k;
+  }
+
   function restartControl() {
     const wrap = el('div', { class: 'ticket-restart' }, []);
     const btn = el('button', { type: 'button', text: 'Start a new ticket' }, []);
     btn.addEventListener('click', function () {
+      state.fork = null;
       state.answers = {};
       state.skipped = {};
       state.resolved = false;
@@ -226,16 +324,24 @@
     return wrap;
   }
 
-  const CORE_QUESTIONS = 4; // time, need, level, age — always offered; prep/group are the two extra, more-skippable ones
-
   function coreQuestionsDone() {
-    return QUESTIONS.slice(0, CORE_QUESTIONS).every(function (q) {
+    return activeQuestions().slice(0, activeCoreCount()).every(function (q) {
       return (q.key in state.answers) || (q.key in state.skipped);
     });
   }
 
   function render() {
     document.getElementById('ticket-number').textContent = 'No. ' + TICKET_NO;
+
+    const body = document.getElementById('ticket-body');
+
+    // First screen: the fork itself, before any question.
+    if (state.fork === null) {
+      document.getElementById('ticket').classList.remove('ticket--resolved');
+      body.innerHTML = '';
+      renderFork(body);
+      return;
+    }
 
     if (state.resolved) {
       runDispatch();
@@ -249,11 +355,11 @@
       return;
     }
 
-    const body = document.getElementById('ticket-body');
     body.innerHTML = '';
     renderAnsweredChips(body);
 
-    const q = QUESTIONS[idx];
+    const questions = activeQuestions();
+    const q = questions[idx];
     const qBlock = el('div', { class: 'ticket-question' }, [
       el('div', { class: 'ticket-question-label', text: q.label.toUpperCase() })
     ]);
@@ -271,6 +377,11 @@
     qBlock.appendChild(optionsRow);
     body.appendChild(qBlock);
 
+    // Find-a-Tool's single question has no "any is fine" skip — skipping
+    // the only question would mean no filter at all, which the flow
+    // still handles gracefully (falls through to "show results now"
+    // below), so a skip control is offered here too for consistency,
+    // just worded plainly rather than implying indifference.
     const skipWrap = el('div', { class: 'ticket-skip' }, []);
     const skipBtn = el('button', { type: 'button', text: 'Skip — any is fine' }, []);
     skipBtn.addEventListener('click', function () {
@@ -282,10 +393,9 @@
 
     body.appendChild(el('div', { class: 'ticket-progress' }, []));
 
-    // Once the 4 core questions are answered/skipped, offer a direct exit
-    // instead of forcing prep/group too — the progressive-disclosure path
-    // the brief asks for. Only shown once we're past the core set.
-    if (idx >= CORE_QUESTIONS && coreQuestionsDone()) {
+    // Once the core questions for this fork are answered/skipped, offer a
+    // direct exit instead of forcing the remaining (Teach-only) extras too.
+    if (idx >= activeCoreCount() && coreQuestionsDone()) {
       const showNowWrap = el('div', { class: 'ticket-skip' }, []);
       const showNowBtn = el('button', { type: 'button', text: 'Show results now →' }, []);
       showNowBtn.addEventListener('click', function () {
