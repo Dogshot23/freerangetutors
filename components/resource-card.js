@@ -13,9 +13,17 @@
 
   const CEFR_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
-  function levelLabel(levels) {
-    if (!levels || levels.length === 0) return null;
-    const sorted = levels.slice().sort(function (a, b) {
+  /* levels: a four-state semantic-set object ({mode, values?}), not a bare
+     array — see data/SCHEMA.md. Returns a display string, or null when the
+     caller should fall back to its own dim/placeholder treatment. */
+  function levelLabel(levelSet) {
+    if (!levelSet) return null;
+    if (levelSet.mode === 'universal') return 'Any level';
+    if (levelSet.mode === 'unknown') return null;
+    if (levelSet.mode === 'not_applicable') return null;
+    const values = levelSet.values || [];
+    if (values.length === 0) return null;
+    const sorted = values.slice().sort(function (a, b) {
       return CEFR_ORDER.indexOf(a) - CEFR_ORDER.indexOf(b);
     });
     return sorted.length === 1 ? sorted[0] : sorted[0] + '–' + sorted[sorted.length - 1];
@@ -33,12 +41,10 @@
 
   function typeLabel(resourceType) {
     // Short, human labels for the TYPE metadata cell — keep tight, this cell has the least room.
+    // Eight values per data/SCHEMA.md's resource_type taxonomy.
     const map = {
-      worksheet: 'Worksheet', pdf_pack: 'PDF pack', web_app: 'Web app',
-      game: 'Game', video: 'Video', listening: 'Listening', printable: 'Printable',
-      system: 'System', reference: 'Reference', task_cards: 'Task cards',
-      roleplay: 'Roleplay', activity: 'Activity', article: 'Article',
-      external_site: 'Site'
+      tool: 'Tool', platform: 'Platform', activity: 'Activity', game: 'Game',
+      lesson: 'Lesson', printable: 'Printable', media: 'Media', article: 'Article'
     };
     return map[resourceType] || resourceType;
   }
@@ -75,7 +81,7 @@
 
   function renderResourceCard(resource) {
     const isCollection = resource.card_style === 'collection';
-    const isTool = resource.resource_type === 'web_app' && resource.source_category === 'own_original';
+    const isTool = resource.resource_type === 'tool' && resource.source_category === 'own_original';
 
     /* ---- metadata strip ---- */
     const timeVal = resource.activity_time_minutes != null
@@ -83,12 +89,15 @@
           ? ' (' + resource.duration_alt_minutes + ' alt)' : '')
       : (isCollection ? 'Varies' : '—');
 
-    const levelVal = levelLabel(resource.cefr_level) || (isCollection ? 'Varies' : '—');
+    const levelSet = resource.cefr_level || {};
+    const levelVal = levelSet.mode === 'unknown' ? 'Not confirmed'
+      : levelLabel(levelSet) || (isCollection ? 'Varies' : '—');
     const prepVal = prepLabel(resource.prep_level);
     const typeVal = typeLabel(resource.resource_type);
 
     const timeDim = resource.activity_time_minutes == null;
-    const levelDim = !resource.cefr_level || resource.cefr_level.length === 0;
+    const levelDim = levelSet.mode === 'unknown' || levelSet.mode === 'not_applicable'
+      || (levelSet.mode === 'specific' && (!levelSet.values || levelSet.values.length === 0));
     const prepDim = resource.prep_level === 'varies';
 
     const metaStrip = el('div', { class: 'rc-meta' }, [

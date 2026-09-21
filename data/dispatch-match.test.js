@@ -57,8 +57,10 @@ console.log('\nTest 2 — 30 min / 12yo (teen) group / B2 / speaking');
 {
   const r = DispatchMatch.run(catalogue, { time: 30, age: 'teen', level: 'B2', need: 'talking', group: 'group' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
-  check('every result suits teen audience (or is audience-agnostic)', r.results.every(function (x) {
-    return x.resource.age_group.length === 0 || x.resource.age_group.indexOf('teen') !== -1;
+  check('every result suits teen audience (universal, or specific including teen)', r.results.every(function (x) {
+    const mode = DispatchMatch._internal.setMode(x.resource.age_group);
+    return mode === 'universal' || mode === 'unknown'
+      || (mode === 'specific' && DispatchMatch._internal.setValues(x.resource.age_group).indexOf('teen') !== -1);
   }));
   console.log('  -> ' + r.status + ': ' + names(r).join(', '));
 }
@@ -99,8 +101,8 @@ console.log('\nTest 6 — printable / any / 30 min');
 {
   const r = DispatchMatch.run(catalogue, { time: 30, need: 'printable' });
   check('returns a result', r.results.length > 0, 'status=' + r.status);
-  check('every result is a printable-family type', r.results.every(function (x) {
-    return ['worksheet', 'pdf_pack', 'printable', 'task_cards', 'reference'].indexOf(x.resource.resource_type) !== -1;
+  check('every result is the printable resource_type', r.results.every(function (x) {
+    return x.resource.resource_type === 'printable';
   }));
   console.log('  -> ' + r.status + ': ' + names(r).join(', '));
 }
@@ -138,6 +140,114 @@ console.log('\nUnit checks — level scoring never treats a 2-step gap as free')
   const scoreFar = DispatchMatch._internal.scoreResource(speaking, { level: 'A1' }); // 2 steps from B1
   check('exact level match costs 0', scoreExact.breakdown[0].cost === 0);
   check('a 2-step level gap costs more than a 1-step gap would', scoreFar.breakdown[0].cost > 0);
+}
+
+/* ============================================================
+   FOUR-STATE SEMANTIC MODEL — Stage 4.5 migration tests
+   universal / specific / unknown / not_applicable, tested against
+   real catalogue entries plus synthetic fixtures for states the
+   current 11 resources don't happen to exercise (a genuinely
+   universal tool didn't exist in the catalogue before this
+   migration, so it's tested with a minimal synthetic fixture here).
+   ============================================================ */
+
+console.log('\nFour-state semantics — setMode() / setValues() / setExcludes()');
+{
+  const universal = { mode: 'universal' };
+  const specific = { mode: 'specific', values: ['teen', 'adult'] };
+  const unknown = { mode: 'unknown' };
+  const notApplicable = { mode: 'not_applicable' };
+
+  check('setMode reads universal correctly', DispatchMatch._internal.setMode(universal) === 'universal');
+  check('setMode reads specific correctly', DispatchMatch._internal.setMode(specific) === 'specific');
+  check('setMode reads unknown correctly', DispatchMatch._internal.setMode(unknown) === 'unknown');
+  check('setMode reads not_applicable correctly', DispatchMatch._internal.setMode(notApplicable) === 'not_applicable');
+  check('setMode treats a missing/undefined field as not_applicable, never universal', DispatchMatch._internal.setMode(undefined) === 'not_applicable');
+
+  check('universal never excludes any query value', DispatchMatch._internal.setExcludes(universal, 'teen') === false);
+  check('specific excludes a value outside its list', DispatchMatch._internal.setExcludes(specific, 'young_learner') === true);
+  check('specific does not exclude a value inside its list', DispatchMatch._internal.setExcludes(specific, 'teen') === false);
+  check('unknown never hard-excludes', DispatchMatch._internal.setExcludes(unknown, 'teen') === false);
+  check('not_applicable never hard-excludes', DispatchMatch._internal.setExcludes(notApplicable, 'teen') === false);
+}
+
+console.log('\nUNIVERSAL can match broadly — synthetic audience-agnostic tool (a whiteboard-style fixture)');
+{
+  const universalTool = {
+    id: 'synthetic-whiteboard', name: 'Synthetic Whiteboard', card_style: 'activity',
+    resource_type: 'tool', intent: ['find_tool'], skills: [],
+    age_group: { mode: 'universal' }, cefr_level: { mode: 'universal' }, group_fit: { mode: 'universal' },
+    prep_level: 'none', activity_time_minutes: null, duration_alt_minutes: null,
+    source_category: 'own_original'
+  };
+  const r1 = DispatchMatch.run([universalTool], { age: 'young_learner', level: 'C1', group: 'individual' });
+  check('a UNIVERSAL tool matches a young_learner/C1/1:1 request with no hard exclusion', r1.results.length === 1 && r1.status === 'match');
+  const score = DispatchMatch._internal.scoreResource(universalTool, { age: 'adult', level: 'B1', group: 'group' });
+  check('UNIVERSAL costs exactly 0 on every dimension it covers', score.total === 0);
+}
+
+console.log('\nSPECIFIC matches only compatible values — real catalogue entry (Speaking Experiments, teen/adult only)');
+{
+  const speaking = catalogue.find(function (r) { return r.id === 'speaking-experiments'; });
+  check('SPECIFIC age_group is teen+adult, confirmed from real data', DispatchMatch._internal.setValues(speaking.age_group).sort().join(',') === 'adult,teen');
+  const passesTeen = DispatchMatch._internal.passesHardFilter(speaking, { age: 'teen' });
+  const passesYoungLearner = DispatchMatch._internal.passesHardFilter(speaking, { age: 'young_learner' });
+  check('SPECIFIC passes a compatible query value', passesTeen === true);
+  check('SPECIFIC hard-excludes an incompatible query value', passesYoungLearner === false);
+}
+
+console.log('\nUNKNOWN never receives a confident exact match merely because the field is empty/unknown');
+{
+  const unknownLevelResource = {
+    id: 'synthetic-unknown-level', name: 'Synthetic Unknown-Level Resource', card_style: 'activity',
+    resource_type: 'activity', intent: ['teach'], skills: ['speaking'],
+    age_group: { mode: 'universal' }, cefr_level: { mode: 'unknown' }, group_fit: { mode: 'not_applicable' },
+    prep_level: 'none', activity_time_minutes: 10, duration_alt_minutes: null,
+    source_category: 'own_original'
+  };
+  const knownGoodResource = {
+    id: 'synthetic-known-b1', name: 'Synthetic Known-B1 Resource', card_style: 'activity',
+    resource_type: 'activity', intent: ['teach'], skills: ['speaking'],
+    age_group: { mode: 'universal' }, cefr_level: { mode: 'specific', values: ['B1'] }, group_fit: { mode: 'not_applicable' },
+    prep_level: 'none', activity_time_minutes: 10, duration_alt_minutes: null,
+    source_category: 'own_original'
+  };
+  const r = DispatchMatch.run([unknownLevelResource, knownGoodResource], { time: 10, level: 'B1', need: 'talking' });
+  check('a genuine SPECIFIC/exact match outranks an UNKNOWN one (UNKNOWN is never free)', r.results[0].resource.id === 'synthetic-known-b1');
+  check('status is match (the real match wins), not falsely inflated by the unknown resource', r.status === 'match');
+
+  const soloUnknown = DispatchMatch.run([unknownLevelResource], { time: 10, level: 'B1', need: 'talking' });
+  check('UNKNOWN alone never reports as an exact "match" status — always nearest at best', soloUnknown.status === 'nearest');
+  check('UNKNOWN carries a real, non-zero penalty, not a free ride', DispatchMatch._internal.scoreResource(unknownLevelResource, { level: 'B1' }).breakdown[0].cost === DispatchMatch._internal.UNKNOWN_PENALTY);
+}
+
+console.log('\nNOT_APPLICABLE does not penalise or falsely constrain a resource on that dimension');
+{
+  const lessontrak = catalogue.find(function (r) { return r.id === 'lessontrak'; });
+  check('LessonTrak\'s age_group is NOT_APPLICABLE in the real migrated data', DispatchMatch._internal.setMode(lessontrak.age_group) === 'not_applicable');
+  const passesAnyAge = DispatchMatch._internal.passesHardFilter(lessontrak, { age: 'young_learner' });
+  check('NOT_APPLICABLE never hard-excludes on age', passesAnyAge === true);
+  const score = DispatchMatch._internal.scoreResource(lessontrak, { age: 'young_learner', level: 'A1', group: 'individual' });
+  check('NOT_APPLICABLE dimensions are entirely absent from the score breakdown (not scored, not penalised)', score.breakdown.length === 0);
+}
+
+console.log('\nRegression check — no remaining assumption that an empty/missing array means "universal"');
+{
+  // Every migrated resource's semantic-set fields must be real mode
+  // objects, never a bare array (which the old engine treated as an
+  // implicit "matches everyone" — the exact bug this migration fixes).
+  const allHaveModes = catalogue.every(function (r) {
+    return ['age_group', 'cefr_level', 'group_fit'].every(function (field) {
+      return r[field] && typeof r[field] === 'object' && !Array.isArray(r[field]) && typeof r[field].mode === 'string';
+    });
+  });
+  check('every one of the 11 real resources has proper {mode,...} objects on all three semantic-set fields', allHaveModes);
+
+  // Confirm the specific bug case from the Stage 4 audit is actually fixed:
+  // an FRT tool queried for a specific age/group no longer scores as a
+  // silent perfect match purely because the field used to be an empty array.
+  const reportWriter = catalogue.find(function (r) { return r.id === 'report-writer'; });
+  check('Report Writer is explicitly NOT_APPLICABLE for age (not an empty array read as universal)', DispatchMatch._internal.setMode(reportWriter.age_group) === 'not_applicable');
 }
 
 console.log('\n' + passed + ' passed, ' + failed + ' failed');

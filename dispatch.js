@@ -200,8 +200,12 @@
   function whySummary(resource) {
     const parts = [];
     if (resource.activity_time_minutes != null) parts.push(resource.activity_time_minutes + ' min');
-    if (resource.cefr_level && resource.cefr_level.length) {
-      parts.push(resource.cefr_level.length === 1 ? resource.cefr_level[0] : resource.cefr_level[0] + '–' + resource.cefr_level[resource.cefr_level.length - 1]);
+    const levelSet = resource.cefr_level;
+    if (levelSet && levelSet.mode === 'universal') {
+      parts.push('any level');
+    } else if (levelSet && levelSet.mode === 'specific' && levelSet.values && levelSet.values.length) {
+      const values = levelSet.values;
+      parts.push(values.length === 1 ? values[0] : values[0] + '–' + values[values.length - 1]);
     }
     parts.push(resource.prep_level + ' prep');
     if (resource.skills && resource.skills.length) parts.push(resource.skills[0]);

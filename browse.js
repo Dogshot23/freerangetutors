@@ -1,26 +1,34 @@
 /* ============================================================
    THE DISPATCH — Browse / Discovery
-   Consumes data/resources.js (FRT.all / FRT.byPathway) and the
+   Consumes data/resources.js (FRT.all / FRT.byIntent) and the
    existing renderResourceCard component. No second source of
    truth for categories or resources — every grouping below reads
-   directly from each resource's own pathways/source_category
-   fields, the same fields Dispatch and the homepage already use.
+   directly from each resource's own skills/resource_type/
+   source_category fields, the same fields Dispatch and the
+   homepage already use.
+
+   Schema migration note (Stage 4.5): this page's section names
+   ("By purpose" etc.) predate the intent/resource_type taxonomy
+   change and are repointed here only enough to keep working
+   against the new data shape — the real Toolkit redesign (per
+   the Product Decisions doc) is a separate, later stage.
    ============================================================ */
 
 (function () {
 
   /* ---- BY PURPOSE ----
-     The same 6 discovery pathways as the homepage board, minus
-     'emergency' (that's Dispatch's own concept, not a Browse
-     category) and 'tools' folded in as its own named group since
-     it's a different kind of thing (FRT's own apps) rather than a
-     teaching-purpose pathway. */
+     Schema migration note (Stage 4.5): the old single-valued 'pathways'
+     field no longer exists — replaced by 'intent' (teach/find_tool/
+     homework/manage) plus the unchanged, still-open-ended 'skills' tag
+     list. These groups now read 'skills' so the page keeps working;
+     the groups themselves are unchanged pending the real Toolkit
+     redesign (explicitly a later stage, not this one). */
   const PURPOSE_GROUPS = [
-    { pathway: 'talking', label: 'Talking' },
-    { pathway: 'play', label: 'Playing' },
-    { pathway: 'vocab', label: 'Vocabulary' },
-    { pathway: 'grammar', label: 'Grammar' },
-    { pathway: 'listen_watch', label: 'Listening / Watching' }
+    { skill: 'speaking', label: 'Talking' },
+    { skill: 'play', label: 'Playing' },
+    { skill: 'vocab', label: 'Vocabulary' },
+    { skill: 'grammar', label: 'Grammar' },
+    { skill: 'listening', label: 'Listening / Watching' }
   ];
 
   /* ---- BY SITUATION ----
@@ -30,7 +38,7 @@
      and Dispatch already owns the time/group questions directly. */
   function isLowPrep(r) { return r.prep_level === 'none'; }
   function isPrintable(r) {
-    return ['worksheet', 'pdf_pack', 'printable', 'task_cards', 'reference'].indexOf(r.resource_type) !== -1;
+    return r.resource_type === 'printable';
   }
 
   /* ---- BY ORIGIN ---- */
@@ -42,11 +50,11 @@
 
   const INTENTS = [
     { key: 'all', label: 'ALL' },
-    { key: 'talking', label: 'TALKING' },
+    { key: 'speaking', label: 'TALKING' },
     { key: 'play', label: 'PLAY' },
     { key: 'vocab', label: 'VOCAB' },
     { key: 'grammar', label: 'GRAMMAR' },
-    { key: 'listen_watch', label: 'LISTEN / WATCH' }
+    { key: 'listening', label: 'LISTEN / WATCH' }
   ];
 
   function initialIntentFromUrl() {
@@ -72,7 +80,7 @@
 
   function filteredByIntent(list) {
     if (currentIntent === 'all') return list;
-    return list.filter(function (r) { return r.pathways && r.pathways.indexOf(currentIntent) !== -1; });
+    return resourcesForSkillGroup(currentIntent, list);
   }
 
   function renderIntentStrip() {
@@ -114,16 +122,23 @@
     return block;
   }
 
+  function resourcesForSkillGroup(skill, allRes) {
+    if (skill === 'play') {
+      return allRes.filter(function (r) { return r.resource_type === 'game'; });
+    }
+    return allRes.filter(function (r) { return r.skills && r.skills.indexOf(skill) !== -1; });
+  }
+
   function renderPurposeSection(container) {
     const section = el('section', { class: 'browse-section' }, [
       el('div', { class: 'browse-section-heading', text: 'Discover' }),
       el('div', { class: 'browse-section-title', text: 'By purpose' })
     ]);
     PURPOSE_GROUPS.forEach(function (g) {
-      const list = filteredByIntent(FRT.byPathway(g.pathway));
+      const list = filteredByIntent(resourcesForSkillGroup(g.skill, allResources));
       // When a specific intent filter is active and this group isn't it,
       // skip rendering it entirely rather than showing an irrelevant empty shelf.
-      if (currentIntent !== 'all' && currentIntent !== g.pathway) return;
+      if (currentIntent !== 'all' && currentIntent !== g.skill) return;
       section.appendChild(groupBlock(g.label, list.length, list));
     });
     container.appendChild(section);

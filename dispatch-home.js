@@ -115,12 +115,45 @@
     return a;
   }
 
+  /* Schema migration note (Stage 4.5): the old single-valued 'pathways'
+     field (which doubled as both teacher-intent and skill-tag) no longer
+     exists — replaced by 'intent' (teach/find_tool/homework/manage) and
+     the unchanged, still-open-ended 'skills' tag list. These tile lookups
+     are repointed to the fields that still exist so the page keeps
+     working; the tiles themselves are unchanged pending the real
+     Dispatch/homepage redesign (explicitly a later stage, not this one). */
+  // Old pathway key -> current skill tag / resource_type it actually maps to.
+  // 'talking' meant speaking, 'listen_watch' meant listening, 'grammar' and
+  // 'vocab' are unchanged; 'play' has no skill equivalent — it maps to the
+  // resource_type instead (mirrors the same mapping made in browse.js).
+  const PATHWAY_TO_SKILL = { talking: 'speaking', vocab: 'vocab', grammar: 'grammar', listen_watch: 'listening' };
+
+  function resourcesForTile(tile, allResources) {
+    if (tile.pathway === 'emergency') {
+      // No direct schema equivalent for the old 'emergency' pathway tag —
+      // approximate with short, no-prep teaching activities until the
+      // Dispatch redesign defines this properly.
+      return allResources.filter(function (r) {
+        return r.intent && r.intent.indexOf('teach') !== -1
+          && r.activity_time_minutes != null && r.activity_time_minutes <= 10;
+      });
+    }
+    if (tile.pathway === 'tools') {
+      return FRT.byIntent('manage');
+    }
+    if (tile.pathway === 'play') {
+      return allResources.filter(function (r) { return r.resource_type === 'game'; });
+    }
+    const skill = PATHWAY_TO_SKILL[tile.pathway];
+    return allResources.filter(function (r) {
+      return skill && r.skills && r.skills.indexOf(skill) !== -1;
+    });
+  }
+
   function renderBoard(allResources) {
     const board = document.getElementById('dispatch-board');
     PATHWAY_TILES.forEach(function (tile) {
-      const list = tile.pathway === 'emergency'
-        ? allResources.filter(function (r) { return r.pathways.indexOf('emergency') !== -1; })
-        : FRT.byPathway(tile.pathway);
+      const list = resourcesForTile(tile, allResources);
       board.appendChild(tileEl(tile, list));
     });
   }
@@ -156,10 +189,8 @@
   }
 
   function typeShort(t) {
-    const map = { worksheet: 'worksheet', pdf_pack: 'pack', web_app: 'app', game: 'game',
-      video: 'video', listening: 'listening', printable: 'printable', system: 'system',
-      reference: 'reference', task_cards: 'cards', roleplay: 'roleplay', activity: 'activity',
-      article: 'article', external_site: 'site' };
+    const map = { tool: 'tool', platform: 'platform', activity: 'activity', game: 'game',
+      lesson: 'lesson', printable: 'printable', media: 'media', article: 'article' };
     return map[t] || t;
   }
 
