@@ -41,35 +41,35 @@
       pathway: 'talking',
       headline: 'Get Them Talking',
       variant: 'teal',
-      href: 'pathways/talking.html',
+      href: 'browse.html?intent=talking',
       subline: function (list) { return countSubline(list); }
     },
     {
       pathway: 'play',
       headline: 'Play Something',
       variant: 'gold',
-      href: 'pathways/play.html',
+      href: 'browse.html?intent=play',
       subline: function (list) { return countSubline(list); }
     },
     {
       pathway: 'vocab',
       headline: 'Practise Vocab',
       variant: 'outline',
-      href: 'pathways/vocab.html',
+      href: 'browse.html?intent=vocab',
       subline: function (list) { return countSubline(list); }
     },
     {
       pathway: 'grammar',
       headline: 'Work On Grammar',
       variant: 'raspberry',
-      href: 'pathways/grammar.html',
+      href: 'browse.html?intent=grammar',
       subline: function (list) { return countSubline(list); }
     },
     {
       pathway: 'listen_watch',
       headline: 'Listen / Watch',
       variant: 'outline',
-      href: 'pathways/listen-watch.html',
+      href: 'browse.html?intent=listen_watch',
       subline: function (list) { return countSubline(list); }
     }
   ];

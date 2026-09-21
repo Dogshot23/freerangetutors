@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="dispatch-tokens.css" />
+  <link rel="stylesheet" href="components/resource-card.css" />
+  <link rel="stylesheet" href="browse.css" />
+</head>
+<body class="browse-page">
+
+  <header class="dispatch-strip">
+    <a href="dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="tools/index.html">Tools</a>
+      <a href="browse.html" class="nav-current" aria-current="page">Browse</a>
+      <a href="about.html">About</a>
+      <a href="dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main class="browse-wrap">
+
+    <div class="browse-intro">
+      <h1>Look around.</h1>
+      <p>This is the slower route &mdash; for when you're not in a hurry and just want to see what's here. In a rush? <span class="browse-dispatch-nudge">Try <a href="dispatch.html">Dispatch</a> instead &mdash; tell it the problem and it'll find you something in seconds.</span></p>
+    </div>
+
+    <nav class="browse-intent" id="browse-intent" aria-label="Filter by purpose">
+      <!-- rendered by browse.js -->
+    </nav>
+
+    <div id="browse-sections">
+      <!-- rendered by browse.js -->
+    </div>
+
+    <div class="browse-footer">
+      <p>Every resource here is picked, not scraped. If a shelf looks thin, that's honest — it means it's still being built, not padded out to look bigger.</p>
+    </div>
+
+  </main>
+
+  <script src="data/resources.js"></script>
+  <script src="components/resource-card.js"></script>
+  <script src="browse.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+/* ============================================================
+   THE DISPATCH — browse.html specific styles
+   Editorial discovery surface. Deliberately quieter than the
+   homepage board and the Dispatch ticket — Browse is secondary
+   in the product hierarchy, and looks it.
+   Depends on dispatch-tokens.css + components/resource-card.css.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body.browse-page {
+  margin: 0;
+  background: var(--paper);
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+a { color: inherit; }
+
+.dispatch-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--gutter);
+  border-bottom: 2px solid var(--ink);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.dispatch-wordmark {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.dispatch-nav { display: flex; gap: 18px; align-items: center; }
+.dispatch-nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.dispatch-nav a:hover { color: var(--ink); }
+.dispatch-nav a.nav-current { color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; }
+.dispatch-nav .nav-dispatch-cta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--signal-time);
+  border: 1px solid var(--signal-time);
+  padding: 5px 10px;
+  border-radius: 1px;
+}
+.dispatch-nav .nav-dispatch-cta:hover { background: var(--signal-time); color: var(--signal-time-ink); }
+
+.browse-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 36px var(--gutter) 60px;
+}
+
+/* ---- intro: explicitly frames Browse as the slower route ---- */
+.browse-intro { margin-bottom: 8px; max-width: 62ch; }
+.browse-intro h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.browse-intro p {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+}
+.browse-intro .browse-dispatch-nudge {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.browse-intro .browse-dispatch-nudge a {
+  color: var(--signal-time);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- intent strip: lightweight, not a filter sidebar ---- */
+.browse-intent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 26px 0 8px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rule);
+}
+.browse-intent-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .03em;
+  padding: 8px 14px;
+  border: 1.5px solid var(--rule);
+  border-radius: 1px;
+  background: var(--paper);
+  color: var(--ink-muted);
+  cursor: pointer;
+  min-height: 40px;
+}
+.browse-intent-btn:hover { border-color: var(--ink); color: var(--ink); }
+.browse-intent-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.browse-intent-btn--active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+/* ---- sections ---- */
+.browse-section { margin-top: 44px; }
+.browse-section-heading {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.browse-section-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  margin: 0 0 18px;
+}
+
+.browse-group { margin-bottom: 32px; }
+.browse-group-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.browse-group-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+.browse-group-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.browse-empty {
+  border: 1.5px dashed var(--rule);
+  border-radius: 2px;
+  padding: 18px 20px;
+  color: var(--ink-faint);
+}
+.browse-empty-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+.browse-empty-sub {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-style: italic;
+}
+
+.browse-footer {
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+.browse-footer p {
+  margin: 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-muted);
+  max-width: 60ch;
+}
+
+@media (max-width: 600px) {
+  .browse-wrap { padding: 26px 16px 44px; }
+  .browse-intent { gap: 6px; }
+  .browse-intent-btn { padding: 8px 12px; font-size: 10px; }
+}
