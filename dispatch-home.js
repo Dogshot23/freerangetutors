@@ -24,7 +24,7 @@
       label: null,
       headline: 'Your Own Tools',
       variant: 'own',
-      href: 'tools/index.html',
+      href: 'browse.html?intent=manage',
       kicker: function (list) {
         const live = list.filter(function (r) { return r.status === 'live'; }).length;
         const beta = list.filter(function (r) { return r.status === 'beta'; }).length;
