@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <!-- Dispatch-era header/nav only — see about-nav.css for why this is separate from the page's existing style.css -->
+  <link rel="stylesheet" href="dispatch-tokens.css" />
+  <link rel="stylesheet" href="about-nav.css" />
 
   <!--
     about.css — additions only.
@@ -192,40 +195,18 @@
 <body>
 
   <!-- ============================================================
-       SITE HEADER / NAVIGATION
-       Identical across all pages — "about" nav link is active.
+       HEADER / NAVIGATION — Dispatch-era pattern
+       Matches dispatch-home.html / dispatch.html / browse.html:
+       Toolkit / About (active) / Dispatch. Styles in about-nav.css.
+       Single nav serves both desktop and mobile — no separate
+       drawer needed at this page's content width/density.
        ============================================================ -->
-  <header class="site-header">
-    <div class="container header-inner">
-
-      <div class="site-identity">
-        <a href="/" class="site-wordmark">Free Range Tutors</a>
-        <span class="site-tagline">Teaching tools. Made by teachers.</span>
-      </div>
-
-      <!-- Desktop navigation -->
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="/tools" class="nav-link">Tools</a>
-        <a href="/resources" class="nav-link">Resources</a>
-        <a href="/pdfs" class="nav-link">PDFs</a>
-        <a href="/about" class="nav-link active">About</a>
-      </nav>
-
-      <!-- Mobile menu toggle -->
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </button>
-
-    </div>
-
-    <!-- Mobile navigation drawer -->
-    <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
-      <a href="/tools" class="mobile-nav-link">Tools</a>
-      <a href="/resources" class="mobile-nav-link">Resources</a>
-      <a href="/pdfs" class="mobile-nav-link">PDFs</a>
-      <a href="/about" class="mobile-nav-link">About</a>
+  <header class="dispatch-strip">
+    <a href="dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="browse.html">Toolkit</a>
+      <a href="about.html" class="nav-current" aria-current="page">About</a>
+      <a href="dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
     </nav>
   </header>
 
@@ -332,13 +313,13 @@
           <h2 class="philosophy-heading">How to use this site</h2>
 
           <div class="philosophy-body">
-            <p>There is no intended order. Browse the tools and resources sections and take what is useful. Nothing requires registration or installation. Most tools save state locally in your browser if they need to persist anything — nothing is sent to a server.</p>
+            <p>There is no intended order. Nothing requires registration or installation. Most tools save state locally in your browser if they need to persist anything — nothing is sent to a server.</p>
 
-            <p>The resources section contains printable and downloadable materials: speaking activities, field packs, task cards, and similar items. They are organised by type and level. Use them as-is, adapt them, or ignore the ones that do not suit your context. They are not prescriptive.</p>
+            <p>If you already know what you need for the next lesson, <a href="dispatch.html" style="text-decoration: underline; text-underline-offset: 2px;">Dispatch</a> is the fastest way in — answer a couple of quick questions and it finds you something usable in seconds. If you'd rather look around and see what's here, <a href="browse.html" style="text-decoration: underline; text-underline-offset: 2px;">Toolkit</a> lays everything out by what you're trying to accomplish — teaching an activity, finding a tool, setting homework, or managing your own teaching admin.</p>
 
-            <p>The tools section contains web apps that run entirely in the browser. Some are stable and well-tested. Some are marked as beta or experimental — meaning they work but may have rough edges, or are still being refined based on classroom use. The badges on each card are an honest indication of where a tool currently sits.</p>
+            <p>Some things you'll find are stable and well-tested. Some are marked as beta or experimental — meaning they work but may have rough edges, or are still being refined based on classroom use. The badges on each card are an honest indication of where something currently sits.</p>
 
-            <p>If something does not work as expected, the contact page is there. This is a small project and feedback goes directly to the person who built it.</p>
+            <p>If something does not work as expected, feedback is welcome. This is a small project and it goes directly to the person who built it.</p>
           </div>
 
         </div>

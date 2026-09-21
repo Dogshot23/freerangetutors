@@ -1,0 +1,49 @@
+/* ============================================================
+   THE DISPATCH — about.html header/nav only
+   Brings About's header into the same Dispatch-era pattern used
+   by dispatch-home.html/dispatch.html/browse.html, without
+   touching About's own existing body content or styling (that
+   stays on style.css, unchanged). Depends on dispatch-tokens.css.
+
+   This block is deliberately a copy of the header rules already
+   duplicated identically across dispatch.css/browse.css/
+   dispatch-home.css — that per-page duplication is this project's
+   existing convention for the shared header, not a new pattern
+   introduced here.
+   ============================================================ */
+
+.dispatch-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--gutter);
+  border-bottom: 2px solid var(--ink);
+  flex-wrap: wrap;
+  gap: 10px;
+  background: var(--paper);
+}
+.dispatch-wordmark {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.dispatch-nav { display: flex; gap: 18px; align-items: center; }
+.dispatch-nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.dispatch-nav a:hover { color: var(--ink); }
+.dispatch-nav a.nav-current { color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; }
+.dispatch-nav .nav-dispatch-cta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--signal-time);
+  border: 1px solid var(--signal-time);
+  padding: 5px 10px;
+  border-radius: 1px;
+}
+.dispatch-nav .nav-dispatch-cta:hover { background: var(--signal-time); color: var(--signal-time-ink); }
