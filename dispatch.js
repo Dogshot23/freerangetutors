@@ -257,7 +257,8 @@
       return;
     }
 
-    const statusText = result.status === 'match' ? Object.keys(state.answers).length + ' matches' : 'Closest useful option';
+    const matchCount = result.results.length;
+    const statusText = result.status === 'match' ? matchCount + ' match' + (matchCount === 1 ? '' : 'es') : 'Closest useful option';
     body.appendChild(el('div', { class: 'results-status', text: statusText }));
     if (result.note) {
       body.appendChild(el('div', { class: 'results-note', text: result.note }));
