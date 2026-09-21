@@ -119,16 +119,38 @@ console.log('\nTest 7 — deliberately impossible: 5 min / young_learner / C1 / 
 /* ---- Focused unit checks on scoring internals ---- */
 console.log('\nUnit checks — bestUsableMinutes()');
 {
-  const fieldPack = catalogue.find(function (r) { return r.id === 'field-packs'; });
-  check('field-packs (45 min, 10 min alt) resolves to 10 as the best usable duration',
-    DispatchMatch._internal.bestUsableMinutes(fieldPack) === 10);
+  // Synthetic fixture (dual-duration resource, 45 min primary / 10 min alt) —
+  // previously the real "field-packs" catalogue entry, which was a content
+  // placeholder removed from the live catalogue. Kept as a synthetic fixture
+  // here since the algorithm behaviour it exercises (alt-duration resolution)
+  // is unrelated to whether that specific product content ever gets built.
+  const dualDurationResource = {
+    id: 'synthetic-dual-duration', name: 'Synthetic Dual-Duration Resource', card_style: 'activity',
+    resource_type: 'printable', intent: ['teach'], skills: ['speaking'],
+    age_group: { mode: 'specific', values: ['adult'] }, cefr_level: { mode: 'specific', values: ['B1', 'B2'] },
+    group_fit: { mode: 'specific', values: ['pair', 'group'] },
+    prep_level: 'none', activity_time_minutes: 45, duration_alt_minutes: 10,
+    source_category: 'own_original'
+  };
+  check('a 45 min / 10 min alt resource resolves to 10 as the best usable duration',
+    DispatchMatch._internal.bestUsableMinutes(dualDurationResource) === 10);
 }
 
 console.log('\nUnit checks — hard filter excludes grossly incompatible duration only for small windows');
 {
-  const conversationSystems = catalogue.find(function (r) { return r.id === 'conversation-systems'; }); // 40 min, no alt
-  const passesAt5 = DispatchMatch._internal.passesHardFilter(conversationSystems, { time: 5 });
-  const passesAt30 = DispatchMatch._internal.passesHardFilter(conversationSystems, { time: 30 });
+  // Synthetic fixture (40 min, no alt duration) — previously the real
+  // "conversation-systems" catalogue entry, removed as a content placeholder;
+  // see note above.
+  const longFormNoAltResource = {
+    id: 'synthetic-long-form-no-alt', name: 'Synthetic Long-Form Resource', card_style: 'activity',
+    resource_type: 'lesson', intent: ['teach'], skills: ['speaking'],
+    age_group: { mode: 'specific', values: ['adult'] }, cefr_level: { mode: 'specific', values: ['B2', 'C1'] },
+    group_fit: { mode: 'specific', values: ['group'] },
+    prep_level: 'moderate', activity_time_minutes: 40, duration_alt_minutes: null,
+    source_category: 'own_original'
+  };
+  const passesAt5 = DispatchMatch._internal.passesHardFilter(longFormNoAltResource, { time: 5 });
+  const passesAt30 = DispatchMatch._internal.passesHardFilter(longFormNoAltResource, { time: 30 });
   check('a 40-min resource with no alt is excluded from a 5-min request', passesAt5 === false);
   check('the same 40-min resource is NOT hard-excluded from a 30-min request (soft penalty instead)', passesAt30 === true);
 }

@@ -151,7 +151,7 @@ console.log('\n"Your Own Tools" tile never surfaces a teaching-only resource');
   const teachOnlyLeaked = list.some(function (r) { return r.intent.indexOf('manage') === -1; });
   check('every resource under "Your Own Tools" has manage in its intent', teachOnlyLeaked === false);
 
-  const teachActivityIds = ['speaking-experiments', 'information-gap', 'field-packs', 'conversation-systems', 'gtmk-wonderland', 'islcollective'];
+  const teachActivityIds = ['speaking-experiments', 'gtmk-wonderland', 'islcollective'];
   const present = list.some(function (r) { return teachActivityIds.indexOf(r.id) !== -1; });
   check('none of the real teaching activities appear under "Your Own Tools"', present === false);
 }
@@ -202,7 +202,11 @@ console.log('\nEmpty categories return an honest empty array, never fabricated r
   // deliberately, rather than silently drifting.
   check('"grammar" tile is genuinely empty in the current catalogue (no fabricated content)', grammar.length === 0);
   check('"listen_watch" tile is genuinely empty in the current catalogue (no fabricated content)', listen.length === 0);
-  check('vocab-tagged resources exist (Field Pack 5, Wonderland both carry vocab as a secondary skill)', vocab.length === 2);
+  // Field Pack 5 was a placeholder record (no real content) and was removed
+  // from the live catalogue; Wonderland is now the only real vocab-tagged
+  // teach resource. Updated deliberately, not silently, per this file's own
+  // stated convention above.
+  check('vocab-tagged resources exist (Wonderland carries vocab as a secondary skill)', vocab.length === 1);
 }
 
 console.log('\n' + passed + ' passed, ' + failed + ' failed');

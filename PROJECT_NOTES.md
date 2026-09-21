@@ -35,3 +35,31 @@ See the Tools Content Migration Map for the reasoning.
   Describe the rough pace of a lesson and get a suggestion for
   redistribution. Might merge this into ZARD instead of making it a
   separate tool.
+
+## Removed placeholder resources (formerly live catalogue entries)
+
+These three were carried into the current resource schema during the tools
+migration with real metadata but no actual content behind them — never
+built, in any era of the site. Removed from the live catalogue (data/
+manifest.json and their data/resources/*.json records deleted) once that
+was confirmed. Concepts preserved here in case any of them gets built later;
+none is scheduled.
+
+- **Information Gap Files** — Classic ESL information-gap pairs (Student A /
+  Student B sheets, communicate to fill in what the other has) rebuilt for
+  adult learners, with topics chosen for genuine interest rather than
+  textbook blandness. A2–B2, pairs, ~15 min, light prep. Teacher note: "Built
+  these because I couldn't find good adult-appropriate ones anywhere."
+- **Printable Field Pack 5 — The Neighbourhood** — Self-contained, no-prep
+  printable lesson pack on local-area observation, covering a full lesson
+  arc (45 min) with a genuinely usable 10-minute subset for filler use. B1–
+  B2, pair/group. Teacher note: "Runs long, but the first 10 minutes alone
+  hold up as a filler if you're short on time." The "5" in the name implies
+  a series (packs 1–4) that was never otherwise referenced or built.
+- **Conversation Systems** — Structured facilitation approaches for running
+  conversation classes without falling into the question-answer loop —
+  guides plus printable prompt sets. B2–C1, group, 40 min, moderate prep.
+  Teacher note: "Took me a few years of trial and error to develop these.
+  Still evolving." Of the three, this one reads as the least finished at
+  the source — the practice itself, not just the write-up, was still being
+  developed.
