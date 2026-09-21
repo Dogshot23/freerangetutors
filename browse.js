@@ -3,26 +3,40 @@
    Consumes data/resources.js (FRT.all / FRT.byIntent) and the
    existing renderResourceCard component. No second source of
    truth for categories or resources — every grouping below reads
-   directly from each resource's own skills/resource_type/
+   directly from each resource's own intent/skills/resource_type/
    source_category fields, the same fields Dispatch and the
    homepage already use.
 
-   Schema migration note (Stage 4.5): this page's section names
-   ("By purpose" etc.) predate the intent/resource_type taxonomy
-   change and are repointed here only enough to keep working
-   against the new data shape — the real Toolkit redesign (per
-   the Product Decisions doc) is a separate, later stage.
+   Taxonomy routing note: "By purpose" (Talking/Playing/Vocabulary/
+   Grammar/Listening) and the intent filter strip are gated to
+   intent:"teach" first, then narrowed by skills/resource_type —
+   mirrors the Dispatch fork's own intent-then-detail pattern, so a
+   manage/find_tool resource can never surface under a teaching-
+   purpose heading. "By situation" (prep_level, resource_type) and
+   "By origin" (source_category) are untouched — neither depends on
+   intent at all. Browse currently has no section that surfaces
+   manage/find_tool resources (the 4 FRT tools) — a known, flagged
+   gap, not fixed here; adding one would be a Browse redesign,
+   explicitly out of scope for this taxonomy-routing pass.
+
+   Section names/labels are unchanged from before this pass — this
+   is a routing migration, not the Toolkit redesign (per the
+   Product Decisions doc), which remains a separate, later stage.
    ============================================================ */
 
 (function () {
 
   /* ---- BY PURPOSE ----
-     Schema migration note (Stage 4.5): the old single-valued 'pathways'
-     field no longer exists — replaced by 'intent' (teach/find_tool/
-     homework/manage) plus the unchanged, still-open-ended 'skills' tag
-     list. These groups now read 'skills' so the page keeps working;
-     the groups themselves are unchanged pending the real Toolkit
-     redesign (explicitly a later stage, not this one). */
+     Taxonomy routing (post Teach/Find-a-Tool fork migration): these
+     groups are teaching-purpose by definition (Talking, Playing,
+     Vocabulary, Grammar, Listening/Watching are all things a teacher
+     does IN a lesson), so every group is gated to intent:"teach" first,
+     then narrowed by 'skills' (still open-ended, unchanged) or
+     resource_type — the same hard-gate-then-tag pattern the Dispatch
+     fork itself uses, kept consistent across the two pages. This is
+     what guarantees a manage/find_tool resource (an FRT admin tool)
+     can never surface under a teaching-purpose heading, regardless of
+     any skill tag it might incidentally carry. */
   const PURPOSE_GROUPS = [
     { skill: 'speaking', label: 'Talking' },
     { skill: 'play', label: 'Playing' },
@@ -122,11 +136,16 @@
     return block;
   }
 
+  function teachResources(allRes) {
+    return allRes.filter(function (r) { return r.intent && r.intent.indexOf('teach') !== -1; });
+  }
+
   function resourcesForSkillGroup(skill, allRes) {
+    const teach = teachResources(allRes);
     if (skill === 'play') {
-      return allRes.filter(function (r) { return r.resource_type === 'game'; });
+      return teach.filter(function (r) { return r.resource_type === 'game'; });
     }
-    return allRes.filter(function (r) { return r.skills && r.skills.indexOf(skill) !== -1; });
+    return teach.filter(function (r) { return r.skills && r.skills.indexOf(skill) !== -1; });
   }
 
   function renderPurposeSection(container) {

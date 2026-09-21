@@ -115,37 +115,42 @@
     return a;
   }
 
-  /* Schema migration note (Stage 4.5): the old single-valued 'pathways'
-     field (which doubled as both teacher-intent and skill-tag) no longer
-     exists — replaced by 'intent' (teach/find_tool/homework/manage) and
-     the unchanged, still-open-ended 'skills' tag list. These tile lookups
-     are repointed to the fields that still exist so the page keeps
-     working; the tiles themselves are unchanged pending the real
-     Dispatch/homepage redesign (explicitly a later stage, not this one). */
-  // Old pathway key -> current skill tag / resource_type it actually maps to.
-  // 'talking' meant speaking, 'listen_watch' meant listening, 'grammar' and
-  // 'vocab' are unchanged; 'play' has no skill equivalent — it maps to the
-  // resource_type instead (mirrors the same mapping made in browse.js).
+  /* Taxonomy routing (post Teach/Find-a-Tool fork migration): every tile
+     is now gated by 'intent' first, the same hard gate the Dispatch fork
+     itself uses, so a teaching-purpose tile can never surface a manage/
+     find_tool resource and vice versa — see data/dispatch-match.js's
+     intent-gate comment for why that has to be explicit rather than
+     implicit. 'skills' (still open-ended, unchanged) and 'resource_type'
+     remain the secondary discriminators within the teach set, exactly as
+     data/SCHEMA.md documents them. Old pathway key -> current skill tag:
+     'talking' meant speaking, 'listen_watch' meant listening; 'play' has
+     no skill equivalent, so it reads resource_type instead — same mapping
+     browse.js uses, kept consistent between the two pages. */
   const PATHWAY_TO_SKILL = { talking: 'speaking', vocab: 'vocab', grammar: 'grammar', listen_watch: 'listening' };
+
+  function teachResources(allResources) {
+    return allResources.filter(function (r) { return r.intent && r.intent.indexOf('teach') !== -1; });
+  }
 
   function resourcesForTile(tile, allResources) {
     if (tile.pathway === 'emergency') {
       // No direct schema equivalent for the old 'emergency' pathway tag —
       // approximate with short, no-prep teaching activities until the
-      // Dispatch redesign defines this properly.
-      return allResources.filter(function (r) {
-        return r.intent && r.intent.indexOf('teach') !== -1
-          && r.activity_time_minutes != null && r.activity_time_minutes <= 10;
+      // Dispatch redesign defines this properly. Explicitly intent-gated
+      // (via teachResources) so a quick-admin tool can never appear here.
+      return teachResources(allResources).filter(function (r) {
+        return r.activity_time_minutes != null && r.activity_time_minutes <= 10;
       });
     }
     if (tile.pathway === 'tools') {
       return FRT.byIntent('manage');
     }
+    const teach = teachResources(allResources);
     if (tile.pathway === 'play') {
-      return allResources.filter(function (r) { return r.resource_type === 'game'; });
+      return teach.filter(function (r) { return r.resource_type === 'game'; });
     }
     const skill = PATHWAY_TO_SKILL[tile.pathway];
-    return allResources.filter(function (r) {
+    return teach.filter(function (r) {
       return skill && r.skills && r.skills.indexOf(skill) !== -1;
     });
   }
