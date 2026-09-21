@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dispatch — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="dispatch-tokens.css" />
+  <link rel="stylesheet" href="components/resource-card.css" />
+  <link rel="stylesheet" href="dispatch.css" />
+</head>
+<body class="dispatch-page">
+
+  <header class="dispatch-strip">
+    <a href="dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="tools/index.html">Tools</a>
+      <a href="resources/index.html">Browse</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main class="ticket-wrap">
+
+    <div class="ticket-heading">
+      <h1>Tell me the problem.</h1>
+      <p>Answer what's relevant, skip what isn't. Three or four questions, then 1&ndash;3 useful options &mdash; not a search form.</p>
+    </div>
+
+    <div class="ticket" id="ticket" role="form" aria-label="Dispatch">
+      <div class="ticket-header">
+        <span class="ticket-title">Dispatch Ticket</span>
+        <span class="ticket-number" id="ticket-number">No. &mdash;</span>
+      </div>
+      <div class="ticket-body" id="ticket-body">
+        <!-- rendered by dispatch.js -->
+      </div>
+    </div>
+
+  </main>
+
+  <script src="data/resources.js"></script>
+  <script src="data/dispatch-match.js"></script>
+  <script src="components/resource-card.js"></script>
+  <script src="dispatch.js"></script>
+</body>
+</html>
