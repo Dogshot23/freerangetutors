@@ -1,0 +1,200 @@
+/* ============================================================
+   THE DISPATCH — homepage-specific styles
+   Depends on dispatch-tokens.css. Component styles (cards) live
+   in components/resource-card.css.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body.dispatch {
+  margin: 0;
+  background: var(--paper);
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+a { color: inherit; }
+
+.dispatch-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--gutter);
+  border-bottom: 2px solid var(--ink);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.dispatch-wordmark {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.dispatch-strip-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.dispatch-readout {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.dispatch-nav { display: flex; gap: 18px; }
+.dispatch-nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.dispatch-nav a:hover { color: var(--ink); }
+
+.dispatch-question {
+  padding: 36px var(--gutter) 24px;
+}
+.dispatch-question h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 1.03;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.dispatch-question p {
+  margin: 12px 0 0;
+  font-size: 15px;
+  color: var(--ink-muted);
+  max-width: 56ch;
+}
+
+/* ---- the board ---- */
+.dispatch-board {
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.dispatch-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 116px;
+  padding: 22px 22px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: transform .12s ease;
+}
+.dispatch-tile:hover { transform: translateY(-2px); }
+.dispatch-tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.dispatch-tile--emergency { grid-column: span 2; background: var(--signal-time); }
+.dispatch-tile--emergency .dispatch-tile-kicker,
+.dispatch-tile--emergency .dispatch-tile-headline,
+.dispatch-tile--emergency .dispatch-tile-sub { color: var(--signal-time-ink); }
+
+.dispatch-tile--own { background: var(--ink); }
+.dispatch-tile--own .dispatch-tile-headline,
+.dispatch-tile--own .dispatch-tile-sub { color: var(--paper); }
+
+.dispatch-tile--teal { background: var(--signal-type); }
+.dispatch-tile--teal .dispatch-tile-headline,
+.dispatch-tile--teal .dispatch-tile-sub { color: var(--signal-type-ink); }
+
+.dispatch-tile--gold { background: var(--signal-level); }
+.dispatch-tile--gold .dispatch-tile-headline,
+.dispatch-tile--gold .dispatch-tile-sub { color: var(--signal-level-ink); }
+
+.dispatch-tile--raspberry { background: var(--signal-attn); }
+.dispatch-tile--raspberry .dispatch-tile-headline,
+.dispatch-tile--raspberry .dispatch-tile-sub { color: var(--signal-attn-ink); }
+
+.dispatch-tile--outline {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  padding: 20px 20px;
+}
+.dispatch-tile--outline .dispatch-tile-headline { color: var(--ink); }
+.dispatch-tile--outline .dispatch-tile-sub { color: var(--ink-muted); }
+
+.dispatch-tile-kicker {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.dispatch-tile-headline {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.08;
+}
+.dispatch-tile--emergency .dispatch-tile-headline { font-size: 32px; }
+.dispatch-tile-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  margin-top: 6px;
+  opacity: .85;
+}
+.dispatch-tile-sub--empty { opacity: .65; font-style: italic; }
+
+/* ---- just added strip ---- */
+.dispatch-just-added {
+  margin-top: 30px;
+  padding: 16px var(--gutter);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  gap: 30px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.dispatch-just-added-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.dispatch-just-added-item {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink);
+}
+.dispatch-just-added-item span { color: var(--ink-muted); }
+
+/* ---- featured resource strip ---- */
+.dispatch-featured {
+  padding: 30px var(--gutter) 10px;
+}
+.dispatch-featured h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+
+/* ---- footer ---- */
+.dispatch-footer {
+  padding: 26px var(--gutter) 44px;
+}
+.dispatch-footer p {
+  margin: 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-muted);
+  max-width: 60ch;
+}
+
+/* ---- mobile ---- */
+@media (max-width: 860px) {
+  .dispatch-board { grid-template-columns: 1fr; }
+  .dispatch-tile--emergency { grid-column: span 1; }
+}
+
+@media (max-width: 600px) {
+  .dispatch-strip-right { gap: 14px; }
+  .dispatch-readout { display: none; } /* nav + emergency access matter more than the count on a phone */
+  .dispatch-just-added { flex-direction: column; gap: 8px; }
+}

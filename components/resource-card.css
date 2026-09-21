@@ -1,0 +1,160 @@
+/* ============================================================
+   THE DISPATCH — resource-card component styles
+   Depends on dispatch-tokens.css being loaded first.
+   ============================================================ */
+
+.rc-card {
+  display: block;
+  background: var(--paper-card);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform .12s ease;
+}
+.rc-card:hover { transform: translateY(-2px); }
+.rc-card:focus-visible { outline: 2px solid var(--signal-time); outline-offset: 2px; }
+
+.rc-card--own { border-width: 2px; }
+.rc-card--collection { border-style: dashed; }
+
+/* ---- metadata strip: the loudest element on the card ---- */
+.rc-meta {
+  display: flex;
+  border-bottom: 1px solid var(--ink);
+}
+.rc-meta-cell {
+  flex: 1;
+  padding: 11px 8px;
+  border-right: 1px solid var(--ink);
+  min-width: 0;
+}
+.rc-meta-cell:last-child { border-right: none; }
+.rc-meta-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: .09em;
+  color: var(--ink-faint);
+  margin-bottom: 2px;
+}
+.rc-meta-val {
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1.15;
+  white-space: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+/* Sizing is class-driven, not position-driven (nth-child), so specificity
+   stays flat and predictable: every modifier below is a compound selector
+   of the same weight, in the order weakest -> strongest constraint. */
+
+/* TYPE ("PDF pack") and any value the renderer flags as long (> 5 chars,
+   e.g. "Moderate", "Varies") run wider than a typical TIME/LEVEL figure. */
+.rc-meta-val.rc-meta-val--long {
+  font-size: 15px;
+}
+
+/* Dim values (no fixed time/level, or "varies") drop to the mono face
+   entirely and go smallest — this always wins over --long since a dim
+   value is also always a long/absent one. */
+.rc-meta-val.rc-meta-val--dim {
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* ---- title / description / thumbnail ---- */
+.rc-body {
+  display: flex;
+  gap: 14px;
+  padding: 16px 16px 0;
+}
+.rc-title-block { flex: 1; min-width: 0; }
+.rc-title {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.rc-desc {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+.rc-thumb {
+  width: 104px;
+  height: 78px;
+  flex-shrink: 0;
+  border: 3px solid var(--ink);
+  overflow: hidden;
+  background: var(--rule);
+}
+.rc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rc-thumb--placeholder {
+  background: repeating-linear-gradient(135deg, var(--rule) 0 8px, var(--paper) 8px 16px);
+}
+
+/* ---- teacher's note ---- */
+.rc-note {
+  margin: 12px 16px 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--rule);
+}
+.rc-note p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+/* ---- footer: attribution + open ---- */
+.rc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px 16px;
+  margin-top: 12px;
+  gap: 8px;
+}
+.rc-footer-left { display: flex; gap: 6px; min-width: 0; }
+.rc-chip {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .03em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rc-chip--gtmk {
+  color: var(--ink);
+  font-weight: 600;
+}
+.rc-chip--status { color: var(--ink-muted); }
+.rc-open {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .03em;
+  color: var(--signal-time);
+  flex-shrink: 0;
+}
+
+/* ---- card grid: shared layout for any strip of cards ---- */
+.rc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .rc-body { flex-direction: column-reverse; }
+  .rc-thumb { width: 100%; height: 140px; }
+  .rc-meta-val { font-size: 17px; }
+}
