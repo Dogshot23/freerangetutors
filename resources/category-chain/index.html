@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Category Chain — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    /* ============================================================
+       RESOURCE PAGE — shared minimal pattern for print-and-go
+       resources (identical rules to speaking-experiments/index.html
+       and student-missions/index.html, duplicated per this project's
+       existing per-page CSS convention rather than factored into a
+       shared stylesheet).
+       ============================================================ */
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-steps {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: var(--space-10);
+    }
+
+    .res-step {
+      padding: var(--space-5) 0;
+      border-bottom: 1px dashed var(--color-border-light);
+    }
+
+    .res-step:first-child { border-top: 1px dashed var(--color-border-light); }
+
+    .res-step-head {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .res-step-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      flex-shrink: 0;
+    }
+
+    .res-step-title {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .res-step-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      max-width: 58ch;
+    }
+
+    .res-example-box {
+      margin-top: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text);
+    }
+
+    .res-example-box strong { color: var(--color-text); }
+
+    .res-category-list {
+      margin-top: var(--space-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .res-category-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-surface);
+      border-radius: 2px;
+      color: var(--color-text-muted);
+    }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-step { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=talking">Toolkit</a> / Category Chain
+        </p>
+        <h1 class="res-title">Category Chain</h1>
+        <p class="res-lead">A shrinking-time-limit naming game — go around the group adding items to a category without repeating, until someone hesitates, repeats, or runs out of time. Nothing to prepare beyond picking a category out loud.</p>
+        <div class="res-meta-row">
+          <span>5 min (or stack rounds for 10+)</span>
+          <span>A2–B2</span>
+          <span>Young learner / Teen / Adult</span>
+          <span>Group</span>
+          <span>No prep</span>
+        </div>
+        <p class="res-teacher-note">"The genuine 5-minute filler I reach for when a lesson ends early and I don't want to just let class out. Needs literally nothing prepared."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <div class="res-steps">
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">01</span><span class="res-step-title">Pick a category</span></div>
+            <p class="res-step-body">Say it out loud — anything with 15+ obvious members works. See the ready-made list below if you don't want to think one up on the spot.</p>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">02</span><span class="res-step-title">Go around the group in order</span></div>
+            <p class="res-step-body">Each student names one item that hasn't been said yet. Start with a generous limit — 5 seconds to answer — so round one feels easy.</p>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">03</span><span class="res-step-title">Drop the time limit</span></div>
+            <p class="res-step-body">If the group's enjoying it, tighten to 3 seconds for round two. This is where it actually gets fun — the pressure is the point.</p>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">04</span><span class="res-step-title">Someone's out (or the round restarts)</span></div>
+            <p class="res-step-body">On a repeat, a hesitation past the limit, or an item that doesn't genuinely belong — your call whether that student sits out or the whole group just restarts the category. Either works; pick whichever keeps the energy up for your group.</p>
+          </div>
+
+        </div>
+
+        <div class="res-example-box">
+          <strong>Ready-made categories</strong> — grab one, no thinking required:
+          <div class="res-category-list">
+            <span class="res-category-tag">Foods</span>
+            <span class="res-category-tag">Jobs</span>
+            <span class="res-category-tag">Animals</span>
+            <span class="res-category-tag">Things you find in a kitchen</span>
+            <span class="res-category-tag">Verbs of movement (walk, run, crawl...)</span>
+            <span class="res-category-tag">Countries</span>
+            <span class="res-category-tag">Things that are cold</span>
+            <span class="res-category-tag">Sports</span>
+            <span class="res-category-tag">Things in a classroom</span>
+            <span class="res-category-tag">Emotions</span>
+          </div>
+        </div>
+
+        <p class="res-footer-note">Works identically online — just go around the video grid in a fixed order instead of around the room. Stack 3–4 categories back to back if you need more than five minutes; each round resets the "no repeats" rule.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escalation Chain — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-steps {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: var(--space-8);
+    }
+
+    .res-step {
+      padding: var(--space-5) 0;
+      border-bottom: 1px dashed var(--color-border-light);
+    }
+
+    .res-step:first-child { border-top: 1px dashed var(--color-border-light); }
+
+    .res-step-head {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .res-step-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      flex-shrink: 0;
+    }
+
+    .res-step-title {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .res-step-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      max-width: 58ch;
+    }
+
+    .res-example-box {
+      margin-top: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .res-example-box strong { color: var(--color-text); }
+
+    .res-setting-note {
+      margin-top: var(--space-8);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .res-setting-note strong { color: var(--color-text); }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-step { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=talking">Toolkit</a> / Escalation Chain
+        </p>
+        <h1 class="res-title">Escalation Chain</h1>
+        <p class="res-lead">A short, plain story passes down a chain of retellings — each student adds one deliberate exaggeration before passing it on. Compare the wildly escalated final version to where it started. Real listening pressure, with a built-in payoff.</p>
+        <div class="res-meta-row">
+          <span>10 min</span>
+          <span>B1–C1</span>
+          <span>Teen / Adult</span>
+          <span>Group (4–5+)</span>
+          <span>No prep</span>
+        </div>
+        <p class="res-teacher-note">"Genuine listening pressure with a built-in payoff — the gap between round one and the final retelling is usually the funniest five minutes of the lesson."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <div class="res-steps">
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">01</span><span class="res-step-title">Start plain</span></div>
+            <p class="res-step-body">Give the first student a short, boring 3-sentence scenario. Nothing exciting — that's the point, since it's about to become very exciting.</p>
+            <div class="res-example-box"><strong>Starting scenario:</strong> "I was late for work. My bus didn't come. I had to walk."</div>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">02</span><span class="res-step-title">Retell with one exaggeration</span></div>
+            <p class="res-step-body">That student retells it to the next person in the chain, but must add exactly one exaggerated detail — no more, no less.</p>
+            <div class="res-example-box">e.g. "The bus didn't come because it caught fire" or "the walk was through a sudden hailstorm."</div>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">03</span><span class="res-step-title">Pass it on, again and again</span></div>
+            <p class="res-step-body">The next student retells what they just heard — including the new detail — to the person after them, adding one more exaggeration of their own. Continue through the whole chain.</p>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">04</span><span class="res-step-title">Reveal and compare</span></div>
+            <p class="res-step-body">The last student tells the final version to the whole class. Compare it out loud against the original 3-sentence version — the contrast between "I was late" and whatever it's become is the entire payoff.</p>
+          </div>
+
+        </div>
+
+        <div class="res-setting-note">
+          <strong>In-person only, by design:</strong> this needs a genuine chain — one retelling passed along semi-privately, not the whole group hearing every version at once. A synchronous video call collapses that, since everyone hears every retelling simultaneously and the "surprise" of the final reveal disappears. If your platform supports moving students through breakout rooms one at a time, you could adapt it — but that's a specific setup this activity doesn't assume you have.
+        </div>
+
+        <p class="res-footer-note">Needs at least 4–5 students in the chain for the escalation to build up properly — below that, there isn't enough distance between the start and the end for the comparison to land.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

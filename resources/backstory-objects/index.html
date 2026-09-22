@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backstory Objects — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-steps {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: var(--space-8);
+    }
+
+    .res-step {
+      padding: var(--space-5) 0;
+      border-bottom: 1px dashed var(--color-border-light);
+    }
+
+    .res-step:first-child { border-top: 1px dashed var(--color-border-light); }
+
+    .res-step-head {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .res-step-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      flex-shrink: 0;
+    }
+
+    .res-step-title {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .res-step-body {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      max-width: 58ch;
+    }
+
+    .res-example-box {
+      margin-top: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .res-example-box strong { color: var(--color-text); }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-step { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=talking">Toolkit</a> / Backstory Objects
+        </p>
+        <h1 class="res-title">Backstory Objects</h1>
+        <p class="res-lead">Students invent and defend an implausible backstory for a random object already within reach — no advance choosing, no materials. Works identically online and in person.</p>
+        <div class="res-meta-row">
+          <span>8 min</span>
+          <span>B1–C1</span>
+          <span>Teen / Adult</span>
+          <span>Solo, pairs, or groups</span>
+          <span>No prep</span>
+        </div>
+        <p class="res-teacher-note">"Zero materials, works identically online and in person — 'grab something within arm's reach' is the entire setup."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <div class="res-steps">
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">01</span><span class="res-step-title">Grab an object, right now</span></div>
+            <p class="res-step-body">Each student grabs any object within arm's reach — a pen, a mug, a phone case, whatever's nearby. No preparation, no choosing in advance. This is what makes it genuinely zero-prep: the object is never planned.</p>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">02</span><span class="res-step-title">Invent the backstory</span></div>
+            <p class="res-step-body">In pairs (or one-on-one with you), each student invents where the object has really been, who owned it before, and how it ended up here right now. The less plausible, the better.</p>
+            <div class="res-example-box">Push for committed, specific detail rather than something vague: not "it's old," but "it belonged to my grandfather's rival in a card game he lost in 1974."</div>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">03</span><span class="res-step-title">Cross-examine</span></div>
+            <p class="res-step-body">The partner asks 2–3 follow-up questions to press for more detail or catch a hole in the story. This is where the real language work happens — not in the initial invention, but in defending it under questioning.</p>
+          </div>
+
+          <div class="res-step">
+            <div class="res-step-head"><span class="res-step-num">04</span><span class="res-step-title">Share the best one (optional, group only)</span></div>
+            <p class="res-step-body">If running with a full class, each pair nominates their best backstory to share aloud afterward.</p>
+          </div>
+
+        </div>
+
+        <p class="res-footer-note">Works as a warm-up, a cooldown, or a genuine filler when a lesson runs short and there's nothing else planned — including a 1:1 online lesson, where "grab something near you" works exactly the same as it would in person.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

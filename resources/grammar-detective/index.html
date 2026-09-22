@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grammar Detective — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-how {
+      margin-bottom: var(--space-10);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .res-how strong { color: var(--color-text); }
+
+    .res-subheading {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: var(--space-10) 0 var(--space-5);
+    }
+
+    .res-paragraph-card {
+      padding: var(--space-6);
+      border: 1px solid var(--color-border-light);
+      border-radius: 2px;
+      background: var(--color-bg);
+      margin-bottom: var(--space-6);
+    }
+
+    .res-paragraph-target {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-3);
+    }
+
+    .res-paragraph-text {
+      font-size: var(--text-base);
+      color: var(--color-text);
+      line-height: 1.75;
+      margin-bottom: var(--space-4);
+    }
+
+    .res-paragraph-errors {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      border-top: 1px dashed var(--color-border-light);
+      padding-top: var(--space-4);
+    }
+
+    .res-paragraph-errors strong { color: var(--color-text); }
+
+    .res-generate-box {
+      margin-top: var(--space-10);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .res-generate-box strong { color: var(--color-text); }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-paragraph-card { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=teach">Toolkit</a> / Grammar Detective
+        </p>
+        <h1 class="res-title">Grammar Detective</h1>
+        <p class="res-lead">Tell students exactly how many grammar errors are hiding in a short paragraph — never where — and let them race to find and correct all of them. Three ready-to-run paragraphs below, so the first lesson needs nothing written in advance.</p>
+        <div class="res-meta-row">
+          <span>10 min</span>
+          <span>B1–B2</span>
+          <span>Teen / Adult</span>
+          <span>Solo, pairs, or groups</span>
+          <span>Light prep</span>
+        </div>
+        <p class="res-teacher-note">"The only grammar activity I use that doesn't feel like homework in disguise — telling them the exact error count turns it into a real hunt instead of a guessing game."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <p class="res-how"><strong>How to run it:</strong> display or read one of the paragraphs below, state the exact error count out loud, and let students work alone, in pairs, or in groups — this one genuinely scales to any grouping. First to find every error (or whoever's closest when time's up) explains their corrections to the class. Reuse the same paragraph across different classes; only the planted errors need adapting to what a specific group is actually getting wrong.</p>
+
+        <h2 class="res-subheading">Three ready-to-run paragraphs</h2>
+
+        <div class="res-paragraph-card">
+          <p class="res-paragraph-target">Target: subject-verb agreement &middot; 5 errors</p>
+          <p class="res-paragraph-text">My sister work in a hospital near our house. She usually starts at seven and finish around three. On Mondays, her and her colleague covers the morning shift together. They takes turns checking on patients, and everybody agree that the job is exhausting but worth it. Most days she come home too tired to talk much.</p>
+          <p class="res-paragraph-errors"><strong>The 5 errors:</strong> "work" &rarr; works &middot; "finish" &rarr; finishes &middot; "her and her colleague covers" &rarr; cover &middot; "They takes" &rarr; take &middot; "everybody agree" &rarr; agrees. ("she come" is a genuine 6th slip if you want a harder version — decide in advance which count you're announcing.)</p>
+        </div>
+
+        <div class="res-paragraph-card">
+          <p class="res-paragraph-target">Target: past simple vs. present perfect &middot; 4 errors</p>
+          <p class="res-paragraph-text">I have moved to this city three years ago and I never looked back. Since then, I have visited every neighbourhood at least once. Last month, I have gone to a new restaurant that a friend recommended, and it was amazing. I live here since 2023, and I don't plan on leaving anytime soon.</p>
+          <p class="res-paragraph-errors"><strong>The 4 errors:</strong> "have moved... three years ago" &rarr; moved (specific past time needs past simple) &middot; "Last month, I have gone" &rarr; went &middot; "I live here since 2023" &rarr; I have lived here since 2023 &middot; the fourth is a repeat of the same pattern if you want to point students back at "have moved" a second time — or swap in "I have moved" once and count only 3 if you prefer a cleaner set.</p>
+        </div>
+
+        <div class="res-paragraph-card">
+          <p class="res-paragraph-target">Target: articles (a / an / the / no article) &middot; 6 errors</p>
+          <p class="res-paragraph-text">Yesterday I went to the cinema with a friend of mine to watch new film everyone's been talking about. We got the popcorn and sat near a front. Film itself was okay, but a ending felt rushed. Afterwards we walked to a restaurant nearby and talked about a movie for an hour.</p>
+          <p class="res-paragraph-errors"><strong>The 6 errors:</strong> "watch new film" &rarr; the new film &middot; "got the popcorn" &rarr; some popcorn (no "the" needed) &middot; "near a front" &rarr; near the front &middot; "Film itself" &rarr; The film itself &middot; "a ending" &rarr; the ending &middot; "talked about a movie" &rarr; talked about the movie.</p>
+        </div>
+
+        <div class="res-generate-box">
+          <strong>Making your own in under two minutes:</strong> write 5–6 plain sentences about anything (your weekend, a made-up commute, a routine). Pick one grammar point your class is actually shaky on. Go back through and break that one structure in a few sentences — don't touch anything else. Count your own errors before class so you know the number to announce. That's the entire prep.
+        </div>
+
+        <p class="res-footer-note">Keep the announced number honest — if you're not sure whether something you wrote counts as an error, it usually means the sentence is ambiguous rather than wrong, so simplify it before class rather than debating it live.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

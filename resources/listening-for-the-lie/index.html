@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listening for the Lie — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-how {
+      margin-bottom: var(--space-10);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .res-how strong { color: var(--color-text); }
+
+    .res-subheading {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: var(--space-10) 0 var(--space-5);
+    }
+
+    .res-generate-box {
+      margin-bottom: var(--space-8);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .res-generate-box strong { color: var(--color-text); }
+
+    .res-story-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .res-story {
+      padding: var(--space-5) 0;
+      border-bottom: 1px dashed var(--color-border-light);
+    }
+
+    .res-story:first-child { border-top: 1px dashed var(--color-border-light); }
+
+    .res-story-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      margin-bottom: var(--space-2);
+      display: block;
+    }
+
+    .res-story-text {
+      font-size: var(--text-base);
+      color: var(--color-text);
+      line-height: 1.75;
+      margin-bottom: var(--space-2);
+    }
+
+    .res-story-answer {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .res-story-answer strong { color: var(--color-text); }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-story { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=teach">Toolkit</a> / Listening for the Lie
+        </p>
+        <h1 class="res-title">Listening for the Lie</h1>
+        <p class="res-lead">Tell a short, true-sounding story containing one planted factual inconsistency. Students listen once, then have to catch it and explain exactly what doesn't add up. No audio file, no external resource — you are the listening material.</p>
+        <div class="res-meta-row">
+          <span>8 min</span>
+          <span>B1–B2</span>
+          <span>Teen / Adult</span>
+          <span>1:1 or group</span>
+          <span>Light prep</span>
+        </div>
+        <p class="res-teacher-note">"No audio file, no external listening resource — you are the listening material. Takes a minute to plan the contradiction, nothing else."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <p class="res-how"><strong>How to run it:</strong> tell the story out loud, at natural speed, 5–8 sentences, everyday content. Plant the contradiction naturally — don't flag it with your tone or a pause. Students listen without taking notes the first time through, then you ask: "something in that story doesn't add up — what was it?" If nobody catches it, retell once more, slightly slower, before revealing. Works one-on-one or with a full group listening together.</p>
+
+        <div class="res-generate-box">
+          <strong>The 30-second contradiction method:</strong> pick any two details that describe timing, quantity, or sequence, and make them impossible together — someone arrives somewhere before they leave somewhere else; something is described as the "first" and then a second one shows up later; a total that doesn't match the parts you listed. That's the entire generation method. The five stories below already have one built in, so you don't need to invent your own the first time.
+        </div>
+
+        <h2 class="res-subheading">Five ready-made stories</h2>
+
+        <div class="res-story-list">
+
+          <div class="res-story">
+            <span class="res-story-num">01</span>
+            <p class="res-story-text">"I left the house at six this morning because I wanted to avoid traffic. By quarter to six I was already stuck outside the office, waiting for someone to open the door."</p>
+            <p class="res-story-answer"><strong>The lie:</strong> "quarter to six" is before "six" — they claim to have arrived before they left.</p>
+          </div>
+
+          <div class="res-story">
+            <span class="res-story-num">02</span>
+            <p class="res-story-text">"My friend ordered three coffees for the table — one for herself, one for her brother, and one for me. When the waiter brought them over, there were four cups, and somehow we all had exactly what we wanted."</p>
+            <p class="res-story-answer"><strong>The lie:</strong> three coffees were ordered but four cups arrived, with no fourth person mentioned.</p>
+          </div>
+
+          <div class="res-story">
+            <span class="res-story-num">03</span>
+            <p class="res-story-text">"I was the first person to arrive at the meeting. I sat down, opened my laptop, and started reading through my notes from the last meeting, which everyone had already discussed while I was getting coffee."</p>
+            <p class="res-story-answer"><strong>The lie:</strong> if they were first to arrive, nobody could have already discussed anything before they sat down.</p>
+          </div>
+
+          <div class="res-story">
+            <span class="res-story-num">04</span>
+            <p class="res-story-text">"Last weekend I finally finished the book I'd been reading for months. It took me exactly two weeks from start to finish, which felt like a real achievement given how busy things have been."</p>
+            <p class="res-story-answer"><strong>The lie:</strong> "months" of reading contradicts "exactly two weeks from start to finish."</p>
+          </div>
+
+          <div class="res-story">
+            <span class="res-story-num">05</span>
+            <p class="res-story-text">"My neighbour knocked on my door to borrow a ladder. I told him I didn't have one, so he went home disappointed. Ten minutes later, I saw him from my window, already up on his roof, ladder and all."</p>
+            <p class="res-story-answer"><strong>The lie:</strong> if the narrator didn't have a ladder and the neighbour left empty-handed, he shouldn't have one ten minutes later.</p>
+          </div>
+
+        </div>
+
+        <p class="res-footer-note">Reuse a story across different classes — the contradiction doesn't get easier to spot just because you've told it before, since each group hears it fresh. Once you've run a few, writing your own on the spot gets fast.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

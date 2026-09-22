@@ -68,7 +68,7 @@ function resolveLegacyParam(param, allRes) {
    ============================================================ */
 console.log('The 4 Toolkit intents resolve correctly against the real catalogue');
 {
-  check('Teach Something = 4 real resources', teachResources(catalogue).length === 4);
+  check('Teach Something = 10 real resources', teachResources(catalogue).length === 10);
   check('Find a Tool = 0 real resources (genuinely empty today)', resourcesForIntent('find_tool', catalogue).length === 0);
   check('Set Homework = 1 real resource', resourcesForIntent('homework', catalogue).length === 1);
   check('Manage My Teaching = 4 real resources', resourcesForIntent('manage', catalogue).length === 4);
@@ -114,12 +114,12 @@ console.log('\nManage My Teaching\'s tool_kind filters never leak teach/find_too
    ============================================================ */
 console.log('\nLegacy query-param values still resolve to their pre-migration practical destinations');
 {
-  check('?intent=talking still resolves to the speaking-tagged teach resources (3)', resolveLegacyParam('talking', catalogue).length === 3);
-  check('?intent=vocab still resolves to the vocab-tagged teach resources (1)', resolveLegacyParam('vocab', catalogue).length === 1);
-  check('?intent=grammar still resolves empty (genuine, unchanged content gap)', resolveLegacyParam('grammar', catalogue).length === 0);
-  check('?intent=listen_watch still resolves empty (genuine, unchanged content gap)', resolveLegacyParam('listen_watch', catalogue).length === 0);
-  check('?intent=play still resolves to the one real game', resolveLegacyParam('play', catalogue).length === 1
-    && resolveLegacyParam('play', catalogue)[0].id === 'gtmk-wonderland');
+  check('?intent=talking still resolves to the speaking-tagged teach resources (5, after the Sep 2026 quick-resource batch)', resolveLegacyParam('talking', catalogue).length === 5);
+  check('?intent=vocab still resolves to the vocab-tagged teach resources (2, after the Sep 2026 quick-resource batch)', resolveLegacyParam('vocab', catalogue).length === 2);
+  check('?intent=grammar now resolves to the grammar-tagged teach resources (2, was a genuine gap until the Sep 2026 batch filled it)', resolveLegacyParam('grammar', catalogue).length === 2);
+  check('?intent=listen_watch now resolves to the listening-tagged teach resources (2, was a genuine gap until the Sep 2026 batch filled it)', resolveLegacyParam('listen_watch', catalogue).length === 2);
+  check('?intent=play still resolves to the real games (3, after the Sep 2026 batch added two more resource_type:"game" entries)', resolveLegacyParam('play', catalogue).length === 3
+    && resolveLegacyParam('play', catalogue).map(function (r) { return r.id; }).sort().join(',') === ['category-chain', 'grammar-auction', 'gtmk-wonderland'].sort().join(','));
 }
 
 /* ============================================================
@@ -165,8 +165,6 @@ console.log('\nNo stale reference to retired Browse sections or markup remains i
 console.log('\nGenuinely empty states report honestly, never fabricated');
 {
   check('Find a Tool is exactly 0 — an honest empty state, not padded', resourcesForIntent('find_tool', catalogue).length === 0);
-  check('Grammar skill filter is exactly 0 — an honest empty state, not padded', resourcesForSkill('grammar', catalogue).length === 0);
-  check('Listening skill filter is exactly 0 — an honest empty state, not padded', resourcesForSkill('listening', catalogue).length === 0);
 }
 
 console.log('\n' + passed + ' passed, ' + failed + ' failed');

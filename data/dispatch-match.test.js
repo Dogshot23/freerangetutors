@@ -263,7 +263,7 @@ console.log('\nRegression check — no remaining assumption that an empty/missin
       return r[field] && typeof r[field] === 'object' && !Array.isArray(r[field]) && typeof r[field].mode === 'string';
     });
   });
-  check('every one of the 11 real resources has proper {mode,...} objects on all three semantic-set fields', allHaveModes);
+  check('every real resource in the catalogue has proper {mode,...} objects on all three semantic-set fields', allHaveModes);
 
   // Confirm the specific bug case from the Stage 4 audit is actually fixed:
   // an FRT tool queried for a specific age/group no longer scores as a

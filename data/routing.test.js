@@ -88,6 +88,9 @@ console.log('Homepage tiles — each resolves via intent/skills/resource_type, n
   check('"tools" tile returns exactly the 4 real manage resources',
     homeResourcesForTile('tools', catalogue).length === 4);
 
+  check('"emergency" tile grows to include the Sep 2026 quick-resource batch (5 of the 6 are 10 min or under)',
+    homeResourcesForTile('emergency', catalogue).length === 6);
+
   check('"emergency" tile only returns teach resources under 10 minutes',
     homeResourcesForTile('emergency', catalogue).every(function (r) {
       return r.intent.indexOf('teach') !== -1 && r.activity_time_minutes <= 10;
@@ -167,8 +170,8 @@ console.log('\nExisting valid results still resolve correctly (no regressions fr
     talking.some(function (r) { return r.id === 'gtmk-wonderland'; }));
 
   const play = homeResourcesForTile('play', catalogue);
-  check('"Play Something" still finds GapTheMind Wonderland (the only game in the catalogue)',
-    play.length === 1 && play[0].id === 'gtmk-wonderland');
+  check('"Play Something" still finds GapTheMind Wonderland, plus the two new game-type resources from the Sep 2026 batch',
+    play.length === 3 && ids(play).join(',') === ['category-chain', 'grammar-auction', 'gtmk-wonderland'].sort().join(','));
 
   const tools = homeResourcesForTile('tools', catalogue);
   check('"Your Own Tools" still finds all 4 real FRT tools', ids(tools).join(',') === ['lesson-plan-viewer', 'lessontrak', 'report-writer', 'zard'].sort().join(','));
@@ -200,13 +203,13 @@ console.log('\nEmpty categories return an honest empty array, never fabricated r
   // just "some might be empty," so a future content addition that fills
   // one of these will make this specific assertion fail and need updating
   // deliberately, rather than silently drifting.
-  check('"grammar" tile is genuinely empty in the current catalogue (no fabricated content)', grammar.length === 0);
-  check('"listen_watch" tile is genuinely empty in the current catalogue (no fabricated content)', listen.length === 0);
-  // Field Pack 5 was a placeholder record (no real content) and was removed
-  // from the live catalogue; Wonderland is now the only real vocab-tagged
-  // teach resource. Updated deliberately, not silently, per this file's own
-  // stated convention above.
-  check('vocab-tagged resources exist (Wonderland carries vocab as a secondary skill)', vocab.length === 1);
+  // Both of these were genuine content gaps until the Sep 2026 quick-resource
+  // batch (Grammar Detective + Grammar Auction; Listening for the Lie +
+  // Escalation Chain) deliberately filled them. Updated here explicitly,
+  // not silently, per this file's own stated convention above.
+  check('"grammar" tile now has 2 real resources (Grammar Detective, Grammar Auction) after the Sep 2026 batch', grammar.length === 2);
+  check('"listen_watch" tile now has 2 real resources (Listening for the Lie, Escalation Chain) after the Sep 2026 batch', listen.length === 2);
+  check('vocab-tagged resources now include Category Chain alongside Wonderland (2, after the Sep 2026 batch)', vocab.length === 2);
 }
 
 console.log('\n' + passed + ' passed, ' + failed + ' failed');

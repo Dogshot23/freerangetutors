@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grammar Auction — Free Range Tutors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../dispatch-tokens.css" />
+  <link rel="stylesheet" href="../../about-nav.css" />
+
+  <style>
+
+    .res-intro {
+      padding: var(--space-16) 0 var(--space-10);
+      border-bottom: 1.5px solid var(--color-border-light);
+    }
+
+    .res-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-5);
+    }
+
+    .res-breadcrumb a { color: var(--color-text-faint); }
+    .res-breadcrumb a:hover { color: var(--color-accent-ochre); }
+
+    .res-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      max-width: 26ch;
+    }
+
+    .res-lead {
+      font-size: var(--text-md);
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      line-height: 1.75;
+      margin-bottom: var(--space-6);
+    }
+
+    .res-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .res-teacher-note {
+      max-width: 60ch;
+      margin-top: var(--space-6);
+      padding: var(--space-5) var(--space-6);
+      border-left: 3px solid var(--color-accent-ochre);
+      background: var(--color-surface);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .res-body {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .res-body-inner {
+      max-width: 680px;
+    }
+
+    .res-how {
+      margin-bottom: var(--space-10);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-surface);
+      border-radius: 2px;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .res-how strong { color: var(--color-text); }
+
+    .res-subheading {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: var(--space-10) 0 var(--space-5);
+    }
+
+    .res-set-card {
+      padding: var(--space-6);
+      border: 1px solid var(--color-border-light);
+      border-radius: 2px;
+      background: var(--color-bg);
+      margin-bottom: var(--space-6);
+    }
+
+    .res-set-target {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-accent-ochre);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-4);
+    }
+
+    .res-sentence-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .res-sentence {
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      line-height: 1.6;
+      padding-bottom: var(--space-3);
+      border-bottom: 1px dashed var(--color-border-light);
+    }
+
+    .res-sentence:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .res-sentence .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 1px var(--space-2);
+      border-radius: 2px;
+      margin-right: var(--space-2);
+    }
+
+    .res-sentence .tag--correct { background: var(--color-surface); color: var(--color-text-muted); }
+    .res-sentence .tag--wrong { background: var(--color-surface); color: var(--color-accent-ochre); }
+
+    .res-footer-note {
+      max-width: 680px;
+      margin-top: var(--space-10);
+      padding-top: var(--space-6);
+      border-top: 1.5px solid var(--color-border-light);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+      line-height: 1.7;
+    }
+
+    @media print {
+      .dispatch-strip, .res-breadcrumb, .res-footer-note { display: none; }
+      body { background: #fff; }
+      .res-set-card { break-inside: avoid; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="dispatch-strip">
+    <a href="../../dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <nav class="dispatch-nav" aria-label="Main navigation">
+      <a href="../../browse.html">Toolkit</a>
+      <a href="../../about.html">About</a>
+      <a href="../../dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="res-intro">
+      <div class="container">
+        <p class="res-breadcrumb">
+          Free Range Tutors / <a href="../../browse.html?intent=teach">Toolkit</a> / Grammar Auction
+        </p>
+        <h1 class="res-title">Grammar Auction</h1>
+        <p class="res-lead">Teams bid fake money on whether sentences are grammatically correct — betting more when confident, risking it all when they're not. Three ready-made sentence sets below, calibrated to real trouble spots, so you can run this without writing a single sentence yourself.</p>
+        <div class="res-meta-row">
+          <span>12 min</span>
+          <span>B1–C1</span>
+          <span>Teen / Adult</span>
+          <span>Group (2–3 teams)</span>
+          <span>Light prep</span>
+        </div>
+        <p class="res-teacher-note">"Turns error-spotting — usually the most passive grammar task there is — into something with actual stakes."</p>
+      </div>
+    </section>
+
+    <section class="res-body">
+      <div class="container res-body-inner">
+
+        <p class="res-how"><strong>How to run it:</strong> split the class into 2–3 teams (this needs a minimum of about 4 students to work — it's genuinely a team game, not something that scales down to pairs). Give each team a fixed budget, tracked on the board — 100 points is easy math. Read each sentence aloud or display it; teams have 15–20 seconds to confer and write down how much of their remaining budget to bet that it's correct. Reveal the answer: correct bets double, wrong bets are lost entirely. Most points left at the end wins — the real value is in the argument during the betting window, which is where the grammar point actually gets discussed out loud.</p>
+
+        <h2 class="res-subheading">Three ready-made sentence sets</h2>
+
+        <div class="res-set-card">
+          <p class="res-set-target">Set A — Target: third-person -s and irregular verbs (B1)</p>
+          <div class="res-sentence-list">
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>She works from home three days a week.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>He don't like coffee in the morning.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>The train leaves at exactly nine o'clock.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>My brother goes to the gym, but he never goes on weekends actually.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>The children plays outside every afternoon.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>It rarely snows here in December.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>She have two brothers and one sister.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>He always forgets his keys on Mondays.</p>
+          </div>
+        </div>
+
+        <div class="res-set-card">
+          <p class="res-set-target">Set B — Target: past simple vs. present perfect (B2)</p>
+          <div class="res-sentence-list">
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>I have already seen that film twice.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>I have watched that film last night.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>She moved to Berlin in 2019.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>We have finished the project yesterday.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>Have you ever tried sushi before?</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>I never have been to Japan.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>He's lived in this city since 2015.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>Did you ever visit Paris? — Yes, I have visited it three years ago.</p>
+          </div>
+        </div>
+
+        <div class="res-set-card">
+          <p class="res-set-target">Set C — Target: conditionals and modals (C1)</p>
+          <div class="res-sentence-list">
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>If I'd known you were coming, I would have cooked something.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>If I would have known, I would have told you.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>She might have missed the train — she's not usually this late.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>He must have been at the meeting, but I'm not sure, so maybe he wasn't.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>Had I realised the risk, I wouldn't have signed the contract.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>If she will come tomorrow, we can start the meeting on time.</p>
+            <p class="res-sentence"><span class="tag tag--correct">CORRECT</span>You needn't have brought a gift — but thank you.</p>
+            <p class="res-sentence"><span class="tag tag--wrong">WRONG</span>I wish I would have more time this week.</p>
+          </div>
+        </div>
+
+        <p class="res-footer-note">Swap in your own sentences once you've run this a couple of times — by then you'll already know exactly which structures your specific group needs pressure-tested. Needs a minimum of two competing teams; it won't flex down to a 1:1 lesson.</p>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
