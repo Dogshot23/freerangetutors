@@ -5,10 +5,11 @@
 
    No build step: this fetches the manifest + each JSON file at
    runtime. Pages that need resource data include this script
-   and call FRT.ready(), then FRT.all() / FRT.byIntent(...) etc.
+   and call FRT.ready(), then FRT.all() / FRT.byTeachingUse(...) /
+   FRT.byResourceType(...) etc.
 
-   Real Dispatch matching lives in data/dispatch-match.js
-   (DispatchMatch.run) — this file is the data layer only.
+   The directory homepage (directory.js) is the primary consumer
+   of this data layer as of the Phase 1 directory-model rework.
    ============================================================ */
 
 (function () {
@@ -53,13 +54,19 @@
     return (_resources || []).find(function (r) { return r.id === id; }) || null;
   }
 
-  /* intent is now the multi-valued teacher-job field (replaces the old
-     single-valued 'pathway' concept) — see data/SCHEMA.md. A resource
-     matches if the requested intent is anywhere in its intent array. */
-  function byIntent(intent) {
+  /* teaching_use is the open-ended, multi-valued "what can I use this
+     for" tag array — see data/SCHEMA.md. Replaces the old skills field
+     (renamed, unscoped from the retired intent/teach gate) as part of
+     the Phase 1 directory-model migration. A resource matches if the
+     requested use is anywhere in its teaching_use array. */
+  function byTeachingUse(use) {
     return (_resources || []).filter(function (r) {
-      return Array.isArray(r.intent) && r.intent.indexOf(intent) !== -1;
+      return Array.isArray(r.teaching_use) && r.teaching_use.indexOf(use) !== -1;
     });
+  }
+
+  function byResourceType(type) {
+    return (_resources || []).filter(function (r) { return r.resource_type === type; });
   }
 
   /* Contiguous CEFR range collapse, e.g. {mode:"specific",values:["B1","B2"]}
@@ -81,7 +88,8 @@
     ready: load,
     all: all,
     byId: byId,
-    byIntent: byIntent,
+    byTeachingUse: byTeachingUse,
+    byResourceType: byResourceType,
     levelLabel: levelLabel
   };
 

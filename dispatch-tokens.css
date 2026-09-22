@@ -33,6 +33,23 @@
   --signal-level-ink: #1E1B16;
   --signal-attn-ink:  #FBEDE5;
 
+  /* ---- Directory visual system ("Xerox Zine Dispatch") ----
+     The directory homepage's own palette — separate from the
+     Dispatch-era signal colours above, which stay bound to their
+     original pages. One dominant accent (red), one secondary
+     accent (teal), used with strict discipline — see
+     data/SCHEMA.md and the directory design spec for where each
+     colour is and isn't allowed to appear. */
+  --dir-paper:        #F1ECDC;
+  --dir-ink:          #14120F;
+  --dir-ink-muted:    #4A453C;
+  --dir-ink-faint:    #8B8375;
+  --dir-accent:       #E8352B;
+  --dir-accent-ink:   #FBEDE8;
+  --dir-accent-2:     #1B7A6E;
+  --dir-accent-2-ink: #F2E9D8;
+  --dir-rule:         #C9BEA3;
+
   /* ---- Typography ----
      Approved pairing: Libre Caslon Display + IBM Plex Mono.
      Fraunces was tested and rejected — see prototype design review. */

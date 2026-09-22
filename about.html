@@ -195,18 +195,17 @@
 <body>
 
   <!-- ============================================================
-       HEADER / NAVIGATION — Dispatch-era pattern
-       Matches dispatch-home.html / dispatch.html / browse.html:
-       Toolkit / About (active) / Dispatch. Styles in about-nav.css.
-       Single nav serves both desktop and mobile — no separate
-       drawer needed at this page's content width/density.
+       HEADER / NAVIGATION — directory-model pattern (Phase 1)
+       Matches index.html: All Resources / About (active).
+       Styles in about-nav.css. Single nav serves both desktop and
+       mobile — no separate drawer needed at this page's content
+       width/density.
        ============================================================ -->
   <header class="dispatch-strip">
-    <a href="dispatch-home.html" class="dispatch-wordmark">Free Range Tutors</a>
+    <a href="index.html" class="dispatch-wordmark">Free Range Tutors</a>
     <nav class="dispatch-nav" aria-label="Main navigation">
-      <a href="browse.html">Toolkit</a>
+      <a href="index.html">&larr; All Resources</a>
       <a href="about.html" class="nav-current" aria-current="page">About</a>
-      <a href="dispatch.html" class="nav-dispatch-cta">Dispatch &rarr;</a>
     </nav>
   </header>
 
@@ -315,7 +314,7 @@
           <div class="philosophy-body">
             <p>There is no intended order. Nothing requires registration or installation. Most tools save state locally in your browser if they need to persist anything — nothing is sent to a server.</p>
 
-            <p>If you already know what you need for the next lesson, <a href="dispatch.html" style="text-decoration: underline; text-underline-offset: 2px;">Dispatch</a> is the fastest way in — answer a couple of quick questions and it finds you something usable in seconds. If you'd rather look around and see what's here, <a href="browse.html" style="text-decoration: underline; text-underline-offset: 2px;">Toolkit</a> lays everything out by what you're trying to accomplish — teaching an activity, finding a tool, setting homework, or managing your own teaching admin.</p>
+            <p>The homepage is the whole site: search or filter to find something specific, or just scroll — everything is visible by default, nothing is hidden behind a questionnaire.</p>
 
             <p>Some things you'll find are stable and well-tested. Some are marked as beta or experimental — meaning they work but may have rough edges, or are still being refined based on classroom use. The badges on each card are an honest indication of where something currently sits.</p>
 

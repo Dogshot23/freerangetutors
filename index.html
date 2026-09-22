@@ -3,55 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Range Tutors — What do you need?</title>
+  <title>Free Range Tutors — Useful things for teaching English online</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="dispatch-tokens.css" />
   <link rel="stylesheet" href="components/resource-card.css" />
-  <link rel="stylesheet" href="dispatch-home.css" />
+  <link rel="stylesheet" href="directory.css" />
 </head>
-<body class="dispatch">
+<body class="directory">
 
-  <!-- DISPATCH STRIP -->
-  <header class="dispatch-strip">
-    <a href="/" class="dispatch-wordmark">Free Range Tutors</a>
-    <div class="dispatch-strip-right">
-      <span class="dispatch-readout" id="dispatch-readout">loading&hellip;</span>
-      <nav class="dispatch-nav" aria-label="Main navigation">
-        <a href="browse.html">Toolkit</a>
-        <a href="about.html">About</a>
-      </nav>
-    </div>
+  <header class="directory-strip">
+    <a href="/" class="directory-wordmark">Free Range Tutors</a>
+    <p class="directory-tagline">Useful things for teaching English online.</p>
+    <nav class="directory-nav" aria-label="Main navigation">
+      <a href="about.html">About</a>
+    </nav>
   </header>
 
   <main>
 
-    <!-- THE QUESTION -->
-    <section class="dispatch-question">
-      <h1>What do you need?</h1>
-      <p>Tap what fits the next 50 minutes. Every card tells you the time, the level and the prep before you open it.</p>
+    <section class="directory-controls">
+      <div class="container">
+
+        <input
+          type="search"
+          class="directory-search"
+          id="directory-search"
+          placeholder="Search resources... (e.g. speaking, grammar, games)"
+          aria-label="Search resources"
+        />
+
+        <div class="directory-filters" id="directory-filters" aria-label="Filter resources">
+          <select id="filter-type" aria-label="Resource type">
+            <option value="">Type: All</option>
+          </select>
+          <select id="filter-use" aria-label="Teaching use">
+            <option value="">Use: All</option>
+          </select>
+          <select id="filter-level" aria-label="Level">
+            <option value="">Level: All</option>
+          </select>
+          <select id="filter-cost" aria-label="Cost">
+            <option value="">Cost: All</option>
+          </select>
+        </div>
+
+      </div>
     </section>
 
-    <!-- THE BOARD -->
-    <nav class="dispatch-board" aria-label="Teaching need pathways" id="dispatch-board">
-      <!-- tiles rendered by dispatch-home.js from real resource data -->
-    </nav>
-
-    <!-- JUST ADDED -->
-    <section class="dispatch-just-added" id="dispatch-just-added" aria-label="Recently added resources">
-      <span class="dispatch-just-added-label">JUST ADDED</span>
-      <!-- items rendered from data -->
+    <section class="directory-recent" id="directory-recent-section">
+      <div class="container">
+        <h2 class="directory-recent-masthead">Recently Added</h2>
+        <div class="directory-recent-list" id="directory-recent-list"></div>
+      </div>
     </section>
 
-    <section class="dispatch-footer">
-      <p>Built by one teacher. No login, no ads, no tracking. Still being sanded down.</p>
+    <section class="directory-main">
+      <div class="container">
+        <div class="directory-main-head">
+          <h2 class="directory-section-label" id="directory-count">All resources</h2>
+        </div>
+        <div class="rc-grid" id="directory-grid"></div>
+        <p class="directory-empty" id="directory-empty" hidden>Nothing matches that search or filter combination.</p>
+      </div>
     </section>
 
   </main>
 
   <script src="data/resources.js"></script>
   <script src="components/resource-card.js"></script>
-  <script src="dispatch-home.js"></script>
+  <script src="directory.js"></script>
 </body>
 </html>

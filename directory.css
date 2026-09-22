@@ -1,0 +1,230 @@
+/* ============================================================
+   FREE RANGE TUTORS — directory homepage styles
+   "Xerox Zine Dispatch" visual system. Depends on
+   dispatch-tokens.css (--dir-* palette) + components/resource-
+   card.css. See the directory design spec for the full rationale
+   — this file implements it, without layering over the earlier
+   Phase 1 draft.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body.directory {
+  margin: 0;
+  background: var(--dir-paper);
+  font-family: var(--font-body);
+  color: var(--dir-ink);
+}
+
+a { color: inherit; }
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ---- header: quiet — wordmark + tagline + About ---- */
+.directory-strip {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: 20px var(--gutter);
+  border-bottom: 2px solid var(--dir-ink);
+}
+.directory-wordmark {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--dir-ink);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.directory-tagline {
+  margin: 0;
+  font-size: 13px;
+  color: var(--dir-ink-muted);
+  flex: 1;
+  min-width: 0;
+}
+.directory-nav { margin-left: auto; flex-shrink: 0; }
+.directory-nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--dir-ink-muted);
+  text-decoration: none;
+}
+.directory-nav a:hover { color: var(--dir-accent); }
+
+/* ---- controls: search + filters ---- */
+.directory-controls {
+  padding: 28px 0 22px;
+  border-bottom: 1px solid var(--dir-rule);
+}
+
+.directory-search {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 13px 16px;
+  border: 2px solid var(--dir-ink);
+  border-radius: 0;
+  background: var(--dir-paper);
+  color: var(--dir-ink);
+  margin-bottom: 16px;
+}
+.directory-search::placeholder { color: var(--dir-ink-faint); }
+.directory-search:focus-visible {
+  outline: none;
+  border-color: var(--dir-accent);
+  box-shadow: 0 0 0 2px var(--dir-accent);
+}
+
+.directory-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.directory-filters select {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  border: 2px solid var(--dir-ink);
+  border-radius: 0;
+  background: var(--dir-paper);
+  color: var(--dir-ink);
+  cursor: pointer;
+}
+.directory-filters select:hover { background: var(--dir-rule); }
+.directory-filters select:focus-visible {
+  outline: none;
+  border-color: var(--dir-accent);
+  box-shadow: 0 0 0 2px var(--dir-accent);
+}
+
+/* ---- Recently Added: compact editorial strip, deliberately NOT
+   a card grid — halftone masthead is the one place in the whole
+   system this texture appears. ---- */
+.directory-recent {
+  padding: 22px 0 26px;
+  border-bottom: 1px solid var(--dir-rule);
+}
+
+.directory-recent-masthead {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--dir-accent-ink);
+  margin: 0 0 14px;
+  padding: 6px 12px;
+  background-color: var(--dir-ink);
+  border: 1.5px solid var(--dir-ink);
+  isolation: isolate;
+}
+/* Halftone texture sits behind the text via a pseudo-element,
+   never on the same paint layer as the label — the one place in
+   the whole system this dot-pattern accent appears. */
+.directory-recent-masthead::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--dir-accent) 1px, transparent 1.2px);
+  background-size: 6px 6px;
+  opacity: .55;
+}
+
+.directory-recent-list {
+  display: flex;
+  flex-direction: column;
+}
+.directory-recent-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--dir-rule);
+  text-decoration: none;
+  color: var(--dir-ink);
+  flex-wrap: wrap;
+}
+.directory-recent-item:first-child { border-top: 1px dashed var(--dir-rule); }
+.directory-recent-item:hover .directory-recent-title { color: var(--dir-accent); }
+
+.directory-recent-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--dir-accent-ink);
+  background: var(--dir-accent);
+  padding: 3px 6px;
+  flex-shrink: 0;
+}
+.directory-recent-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.directory-recent-hook {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: var(--dir-ink-muted);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.directory-recent-date {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dir-ink-faint);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ---- main grid: calm, regular, the workhorse of the page ---- */
+.directory-main { padding: 26px 0 60px; }
+.directory-main-head { margin-bottom: 16px; }
+.directory-section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dir-ink);
+  margin: 0 0 14px;
+}
+
+.directory-empty {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--dir-ink-muted);
+  padding: 40px 0;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .directory-strip { padding: 16px; }
+  .directory-nav { margin-left: 0; width: 100%; }
+  .container { padding: 0 16px; }
+  .directory-filters select { flex: 1 1 calc(50% - 5px); }
+
+  .directory-recent-item { gap: 6px; }
+  .directory-recent-hook { flex: 1 1 100%; white-space: normal; order: 3; }
+  .directory-recent-date { margin-left: 0; order: 4; }
+}

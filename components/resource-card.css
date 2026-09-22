@@ -1,160 +1,154 @@
 /* ============================================================
-   THE DISPATCH — resource-card component styles
+   FREE RANGE TUTORS — resource-card component styles
    Depends on dispatch-tokens.css being loaded first.
+
+   "Xerox Zine Dispatch" visual system — four reusable devices,
+   applied identically to every card, never randomised per-card:
+     1. 4px black top rule
+     2. solid red rectangular resource-type badge
+     3. dashed hairline divider before the metadata line
+     4. black-outlined OPEN corner tab, fills red on hover/focus
+   See the directory design spec for the full rationale. No
+   per-card rotation, no illustration, no halftone texture here —
+   halftone is reserved for the Recently Added strip only.
    ============================================================ */
 
 .rc-card {
-  display: block;
-  background: var(--paper-card);
-  border: 1px solid var(--ink);
-  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  background: var(--dir-paper);
+  border: 1.5px solid var(--dir-ink);
+  border-top: 4px solid var(--dir-ink);
+  border-radius: 0;
   text-decoration: none;
-  color: var(--ink);
-  transition: transform .12s ease;
+  color: var(--dir-ink);
+  padding: 14px 16px 12px;
 }
-.rc-card:hover { transform: translateY(-2px); }
-.rc-card:focus-visible { outline: 2px solid var(--signal-time); outline-offset: 2px; }
+.rc-card:hover { background: var(--dir-paper); }
+.rc-card:focus-visible { outline: 2px solid var(--dir-accent); outline-offset: 2px; }
 
-.rc-card--own { border-width: 2px; }
-.rc-card--collection { border-style: dashed; }
-
-/* ---- metadata strip: the loudest element on the card ---- */
-.rc-meta {
+/* ---- top row: type badge + source mark ---- */
+.rc-top {
   display: flex;
-  border-bottom: 1px solid var(--ink);
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
 }
-.rc-meta-cell {
-  flex: 1;
-  padding: 11px 8px;
-  border-right: 1px solid var(--ink);
-  min-width: 0;
-}
-.rc-meta-cell:last-child { border-right: none; }
-.rc-meta-label {
+.rc-type-badge {
   font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: .09em;
-  color: var(--ink-faint);
-  margin-bottom: 2px;
-}
-.rc-meta-val {
-  font-family: var(--font-display);
-  font-size: 19px;
-  line-height: 1.15;
-  white-space: normal;
-  overflow-wrap: break-word;
-  hyphens: none;
-}
-/* Sizing is class-driven, not position-driven (nth-child), so specificity
-   stays flat and predictable: every modifier below is a compound selector
-   of the same weight, in the order weakest -> strongest constraint. */
-
-/* TYPE ("PDF pack") and any value the renderer flags as long (> 5 chars,
-   e.g. "Moderate", "Varies") run wider than a typical TIME/LEVEL figure. */
-.rc-meta-val.rc-meta-val--long {
-  font-size: 15px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--dir-accent-ink);
+  background: var(--dir-accent);
+  padding: 4px 8px;
+  border-radius: 0;
+  flex-shrink: 0;
 }
 
-/* Dim values (no fixed time/level, or "varies") drop to the mono face
-   entirely and go smallest — this always wins over --long since a dim
-   value is also always a long/absent one. */
-.rc-meta-val.rc-meta-val--dim {
-  color: var(--ink-faint);
+/* Source mark: identical shape/weight/position whether FRT-original
+   or external — only the text differs. Outlined, never filled, so
+   it never competes with the type badge for visual weight. */
+.rc-source {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: var(--dir-accent-2);
+  border: 1.5px solid var(--dir-accent-2);
+  padding: 3px 7px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 140px;
 }
 
-/* ---- title / description / thumbnail ---- */
-.rc-body {
-  display: flex;
-  gap: 14px;
-  padding: 16px 16px 0;
-}
-.rc-title-block { flex: 1; min-width: 0; }
+/* ---- title / description ---- */
+.rc-title-block { margin-bottom: 10px; }
 .rc-title {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   font-family: var(--font-display);
-  font-size: 20px;
-  line-height: 1.2;
-  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.25;
+  color: var(--dir-ink);
 }
 .rc-desc {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.5;
-  color: var(--ink-muted);
-}
-.rc-thumb {
-  width: 104px;
-  height: 78px;
-  flex-shrink: 0;
-  border: 3px solid var(--ink);
+  color: var(--dir-ink-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  background: var(--rule);
-}
-.rc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.rc-thumb--placeholder {
-  background: repeating-linear-gradient(135deg, var(--rule) 0 8px, var(--paper) 8px 16px);
 }
 
-/* ---- teacher's note ---- */
-.rc-note {
-  margin: 12px 16px 0;
-  padding: 10px 12px;
-  border-left: 2px solid var(--rule);
-}
-.rc-note p {
-  margin: 0;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--ink-muted);
-}
-
-/* ---- footer: attribution + open ---- */
-.rc-footer {
+/* ---- teaching-use chips: quiet, outlined, never as loud as the type badge ---- */
+.rc-chips {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 16px 16px;
-  margin-top: 12px;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
 }
-.rc-footer-left { display: flex; gap: 6px; min-width: 0; }
 .rc-chip {
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: .03em;
-  color: var(--ink-faint);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 10px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--dir-ink-muted);
+  border: 1px solid var(--dir-rule);
+  border-radius: 0;
+  padding: 2px 7px;
 }
-.rc-chip--gtmk {
-  color: var(--ink);
-  font-weight: 600;
+
+/* ---- dashed divider before metadata (device 3) ---- */
+.rc-divider {
+  border: none;
+  border-top: 1px dashed var(--dir-rule);
+  margin: 0 0 8px;
 }
-.rc-chip--status { color: var(--ink-muted); }
+
+/* ---- meta line: level · cost · time ---- */
+.rc-meta-line {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--dir-ink-faint);
+  margin-bottom: 10px;
+}
+
+/* ---- footer: OPEN corner tab (device 4) ---- */
+.rc-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
 .rc-open {
   font-family: var(--font-mono);
   font-size: 10px;
+  font-weight: 600;
   letter-spacing: .03em;
-  color: var(--signal-time);
-  flex-shrink: 0;
+  color: var(--dir-ink);
+  border: 1.5px solid var(--dir-ink);
+  padding: 4px 9px;
+}
+.rc-card:hover .rc-open,
+.rc-card:focus-visible .rc-open {
+  background: var(--dir-accent);
+  border-color: var(--dir-accent);
+  color: var(--dir-accent-ink);
 }
 
 /* ---- card grid: shared layout for any strip of cards ---- */
 .rc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
 }
 
 @media (max-width: 600px) {
-  .rc-body { flex-direction: column-reverse; }
-  .rc-thumb { width: 100%; height: 140px; }
-  .rc-meta-val { font-size: 17px; }
+  .rc-grid { grid-template-columns: 1fr; }
 }

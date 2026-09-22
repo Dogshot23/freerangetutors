@@ -6,8 +6,8 @@
   "additionalProperties": false,
   "required": [
     "id", "name", "url", "description_short", "source_category", "creator",
-    "resource_type", "card_style", "age_group", "cefr_level", "prep_level",
-    "cost", "intent", "date_added"
+    "resource_type", "age_group", "cefr_level", "prep_level",
+    "cost", "date_added"
   ],
   "definitions": {
     "semanticSet": {
@@ -39,9 +39,8 @@
     "creator":             { "type": "string", "minLength": 1 },
     "domain":              { "type": ["string", "null"] },
     "resource_type": {
-      "enum": ["tool", "platform", "activity", "game", "lesson", "printable", "media", "article"]
+      "enum": ["website", "app", "game", "pdf", "generator", "tool", "video", "activity"]
     },
-    "card_style":          { "enum": ["activity", "collection"] },
 
     "age_group": {
       "allOf": [{ "$ref": "#/definitions/semanticSet" }],
@@ -65,7 +64,7 @@
       }
     },
 
-    "skills": {
+    "teaching_use": {
       "type": "array",
       "items": { "type": "string" }
     },
@@ -76,16 +75,6 @@
     "setting":             { "enum": ["online", "classroom", "either"] },
     "cost":                { "enum": ["free", "freemium", "paid"] },
 
-    "intent": {
-      "type": "array",
-      "minItems": 1,
-      "uniqueItems": true,
-      "items": { "enum": ["teach", "find_tool", "homework", "manage"] }
-    },
-    "tool_kind": {
-      "type": ["string", "null"],
-      "enum": ["live_lesson", "planning", "tracking", "ai", null]
-    },
     "ai_powered": { "type": "boolean" },
 
     "gtmk_relationship":   { "type": ["string", "null"] },
@@ -103,15 +92,6 @@
     {
       "if": { "properties": { "source_category": { "const": "commercial" } } },
       "then": { "required": ["domain"] }
-    },
-    {
-      "if": { "properties": { "card_style": { "const": "activity" } } },
-      "then": {
-        "anyOf": [
-          { "properties": { "activity_time_minutes": { "type": "number" } } },
-          { "properties": { "activity_time_minutes": { "type": "null" } } }
-        ]
-      }
     }
   ]
 }
