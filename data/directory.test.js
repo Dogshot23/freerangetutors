@@ -132,12 +132,16 @@ console.log('\nResource Type filter — matches the real resource_type distribut
     tools.length === 4 && ids(tools).join(',') === ['lesson-plan-viewer', 'lessontrak', 'report-writer', 'zard'].sort().join(','));
 
   const games = filterCatalogue(Object.assign(emptyState(), { type: 'game' }), catalogue);
-  check('type=game returns exactly the 3 real game-type resources',
-    games.length === 3 && ids(games).join(',') === ['category-chain', 'grammar-auction', 'gtmk-wonderland'].sort().join(','));
+  check('type=game returns exactly the 4 real game-type resources',
+    games.length === 4 && ids(games).join(',') === ['baamboozle', 'category-chain', 'grammar-auction', 'gtmk-wonderland'].sort().join(','));
 
   const websites = filterCatalogue(Object.assign(emptyState(), { type: 'website' }), catalogue);
-  check('type=website returns exactly iSLCollective (the one real website-type resource)',
-    websites.length === 1 && websites[0].id === 'islcollective');
+  check('type=website returns exactly the 2 real website-type resources',
+    websites.length === 2 && ids(websites).join(',') === ['islcollective', 'learnenglish-teens'].sort().join(','));
+
+  const videos = filterCatalogue(Object.assign(emptyState(), { type: 'video' }), catalogue);
+  check('type=video returns exactly VOA Learning English (the one real video-type resource)',
+    videos.length === 1 && videos[0].id === 'voa-learning-english');
 
   const activities = filterCatalogue(Object.assign(emptyState(), { type: 'activity' }), catalogue);
   const realActivityIds = catalogue.filter(function (r) { return r.resource_type === 'activity'; });
@@ -168,15 +172,16 @@ console.log('\nPrimary Category filter — matches the real primary_category dis
     ].sort().join(','));
 
   const games = filterCatalogue(Object.assign(emptyState(), { category: 'games' }), catalogue);
-  check('category=games returns exactly the 3 real games',
-    games.length === 3 && ids(games).join(',') === ['category-chain', 'grammar-auction', 'gtmk-wonderland'].sort().join(','));
+  check('category=games returns exactly the 4 real games',
+    games.length === 4 && ids(games).join(',') === ['baamboozle', 'category-chain', 'grammar-auction', 'gtmk-wonderland'].sort().join(','));
 
   const hubs = filterCatalogue(Object.assign(emptyState(), { category: 'websites_resource_hubs' }), catalogue);
-  check('category=websites_resource_hubs returns exactly iSLCollective',
-    hubs.length === 1 && hubs[0].id === 'islcollective');
+  check('category=websites_resource_hubs returns exactly iSLCollective and LearnEnglish Teens',
+    hubs.length === 2 && ids(hubs).join(',') === ['islcollective', 'learnenglish-teens'].sort().join(','));
 
   const media = filterCatalogue(Object.assign(emptyState(), { category: 'media' }), catalogue);
-  check('category=media is an honest empty result (no media resources in the catalogue yet)', media.length === 0);
+  check('category=media returns exactly VOA Learning English (the one real media resource)',
+    media.length === 1 && media[0].id === 'voa-learning-english');
 
   const combo = filterCatalogue(Object.assign(emptyState(), { category: 'web_apps_tools', type: 'generator' }), catalogue);
   check('category=web_apps_tools AND type=generator returns exactly WaffleBrain (the only resource_type:generator entry)',
