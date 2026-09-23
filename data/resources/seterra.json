@@ -2,7 +2,7 @@
   "id": "seterra",
   "name": "Seterra",
   "url": "https://www.seterra.com/",
-  "image": null,
+  "image": "images/resources/seterra.png",
   "description_short": "Interactive map quizzes covering countries, capitals, flags, and geographic features — over 400 quizzes, playable instantly with no account needed.",
   "teacher_note": "Works well as a conversation driver with adult students too — have them explain their guesses out loud, not just click.",
   "source_category": "curated_external",

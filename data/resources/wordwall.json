@@ -2,7 +2,7 @@
   "id": "wordwall",
   "name": "Wordwall",
   "url": "https://wordwall.net/",
-  "image": null,
+  "image": "images/resources/wordwall.png",
   "description_short": "A huge library of teacher-made vocabulary and grammar games (quizzes, matching, flashcards, and more) that anyone can browse and play free with no account — creating your own activities requires a free or paid account.",
   "teacher_note": "Stick to playing the community library during a lesson — it's genuinely free with no login. Making your own activities is where the account and free-tier limits kick in.",
   "source_category": "curated_external",

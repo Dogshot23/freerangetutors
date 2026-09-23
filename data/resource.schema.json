@@ -5,7 +5,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "id", "name", "url", "description_short", "source_category", "creator",
+    "id", "name", "url", "image", "description_short", "source_category", "creator",
     "resource_type", "primary_category", "age_group", "cefr_level", "prep_level",
     "cost", "date_added"
   ],
@@ -32,7 +32,7 @@
     "id":                 { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
     "name":                { "type": "string", "minLength": 1 },
     "url":                 { "type": "string", "minLength": 1 },
-    "image":               { "type": ["string", "null"] },
+    "image":               { "type": "string", "minLength": 1 },
     "description_short":   { "type": "string", "minLength": 1 },
     "teacher_note":        { "type": ["string", "null"] },
     "source_category":     { "enum": ["own_original", "curated_external", "commercial"] },

@@ -2,7 +2,7 @@
   "id": "google-arts-culture",
   "name": "Google Arts & Culture",
   "url": "https://artsandculture.google.com/",
-  "image": null,
+  "image": "images/resources/google-arts-culture.png",
   "description_short": "A free virtual museum of digitized art and cultural artifacts from institutions worldwide, browsable by artist, period, or theme — good source material for image description and cultural discussion.",
   "teacher_note": "Pull up a painting or artifact and have the student describe what they see before reading the caption — a change of pace from typical discussion prompts.",
   "source_category": "curated_external",

@@ -362,5 +362,47 @@ console.log('\nRecently Added and All Resources — two views, one complete cata
     }));
 }
 
+/* ============================================================
+   10. Every catalogue resource must have a real, usable image.
+   No resource may silently ship without one — see data/SCHEMA.md
+   and tools/generate_thumbnail.py. A missing `image` field, a
+   dangling path, or a malformed/wrong-size PNG must fail here
+   rather than rendering broken or blank on the live site.
+   ============================================================ */
+console.log('\nEvery resource has a real, correctly-sized image');
+{
+  const IMAGES_DIR = path.join(__dirname, '..', 'images', 'resources');
+  const EXPECTED_SIZE = 480;
+
+  catalogue.forEach(function (r) {
+    check(r.id + ': has a non-empty image field',
+      typeof r.image === 'string' && r.image.length > 0);
+
+    if (typeof r.image !== 'string' || !r.image.length) return;
+
+    const imagePath = path.join(__dirname, '..', r.image);
+    const exists = fs.existsSync(imagePath);
+    check(r.id + ': image file exists on disk (' + r.image + ')', exists);
+    if (!exists) return;
+
+    check(r.id + ': image lives under images/resources/',
+      path.resolve(imagePath).startsWith(path.resolve(IMAGES_DIR) + path.sep));
+
+    const buf = fs.readFileSync(imagePath);
+    const isPng = buf.length > 8 &&
+      buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4E && buf[3] === 0x47;
+    check(r.id + ': image is a valid PNG', isPng);
+    if (!isPng) return;
+
+    /* PNG IHDR: width and height are the two 4-byte big-endian
+       integers starting at byte 16, per the PNG spec's fixed
+       chunk layout — no image library needed to read this. */
+    const width = buf.readUInt32BE(16);
+    const height = buf.readUInt32BE(20);
+    check(r.id + ': image is ' + EXPECTED_SIZE + 'x' + EXPECTED_SIZE + ' (found ' + width + 'x' + height + ')',
+      width === EXPECTED_SIZE && height === EXPECTED_SIZE);
+  });
+}
+
 console.log('\n' + passed + ' passed, ' + failed + ' failed');
 process.exit(failed > 0 ? 1 : 0);

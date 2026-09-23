@@ -2,7 +2,7 @@
   "id": "youglish",
   "name": "YouGlish",
   "url": "https://youglish.com/",
-  "image": null,
+  "image": "images/resources/youglish.png",
   "description_short": "Search any word or phrase and hear it spoken in dozens of real YouTube clips, filterable by accent — pronunciation and natural usage from authentic speech, not synthetic audio.",
   "teacher_note": "Good for settling a pronunciation question on the spot mid-lesson — search the word live and let the student hear several real speakers say it.",
   "source_category": "curated_external",

@@ -2,7 +2,7 @@
   "id": "freerice",
   "name": "FreeRice",
   "url": "https://freerice.com/",
-  "image": null,
+  "image": "images/resources/freerice.png",
   "description_short": "A vocabulary trivia game where each correct answer triggers a rice donation to the UN World Food Programme — quick multiple-choice rounds with a genuine real-world hook to discuss.",
   "teacher_note": "Good filler with a talking point built in — after a round, ask the student about the cause itself, not just the vocab.",
   "source_category": "curated_external",

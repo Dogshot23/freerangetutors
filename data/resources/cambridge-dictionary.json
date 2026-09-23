@@ -2,7 +2,7 @@
   "id": "cambridge-dictionary",
   "name": "Cambridge Dictionary",
   "url": "https://dictionary.cambridge.org/",
-  "image": null,
+  "image": "images/resources/cambridge-dictionary.png",
   "description_short": "Free online dictionary with learner-friendly definitions, audio pronunciation in British and American English, real example sentences, and a dedicated Learner's Dictionary at B1-B2 level.",
   "teacher_note": null,
   "source_category": "curated_external",

@@ -2,7 +2,7 @@
   "id": "bbc-learning-english",
   "name": "BBC Learning English (YouTube)",
   "url": "https://www.youtube.com/@bbclearningenglish",
-  "image": null,
+  "image": "images/resources/bbc-learning-english.png",
   "description_short": "BBC's official YouTube channel for English learners — weekly video lessons including the long-running 6 Minute English series, covering vocabulary, pronunciation, and listening.",
   "teacher_note": "6 Minute English works well as a lesson centrepiece — short enough to watch together and discuss without eating the whole session.",
   "source_category": "curated_external",
