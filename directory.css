@@ -1,230 +1,416 @@
 /* ============================================================
    FREE RANGE TUTORS — directory homepage styles
-   "Xerox Zine Dispatch" visual system. Depends on
-   dispatch-tokens.css (--dir-* palette) + components/resource-
-   card.css. See the directory design spec for the full rationale
-   — this file implements it, without layering over the earlier
-   Phase 1 draft.
+   "Contemporary Editorial Fanzine" visual system (Mockup 10,
+   approved). Depends on dispatch-tokens.css for the --fz-*
+   palette tokens. Ported directly from the approved mockup —
+   see _mockups/mockup-10-editorial-full-bleed.html for the
+   design rationale behind each section.
    ============================================================ */
 
 * { box-sizing: border-box; }
 
 body.directory {
   margin: 0;
-  background: var(--dir-paper);
-  font-family: var(--font-body);
-  color: var(--dir-ink);
+  background: var(--fz-paper);
+  color: var(--fz-ink);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+}
+body.directory a { color: inherit; text-decoration: none; }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 36px; }
+.rule { border: none; border-top: 1.5px solid var(--fz-ink); margin: 0; }
+.rule-thin { border: none; border-top: 1px solid var(--fz-rule); margin: 0; }
+
+/* ============================================================
+   MASTHEAD — compact, confident, quick to read. Wordmark left,
+   descriptor + About right, one thin rule beneath. No hero.
+   ============================================================ */
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 24px 0 16px;
+}
+.wordmark {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 27px;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+.masthead-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.masthead-descriptor {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fz-ink-muted);
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--fz-cobalt);
+}
+.masthead-right nav a {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fz-ink);
+}
+.masthead-right nav a:hover { color: var(--fz-red); }
+
+/* ---- editorial intro line — one sentence, sets tone, not a hero ---- */
+.intro {
+  padding: 18px 0 20px;
+  max-width: 62ch;
+}
+.intro p {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.45;
+  margin: 0;
+  color: var(--fz-ink);
 }
 
-a { color: inherit; }
-
-.container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
+/* ============================================================
+   FIND A RESOURCE — the publication's own index/navigation
+   system. No pills, no buttons, no panel background. A label,
+   a rule-bound search field, and filter terms separated by
+   slashes against a rule, exactly like a masthead index line.
+   ============================================================ */
+.index-strip { padding: 22px 0; }
+.index-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fz-ink-faint);
+  margin-bottom: 10px;
 }
-
-/* ---- header: quiet — wordmark + tagline + About ---- */
-.directory-strip {
+.search-line {
   display: flex;
   align-items: baseline;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  padding: 20px var(--gutter);
-  border-bottom: 2px solid var(--dir-ink);
+  border-bottom: 1.5px solid var(--fz-ink);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
 }
-.directory-wordmark {
-  font-family: var(--font-display);
-  font-size: 22px;
-  color: var(--dir-ink);
-  text-decoration: none;
-  flex-shrink: 0;
-}
-.directory-tagline {
-  margin: 0;
-  font-size: 13px;
-  color: var(--dir-ink-muted);
+.search-line input {
   flex: 1;
-  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 20px;
+  color: var(--fz-ink);
+  padding: 0;
 }
-.directory-nav { margin-left: auto; flex-shrink: 0; }
-.directory-nav a {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--dir-ink-muted);
-  text-decoration: none;
-}
-.directory-nav a:hover { color: var(--dir-accent); }
-
-/* ---- controls: search + filters ---- */
-.directory-controls {
-  padding: 28px 0 22px;
-  border-bottom: 1px solid var(--dir-rule);
-}
-
-.directory-search {
-  display: block;
-  width: 100%;
-  max-width: 560px;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  padding: 13px 16px;
-  border: 2px solid var(--dir-ink);
-  border-radius: 0;
-  background: var(--dir-paper);
-  color: var(--dir-ink);
-  margin-bottom: 16px;
-}
-.directory-search::placeholder { color: var(--dir-ink-faint); }
-.directory-search:focus-visible {
-  outline: none;
-  border-color: var(--dir-accent);
-  box-shadow: 0 0 0 2px var(--dir-accent);
-}
-
-.directory-filters {
+.search-line input::placeholder { color: var(--fz-ink-faint); }
+.search-line input:focus { outline: none; }
+.filter-line {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
 }
-.directory-filters select {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
+.filter-line span.sep { padding: 4px 14px 4px 0; color: var(--fz-ink-faint); }
+
+/* Real <select> elements, styled to read as plain index text —
+   no native chrome, same font/colour/spacing as the surrounding
+   line. This is how real filtering is wired without changing the
+   approved appearance. */
+.filter-line select.f {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  padding: 9px 12px;
-  border: 2px solid var(--dir-ink);
-  border-radius: 0;
-  background: var(--dir-paper);
-  color: var(--dir-ink);
+  color: var(--fz-ink);
+  padding: 4px 14px 4px 0;
   cursor: pointer;
 }
-.directory-filters select:hover { background: var(--dir-rule); }
-.directory-filters select:focus-visible {
-  outline: none;
-  border-color: var(--dir-accent);
-  box-shadow: 0 0 0 2px var(--dir-accent);
-}
+.filter-line select.f:focus-visible { outline: 1.5px solid var(--fz-red); }
 
-/* ---- Recently Added: compact editorial strip, deliberately NOT
-   a card grid — halftone masthead is the one place in the whole
-   system this texture appears. ---- */
-.directory-recent {
-  padding: 22px 0 26px;
-  border-bottom: 1px solid var(--dir-rule);
+/* ============================================================
+   RECENTLY ADDED — full-bleed red section. This is the one
+   large compositional colour event on the page: an entire
+   section going solid, cream reversed type fused with the
+   colour (not a rectangle sitting near text), the title set
+   large enough to be deliberately cropped by the section's own
+   edge. Everything else on the page stays quiet so this reads
+   as a landmark, not wallpaper.
+   ============================================================ */
+.recent-band {
+  background: var(--fz-red);
+  color: var(--fz-paper);
+  padding: 34px 0 30px;
+  overflow: hidden;
 }
-
-.directory-recent-masthead {
-  position: relative;
-  display: inline-block;
-  font-family: var(--font-mono);
+.recent-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.recent-head h2 {
+  font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--dir-accent-ink);
-  margin: 0 0 14px;
-  padding: 6px 12px;
-  background-color: var(--dir-ink);
-  border: 1.5px solid var(--dir-ink);
-  isolation: isolate;
+  margin: 0;
+  color: var(--fz-paper);
 }
-/* Halftone texture sits behind the text via a pseudo-element,
-   never on the same paint layer as the label — the one place in
-   the whole system this dot-pattern accent appears. */
-.directory-recent-masthead::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image: radial-gradient(var(--dir-accent) 1px, transparent 1.2px);
-  background-size: 6px 6px;
-  opacity: .55;
-}
+.recent-head .n { font-size: 12px; color: rgba(243,238,225,.65); }
 
-.directory-recent-list {
-  display: flex;
-  flex-direction: column;
-}
-.directory-recent-item {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 9px 0;
-  border-bottom: 1px dashed var(--dir-rule);
-  text-decoration: none;
-  color: var(--dir-ink);
-  flex-wrap: wrap;
-}
-.directory-recent-item:first-child { border-top: 1px dashed var(--dir-rule); }
-.directory-recent-item:hover .directory-recent-title { color: var(--dir-accent); }
-
-.directory-recent-badge {
-  font-family: var(--font-mono);
-  font-size: 9px;
+.featured-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--dir-accent-ink);
-  background: var(--dir-accent);
-  padding: 3px 6px;
-  flex-shrink: 0;
+  color: rgba(243,238,225,.75);
+  margin-bottom: 4px;
 }
-.directory-recent-title {
-  font-family: var(--font-display);
-  font-size: 15px;
-  flex-shrink: 0;
-}
-.directory-recent-hook {
-  font-family: var(--font-body);
-  font-size: 12.5px;
-  color: var(--dir-ink-muted);
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* The title is set large enough that it is cropped by the
+   section's right edge on desktop — a deliberate edge-crop, not
+   a layout accident. overflow:hidden on .recent-band clips it
+   cleanly. Fixed (not fluid/clamped) size, deliberately larger
+   than the content column at most desktop widths. Shrinks only
+   at the mobile breakpoint, where it wraps instead of cropping. */
+.featured-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 148px;
+  line-height: .9;
+  letter-spacing: -.01em;
+  margin: 0 0 18px;
+  color: var(--fz-paper);
   white-space: nowrap;
 }
-.directory-recent-date {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--dir-ink-faint);
-  margin-left: auto;
-  flex-shrink: 0;
+.featured-body {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 40px;
+  align-items: end;
+}
+.featured-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(243,238,225,.92);
+  max-width: 48ch;
+  margin: 0 0 14px;
+}
+.featured-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: rgba(243,238,225,.8);
+}
+.featured-meta a {
+  color: var(--fz-paper);
+  font-weight: 700;
+  margin-left: 14px;
+  border-bottom: 1.5px solid var(--fz-paper);
 }
 
-/* ---- main grid: calm, regular, the workhorse of the page ---- */
-.directory-main { padding: 26px 0 60px; }
-.directory-main-head { margin-bottom: 16px; }
-.directory-section-label {
-  font-family: var(--font-mono);
+.support-list { display: flex; flex-direction: column; border-left: 1px solid rgba(243,238,225,.3); padding-left: 28px; }
+.support-item { padding: 10px 0; border-bottom: 1px dashed rgba(243,238,225,.25); }
+.support-item:first-child { padding-top: 0; }
+.support-item:last-child { border-bottom: none; }
+.support-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(243,238,225,.6);
+}
+/* The one small remaining cobalt mark on the whole page — demoted
+   from a large field to a single quiet underline, exactly one
+   occurrence (escalation-chain, applied deterministically). */
+.support-item.accent .support-title { border-bottom: 2px solid var(--fz-cobalt); padding-bottom: 2px; }
+.support-title {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  margin: 3px 0 4px;
+  color: var(--fz-paper);
+  display: inline-block;
+}
+.support-desc {
+  font-size: 12px;
+  color: rgba(243,238,225,.8);
+  line-height: 1.5;
+  margin: 0 0 4px;
+}
+.support-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  color: rgba(243,238,225,.55);
+}
+
+/* ============================================================
+   RESOURCE INDEX — entries, not cards. Two-column typeset
+   relationship: a wide title/description column, a narrow
+   metadata+action column. Continuous rules between entries.
+   Scale VARIES — most entries compact, a small deterministic set
+   given a larger treatment. No boxes anywhere.
+   ============================================================ */
+.index-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 30px 0 6px;
+}
+.index-head h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 26px;
+  margin: 0;
+  position: relative;
+  padding-left: 16px;
+}
+.index-head h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  background: var(--fz-cobalt);
+}
+.index-head .n { font-size: 12px; color: var(--fz-ink-faint); font-family: 'Inter', sans-serif; }
+
+.entries { border-top: 1.5px solid var(--fz-ink); }
+.entry {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 28px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--fz-rule);
+  align-items: start;
+}
+.entry.large { padding: 30px 0; }
+.entry.accent { border-bottom-color: var(--fz-red); }
+
+.entry-label-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.entry-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fz-ink-faint);
+}
+.entry.accent .entry-label {
+  color: var(--fz-paper);
+  background: var(--fz-red);
+  padding: 2px 8px;
+}
+.entry.accent-cobalt { border-bottom-color: var(--fz-cobalt); }
+.entry.accent-cobalt .entry-label {
+  color: var(--fz-paper);
+  background: var(--fz-cobalt);
+  padding: 2px 8px;
+}
+.entry.accent-cobalt .entry-open { color: var(--fz-cobalt); }
+.entry-title {
+  font-family: 'Fraunces', serif;
+  font-size: 21px;
+  line-height: 1.15;
+  margin: 0 0 6px;
+}
+.entry.large .entry-title { font-size: 42px; line-height: 1.05; }
+.entry-desc {
+  font-size: 13px;
+  color: var(--fz-ink-muted);
+  line-height: 1.55;
+  max-width: 56ch;
+  margin: 0;
+}
+.entry.large .entry-desc { font-size: 14px; max-width: 62ch; }
+
+.entry-side {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding-top: 2px;
+}
+.entry-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  color: var(--fz-ink-faint);
+  line-height: 1.5;
+}
+.entry-use {
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--fz-ink-faint);
+}
+.entry-open {
+  font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--dir-ink);
-  margin: 0 0 14px;
+  color: var(--fz-red);
+  margin-top: 4px;
 }
 
 .directory-empty {
-  font-family: var(--font-body);
+  font-family: 'Inter', sans-serif;
   font-style: italic;
   font-size: 14px;
-  color: var(--dir-ink-muted);
+  color: var(--fz-ink-muted);
   padding: 40px 0;
   text-align: center;
 }
 
-@media (max-width: 640px) {
-  .directory-strip { padding: 16px; }
-  .directory-nav { margin-left: 0; width: 100%; }
-  .container { padding: 0 16px; }
-  .directory-filters select { flex: 1 1 calc(50% - 5px); }
+.directory-footer {
+  position: relative;
+  border-top: 1.5px solid var(--fz-ink);
+  padding: 22px 0 44px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--fz-ink-faint);
+}
+.directory-footer::before {
+  content: '';
+  position: absolute;
+  top: -1.5px;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  background: var(--fz-cobalt);
+}
 
-  .directory-recent-item { gap: 6px; }
-  .directory-recent-hook { flex: 1 1 100%; white-space: normal; order: 3; }
-  .directory-recent-date { margin-left: 0; order: 4; }
+@media (max-width: 900px) {
+  .featured-body { grid-template-columns: 1fr; }
+  .support-list { border-left: none; padding-left: 0; border-top: 1px solid rgba(243,238,225,.3); padding-top: 16px; margin-top: 8px; }
+  .entry { grid-template-columns: 1fr; gap: 8px; }
+  .entry-side { flex-direction: column; align-items: flex-start; width: 100%; text-align: left; gap: 3px; }
+  .entry-meta { white-space: normal; }
+}
+@media (max-width: 640px) {
+  .wrap { padding: 0 18px; }
+  .masthead { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .masthead-right { text-align: left; }
+  .featured-title { font-size: 58px; line-height: .95; white-space: normal; }
+  .entry.large .entry-title { font-size: 30px; }
 }

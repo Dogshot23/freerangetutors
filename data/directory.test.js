@@ -10,9 +10,9 @@
    being mirrored. If those functions change, this file's copies
    must change with them (same pattern the old routing tests used).
 
-   Loads the real 14 migrated resources from data/resources/ and
-   tests against them directly — no synthetic catalogue for the
-   core assertions, per this project's existing test discipline.
+   Loads the real resources from data/resources/ and tests against
+   them directly — no synthetic catalogue for the core assertions,
+   per this project's existing test discipline.
    ============================================================ */
 
 const fs = require('fs');
@@ -88,7 +88,7 @@ function emptyState() {
 console.log('Default state — no search, no filters — shows the full catalogue');
 {
   const result = filterCatalogue(emptyState(), catalogue);
-  check('empty state returns all 14 resources', result.length === catalogue.length, 'got ' + result.length);
+  check('empty state returns all resources', result.length === catalogue.length, 'got ' + result.length);
 }
 
 /* ============================================================
@@ -231,12 +231,12 @@ console.log('\nNo stale reference to the retired intent/tool_kind/card_style fie
   check('resource-card.js has no reference to resource.intent', !/[a-zA-Z_]\.intent\b/.test(cardSrc));
   check('resources.js no longer exposes byIntent (retired with the intent field)', resourcesJsSrc.indexOf('byIntent') === -1);
 
-  check('every one of the 14 real resources has no leftover intent/tool_kind/card_style field',
+  check('every one of the real resources has no leftover intent/tool_kind/card_style field',
     catalogue.every(function (r) {
       return !('intent' in r) && !('tool_kind' in r) && !('card_style' in r);
     }));
 
-  check('every one of the 14 real resources has a teaching_use array (renamed from skills)',
+  check('every one of the real resources has a teaching_use array (renamed from skills)',
     catalogue.every(function (r) { return Array.isArray(r.teaching_use); }));
 
   const validTypes = ['website', 'app', 'game', 'pdf', 'generator', 'tool', 'video', 'activity'];
@@ -263,7 +263,7 @@ console.log('\nRecently Added and All Resources — two views, one complete cata
   const recent = sortNewestFirst(catalogue).slice(0, 4);
   const allResourcesDefault = sortAlphabetical(filterCatalogue(emptyState(), catalogue));
 
-  check('All Resources (default, unfiltered) contains all 14 resources', allResourcesDefault.length === 14);
+  check('All Resources (default, unfiltered) contains all ' + catalogue.length + ' resources', allResourcesDefault.length === catalogue.length);
 
   check('Every Recently Added item is also present in All Resources (never excluded)',
     recent.every(function (r) { return allResourcesDefault.some(function (a) { return a.id === r.id; }); }));

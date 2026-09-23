@@ -50,6 +50,21 @@
   --dir-accent-2-ink: #F2E9D8;
   --dir-rule:         #C9BEA3;
 
+  /* ---- Homepage visual system v2 ("Contemporary Editorial
+     Fanzine" — Mockup 10, approved) ----
+     Prefixed --fz- to avoid colliding with the unrelated --paper/
+     --ink/--rule tokens above (still used by orphaned Dispatch
+     pages with different hex values). Red is the one dominant
+     large-field colour; cobalt is a deliberately secondary,
+     small-scale accent only. See directory.css for usage. */
+  --fz-paper:      #F3EEE1;
+  --fz-ink:        #17140F;
+  --fz-ink-muted:  #524C40;
+  --fz-ink-faint:  #8A8271;
+  --fz-rule:       rgba(23,20,15,.22);
+  --fz-red:        #C22A1E;
+  --fz-cobalt:     #2A4C7C;
+
   /* ---- Typography ----
      Approved pairing: Libre Caslon Display + IBM Plex Mono.
      Fraunces was tested and rejected — see prototype design review. */

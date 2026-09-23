@@ -6,73 +6,70 @@
   <title>Free Range Tutors — Useful things for teaching English online</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans:ital@1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="dispatch-tokens.css" />
-  <link rel="stylesheet" href="components/resource-card.css" />
   <link rel="stylesheet" href="directory.css" />
 </head>
 <body class="directory">
 
-  <header class="directory-strip">
-    <a href="/" class="directory-wordmark">Free Range Tutors</a>
-    <p class="directory-tagline">Useful things for teaching English online.</p>
-    <nav class="directory-nav" aria-label="Main navigation">
-      <a href="about.html">About</a>
-    </nav>
-  </header>
+  <div class="wrap">
 
-  <main>
-
-    <section class="directory-controls">
-      <div class="container">
-
-        <input
-          type="search"
-          class="directory-search"
-          id="directory-search"
-          placeholder="Search resources... (e.g. speaking, grammar, games)"
-          aria-label="Search resources"
-        />
-
-        <div class="directory-filters" id="directory-filters" aria-label="Filter resources">
-          <select id="filter-type" aria-label="Resource type">
-            <option value="">Type: All</option>
-          </select>
-          <select id="filter-use" aria-label="Teaching use">
-            <option value="">Use: All</option>
-          </select>
-          <select id="filter-level" aria-label="Level">
-            <option value="">Level: All</option>
-          </select>
-          <select id="filter-cost" aria-label="Cost">
-            <option value="">Cost: All</option>
-          </select>
-        </div>
-
+    <div class="masthead">
+      <span class="wordmark">Free Range Tutors</span>
+      <div class="masthead-right">
+        <span class="masthead-descriptor">ESL Teaching Resources</span>
+        <nav><a href="about.html">About</a></nav>
       </div>
-    </section>
+    </div>
+    <hr class="rule" />
 
-    <section class="directory-recent" id="directory-recent-section">
-      <div class="container">
-        <h2 class="directory-recent-masthead">Recently Added</h2>
-        <div class="directory-recent-list" id="directory-recent-list"></div>
+    <div class="intro">
+      <p>A working collection of things worth using for teaching English online — made here, and found elsewhere.</p>
+    </div>
+
+    <div class="index-strip">
+      <div class="index-label">Find a resource</div>
+      <div class="search-line">
+        <input type="search" id="directory-search" placeholder="Search — speaking, grammar, games…" aria-label="Search resources" />
       </div>
-    </section>
-
-    <section class="directory-main">
-      <div class="container">
-        <div class="directory-main-head">
-          <h2 class="directory-section-label" id="directory-count">All resources</h2>
-        </div>
-        <div class="rc-grid" id="directory-grid"></div>
-        <p class="directory-empty" id="directory-empty" hidden>Nothing matches that search or filter combination.</p>
+      <div class="filter-line" aria-label="Filter resources">
+        <select class="f" id="filter-type" aria-label="Resource type"><option value="">Type: All</option></select><span class="sep">/</span>
+        <select class="f" id="filter-use" aria-label="Teaching use"><option value="">Use: All</option></select><span class="sep">/</span>
+        <select class="f" id="filter-level" aria-label="Level"><option value="">Level: All</option></select><span class="sep">/</span>
+        <select class="f" id="filter-cost" aria-label="Cost"><option value="">Cost: All</option></select>
       </div>
-    </section>
+    </div>
 
-  </main>
+  </div>
+
+  <section class="recent-band" id="directory-recent-section">
+    <div class="wrap">
+      <div class="recent-head">
+        <h2>Recently added</h2>
+        <span class="n">4 newest</span>
+      </div>
+
+      <div id="recent-featured"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <hr class="rule" />
+
+    <div class="index-head">
+      <h2>All resources</h2>
+      <span class="n" id="index-count">14 total</span>
+    </div>
+
+    <div class="entries" id="entries"></div>
+    <p class="directory-empty" id="directory-empty" hidden>Nothing matches that search or filter combination.</p>
+
+    <footer class="directory-footer">Free Range Tutors — built by one teacher, shared freely. No login, no ads, no tracking.</footer>
+
+  </div>
 
   <script src="data/resources.js"></script>
-  <script src="components/resource-card.js"></script>
   <script src="directory.js"></script>
 </body>
 </html>
