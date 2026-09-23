@@ -2,7 +2,7 @@
   "id": "voa-learning-english",
   "name": "VOA Learning English",
   "url": "https://learningenglish.voanews.com/",
-  "image": null,
+  "image": "images/resources/voa-learning-english.png",
   "description_short": "Free English-learning news, video and audio content with learner-friendly language, transcripts and vocabulary support.",
   "teacher_note": null,
   "source_category": "curated_external",
