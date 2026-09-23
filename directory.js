@@ -24,10 +24,16 @@
   // removed — every All Resources entry now uses uniform sizing;
   // this does not affect the separate Recently Added/FEATURED_ID
   // treatment below, which never referenced LARGE_IDS.
-  const FEATURED_ID = 'backstory-objects';
-  const RED_ACCENT_IDS = ['category-chain'];
-  const COBALT_ACCENT_IDS = ['gtmk-wonderland'];
-  const SUPPORT_ACCENT_IDS = ['escalation-chain'];
+  //
+  // As of the external-links-only catalogue change, all FRT-original
+  // activities (the only resources these IDs ever referenced) were
+  // removed from the live catalogue, so all four lists below are
+  // empty — FEATURED_ID falls back to the genuinely newest resource
+  // (see renderFeatured()), and the accent lists simply never match.
+  const FEATURED_ID = null;
+  const RED_ACCENT_IDS = [];
+  const COBALT_ACCENT_IDS = [];
+  const SUPPORT_ACCENT_IDS = [];
 
   let allResources = [];
 
@@ -229,7 +235,10 @@
       class: 'featured-label',
       text: typeLabelFor(featured.resource_type) + ' — ' + (featured.source_category === 'own_original' ? 'FRT Original' : featured.creator)
     }));
-    wrap.appendChild(el('h3', { class: 'featured-title', text: featured.name }));
+    const titleLink = el('a', Object.assign({ class: 'featured-title-link' }, linkAttrs(featured)), [
+      el('h3', { class: 'featured-title', text: featured.name })
+    ]);
+    wrap.appendChild(titleLink);
 
     const metaWrap = el('div', { class: 'featured-meta' }, [
       document.createTextNode(metaLine(featured) + ' ')
