@@ -2,7 +2,7 @@
   "id": "lessontrak",
   "name": "LessonTrak",
   "url": "/tools/lessontrak/",
-  "image": null,
+  "image": "images/resources/lessontrak.png",
   "description_short": "A lightweight lesson logger. Keep track of what you covered, what worked, and what to revisit — without a full CRM or spreadsheet system.",
   "teacher_note": "Built because a proper lesson journal was always either too informal to stick with or too heavy to maintain. This sits in the middle.",
   "source_category": "own_original",

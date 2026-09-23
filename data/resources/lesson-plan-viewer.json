@@ -2,7 +2,7 @@
   "id": "lesson-plan-viewer",
   "name": "Lesson Plan Viewer",
   "url": "/tools/lesson-plan-viewer/",
-  "image": null,
+  "image": "images/resources/lesson-plan-viewer.png",
   "description_short": "A clean, distraction-free view for lesson plans. Paste in or load a plan and get a calm, readable layout for during-class reference.",
   "teacher_note": "Teaching with a plan in one tab, a timer in another, and a vocab list somewhere else is fragmented. This gives one clean view for what matters during the lesson.",
   "source_category": "own_original",

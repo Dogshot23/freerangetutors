@@ -2,7 +2,7 @@
   "id": "grammar-detective",
   "name": "Grammar Detective",
   "url": "/resources/grammar-detective/",
-  "image": null,
+  "image": "images/resources/grammar-detective.png",
   "description_short": "Students are told exactly how many grammar errors are hiding in a short paragraph and race to find and correct all of them.",
   "teacher_note": "The only grammar activity I use that doesn't feel like homework in disguise — telling them the exact error count turns it into a real hunt instead of a guessing game. Comes with three ready-to-run paragraphs, so the first lesson needs zero prep either.",
   "source_category": "own_original",
