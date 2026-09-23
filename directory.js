@@ -19,10 +19,12 @@
 
   // Deterministic presentation rules (Mockup 10, approved) — not
   // data. These IDs decide which real resources get the featured/
-  // large/accent treatment; the underlying data/resources/*.json
-  // records are untouched.
+  // accent treatment; the underlying data/resources/*.json records
+  // are untouched. The large-entry treatment (LARGE_IDS) has been
+  // removed — every All Resources entry now uses uniform sizing;
+  // this does not affect the separate Recently Added/FEATURED_ID
+  // treatment below, which never referenced LARGE_IDS.
   const FEATURED_ID = 'backstory-objects';
-  const LARGE_IDS = ['backstory-objects', 'grammar-auction'];
   const RED_ACCENT_IDS = ['category-chain'];
   const COBALT_ACCENT_IDS = ['gtmk-wonderland'];
   const SUPPORT_ACCENT_IDS = ['escalation-chain'];
@@ -260,9 +262,10 @@
   }
 
   /* ---- RENDER: All Resources — typeset entries, not cards.
-     LARGE_IDS/RED_ACCENT_IDS/COBALT_ACCENT_IDS are deterministic
-     presentation rules (see top of file), applied identically
-     regardless of search/filter state. ---- */
+     RED_ACCENT_IDS/COBALT_ACCENT_IDS are deterministic presentation
+     rules (see top of file), applied identically regardless of
+     search/filter state. Every entry uses uniform sizing — no
+     large-entry treatment. ---- */
   function entryLabelText(r) {
     let label = typeLabelFor(r.resource_type);
     if (isExternal(r)) label += ' · External ↗';
@@ -281,9 +284,8 @@
      image keep the original two-column layout unchanged, see
      .entry vs .entry.has-image in directory.css. */
   function renderEntry(r) {
-    const isLarge = LARGE_IDS.indexOf(r.id) !== -1;
     const hasImage = !!r.image;
-    const cls = 'entry' + (isLarge ? ' large' : '') + (hasImage ? ' has-image' : '') + accentClass(r);
+    const cls = 'entry' + (hasImage ? ' has-image' : '') + accentClass(r);
     const useText = (r.teaching_use || []).map(useLabelFor).join(' · ');
     const children = [];
     if (hasImage) {
@@ -325,6 +327,35 @@
     document.getElementById('directory-search').addEventListener('input', renderEntries);
     ['filter-category', 'filter-type', 'filter-use', 'filter-level', 'filter-cost'].forEach(function (id) {
       document.getElementById(id).addEventListener('change', renderEntries);
+    });
+    wireMastheadHome();
+  }
+
+  /* ---- MASTHEAD HOME LINK ----
+     A real <a href="/"> (see index.html) so it navigates, works
+     without JS, and is reachable/operable via keyboard and screen
+     readers like any other link — not a JS-only click handler.
+     When already on the homepage, a plain anchor to the same URL
+     does not reset <input>/<select> values a script has already
+     set, so this listener clears search + all filters and re-
+     renders in place, giving the same clean default state a fresh
+     navigation would produce, without forcing a full reload. If
+     the link is ever opened in a new tab, middle-clicked, etc.,
+     the browser's normal navigation still applies — this handler
+     only runs on a plain in-page left click. */
+  function wireMastheadHome() {
+    const home = document.getElementById('masthead-home');
+    if (!home) return;
+    home.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      document.getElementById('directory-search').value = '';
+      ['filter-category', 'filter-type', 'filter-use', 'filter-level', 'filter-cost'].forEach(function (id) {
+        document.getElementById(id).value = '';
+      });
+      renderEntries();
+      window.scrollTo(0, 0);
+      history.pushState(null, '', '/');
     });
   }
 

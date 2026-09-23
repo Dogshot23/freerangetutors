@@ -262,8 +262,8 @@ body.directory a { color: inherit; text-decoration: none; }
    RESOURCE INDEX — entries, not cards. Two-column typeset
    relationship: a wide title/description column, a narrow
    metadata+action column. Continuous rules between entries.
-   Scale VARIES — most entries compact, a small deterministic set
-   given a larger treatment. No boxes anywhere.
+   Every entry uses uniform sizing — no large-entry treatment.
+   No boxes anywhere.
    ============================================================ */
 .index-head {
   display: flex;
@@ -299,7 +299,6 @@ body.directory a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--fz-rule);
   align-items: start;
 }
-.entry.large { padding: 30px 0; }
 .entry.accent { border-bottom-color: var(--fz-red); }
 
 /* ---- entry thumbnail — optional third column, only present when
@@ -312,9 +311,6 @@ body.directory a { color: inherit; text-decoration: none; }
    1fr/220px two-column layout untouched above. ---- */
 .entry.has-image {
   grid-template-columns: 84px 1fr 220px;
-}
-.entry.has-image.large {
-  grid-template-columns: 132px 1fr 220px;
 }
 .entry-thumb {
   width: 100%;
@@ -355,7 +351,6 @@ body.directory a { color: inherit; text-decoration: none; }
   line-height: 1.15;
   margin: 0 0 6px;
 }
-.entry.large .entry-title { font-size: 42px; line-height: 1.05; }
 .entry-desc {
   font-size: 13px;
   color: var(--fz-ink-muted);
@@ -363,7 +358,6 @@ body.directory a { color: inherit; text-decoration: none; }
   max-width: 56ch;
   margin: 0;
 }
-.entry.large .entry-desc { font-size: 14px; max-width: 62ch; }
 
 .entry-side {
   text-align: right;
@@ -424,7 +418,7 @@ body.directory a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) {
   .featured-body { grid-template-columns: 1fr; }
   .support-list { border-left: none; padding-left: 0; border-top: 1px solid rgba(243,238,225,.3); padding-top: 16px; margin-top: 8px; }
-  .entry, .entry.has-image, .entry.has-image.large { grid-template-columns: 1fr; gap: 8px; }
+  .entry, .entry.has-image { grid-template-columns: 1fr; gap: 8px; }
   .entry-thumb { width: 96px; margin-bottom: 4px; }
   .entry-side { flex-direction: column; align-items: flex-start; width: 100%; text-align: left; gap: 3px; }
   .entry-meta { white-space: normal; }
@@ -434,5 +428,4 @@ body.directory a { color: inherit; text-decoration: none; }
   .masthead { flex-direction: column; align-items: flex-start; gap: 8px; }
   .masthead-right { text-align: left; }
   .featured-title { font-size: 58px; line-height: .95; white-space: normal; }
-  .entry.large .entry-title { font-size: 30px; }
 }
