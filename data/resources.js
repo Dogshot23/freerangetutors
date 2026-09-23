@@ -69,6 +69,13 @@
     return (_resources || []).filter(function (r) { return r.resource_type === type; });
   }
 
+  /* primary_category is the teacher-facing "what am I looking for"
+     taxonomy — a different axis from resource_type ("what IS this").
+     See data/SCHEMA.md. */
+  function byPrimaryCategory(category) {
+    return (_resources || []).filter(function (r) { return r.primary_category === category; });
+  }
+
   /* Contiguous CEFR range collapse, e.g. {mode:"specific",values:["B1","B2"]}
      -> "B1–B2". Returns null for universal/unknown/not_applicable — callers
      decide how to render those states (never silently as a blank range). */
@@ -90,6 +97,7 @@
     byId: byId,
     byTeachingUse: byTeachingUse,
     byResourceType: byResourceType,
+    byPrimaryCategory: byPrimaryCategory,
     levelLabel: levelLabel
   };
 

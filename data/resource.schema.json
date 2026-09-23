@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": [
     "id", "name", "url", "description_short", "source_category", "creator",
-    "resource_type", "age_group", "cefr_level", "prep_level",
+    "resource_type", "primary_category", "age_group", "cefr_level", "prep_level",
     "cost", "date_added"
   ],
   "definitions": {
@@ -41,6 +41,10 @@
     "resource_type": {
       "enum": ["website", "app", "game", "pdf", "generator", "tool", "video", "activity"]
     },
+    "primary_category": {
+      "enum": ["teaching_materials", "web_apps_tools", "games", "websites_resource_hubs", "media"]
+    },
+    "primary_subtype": { "type": ["string", "null"] },
 
     "age_group": {
       "allOf": [{ "$ref": "#/definitions/semanticSet" }],

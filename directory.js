@@ -48,6 +48,9 @@
 
   /* ---- POPULATE FILTER OPTIONS FROM REAL DATA (never hand-typed) ---- */
   function populateFilters(resources) {
+    const categories = CATEGORY_ORDER.filter(function (c) {
+      return resources.some(function (r) { return r.primary_category === c; });
+    });
     const types = uniqueSorted(resources.map(function (r) { return r.resource_type; }));
     const uses = uniqueSorted(flatten(resources.map(function (r) { return r.teaching_use || []; })));
     const levels = CEFR_ORDER.filter(function (lvl) {
@@ -55,6 +58,7 @@
     });
     const costs = uniqueSorted(resources.map(function (r) { return r.cost; }).filter(Boolean));
 
+    fillSelect('filter-category', categories, categoryLabelFor);
     fillSelect('filter-type', types, typeLabelFor);
     fillSelect('filter-use', uses, useLabelFor);
     fillSelect('filter-level', levels, function (l) { return l; });
@@ -79,9 +83,21 @@
   };
   const COST_LABELS = { free: 'Free', freemium: 'Freemium', paid: 'Paid' };
 
+  /* primary_category — the teacher-facing "what am I looking for"
+     taxonomy, a different axis from resource_type. See data/SCHEMA.md. */
+  const CATEGORY_ORDER = ['teaching_materials', 'web_apps_tools', 'games', 'websites_resource_hubs', 'media'];
+  const CATEGORY_LABELS = {
+    teaching_materials: 'Teaching Materials',
+    web_apps_tools: 'Web Apps & Tools',
+    games: 'Games',
+    websites_resource_hubs: 'Websites & Resource Hubs',
+    media: 'Media'
+  };
+
   function typeLabelFor(v) { return TYPE_LABELS[v] || v; }
   function useLabelFor(v) { return USE_LABELS[v] || v; }
   function costLabelFor(v) { return COST_LABELS[v] || v; }
+  function categoryLabelFor(v) { return CATEGORY_LABELS[v] || v; }
   function isExternal(r) { return r.source_category === 'curated_external' || r.source_category === 'commercial'; }
 
   function fillSelect(id, values, labelFn) {
@@ -107,6 +123,9 @@
   }
 
   /* ---- FILTERS ---- */
+  function matchesCategory(resource, category) {
+    return !category || resource.primary_category === category;
+  }
   function matchesType(resource, type) {
     return !type || resource.resource_type === type;
   }
@@ -128,6 +147,7 @@
   function currentState() {
     return {
       query: document.getElementById('directory-search').value.trim(),
+      category: document.getElementById('filter-category').value,
       type: document.getElementById('filter-type').value,
       use: document.getElementById('filter-use').value,
       level: document.getElementById('filter-level').value,
@@ -143,6 +163,7 @@
     const state = currentState();
     return allResources.filter(function (r) {
       return matchesSearch(r, state.query)
+        && matchesCategory(r, state.category)
         && matchesType(r, state.type)
         && matchesUse(r, state.use)
         && matchesLevel(r, state.level)
@@ -252,11 +273,23 @@
     if (COBALT_ACCENT_IDS.indexOf(r.id) !== -1) return ' accent-cobalt';
     return '';
   }
+  /* Thumbnail: only rendered when a resource has an image (see
+     data/SCHEMA.md — image is optional, null = no thumbnail). The
+     colour is baked into the PNG at generation time (duotone, keyed
+     to primary_category) — nothing here decides colour, this just
+     decides whether an <img> is shown at all. Entries without an
+     image keep the original two-column layout unchanged, see
+     .entry vs .entry.has-image in directory.css. */
   function renderEntry(r) {
     const isLarge = LARGE_IDS.indexOf(r.id) !== -1;
-    const cls = 'entry' + (isLarge ? ' large' : '') + accentClass(r);
+    const hasImage = !!r.image;
+    const cls = 'entry' + (isLarge ? ' large' : '') + (hasImage ? ' has-image' : '') + accentClass(r);
     const useText = (r.teaching_use || []).map(useLabelFor).join(' · ');
-    return el('a', Object.assign({ class: cls }, linkAttrs(r)), [
+    const children = [];
+    if (hasImage) {
+      children.push(el('img', { class: 'entry-thumb', src: r.image, alt: '', loading: 'lazy' }));
+    }
+    children.push(
       el('div', {}, [
         el('div', { class: 'entry-label-row' }, [el('span', { class: 'entry-label', text: entryLabelText(r) })]),
         el('h3', { class: 'entry-title', text: r.name }),
@@ -267,7 +300,8 @@
         el('span', { class: 'entry-use', text: useText || ' ' }),
         el('span', { class: 'entry-open', text: isExternal(r) ? 'Open ↗' : 'Open →' })
       ])
-    ]);
+    );
+    return el('a', Object.assign({ class: cls }, linkAttrs(r)), children);
   }
 
   function renderEntries() {
@@ -289,7 +323,7 @@
 
   function wireControls() {
     document.getElementById('directory-search').addEventListener('input', renderEntries);
-    ['filter-type', 'filter-use', 'filter-level', 'filter-cost'].forEach(function (id) {
+    ['filter-category', 'filter-type', 'filter-use', 'filter-level', 'filter-cost'].forEach(function (id) {
       document.getElementById(id).addEventListener('change', renderEntries);
     });
   }

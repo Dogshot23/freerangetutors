@@ -302,6 +302,27 @@ body.directory a { color: inherit; text-decoration: none; }
 .entry.large { padding: 30px 0; }
 .entry.accent { border-bottom-color: var(--fz-red); }
 
+/* ---- entry thumbnail — optional third column, only present when
+   a resource has data/resources/<id>.json's image field set. No
+   border, no frame, no card background around the image: the
+   duotone PNG itself (black-and-white source + primary_category
+   ink colour, generated ahead of time) is the entire visual
+   object, exactly as approved in the Mockup 10f thumbnail
+   prototype. Entries without an image keep the original
+   1fr/220px two-column layout untouched above. ---- */
+.entry.has-image {
+  grid-template-columns: 84px 1fr 220px;
+}
+.entry.has-image.large {
+  grid-template-columns: 132px 1fr 220px;
+}
+.entry-thumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
 .entry-label-row {
   display: flex;
   align-items: center;
@@ -403,7 +424,8 @@ body.directory a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) {
   .featured-body { grid-template-columns: 1fr; }
   .support-list { border-left: none; padding-left: 0; border-top: 1px solid rgba(243,238,225,.3); padding-top: 16px; margin-top: 8px; }
-  .entry { grid-template-columns: 1fr; gap: 8px; }
+  .entry, .entry.has-image, .entry.has-image.large { grid-template-columns: 1fr; gap: 8px; }
+  .entry-thumb { width: 96px; margin-bottom: 4px; }
   .entry-side { flex-direction: column; align-items: flex-start; width: 100%; text-align: left; gap: 3px; }
   .entry-meta { white-space: normal; }
 }

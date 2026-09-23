@@ -52,6 +52,9 @@ function matchesSearch(resource, query) {
   ].join(' ').toLowerCase();
   return haystack.indexOf(q) !== -1;
 }
+function matchesCategory(resource, category) {
+  return !category || resource.primary_category === category;
+}
 function matchesType(resource, type) {
   return !type || resource.resource_type === type;
 }
@@ -72,6 +75,7 @@ function matchesCost(resource, cost) {
 function filterCatalogue(state, allRes) {
   return allRes.filter(function (r) {
     return matchesSearch(r, state.query)
+      && matchesCategory(r, state.category)
       && matchesType(r, state.type)
       && matchesUse(r, state.use)
       && matchesLevel(r, state.level)
@@ -79,7 +83,7 @@ function filterCatalogue(state, allRes) {
   });
 }
 function emptyState() {
-  return { query: '', type: '', use: '', level: '', cost: '' };
+  return { query: '', category: '', type: '', use: '', level: '', cost: '' };
 }
 
 /* ============================================================
@@ -138,6 +142,45 @@ console.log('\nResource Type filter — matches the real resource_type distribut
   const activities = filterCatalogue(Object.assign(emptyState(), { type: 'activity' }), catalogue);
   const realActivityIds = catalogue.filter(function (r) { return r.resource_type === 'activity'; });
   check('type=activity returns every real activity-type resource, no more no less', activities.length === realActivityIds.length);
+}
+
+/* ============================================================
+   3b. Primary Category filter — the teacher-facing taxonomy,
+   a different axis from resource_type (see data/SCHEMA.md)
+   ============================================================ */
+console.log('\nPrimary Category filter — matches the real primary_category distribution');
+{
+  const validCategories = ['teaching_materials', 'web_apps_tools', 'games', 'websites_resource_hubs', 'media'];
+  check('every resource has a primary_category value from the 5-value taxonomy',
+    catalogue.every(function (r) { return validCategories.indexOf(r.primary_category) !== -1; }));
+
+  const teachingMaterials = filterCatalogue(Object.assign(emptyState(), { category: 'teaching_materials' }), catalogue);
+  check('category=teaching_materials returns exactly the 6 ready-to-use activity resources',
+    teachingMaterials.length === 6 && ids(teachingMaterials).join(',') === [
+      'backstory-objects', 'escalation-chain', 'grammar-detective',
+      'listening-for-the-lie', 'speaking-experiments', 'student-missions'
+    ].sort().join(','));
+
+  const webAppsTools = filterCatalogue(Object.assign(emptyState(), { category: 'web_apps_tools' }), catalogue);
+  check('category=web_apps_tools returns exactly the 5 tools/generators',
+    webAppsTools.length === 5 && ids(webAppsTools).join(',') === [
+      'lesson-plan-viewer', 'lessontrak', 'report-writer', 'wafflebrain', 'zard'
+    ].sort().join(','));
+
+  const games = filterCatalogue(Object.assign(emptyState(), { category: 'games' }), catalogue);
+  check('category=games returns exactly the 3 real games',
+    games.length === 3 && ids(games).join(',') === ['category-chain', 'grammar-auction', 'gtmk-wonderland'].sort().join(','));
+
+  const hubs = filterCatalogue(Object.assign(emptyState(), { category: 'websites_resource_hubs' }), catalogue);
+  check('category=websites_resource_hubs returns exactly iSLCollective',
+    hubs.length === 1 && hubs[0].id === 'islcollective');
+
+  const media = filterCatalogue(Object.assign(emptyState(), { category: 'media' }), catalogue);
+  check('category=media is an honest empty result (no media resources in the catalogue yet)', media.length === 0);
+
+  const combo = filterCatalogue(Object.assign(emptyState(), { category: 'web_apps_tools', type: 'generator' }), catalogue);
+  check('category=web_apps_tools AND type=generator returns exactly WaffleBrain (the only resource_type:generator entry)',
+    combo.length === 1 && combo[0].id === 'wafflebrain');
 }
 
 /* ============================================================
@@ -242,6 +285,10 @@ console.log('\nNo stale reference to the retired intent/tool_kind/card_style fie
   const validTypes = ['website', 'app', 'game', 'pdf', 'generator', 'tool', 'video', 'activity'];
   check('every resource_type value is one of the 8 tightened directory-model values',
     catalogue.every(function (r) { return validTypes.indexOf(r.resource_type) !== -1; }));
+
+  check('directory.js references primary_category (the new taxonomy filter is wired up)',
+    directorySrc.indexOf('primary_category') !== -1);
+  check('resources.js exposes byPrimaryCategory', resourcesJsSrc.indexOf('byPrimaryCategory') !== -1);
 }
 
 /* ============================================================

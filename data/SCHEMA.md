@@ -52,7 +52,9 @@ from the previous revision — this part of the schema was already correct.
 | `source_category` | enum | yes | `"own_original"` \| `"curated_external"` \| `"commercial"`. |
 | `creator` | string | yes | `"Free Range Tutors"`, or the external creator/site name. |
 | `domain` | string \| null | conditional | Required when `source_category` is `curated_external` or `commercial`. |
-| `resource_type` | enum | yes | **What the thing IS.** See below — 8 directory-model values. |
+| `resource_type` | enum | yes | **What the thing IS**, format/mechanism level. See below — 8 directory-model values. |
+| `primary_category` | enum | yes | **What the teacher is primarily looking for.** See below — the 5 taxonomy values. A different axis from `resource_type`: e.g. Grammar Auction is `resource_type: game` (a game, mechanism) and `primary_category: games` (the teacher wants a game, intent) — those happen to align, but Report Writer is `resource_type: generator` while its `primary_category` is `web_apps_tools` (a teacher isn't browsing "generators" as a top-level intent; they're looking for a tool). |
+| `primary_subtype` | string \| null | no | Free-text refinement within `primary_category` (e.g. `"Conversation Generator"`, `"Grammar Review Game"`). Presentation-level detail, not a controlled vocabulary — never a second primary category. |
 | `age_group` | semantic set | yes | Four-state object over `["young_learner","teen","adult"]`. |
 | `cefr_level` | semantic set | yes | Four-state object over `["A1","A2","B1","B2","C1"]`. |
 | `group_fit` | semantic set | no | Four-state object over `["individual","pair","group"]`. Meaningful mainly for FRT-original activities — external tools/websites often leave this `not_applicable` or `unknown`. |
@@ -92,6 +94,26 @@ live catalogue — `printable`/`media`/`video` map onto `pdf`/`video` above
 when that content type is added; `lesson` and `article` fold into
 `activity`/`website` case by case, since format wasn't the distinction that
 mattered).
+
+## `primary_category` — the 5 teacher-facing taxonomy values
+
+Added alongside `resource_type` (not a replacement — see the field reference
+above for why these are two distinct axes). This is the directory's primary
+browsing taxonomy: the question "what kind of thing am I looking for" that a
+teacher asks before "what specific format is it."
+
+| Value | Label | Definition |
+|---|---|---|
+| `teaching_materials` | Teaching Materials | Ready-to-use lesson content that a teacher can pick up and use directly, whether it is a printable/downloadable resource or an on-screen activity. |
+| `web_apps_tools` | Web Apps & Tools | Interactive online resources that perform a specific function for the teacher or student. Generators are a subtype here, not a primary category. |
+| `games` | Games | Resources whose central purpose is playing a structured game, with rules, turns, scoring, competition, or win/lose conditions. |
+| `websites_resource_hubs` | Websites & Resource Hubs | Broad websites that a teacher browses or searches to find teaching resources across multiple skills, formats, or topics, rather than a single specific interactive function. |
+| `media` | Media | Resources primarily centred around video, audio, or other media content. Currently unpopulated in the live catalogue (0 of 15) — kept for future growth, not yet validated against real data. |
+
+`primary_subtype` is free text for a useful refinement within a category
+(e.g. `web_apps_tools` + `"Conversation Generator"`), never a second
+controlled vocabulary and never promoted to a `primary_category` value of
+its own.
 
 ## `teaching_use` — what the teacher can USE it for
 

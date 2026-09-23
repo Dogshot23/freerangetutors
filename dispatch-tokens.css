@@ -65,6 +65,16 @@
   --fz-red:        #C22A1E;
   --fz-cobalt:     #2A4C7C;
 
+  /* ---- primary_category thumbnail duotone colours (approved
+     2026-09-23) ---- baked into each resource's generated
+     thumbnail PNG at build time, not applied live via CSS. Listed
+     here for reference/consistency only: --fz-red and --fz-cobalt
+     above already match Websites & Resource Hubs and Teaching
+     Materials respectively. See data/SCHEMA.md primary_category. */
+  --fz-ochre:      #9C6B14;  /* Web Apps & Tools */
+  --fz-green:      #2C6E49;  /* Games */
+  --fz-plum:       #5B3A5C;  /* Media */
+
   /* ---- Typography ----
      Approved pairing: Libre Caslon Display + IBM Plex Mono.
      Fraunces was tested and rejected — see prototype design review. */

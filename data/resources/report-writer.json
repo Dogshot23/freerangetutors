@@ -9,6 +9,8 @@
   "creator": "Free Range Tutors",
   "domain": null,
   "resource_type": "tool",
+  "primary_category": "web_apps_tools",
+  "primary_subtype": "Generator",
   "age_group": { "mode": "not_applicable" },
   "cefr_level": { "mode": "not_applicable" },
   "group_fit": { "mode": "not_applicable" },

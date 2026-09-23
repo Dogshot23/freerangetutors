@@ -9,6 +9,8 @@
   "creator": "Free Range Tutors",
   "domain": null,
   "resource_type": "activity",
+  "primary_category": "teaching_materials",
+  "primary_subtype": "Activity",
   "age_group": { "mode": "specific", "values": ["teen", "adult"] },
   "cefr_level": { "mode": "specific", "values": ["B1", "B2"] },
   "group_fit": { "mode": "specific", "values": ["individual", "group"] },
