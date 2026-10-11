@@ -1,0 +1,39 @@
+# Files listed here are NOT uploaded to the public website by Cloudflare (Workers static assets).
+# Same pattern rules as .gitignore. Paths are relative to the site root.
+# This hides files from the live site only; it does not make anything private on GitHub.
+# To make something public again, delete its line. To keep a new internal file private, add a line.
+
+# Git and deployment internals
+.git
+.gitignore
+.gitattributes
+.assetsignore
+.wrangler
+.dev.vars*
+.env*
+wrangler.json
+wrangler.jsonc
+wrangler.toml
+node_modules
+package.json
+package-lock.json
+
+# Local tool and editor folders, OS clutter
+.claude
+.playwright-mcp
+_mockups
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Private project notes and old zip archives
+PROJECT_NOTES.md
+*.zip
+
+# Developer documentation and tests (the data files the site reads are NOT listed here)
+data/*.md
+data/*.test.js
+data/resource.schema.json
+
+# Build and thumbnail scripts, legacy tool templates (nothing public links to this folder)
+tools
