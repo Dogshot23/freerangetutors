@@ -80,7 +80,9 @@ function run(check) {
     const p = path.join(ROOT, entry.file);
     const current = fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '';
     const next = apply(entry, current);
-    if (next !== current) {
+    // Line endings differ between checkouts (Windows autocrlf); only content matters.
+    const lf = (s) => s.replace(/\r\n/g, '\n');
+    if (lf(next) !== lf(current)) {
       stale.push(entry.file);
       if (!check) fs.writeFileSync(p, next);
     }

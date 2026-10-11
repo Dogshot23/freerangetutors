@@ -461,3 +461,19 @@ body.directory a { color: inherit; text-decoration: none; }
 
 /* text for screen readers and search engines only (homepage heading) */
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---- quick topic picks + clear button (built from the resource data by directory.js) ---- */
+.quick-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 12px 0 2px; font-size: 13px; }
+.quick-label { color: var(--fz-ink-muted); font-weight: 600; margin-right: 2px; }
+.quick-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip, .clear-btn {
+  font: inherit; font-size: 13px; line-height: 1.2; cursor: pointer;
+  border: 1.5px solid var(--fz-ink); background: transparent; color: var(--fz-ink);
+  padding: 7px 12px; min-height: 36px;
+}
+.chip:hover, .clear-btn:hover { background: var(--fz-ink); color: var(--fz-paper); }
+.chip[aria-pressed="true"] { background: var(--fz-ink); color: var(--fz-paper); }
+.chip small { font-size: 11px; opacity: .7; margin-left: 4px; }
+.clear-btn { border-color: var(--fz-red); color: var(--fz-red); }
+.clear-btn:hover { background: var(--fz-red); border-color: var(--fz-red); color: var(--fz-paper); }
+.chip:focus-visible, .clear-btn:focus-visible { outline: 3px solid var(--fz-cobalt); outline-offset: 2px; }

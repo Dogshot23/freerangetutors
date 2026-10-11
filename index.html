@@ -73,6 +73,11 @@
         <select class="f" id="filter-level" aria-label="Level"><option value="">Level: All</option></select><span class="sep">/</span>
         <select class="f" id="filter-cost" aria-label="Cost"><option value="">Cost: All</option></select>
       </div>
+      <div class="quick-line" id="quick-picks" hidden>
+        <span class="quick-label" id="quick-label">Popular uses:</span>
+        <span class="quick-chips" role="group" aria-labelledby="quick-label"></span>
+        <button type="button" class="clear-btn" id="clear-filters" hidden>Clear search and filters</button>
+      </div>
     </div>
 
   </div>
@@ -94,7 +99,7 @@
 
     <div class="index-head">
       <h2>All resources</h2>
-      <span class="n" id="index-count"></span>
+      <span class="n" id="index-count" role="status" aria-live="polite"></span>
     </div>
 
     <div class="entries" id="entries"></div>

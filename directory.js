@@ -315,6 +315,57 @@
     return el('a', Object.assign({ class: cls }, linkAttrs(r)), children);
   }
 
+  /* ---- QUICK PICKS + CLEAR BUTTON ----
+     Chips are built from the real teaching_use tags (most common first), so nothing is
+     hand-typed. A chip simply sets the existing "Use" filter; the select stays the source of truth. */
+  const FILTER_IDS = ['filter-category', 'filter-type', 'filter-use', 'filter-level', 'filter-cost'];
+
+  function buildQuickPicks(resources) {
+    const box = document.getElementById('quick-picks');
+    if (!box) return;
+    const counts = {};
+    resources.forEach(function (r) { (r.teaching_use || []).forEach(function (u) { counts[u] = (counts[u] || 0) + 1; }); });
+    const top = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b); }).slice(0, 6);
+    if (!top.length) return;
+    const wrap = box.querySelector('.quick-chips');
+    top.forEach(function (u) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip';
+      b.setAttribute('data-use', u);
+      b.setAttribute('aria-pressed', 'false');
+      b.appendChild(document.createTextNode(useLabelFor(u)));
+      const n = document.createElement('small');
+      n.textContent = String(counts[u]);
+      b.appendChild(n);
+      b.addEventListener('click', function () {
+        const sel = document.getElementById('filter-use');
+        sel.value = sel.value === u ? '' : u;
+        renderEntries();
+      });
+      wrap.appendChild(b);
+    });
+    box.hidden = false;
+    document.getElementById('clear-filters').addEventListener('click', function () {
+      document.getElementById('directory-search').value = '';
+      FILTER_IDS.forEach(function (id) { document.getElementById(id).value = ''; });
+      renderEntries();
+      document.getElementById('directory-search').focus();
+    });
+  }
+
+  function syncQuickPicks() {
+    const box = document.getElementById('quick-picks');
+    if (!box || box.hidden) return;
+    const use = document.getElementById('filter-use').value;
+    Array.prototype.forEach.call(box.querySelectorAll('.chip'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-use') === use ? 'true' : 'false');
+    });
+    const active = !!document.getElementById('directory-search').value ||
+      FILTER_IDS.some(function (id) { return document.getElementById(id).value; });
+    document.getElementById('clear-filters').hidden = !active;
+  }
+
   function renderEntries() {
     const list = sortAlphabetical(filteredResources());
     const container = document.getElementById('entries');
@@ -330,6 +381,7 @@
     count.textContent = list.length === allResources.length
       ? allResources.length + ' total'
       : list.length + ' match' + (list.length === 1 ? '' : 'es');
+    syncQuickPicks();
   }
 
   function wireControls() {
@@ -372,6 +424,7 @@
     allResources = resources;
     populateFilters(resources);
     renderFeatured();
+    buildQuickPicks(resources);
     renderEntries();
     wireControls();
   }).catch(function (err) {

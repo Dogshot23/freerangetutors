@@ -106,6 +106,18 @@ test('the homepage and every originals page are reachable from the Made by FRT p
   assert(read('about.html').includes('href="/made-by-frt/"'), 'About does not link to /made-by-frt/');
 });
 
+console.log('homepage quick picks');
+test('index.html has the quick-picks container and clear button that directory.js fills in', () => {
+  const html = read('index.html');
+  assert(/id="quick-picks"/.test(html) && /id="clear-filters"/.test(html), 'missing quick-picks/clear-filters');
+  assert(/aria-live="polite"/.test(html), 'result count should be announced to screen readers');
+});
+test('directory.js builds chips from the data (no hand-typed topic list)', () => {
+  const js = read('directory.js');
+  assert(/buildQuickPicks/.test(js) && /teaching_use/.test(js), 'quick picks not data-driven');
+  assert(!/\['speaking',\s*'listening'/.test(js), 'topic list must not be hard-coded');
+});
+
 console.log('retired pages');
 STUBS.forEach((p) => {
   test(p + ': is a plain "moved" notice with a link home, not indexed, no timed refresh', () => {
