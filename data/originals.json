@@ -1,0 +1,18 @@
+[
+  {
+    "id": "stop-the-slop",
+    "kind": "guide",
+    "title": "Stop the Slop",
+    "tagline": "You're the boss. AI is the team.",
+    "summary": "A free guide to planning, checking, diagnosing and repairing teaching resources when AI has had a hand in them, so you stay in charge of the result. Comes with a two-page printable check sheet.",
+    "audience": "Teachers of any subject who make, adapt or are handed teaching resources, whether or not they use AI.",
+    "page": "/stop-the-slop/",
+    "image": "/images/stop-the-slop/cover.jpg",
+    "image_alt": "Cover of the guide Stop the Slop: heavy black capitals with a red octagon outline.",
+    "downloads": [
+      { "label": "The guide", "file": "/pdfs/stop-the-slop-guide.pdf", "format": "PDF", "detail": "45 pages, A5, about 11 MB" },
+      { "label": "The Slop Check Sheet", "file": "/pdfs/stop-the-slop-check-sheet.pdf", "format": "PDF", "detail": "2 pages, A4, printable" }
+    ],
+    "date_added": "2026-10-11"
+  }
+]

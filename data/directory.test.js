@@ -16,13 +16,19 @@
 
    As of the external-links-only catalogue change (2026-09-23), the
    8 FRT-original activities were removed from the live catalogue —
-   Free Range Tutors is now a curated list of 5 external ESL
-   resources, each linking directly to its real destination. The 8
+   Free Range Tutors is now a curated list of external ESL
+   resources (19 at the time of the 2026-10 test refresh), each linking directly to its real destination. The 8
    removed activities' data/HTML were moved (not deleted) to
    _archived-activities/ outside the served catalogue. This file's
-   assertions were rewritten to match the real 5-resource catalogue
-   rather than patched piecemeal, since most of the old assertions
-   tested resources that no longer exist here.
+   assertions were rewritten to match the real catalogue rather than
+   patched piecemeal, since most of the old assertions tested resources
+   that no longer exist here.
+   2026-10 refresh: the catalogue grew from 5 to 19 external resources
+   (commit a1137a6), so assertions that hard-coded the 5 original IDs were
+   replaced by expectations computed from the data files with plain,
+   independent predicates (not through filterCatalogue). The filters are
+   checked against that oracle, and known resources are pinned where the
+   expectation is stable.
    ============================================================ */
 
 const fs = require('fs');
@@ -103,7 +109,11 @@ function emptyState() {
    ============================================================ */
 console.log('Every catalogue entry links directly to a real external destination');
 {
-  check('catalogue has exactly 5 resources', catalogue.length === 5, 'got ' + catalogue.length);
+  const manifestIds = JSON.parse(fs.readFileSync(path.join(__dirname, 'manifest.json'), 'utf8'));
+  check('catalogue has exactly one resource file per manifest entry (' + manifestIds.length + ')',
+    catalogue.length === manifestIds.length, 'got ' + catalogue.length);
+  check('catalogue ids and manifest ids are the same set, with no duplicates',
+    ids(catalogue).join(',') === manifestIds.slice().sort().join(',') && new Set(manifestIds).size === manifestIds.length);
 
   check('every resource URL is an absolute https:// external link, never an internal /resources/... path',
     catalogue.every(function (r) { return /^https:\/\//.test(r.url); }));
@@ -114,9 +124,9 @@ console.log('Every catalogue entry links directly to a real external destination
   check('every resource is source_category curated_external',
     catalogue.every(function (r) { return r.source_category === 'curated_external'; }));
 
-  const expectedIds = ['baamboozle', 'islcollective', 'learnenglish-teens', 'voa-learning-english', 'wafflebrain'];
-  check('the catalogue contains exactly the 5 expected resources, no more no less',
-    ids(catalogue).join(',') === expectedIds.sort().join(','));
+  const originalFive = ['baamboozle', 'islcollective', 'learnenglish-teens', 'voa-learning-english', 'wafflebrain'];
+  check('the five original resources are all still in the catalogue',
+    originalFive.every(function (id) { return ids(catalogue).indexOf(id) !== -1; }));
 }
 
 /* ============================================================
@@ -160,21 +170,15 @@ console.log('\nSearch — matches name, description_short, and teaching_use');
    ============================================================ */
 console.log('\nResource Type filter — matches the real resource_type distribution');
 {
-  const games = filterCatalogue(Object.assign(emptyState(), { type: 'game' }), catalogue);
-  check('type=game returns exactly Baamboozle (the one real game-type resource)',
-    games.length === 1 && games[0].id === 'baamboozle');
-
-  const websites = filterCatalogue(Object.assign(emptyState(), { type: 'website' }), catalogue);
-  check('type=website returns exactly iSLCollective and LearnEnglish Teens',
-    websites.length === 2 && ids(websites).join(',') === ['islcollective', 'learnenglish-teens'].sort().join(','));
-
-  const videos = filterCatalogue(Object.assign(emptyState(), { type: 'video' }), catalogue);
-  check('type=video returns exactly VOA Learning English (the one real video-type resource)',
-    videos.length === 1 && videos[0].id === 'voa-learning-english');
-
-  const generators = filterCatalogue(Object.assign(emptyState(), { type: 'generator' }), catalogue);
-  check('type=generator returns exactly WaffleBrain (the one real generator-type resource)',
-    generators.length === 1 && generators[0].id === 'wafflebrain');
+  /* Oracle: expected ids come straight from the data, not from filterCatalogue. */
+  ['game', 'website', 'video', 'generator', 'app'].forEach(function (ty) {
+    const got = filterCatalogue(Object.assign(emptyState(), { type: ty }), catalogue);
+    const want = catalogue.filter(function (r) { return r.resource_type === ty; });
+    check('type=' + ty + ' returns exactly the ' + want.length + ' resource(s) whose resource_type is ' + ty,
+      want.length > 0 && ids(got).join(',') === ids(want).join(','));
+  });
+  check('type=generator still returns WaffleBrain',
+    ids(filterCatalogue(Object.assign(emptyState(), { type: 'generator' }), catalogue)).join(',') === 'wafflebrain');
 
   const activities = filterCatalogue(Object.assign(emptyState(), { type: 'activity' }), catalogue);
   check('type=activity is an honest empty result (all FRT-original activities were removed from the live catalogue)',
@@ -199,21 +203,16 @@ console.log('\nPrimary Category filter — matches the real primary_category dis
   check('category=teaching_materials is an honest empty result (every teaching_materials entry was an FRT-original activity, now removed)',
     teachingMaterials.length === 0);
 
-  const webAppsTools = filterCatalogue(Object.assign(emptyState(), { category: 'web_apps_tools' }), catalogue);
-  check('category=web_apps_tools returns exactly WaffleBrain',
-    webAppsTools.length === 1 && webAppsTools[0].id === 'wafflebrain');
-
-  const games = filterCatalogue(Object.assign(emptyState(), { category: 'games' }), catalogue);
-  check('category=games returns exactly Baamboozle',
-    games.length === 1 && games[0].id === 'baamboozle');
-
-  const hubs = filterCatalogue(Object.assign(emptyState(), { category: 'websites_resource_hubs' }), catalogue);
-  check('category=websites_resource_hubs returns exactly iSLCollective and LearnEnglish Teens',
-    hubs.length === 2 && ids(hubs).join(',') === ['islcollective', 'learnenglish-teens'].sort().join(','));
-
-  const media = filterCatalogue(Object.assign(emptyState(), { category: 'media' }), catalogue);
-  check('category=media returns exactly VOA Learning English',
-    media.length === 1 && media[0].id === 'voa-learning-english');
+  ['web_apps_tools', 'games', 'websites_resource_hubs', 'media'].forEach(function (cat) {
+    const got = filterCatalogue(Object.assign(emptyState(), { category: cat }), catalogue);
+    const want = catalogue.filter(function (r) { return r.primary_category === cat; });
+    check('category=' + cat + ' returns exactly the ' + want.length + ' resource(s) in that category',
+      want.length > 0 && ids(got).join(',') === ids(want).join(','));
+  });
+  check('the category filters together cover the whole catalogue (no resource is unreachable by category)',
+    ['web_apps_tools', 'games', 'websites_resource_hubs', 'media', 'teaching_materials'].reduce(function (n, cat) {
+      return n + filterCatalogue(Object.assign(emptyState(), { category: cat }), catalogue).length;
+    }, 0) === catalogue.length);
 
   const combo = filterCatalogue(Object.assign(emptyState(), { category: 'web_apps_tools', type: 'generator' }), catalogue);
   check('category=web_apps_tools AND type=generator returns exactly WaffleBrain',
@@ -225,19 +224,23 @@ console.log('\nPrimary Category filter — matches the real primary_category dis
    ============================================================ */
 console.log('\nTeaching Use filter — matches the real teaching_use tags, never leaks empty-teaching_use resources');
 {
-  const speaking = filterCatalogue(Object.assign(emptyState(), { use: 'speaking' }), catalogue);
-  check('use=speaking returns exactly WaffleBrain (the only resource with a non-empty teaching_use)',
-    speaking.length === 1 && speaking[0].id === 'wafflebrain');
-
-  /* Baamboozle, iSLCollective, LearnEnglish Teens, and VOA Learning
-     English are all broad external destinations with an honestly
-     empty teaching_use — see data/SCHEMA.md — so no other
-     teaching_use filter should ever surface them. */
-  const emptyUseIds = ['baamboozle', 'islcollective', 'learnenglish-teens', 'voa-learning-english'];
-  ['listening', 'grammar', 'vocabulary', 'writing'].forEach(function (use) {
-    const list = filterCatalogue(Object.assign(emptyState(), { use: use }), catalogue);
-    check('use=' + use + ' is an honest empty result (no remaining resource has that teaching_use)', list.length === 0);
+  /* Oracle again: every use filter must return exactly the resources that carry the tag,
+     and resources with an honestly empty teaching_use must never appear under any use filter. */
+  ['speaking', 'listening', 'grammar', 'vocabulary', 'pronunciation', 'reading', 'warm-up', 'review', 'writing'].forEach(function (use) {
+    const got = filterCatalogue(Object.assign(emptyState(), { use: use }), catalogue);
+    const want = catalogue.filter(function (r) { return (r.teaching_use || []).indexOf(use) !== -1; });
+    check('use=' + use + ' returns exactly the ' + want.length + ' resource(s) tagged ' + use +
+      (want.length === 0 ? ' (an honest empty result)' : ''),
+      ids(got).join(',') === ids(want).join(','));
   });
+  check('use=speaking includes WaffleBrain',
+    ids(filterCatalogue(Object.assign(emptyState(), { use: 'speaking' }), catalogue)).indexOf('wafflebrain') !== -1);
+  const emptyUse = catalogue.filter(function (r) { return !(r.teaching_use || []).length; });
+  check('resources with an empty teaching_use never appear under any use filter (' + emptyUse.length + ' such resources)',
+    ['speaking', 'listening', 'grammar', 'vocabulary', 'pronunciation', 'reading', 'warm-up', 'review', 'writing'].every(function (use) {
+      const got = ids(filterCatalogue(Object.assign(emptyState(), { use: use }), catalogue));
+      return emptyUse.every(function (r) { return got.indexOf(r.id) === -1; });
+    }));
 }
 
 /* ============================================================
@@ -247,15 +250,21 @@ console.log('\nLevel filter — four-state aware, matches the real semantic-set 
 {
   const b1 = filterCatalogue(Object.assign(emptyState(), { level: 'B1' }), catalogue);
   const realB1 = catalogue.filter(function (r) {
-    return r.cefr_level && r.cefr_level.mode === 'specific' && (r.cefr_level.values || []).indexOf('B1') !== -1;
+    return r.cefr_level && (r.cefr_level.mode === 'universal' ||
+      (r.cefr_level.mode === 'specific' && (r.cefr_level.values || []).indexOf('B1') !== -1));
   });
-  check('level=B1 matches every resource whose cefr_level.values includes B1', ids(b1).join(',') === ids(realB1).join(','));
-  check('level=B1 returns exactly iSLCollective and WaffleBrain',
-    b1.length === 2 && ids(b1).join(',') === ['islcollective', 'wafflebrain'].sort().join(','));
+  check('level=B1 matches every universal resource and every resource whose cefr_level.values include B1', ids(b1).join(',') === ids(realB1).join(','));
+  check('level=B1 includes iSLCollective and WaffleBrain',
+    ['islcollective', 'wafflebrain'].every(function (id) { return ids(b1).indexOf(id) !== -1; }));
 
   const c1 = filterCatalogue(Object.assign(emptyState(), { level: 'C1' }), catalogue);
-  check('level=C1 returns exactly iSLCollective (the only resource whose range extends to C1)',
-    c1.length === 1 && c1[0].id === 'islcollective');
+  const realC1 = catalogue.filter(function (r) {
+    return r.cefr_level && (r.cefr_level.mode === 'universal' ||
+      (r.cefr_level.mode === 'specific' && (r.cefr_level.values || []).indexOf('C1') !== -1));
+  });
+  check('level=C1 matches every universal resource and every resource whose values include C1',
+    ids(c1).join(',') === ids(realC1).join(','));
+  check('level=C1 includes iSLCollective', ids(c1).indexOf('islcollective') !== -1);
 
   check('no remaining resource has a not_applicable cefr_level',
     catalogue.every(function (r) { return !r.cefr_level || r.cefr_level.mode !== 'not_applicable'; }));
@@ -268,9 +277,13 @@ console.log('\nCost filter');
 {
   const free = filterCatalogue(Object.assign(emptyState(), { cost: 'free' }), catalogue);
   const paid = filterCatalogue(Object.assign(emptyState(), { cost: 'paid' }), catalogue);
-  check('cost=free matches every resource in the catalogue (all 5 are free)', free.length === catalogue.length);
-  check('cost=paid is an honest empty result (no paid resource remains — GapTheMind Wonderland was removed)',
-    paid.length === 0);
+  const freemium = filterCatalogue(Object.assign(emptyState(), { cost: 'freemium' }), catalogue);
+  check('cost=free and cost=freemium together cover the whole catalogue (' + free.length + ' + ' + freemium.length + ')',
+    free.length + freemium.length === catalogue.length && free.length > 0 && freemium.length > 0);
+  check('cost=free returns only resources whose cost is exactly free',
+    free.every(function (r) { return r.cost === 'free'; }));
+  check('cost=paid is an honest empty result (no resource has cost "paid")',
+    paid.length === catalogue.filter(function (r) { return r.cost === 'paid'; }).length && paid.length === 0);
 }
 
 /* ============================================================
@@ -279,7 +292,9 @@ console.log('\nCost filter');
 console.log('\nCombined filters — every active filter narrows further (AND), never widens (OR)');
 {
   const combo = filterCatalogue(Object.assign(emptyState(), { type: 'game', use: 'speaking' }), catalogue);
-  check('type=game AND use=speaking is an honest empty result (Baamboozle has an empty teaching_use)', combo.length === 0);
+  const wantCombo = catalogue.filter(function (r) { return r.resource_type === 'game' && (r.teaching_use || []).indexOf('speaking') !== -1; });
+  check('type=game AND use=speaking returns exactly the resources that are both (' + wantCombo.length + ')',
+    ids(combo).join(',') === ids(wantCombo).join(','));
 
   const comboMatch = filterCatalogue(Object.assign(emptyState(), { type: 'generator', use: 'speaking' }), catalogue);
   check('type=generator AND use=speaking returns exactly WaffleBrain',

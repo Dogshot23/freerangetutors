@@ -436,3 +436,28 @@ body.directory a { color: inherit; text-decoration: none; }
   .masthead-right { text-align: left; }
   .featured-title { font-size: 58px; line-height: .95; white-space: normal; }
 }
+
+/* ---- homepage pointer to the Stop the Slop guide (added with /stop-the-slop/) ---- */
+.intro .intro-note {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+.intro-note-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fz-paper);
+  background: var(--fz-red);
+  padding: 2px 7px;
+  margin-right: 8px;
+}
+.intro .intro-note a { font-weight: 600; border-bottom: 1.5px solid var(--fz-red); }
+.intro .intro-note a:hover { color: var(--fz-red); }
+.intro .intro-note a:focus-visible { outline: 3px solid var(--fz-cobalt); outline-offset: 3px; }
+
+/* text for screen readers and search engines only (homepage heading) */
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

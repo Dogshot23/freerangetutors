@@ -1,0 +1,128 @@
+/* ============================================================
+   STOP THE SLOP page — additions only.
+   Reuses dispatch-tokens.css (--fz-* palette) and directory.css
+   (.wrap, .masthead, .rule, .directory-footer). All new classes
+   are prefixed .sts- so nothing existing is overridden.
+   Contrast: body text #17140F / #524C40 on #F3EEE1; red #C22A1E
+   on the paper ground is about 4.9:1; paper on red button 4.9:1.
+   ============================================================ */
+
+.sts-skip {
+  position: absolute; left: -9999px; top: 8px;
+  background: var(--fz-ink); color: var(--fz-paper); padding: 10px 14px;
+  font-family: 'Inter', sans-serif; font-size: 14px; z-index: 10;
+}
+.sts-skip:focus { left: 8px; }
+.sts-visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+body.sts a:focus-visible,
+body.sts button:focus-visible,
+body.sts input:focus-visible {
+  outline: 3px solid var(--fz-cobalt);
+  outline-offset: 3px;
+}
+
+.sts-crumb { margin: 18px 0 0; font-family: 'Inter', sans-serif; font-size: 13px; }
+.sts-crumb a { color: var(--fz-ink-muted); border-bottom: 1px solid var(--fz-rule); }
+.sts-crumb a:hover { color: var(--fz-red); }
+
+/* ---- hero ---- */
+.sts-hero {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding: 28px 0 48px;
+}
+.sts-kicker {
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--fz-red); margin: 0 0 10px;
+}
+.sts-title {
+  font-family: 'Fraunces', serif; font-weight: 700;
+  font-size: clamp(52px, 9vw, 104px); line-height: .92; letter-spacing: -.015em;
+  margin: 0 0 14px;
+}
+.sts-tagline {
+  font-family: 'Fraunces', serif; font-style: italic; font-size: 24px;
+  margin: 0 0 22px; color: var(--fz-ink);
+}
+.sts-lead { font-size: 18px; line-height: 1.6; max-width: 52ch; margin: 0 0 26px; color: var(--fz-ink); }
+
+.sts-actions { margin: 0; }
+.sts-btn {
+  display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+  background: var(--fz-red); color: var(--fz-paper) !important;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px;
+  padding: 15px 22px; border: 2px solid var(--fz-red); border-radius: 1px;
+  cursor: pointer; line-height: 1.3; text-decoration: none;
+}
+.sts-btn:hover { background: #9E2017; border-color: #9E2017; }
+.sts-btn-meta { font-weight: 500; font-size: 13px; opacity: .95; }
+.sts-btn-secondary { background: transparent; color: var(--fz-ink) !important; border-color: var(--fz-ink); }
+.sts-btn-secondary:hover { background: var(--fz-ink); border-color: var(--fz-ink); color: var(--fz-paper) !important; }
+.sts-btn-small { padding: 10px 16px; font-size: 14px; }
+.sts-note { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--fz-ink-muted); margin: 14px 0 0; }
+
+.sts-hero-cover img {
+  display: block; width: 100%; max-width: 380px; height: auto; margin: 0 auto;
+  border: 2px solid var(--fz-ink); box-shadow: 10px 10px 0 var(--fz-ink);
+}
+
+/* ---- sections ---- */
+.sts-section { padding: 40px 0; }
+.sts-h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; margin: 0 0 18px; line-height: 1.2; }
+.sts-h3 { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 12px; color: var(--fz-ink-muted); }
+.sts-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+.sts-prose { font-size: 16px; line-height: 1.7; margin: 0 0 14px; color: var(--fz-ink); max-width: 60ch; }
+.sts-wide { max-width: 70ch; }
+.sts-list { margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.65; }
+.sts-list li { margin-bottom: 10px; }
+.rule-thin { border: none; border-top: 1px solid var(--fz-rule); margin: 0; }
+
+.sts-toc { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--fz-ink); columns: 2; column-gap: 44px; }
+.sts-toc li { break-inside: avoid; padding: 12px 0; border-bottom: 1px solid var(--fz-rule); font-size: 15px; line-height: 1.5; color: var(--fz-ink-muted); }
+.sts-toc-t { display: block; font-family: 'Fraunces', serif; font-size: 18px; color: var(--fz-ink); margin-bottom: 2px; }
+
+.sts-previews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.sts-previews figure { margin: 0; }
+.sts-previews img { display: block; width: 100%; height: auto; border: 1.5px solid var(--fz-ink); background: #fff; }
+.sts-previews figcaption { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--fz-ink-muted); margin-top: 8px; }
+
+.sts-sheet { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center; }
+.sts-sheet-img img { display: block; width: 100%; height: auto; border: 1.5px solid var(--fz-ink); box-shadow: 6px 6px 0 var(--fz-ink); }
+
+.sts-share { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.sts-url {
+  flex: 1 1 320px; max-width: 460px; font-family: 'Inter', sans-serif; font-size: 14px;
+  padding: 10px 12px; border: 1.5px solid var(--fz-ink); background: #fff; color: var(--fz-ink); border-radius: 1px;
+}
+.sts-copied { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--fz-ink-muted); min-height: 1.2em; }
+
+.sts-more { padding: 36px 0 8px; }
+.sts-link-strong { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; color: var(--fz-red); border-bottom: 2px solid var(--fz-red); padding-bottom: 2px; }
+.sts-link-strong:hover { color: #9E2017; border-color: #9E2017; }
+
+/* ---- small screens ---- */
+@media (max-width: 760px) {
+  .wrap { padding: 0 20px; }
+  .sts-hero { grid-template-columns: 1fr; gap: 32px; padding-top: 20px; }
+  .sts-hero-cover img { max-width: 240px; box-shadow: 6px 6px 0 var(--fz-ink); }
+  .sts-cols { grid-template-columns: 1fr; gap: 12px; }
+  .sts-toc { columns: 1; }
+  .sts-previews { grid-template-columns: 1fr; max-width: 360px; }
+  .sts-sheet { grid-template-columns: 1fr; gap: 20px; }
+  .sts-sheet-img { max-width: 200px; }
+  .sts-btn { width: 100%; justify-content: flex-start; }
+  .sts-btn-small { width: auto; }
+  .masthead { flex-wrap: wrap; gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+
+/* The shared footer colour (--fz-ink-faint) is about 3.3:1 on the paper ground; on this page use the muted ink (about 7.4:1). */
+body.sts .directory-footer { color: var(--fz-ink-muted); }
