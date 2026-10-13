@@ -18,7 +18,9 @@ function test(name, fn) {
 function assert(c, m) { if (!c) throw new Error(m || 'assertion failed'); }
 
 const originals = JSON.parse(read('data/originals.json'));
-const PUBLIC_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html'];
+const PUBLIC_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html',
+  'resources/the-school-trip-that-should-have-been-cancelled/index.html',
+  'resources/the-school-trip-that-should-have-been-cancelled/play/index.html'];
 const STUBS = ['browse.html', 'dispatch.html', 'dispatch-home.html'];
 
 /* Resolve a root-relative or page-relative link to a file on disk, or null if external/anchor. */
@@ -42,7 +44,7 @@ originals.forEach((o) => {
   const req = ['id', 'kind', 'title', 'summary', 'audience', 'page', 'image', 'image_alt', 'downloads', 'date_added'];
   test(o.id + ': has every required field', () => {
     req.forEach((k) => assert(o[k] && (typeof o[k] !== 'object' || o[k].length), 'missing ' + k));
-    assert(['guide', 'printable', 'tool'].includes(o.kind), 'kind must be guide, printable or tool');
+    assert(['guide', 'printable', 'tool', 'story'].includes(o.kind), 'kind must be guide, printable, tool or story');
     assert(/^\d{4}-\d{2}-\d{2}$/.test(o.date_added), 'date_added must be YYYY-MM-DD');
   });
   test(o.id + ': its page and cover image exist', () => {

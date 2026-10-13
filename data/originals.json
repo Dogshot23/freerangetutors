@@ -14,5 +14,19 @@
       { "label": "The Slop Check Sheet", "file": "/pdfs/stop-the-slop-check-sheet.pdf", "format": "PDF", "detail": "2 pages, A4, printable" }
     ],
     "date_added": "2026-10-11"
+  },
+  {
+    "id": "the-school-trip-that-should-have-been-cancelled",
+    "kind": "story",
+    "title": "The School Trip That Should Have Been Cancelled",
+    "summary": "An interactive branching story for B1 English learners aged 11–15. Students make choices, encounter increasingly disastrous situations and discover different endings. Play it online, or download the PDF version.",
+    "audience": "B1 English learners aged 11–15. Content note: contains toilet humour, sewage and gross-out comedy. Best suited to younger teenagers who enjoy deliberately disgusting humour.",
+    "page": "/resources/the-school-trip-that-should-have-been-cancelled/",
+    "image": "/resources/the-school-trip-that-should-have-been-cancelled/play/images/IMG-001.jpg",
+    "image_alt": "Illustration from the story: a battered minibus in heavy rain with a green smell drifting out of its door and a manhole cover lifting in the road beside a traffic cone.",
+    "downloads": [
+      { "label": "The PDF version", "file": "/pdfs/the-school-trip-that-should-have-been-cancelled.pdf", "format": "PDF", "detail": "27 pages, A4 landscape, about 13 MB" }
+    ],
+    "date_added": "2026-10-14"
   }
 ]

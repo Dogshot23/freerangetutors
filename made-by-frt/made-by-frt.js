@@ -1,7 +1,7 @@
 /* "Made by Free Range Tutors": renders data/originals.json. To add an item, edit that
    file (see data/ORIGINALS.md), then run `node tools/build-static.js`. No dependencies. */
 (function () {
-  var KIND_LABELS = { guide: 'Free guide', printable: 'Free printable', tool: 'Browser tool' };
+  var KIND_LABELS = { guide: 'Free guide', printable: 'Free printable', tool: 'Browser tool', story: 'Interactive story' };
 
   function el(tag, attrs, text) {
     var n = document.createElement(tag);

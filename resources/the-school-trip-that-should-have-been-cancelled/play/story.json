@@ -1,0 +1,454 @@
+{
+ "title": "The School Trip That Should Have Been Cancelled",
+ "short_title": "The School Trip",
+ "subtitle": "An interactive story for English learners",
+ "intro": "Year 9 is going on a trip. Nobody wants to go. The coach smells, the teacher has a clipboard, and the visitor attraction is a sewage works. How bad can one Friday be? Make your choices. Find out.",
+ "chips": [
+  "CEFR B1",
+  "Ages 11-15",
+  "About 15 minutes",
+  "8 endings"
+ ],
+ "start": "car_park",
+ "cover_image": "IMG-001",
+ "images": {
+  "IMG-001": {
+   "file": "images/IMG-001.jpg",
+   "alt": "Illustration: a battered minibus parked in heavy rain, with a green smell drifting out of its open door and a manhole cover lifting in the road beside a traffic cone.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-002": {
+   "file": "images/IMG-002.jpg",
+   "alt": "Illustration: a toilet door sealed with tape and planks and marked with a hazard picture and a cross, green smells seeping out, and a man's legs in tracksuit trousers with a pink rucksack on his lap.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-003": {
+   "file": "images/IMG-003.jpg",
+   "alt": "Illustration: a person biting into a messy sandwich, with a washing machine window on their stomach full of tumbling trainers.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-004": {
+   "file": "images/IMG-004.jpg",
+   "alt": "Illustration: a thick green cloud sweeping across a room and knocking over a row of schoolchildren, with a jar spilling green slime on a shelf.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-005": {
+   "file": "images/IMG-005.jpg",
+   "alt": "Illustration: a huge old pumping machine with a red lever and a tower of cardboard warning pictures, and a girl with two hair puffs staring at the lever.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-006": {
+   "file": "images/IMG-006.jpg",
+   "alt": "Illustration: a giant lumpy fatberg with a sock and a traffic cone on top fills a brick tunnel, while a bearded man in yellow wellies holds a finger to his lips.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-007": {
+   "file": "images/IMG-007.jpg",
+   "alt": "Illustration: a person in a black bin bag being sprayed with a garden hose by the coach driver while a ring of schoolchildren film them on their phones.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-008": {
+   "file": "images/IMG-008.jpg",
+   "alt": "Illustration: a cafe where water pours through a hole in the ceiling, with a person seen from behind wearing a toilet seat round their neck in front of a messy pudding while the diners stare.",
+   "width": 800,
+   "height": 993
+  },
+  "IMG-009": {
+   "file": "images/IMG-009.jpg",
+   "alt": "Illustration: a street where every drain shoots up a fountain, with the mayor lifted into the air on top of one and a man walking past with a sock on his head.",
+   "width": 800,
+   "height": 993
+  }
+ },
+ "sections": [
+  {
+   "id": "car_park",
+   "title": "Rule Seven",
+   "body": "It is 8:15 on a wet Friday morning, and Year 9 is standing in the school car park next to a coach. The coach is the colour of old porridge. On the side, in peeling letters, it says PEMBERTON'S PLEASURE TRAVEL. **Nobody has ever found it pleasurable.**\n\nToday's trip is to the Grimsditch Sewage Works Heritage Centre: “Where History Goes Down the Drain”. Mr Pettigrew, your geography teacher, is holding a clipboard and wearing a hi-vis vest that is two sizes too small. “Remember Rule Seven,” he says. “Nobody goes anywhere alone. Not even to the toilet. **Especially not to the toilet.**”\n\nIn your bag, your dad's lunch is waiting: a banana, cheese and pickled onion sandwich, a pickled egg, and a yoghurt with a use-by date of June. He called it **“a balanced meal”**.\n\nYour best friend Kez waves from the coach door. The only free seats are at the back, next to a toilet door, and near the front, behind Mr Pettigrew.",
+   "choices": [
+    {
+     "label": "Sit at the back, next to the toilet door.",
+     "target": "back_seat"
+    },
+    {
+     "label": "Sit near the front, behind Mr Pettigrew.",
+     "target": "front_seat"
+    }
+   ]
+  },
+  {
+   "id": "back_seat",
+   "title": "Out of Order",
+   "body": "The back seat has a view of the whole coach, and also of a toilet door covered in brown tape. Someone has stuck a sign on it. The sign says OUT OF ORDER. Someone else has added, in marker pen, **“AND WE MEAN IT.”**\n\nThe coach starts with a jump. Brenda, the driver, is eating pickled onions from a jar and steering with one knee. There is a smell in the air, **like a wet dog that has been sleeping in a cheese shop**.\n\nBig Dan, who is very tall and carries a very small rucksack, leans across the aisle. “Something's in there,” he whispers. “I heard it move.”\n\n“That's the engine,” says Kez.\n\n“Engines don't gurgle.” Dan looks at you. “Go on. One quick look. Nobody's watching.”\n\nThe smell is getting stronger. **So is the gurgling.**",
+   "choices": [
+    {
+     "label": "Open the toilet door. Just a quick look.",
+     "target": "end_toilet"
+    },
+    {
+     "label": "Ignore Dan and open the roof vent instead.",
+     "target": "vent_window"
+    }
+   ],
+   "image": "IMG-002"
+  },
+  {
+   "id": "front_seat",
+   "title": "Behind Mr Pettigrew",
+   "body": "The seat behind Mr Pettigrew is the safest place on the coach, and the most boring. From here you can see the back of his head, which has **exactly eleven hairs** combed across the top, like the roads on a map of a very small country.\n\nMr Pettigrew turns round and looks at you over his clipboard. “Ah,” he says. “A sensible person. I need a Trip Assistant. The job is easy: carry the Forms Folder, count the group and wear a hi-vis vest.” He holds up an orange vest. It has been washed so often that it is now the colour of weak tea.\n\nFrom your bag comes a smell. It is Dad's sandwich. It has been in a warm bag for twenty minutes, and it is beginning to make itself known. **The banana is winning.**\n\nMr Pettigrew is waiting. Two rows behind, Kez makes a face at you.",
+   "choices": [
+    {
+     "label": "Accept the job of Trip Assistant.",
+     "target": "clipboard_job"
+    },
+    {
+     "label": "Pretend you didn't hear him and eat Dad's sandwich.",
+     "target": "breakfast_sandwich"
+    }
+   ]
+  },
+  {
+   "id": "vent_window",
+   "title": "The Roof Vent",
+   "body": "You stand on the seat and push the roof vent. It opens with a bang, and fresh air rushes in. For one beautiful moment, the coach smells of rain and hedges.\n\nThen the vent lid comes off, flies into the sky and **lands on a passing ice-cream van**. Nobody on the coach notices except you, Kez and a very surprised seagull. Big Dan says he saw nothing, and for Dan this is true: he has fallen asleep with his mouth open.\n\nAn hour later, the coach rattles through the gates of the Grimsditch Sewage Works Heritage Centre. A man in a cardigan, a bobble hat and bright yellow wellies is waiting by the door, with a huge bunch of keys on his belt. “That's Colin,” whispers Kez. “He's the guide. I looked him up. **His hobby is ‘pipes’.**”\n\nWhile Mr Pettigrew counts heads (twice), you notice an old iron door at the end of the yard. A sign says: **THE GREAT PUMP**.",
+   "choices": [
+    {
+     "label": "Slip away with Kez to look at the Great Pump.",
+     "target": "pump_room"
+    },
+    {
+     "label": "Stay with the group and follow Colin inside.",
+     "target": "smell_room"
+    }
+   ]
+  },
+  {
+   "id": "clipboard_job",
+   "title": "The Forms Folder",
+   "body": "The vest smells of damp and someone else's sandwich. The Forms Folder is thicker than a phone book. Inside there is a form for everything: Form 4B (Sunburn), Form 6 (Lost Teeth) and **Form 7B, the Toilet Permission Form**, which must be signed, stamped and checked by Mr Pettigrew himself.\n\n“Do not lose Form 7B,” he says. “Last year a boy lost it, and we had to hold a meeting about it. **The meeting lasted two hours.**”\n\nAt Grimsditch, Colin greets everybody with a handshake that goes on for far too long. “Welcome to the finest sewage heritage centre in the north of England,” he says proudly. “**It is also the only one.**”\n\nKez grabs your sleeve. “I really need the toilet,” she whispers. “Like, really. Have you got Form 7B?”\n\nMr Pettigrew is counting the group. Colin is already leading everyone towards the Smell Room.",
+   "choices": [
+    {
+     "label": "Stay with the group and help count heads.",
+     "target": "smell_room"
+    },
+    {
+     "label": "Use Form 7B to take Kez to the toilets.",
+     "target": "toilet_queue"
+    }
+   ]
+  },
+  {
+   "id": "breakfast_sandwich",
+   "title": "Dad's Sandwich",
+   "body": "You take a big bite. Immediately you understand that Dad has made a mistake. Possibly several.\n\nThe sandwich contains banana, cheese, pickled onion and mustard. There is also something crunchy in the middle that could be a crisp, or could be **a very old beetle**. You decide not to investigate. By the time you finish, the coach has left the town, and your stomach is making a noise like **a washing machine full of trainers**.\n\n“Was that you?” says the girl across the aisle, and moves her seat.\n\nThe coach arrives at the Grimsditch Sewage Works Heritage Centre at 9:40. A man in yellow wellies and a bobble hat is waiting at the door. Everyone climbs out. You do not climb. You walk very carefully, with your knees together, **like someone carrying an invisible tray**.\n\nMr Pettigrew is holding his clipboard. Rule Seven suddenly seems very important.",
+   "choices": [
+    {
+     "label": "Ask Mr Pettigrew for Form 7B at once.",
+     "target": "toilet_queue"
+    },
+    {
+     "label": "Say nothing and hope it goes away.",
+     "target": "smell_room"
+    }
+   ],
+   "image": "IMG-003"
+  },
+  {
+   "id": "smell_room",
+   "title": "The Smell Room",
+   "body": "“Welcome,” says Colin, “to the Smell Room.” He opens a door and a wave of warm air hits the class like a wet towel. “We have a Victorian sewer, a 1970s drain and, in that cupboard, the famous Gutter of 1887. Press the buttons to smell history!”\n\nThe class presses the buttons. There are sounds of gagging. Big Dan covers his face with his tiny rucksack.\n\nOn a high shelf stands a small, dusty jar with a handwritten label: **DO NOT OPEN**. Something green has pushed up the lid.\n\n“Rule Four,” says Mr Pettigrew loudly. “Nobody touches anything. Not the jars, not the buttons, **not each other**.” He is ticking boxes on his clipboard. He has not noticed that Colin has put down his keys somewhere and is searching his pockets, muttering, “It was just here.”\n\nThe air is getting warmer. **The jar seems to be breathing.**",
+   "choices": [
+    {
+     "label": "Open the jar marked DO NOT OPEN and have a sniff.",
+     "target": "jar_incident"
+    },
+    {
+     "label": "Follow the sign that says CAFÉ: FRESH AIR.",
+     "target": "canteen_lunch"
+    }
+   ]
+  },
+  {
+   "id": "jar_incident",
+   "title": "Gutter of 1887",
+   "body": "You lift the lid. For about one second, nothing happens. Then the Gutter of 1887 wakes up.\n\nThe smell **does not so much arrive as arrest you**. It is the smell of old cabbage, **wet socks and secrets**. Your eyes fill with tears. “That was not supposed to be opened!” shouts Colin. “It's still fermenting!” A pale green cloud rolls across the floor, and half of Year 9 falls over like skittles. Big Dan, who is very big, falls over **slowly and in stages**.\n\nThe fire alarm goes off. Mr Pettigrew blows his whistle, drops his clipboard, picks it up and blows the whistle again. “Pairs!” he shouts. “Hold your buddy's hand! Form an orderly line!”\n\nNobody can see **an orderly line.** Everyone is coughing.\n\nTo your left, a door marked STAFF ONLY is open, and the air behind it looks clean. To your right, the class is stumbling towards the main hall.",
+   "choices": [
+    {
+     "label": "Run through the STAFF ONLY door to escape the smell.",
+     "target": "staff_corridor"
+    },
+    {
+     "label": "Join the coughing line heading for the main hall.",
+     "target": "evacuation"
+    }
+   ],
+   "image": "IMG-004"
+  },
+  {
+   "id": "toilet_queue",
+   "title": "Form 7B",
+   "body": "The toilets are at the end of a long corridor. A queue of children is already waiting outside, and a large sign hangs on the door: CLOSED: PROBLEMS. Under it, a smaller notice says, “**We are aware of the smell.**”\n\nMr Pettigrew arrives with his stamp. He checks Form 7B for **six full minutes**, holding it up to the light as if it were a banknote. “Buddy?” he asks. You point at the nearest person. “And does your buddy also have a form?”\n\nFinally he stamps it and writes the time in his notebook. “Four minutes,” he says. “From the moment you go in. **I will be timing it.**”\n\nThen Colin appears, smiling. “Oh, those are closed, I'm afraid. The pipes are a bit … excitable today.” Behind a door marked STAFF ONLY, someone is whistling happily, in a place with no problems at all.\n\nIt is 11:58. At twelve o'clock, Rule Nine says all queues stop for lunch.",
+   "choices": [
+    {
+     "label": "Sneak through the STAFF ONLY door while nobody is looking.",
+     "target": "staff_corridor"
+    },
+    {
+     "label": "Wait in the queue. You have a signed form and nothing to hide.",
+     "target": "canteen_lunch"
+    }
+   ]
+  },
+  {
+   "id": "canteen_lunch",
+   "title": "Lunch at The Outfall",
+   "body": "The café is called The Outfall. The menu has soup, jacket potatoes and, for some reason, a dessert called Sludge Pudding (it is chocolate). A sign on the wall says: **PLEASE DO NOT DISCUSS YOUR LUNCH.**\n\nMr Pettigrew is handing out seating plans. You sit down and open your lunchbox. The pickled egg looks back at you. The yoghurt has grown a thin grey skin that **wobbles when you tap the pot**. Kez studies it with deep respect.\n\nThen you notice that the floor is humming. The water glasses are shivering on the tables. In the corner of the kitchen, a metal drain cover begins to rattle, as if something underneath it wants to come out and complain about the food.\n\n“Nothing to worry about,” says Colin cheerfully, from behind a tray of scones. **His face says there is plenty to worry about.**",
+   "choices": [
+    {
+     "label": "Follow the humming out of the café.",
+     "target": "gift_shop"
+    },
+    {
+     "label": "Tell Mr Pettigrew about the drain.",
+     "target": "evacuation"
+    }
+   ]
+  },
+  {
+   "id": "gift_shop",
+   "title": "The Gift Shop",
+   "body": "The Gift Shop is a small room behind the café. It sells pencils shaped like toilet brushes, tea towels with a map of the Victorian sewers and a mug that says I WENT TO THE SEWAGE WORKS AND ALL I GOT WAS THIS MUG. The mug costs **eleven pounds**.\n\nThe humming is louder here. It seems to come from under a faded rug in front of the till. The woman at the till wears a very large Volunteer of the Month badge. She is knitting, and she does not look up. “That's the floor,” she says. “**It always does that. We say nothing.**”\n\nYou lift the corner of the rug. Underneath is a wooden trapdoor with an iron ring. **It is warm.** Something below is knocking, slowly, like someone who has been knocking for a very long time and does not expect an answer.\n\nBehind you, the class is queuing to buy poo-shaped erasers, and nobody is looking at you.",
+   "choices": [
+    {
+     "label": "Open the trapdoor and climb down.",
+     "target": "tunnel"
+    },
+    {
+     "label": "Buy a toilet-brush pencil and go back to your group.",
+     "target": "evacuation"
+    }
+   ]
+  },
+  {
+   "id": "pump_room",
+   "title": "The Great Pump",
+   "body": "The Great Pump is the size of a double-decker bus. It is made of iron, brass and about a hundred years of grease, and it fills a room that smells of oil and ghosts. A plaque says it was built in 1887 by Sir Aldous Grimsditch, who “solved the town's waste problem in the only way he knew: **loudly**.”\n\nOn the wall is a red lever as long as your arm. Above it, a sign says DO NOT PULL. ASK COLIN. Under that, somebody has added: REALLY. Under that: WE MEAN IT. Under that, in tiny letters, someone has written: **“Please.”**\n\nKez is staring at the lever **the way other people stare at cake**. “Nobody has touched this in fifty years,” she says. “It's probably broken.”\n\n“Probably,” you agree.\n\nBehind the pump there is a small hatch in the wall, big enough for a person, with warm air drifting out of it. From the yard comes the sound of Colin's wellies, and the group, coming this way.",
+   "choices": [
+    {
+     "label": "Pull the lever.",
+     "target": "pump_pulled"
+    },
+    {
+     "label": "Hide in the hatch before anyone sees you.",
+     "target": "tunnel"
+    }
+   ],
+   "image": "IMG-005"
+  },
+  {
+   "id": "pump_pulled",
+   "title": "The Lever",
+   "body": "The lever is heavy and stiff, and it moves with a noise like a giant clearing its throat. For a moment, nothing happens.\n\nThen **everything** happens.\n\nThe Great Pump shudders. Steam screams from the pipes. Somewhere deep underground, something very large wakes up and says a word you do not know. The floor trembles, and a row of Victorian portraits falls off the wall one by one, like very slow dominoes. Kez has disappeared.\n\nColin bursts in, red in the face. “**WHO PULLED THE LEVER?**” he shrieks. “**It's been off since 1974!** It pumps everything BACKWARDS!” Then he looks at you. Every part of your face **says guilty**. “The control room,” he gasps. “We have to switch it off, before it reaches the…” He stops. “Before it reaches town.”\n\nMr Pettigrew's whistle is already coming along the corridor.",
+   "choices": [
+    {
+     "label": "Help Colin find the control room.",
+     "target": "pipe_crawl"
+    },
+    {
+     "label": "Run for the coach before anyone sees you.",
+     "target": "end_blamed"
+    }
+   ]
+  },
+  {
+   "id": "staff_corridor",
+   "title": "Staff Only",
+   "body": "Behind the door is a corridor full of muddy wellies, chipped mugs and a notice board that says STAFF ROTA: **NOBODY HAS FILLED THIS IN SINCE 2009**. The air is almost clean, **which is suspicious**.\n\nAt the end of the corridor there are two doors. The first has a small picture of a toilet on it. After everything that has happened today, it looks like a golden gate. The second door is made of steel. It is as big as a garage door, and it is humming. The hum goes straight into your teeth.\n\nSomewhere behind the steel door, water is rushing. Somewhere behind you, Mr Pettigrew is blowing his whistle. “Pairs! Pairs! Where is the other half of this pair?” (The other half is Big Dan, who is lost.)\n\nThe STAFF ONLY door closes behind you with a click. **You can only go forward.**",
+   "choices": [
+    {
+     "label": "Go into the staff toilet. It looks too good to be true.",
+     "target": "end_geyser"
+    },
+    {
+     "label": "Open the humming steel door.",
+     "target": "tunnel"
+    }
+   ]
+  },
+  {
+   "id": "tunnel",
+   "title": "Under Grimsditch",
+   "body": "At the bottom, there is a tunnel as tall as a church and as wide as a motorway. The walls are slimy and the air is warm and thick. Drips fall from the ceiling in a rhythm that sounds almost like music, if the music is by a band with no talent.\n\nAt the far end, lit by a single lamp, is the biggest thing you have ever seen. It is pale, lumpy and shiny, and it fills the tunnel from wall to wall. It is made of fat, wet wipes, cooking oil and all the things people should not put down toilets. **A single sock** sticks out of it like a flag. Someone has put a traffic cone on top, probably as a joke.\n\nIt moves. It does not move quickly, but it moves **like something with an opinion**.\n\n“Don't make eye contact,” says a voice behind you. Colin has appeared, panting, with a torch. “His name is Brian. **We don't talk about Brian.**”\n\nIn your bag, the **pickled egg** rolls over.",
+   "choices": [
+    {
+     "label": "Offer Brian the pickled egg from your lunchbox.",
+     "target": "end_brian"
+    },
+    {
+     "label": "Follow Colin into the narrow pipe to the control room.",
+     "target": "pipe_crawl"
+    }
+   ],
+   "image": "IMG-006"
+  },
+  {
+   "id": "pipe_crawl",
+   "title": "Colin's Shortcut",
+   "body": "“It's quicker than the stairs,” says Colin, pointing at a round hole in the wall. “And perfectly safe. **Mostly.**”\n\nYou crawl on your hands and knees through a metal pipe, following a pair of yellow wellies. The pipe is slippery. It is also dark, and it smells of every school dinner that has ever gone wrong. Colin chats happily as you go. “In 1962, a man got stuck here for two days. We made him a sandwich. Very nice man. **Very nice sandwich.**”\n\nHalfway along, the pipe gets narrower. Colin stops. His top half is through a small gap, and his wellies and his keys are still next to your face. “Don't panic,” he says, **in the voice of a man who is panicking**. “Give me a push.”\n\nBehind you, back in the tunnel, **something very big is scraping along the wall**.",
+   "choices": [
+    {
+     "label": "Push Colin hard through the gap.",
+     "target": "control_room"
+    },
+    {
+     "label": "Crawl backwards and shout for Mr Pettigrew.",
+     "target": "evacuation"
+    }
+   ]
+  },
+  {
+   "id": "control_room",
+   "title": "The Control Room",
+   "body": "The control room has not been painted since 1974. There are brown dials, a small green screen with a flickering line, and a wall of switches with handwritten labels. In the middle, under a glass cover, is a large red button. The label says: EMERGENCY FLUSH: **DO NOT USE UNLESS ABSOLUTELY DESPERATE**.\n\nColin pops out of the pipe like a cork from a bottle and lands on a chair that was never made for him. “The pump is pushing Brian towards the town,” he pants. “If he reaches the high street, it will be in the newspapers. Possibly the history books.”\n\nOn the desk is a thick manual covered in coffee rings: PUMP OPERATION, 30 PAGES PLUS APPENDIX. Next to it is a small laminated card with red letters: **QUICK START: READ THIS FIRST**.\n\nOn the screen, the flickering line begins to climb. Through the wall, **you can hear Brian coming**.",
+   "choices": [
+    {
+     "label": "Lift the glass cover and press the big red button.",
+     "target": "end_flush"
+    },
+    {
+     "label": "Read the Quick Start card. All of it. Slowly.",
+     "target": "end_hero"
+    }
+   ]
+  },
+  {
+   "id": "evacuation",
+   "title": "The Orderly Line",
+   "body": "Outside in the car park, it is raining. The whole of Year 9 stands in a wobbling line, coughing, holding hands in pairs. Mr Pettigrew walks up and down with his clipboard. “Count off!” he shouts. “One! Two! … Where is Number Twenty-Seven?” (Number Twenty-Seven is Big Dan, who is nowhere to be seen.)\n\nBehind you, the Heritage Centre begins to make a deep, wet, rumbling noise. A manhole cover in the car park rises a metre into the air and falls back down, **as if it is thinking about something**. The ground shakes. The puddles begin to dance.\n\n“Rule Seven!” cries Mr Pettigrew. “**Nobody leaves the line without signing out!** I have the Sign-Out Sheet!” He holds it up. **It starts to rain on it.**\n\nThe coach is thirty metres away. Brenda is eating a pickled onion and watching all of this through her sunglasses with great interest.",
+   "choices": [
+    {
+     "label": "Stay in your pair and wait to sign out, just like Rule Seven.",
+     "target": "end_rule7"
+    },
+    {
+     "label": "Shout “RUN!” and lead the class to the coach.",
+     "target": "end_coach"
+    }
+   ]
+  },
+  {
+   "id": "end_toilet",
+   "title": "The Quick Look",
+   "body": "You turn the handle. The door opens about two centimetres, and then something behind it pushes back.\n\nWhat happens next is not quick. It is not clean. It is, as Mr Pettigrew later writes in the Incident Report, “**regrettable and extremely brown**”. Nobody ever finds out exactly how the coach's toilet tank got so full, but Brenda will be finding it in the carpets until Christmas.\n\nThe coach stops in a lay-by. Everybody gets out. Brenda washes you down with a garden hose from the boot while twenty-eight classmates film it. You spend the rest of the day on the coach, wearing a bin bag, listening to the others singing on their way to the Sewage Works.\n\nBy Monday, the video has two million views. **Your new nickname is Door.** Nobody ever says the rest of it.\n\nOUT OF ORDER meant **exactly what it said.**",
+   "choices": [
+    {
+     "label": "Start again and make a better decision.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "disaster",
+   "image": "IMG-007"
+  },
+  {
+   "id": "end_geyser",
+   "title": "Rocket Kid",
+   "body": "The staff toilet is spotless. There is a fresh air-freshener, a picture of a smiling frog and a laminated notice that says PLEASE FLUSH GENTLY. It is the most beautiful room you have ever entered. You lock the door, take a deep breath and, for the first time all day, relax.\n\nUnder the floor, something that has been waiting for fifty years sees its chance.\n\nThe toilet does not flush. **It erupts.** A column of water, wet wipes and mystery rises up with a roar, and you rise with it. You go through the ceiling, through the staff-room floor and, finally, you land in the middle of the café, in a chair, in front of a plate of Sludge Pudding, **with the toilet seat around your neck like a medal**.\n\nThe whole school stops eating. Then somebody starts to clap.\n\nMr Pettigrew writes his report that night: “Pupil used toilet without buddy or form. **See attached ceiling.**” For the rest of the year, everybody calls you Rocket. Honestly, it could be worse.",
+   "choices": [
+    {
+     "label": "Start again and see what else could happen.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "comic",
+   "image": "IMG-008"
+  },
+  {
+   "id": "end_rule7",
+   "title": "Sign Here, Please",
+   "body": "You hold your buddy's hand and wait. Mr Pettigrew signs out each pair slowly, with the correct pen. The first pair takes four minutes. Form 7C (Emergency Evacuation) **turns out to have a second page**.\n\nBy the time you reach the front, the manhole cover has opened for good. What comes out is not water. It is not completely a liquid, either. It slides gently across the car park, and **nobody runs, because nobody has been signed out**. The whole class stays in a perfect line while the tide rises: to your ankles, then to your knees, then to the chin of the shortest pair.\n\nThe rescue helicopter arrives forty minutes later. The pilot sees the line, still perfect, and Mr Pettigrew standing on a chair, holding his clipboard above his head.\n\nNext month, the Headteacher gives him a certificate: EXCELLENT HEALTH AND SAFETY PRACTICE. It hangs in his classroom. **It is slightly brown.**",
+   "choices": [
+    {
+     "label": "Start again and break a few rules.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "comic"
+  },
+  {
+   "id": "end_coach",
+   "title": "Brenda Drives",
+   "body": "“RUN!” you shout, and the whole class goes. Mr Pettigrew's whistle disappears in the thunder of sixty school shoes. You fly across the car park, up the coach steps and into the seats, falling over each other and a jar of pickled onions.\n\nBrenda looks at you over her sunglasses. She has seen many things in thirty years of driving. **She has never seen this.** “Where to?” she says.\n\n“ANYWHERE!”\n\nShe starts the engine. As you pull out of the car park, you look back through the window. The Heritage Centre is bubbling like a pan of porridge. A long, shiny shape is rising behind it, with a traffic cone on its head like a hat.\n\nBrenda takes you to a chip shop twelve miles away. Everybody gets chips. Nobody mentions Rule Seven. Mr Pettigrew arrives by taxi at four o'clock, soaking wet, and speaks to nobody. The trip is never mentioned again. **Honestly, the chips were the best part.**",
+   "choices": [
+    {
+     "label": "Start again and try a different route.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "comic"
+  },
+  {
+   "id": "end_flush",
+   "title": "The Big Red Button",
+   "body": "The glass cover lifts with a pop. The red button is warm, and slightly sticky. You press it.\n\nFor a second, there is perfect silence. Colin whispers, “**Oh no.**”\n\nIt turns out that EMERGENCY FLUSH was designed for 1974, when the town had four thousand people and **one very nervous toilet**. Today it sends everything (Brian, the pipes, forty tonnes of wet wipes and most of the café) racing along the old tunnel and out through every drain in Grimsditch. There are fountains on the high street. The mayor is lifted off her feet in the middle of a speech. A man called Barry finds a sock on his head and takes it as a personal insult.\n\nThe town will be cleaning for months. The school will be cleaning for years. On Monday, the newspaper's headline is a single word: **GRIMSDITCH**. Under it is a photograph of you, next to a big red button, with your finger still on it.\n\nColin is very proud. “He's out,” he says. “**Brian is finally free.**”",
+   "choices": [
+    {
+     "label": "Start again and be a bit more careful.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "comic",
+   "image": "IMG-009"
+  },
+  {
+   "id": "end_hero",
+   "title": "Quick Start",
+   "body": "The Quick Start card has seven steps. You read all seven. Slowly. Colin tries to speak, but you hold up one finger. Outside, Brian scrapes along the wall.\n\nStep 1: Close Valve 3 (the green wheel). Step 2: Open the bypass (the brass tap behind the kettle). Step 3: Do not touch the red button under any circumstances, “**unless you enjoy paperwork**”. Steps 4 to 7 are a long wait and a small cup of tea.\n\nIt works. The pump coughs, shudders and turns the right way. The tunnel sighs, and Brian slides slowly back into the dark, **like a very large, very wet pudding going to bed**. Nothing explodes. Nothing floods. One sock falls off him, and that is all.\n\nThe next day, the school gets a letter from the Mayor. Colin is given a certificate. You are given a toilet-brush pencil and the title of **Junior Sewage Engineer**. Mr Pettigrew tells everyone it was his idea. The pizza party is held the following Friday, and Year 9 gets the biggest slice.",
+   "choices": [
+    {
+     "label": "Start again and discover another ending.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "earned"
+  },
+  {
+   "id": "end_blamed",
+   "title": "Pupil Pulls Lever",
+   "body": "You reach the coach in nine seconds, which is a school record. You climb into your seat, put on your seatbelt and breathe calmly, like an innocent person.\n\nUnfortunately, the Grimsditch Sewage Works Heritage Centre has one security camera, and it works. It points at the Great Pump. It has filmed everything.\n\nOn Monday, you are called into the Headteacher's office. Mr Pettigrew is there with a laptop. “I would like to show you a short film,” he says. It is called **Pupil Pulls Lever**. It is four minutes long, and the sound quality is excellent. The Headteacher pauses it on a picture of your face with your mouth open. **It is not your best angle.**\n\nThe trip to the theme park is cancelled for the whole of Year 9. Instead, next year, every pupil will visit the Sewage Works again, for “educational follow-up”. **Colin has already ordered the biscuits.**",
+   "choices": [
+    {
+     "label": "Start again and face the consequences differently.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "comic"
+  },
+  {
+   "id": "end_brian",
+   "title": "Brian",
+   "body": "You take the pickled egg out of your lunchbox. It looks very small. You hold it out with two fingers, **like someone feeding a lion**.\n\nBrian stops moving. A deep, wet noise comes out of him, like a very big man sitting down on a very small sofa. A lump in the middle of him opens like a mouth, and the pickled egg floats up on a wave of slime and disappears inside.\n\n“Nobody has ever fed him before,” whispers Colin. His eyes are shining. “**He's been so lonely.**”\n\nBrian purrs. The whole tunnel shakes, pleasantly. Slowly, he rolls back into the dark, and the traffic cone nods goodbye.\n\nThe Heritage Centre opens a new exhibition: BRIAN, THE LIVING FATBERG. It becomes the most popular attraction in the north of England. Coaches queue for miles. You get a plaque, a free ticket for life and a Saturday job feeding him. Your dad is delighted. **He starts packing you two eggs.**",
+   "choices": [
+    {
+     "label": "Start again and see what else is down there.",
+     "target": "car_park"
+    }
+   ],
+   "ending": true,
+   "ending_type": "comic"
+  }
+ ]
+}

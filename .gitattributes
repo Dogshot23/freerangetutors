@@ -1,0 +1,2 @@
+# PDFs are binary: stop git rewriting line endings inside them on Windows checkouts.
+*.pdf binary

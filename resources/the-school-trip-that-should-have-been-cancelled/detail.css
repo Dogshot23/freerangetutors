@@ -1,0 +1,110 @@
+/* Resource page for "The School Trip That Should Have Been Cancelled".
+   Uses the directory's own tokens (dispatch-tokens.css) and masthead (directory.css);
+   only the layout of this one page is defined here. */
+
+.rd-crumbs { margin: 18px 0 6px; font-size: 13px; font-weight: 500; }
+.rd-crumbs a:hover { color: var(--fz-red); }
+
+.rd {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  padding: 10px 0 36px;
+}
+
+.rd-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fz-red);
+}
+
+.rd-title {
+  margin: 0 0 14px;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: clamp(28px, 6vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  max-width: 20ch;
+}
+
+.rd-lead {
+  margin: 0 0 18px;
+  max-width: 58ch;
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.rd-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 12px 0;
+  border-top: 1px solid var(--fz-rule);
+  border-bottom: 1px solid var(--fz-rule);
+  font-size: 14px;
+  font-weight: 600;
+}
+.rd-facts span {
+  margin-right: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fz-ink-muted);
+}
+
+.rd-note {
+  margin: 0 0 22px;
+  padding: 12px 16px;
+  max-width: 58ch;
+  border-left: 4px solid var(--fz-red);
+  background: rgba(23, 20, 15, .05);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.rd-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
+
+.rd-btn,
+body.directory a.rd-btn {
+  display: inline-block;
+  padding: 14px 22px;
+  border: 2px solid var(--fz-ink);
+  background: transparent;
+  color: var(--fz-ink);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.rd-btn:hover,
+body.directory a.rd-btn:hover { background: var(--fz-ink); color: var(--fz-paper); }
+body.directory a.rd-btn-primary { background: var(--fz-red); border-color: var(--fz-red); color: #fff; font-size: 18px; padding: 16px 28px; }
+body.directory a.rd-btn-primary:hover { background: var(--fz-ink); border-color: var(--fz-ink); color: #fff; }
+.rd-btn:focus-visible { outline: 3px solid var(--fz-cobalt); outline-offset: 3px; }
+.rd-size { font-weight: 500; }
+
+.rd-small { margin: 0; max-width: 60ch; font-size: 13.5px; line-height: 1.55; color: var(--fz-ink-muted); }
+
+.rd-pic { margin: 0; }
+.rd-pic img {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border: 1.5px solid var(--fz-ink);
+}
+
+@media (min-width: 820px) {
+  .rd { grid-template-columns: minmax(0, 1fr) 320px; gap: 44px; align-items: start; }
+}
+
+@media (max-width: 560px) {
+  .rd-btn { width: 100%; text-align: center; }
+}
