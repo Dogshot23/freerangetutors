@@ -1,0 +1,42 @@
+/* About page. Shared header, footer, tokens and focus styles come from directory.css.
+   Every class here is prefixed .ab- so nothing existing is overridden. */
+
+.ab-intro { padding: 72px 0 56px; max-width: 1000px; }
+.ab-title {
+  font-family: 'Fraunces', serif; font-weight: 700;
+  font-size: clamp(34px, 5.2vw, 64px); line-height: 1.04; letter-spacing: -.02em;
+  margin: 0 0 24px;
+}
+.ab-lead { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(19px, 2vw, 24px); line-height: 1.45; max-width: 44ch; margin: 0; color: var(--fz-ink-muted); }
+
+/* Heading in a left column, prose on the right — a magazine "department" layout. */
+.ab-section {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 24px 64px;
+  padding: 44px 0 52px;
+  border-top: 1px solid var(--fz-rule);
+}
+.ab-h2 { align-self: start; font-family: 'Fraunces', serif; font-weight: 600; font-size: 28px; line-height: 1.15; margin: 0; padding-left: 18px; position: relative; }
+.ab-h2::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 5px; background: var(--fz-cobalt); }
+.ab-body { max-width: 66ch; }
+.ab-body p { font-size: 18px; line-height: 1.7; margin: 0 0 20px; }
+.ab-body p:last-child { margin-bottom: 0; }
+
+.ab-principles { margin: 36px 0 0; border-top: 1.5px solid var(--fz-ink); }
+.ab-principle { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 8px 24px; padding: 18px 0; border-bottom: 1px solid var(--fz-rule); }
+.ab-principle dt { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink-muted); padding-top: 4px; }
+.ab-principle dd { margin: 0; font-size: 16px; line-height: 1.6; color: var(--fz-ink-muted); }
+
+.ab-closing { border-top: 1.5px solid var(--fz-ink); }
+.ab-closing::before { content: ''; }
+.ab-closing .ab-body { grid-column: 2; }
+.ab-closing .ab-body p { font-size: 16px; color: var(--fz-ink-muted); font-style: italic; }
+.ab-closing .ab-body .ab-meta { font-style: normal; font-size: 12px; letter-spacing: .04em; margin-top: 28px; padding-top: 18px; border-top: 1px dashed var(--fz-rule); }
+
+@media (max-width: 860px) {
+  .ab-intro { padding: 44px 0 36px; }
+  .ab-section { grid-template-columns: 1fr; gap: 18px; padding: 34px 0 40px; }
+  .ab-closing .ab-body { grid-column: 1; }
+  .ab-principle { grid-template-columns: 1fr; }
+}

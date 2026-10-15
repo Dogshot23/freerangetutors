@@ -1,30 +1,40 @@
-/* "Made by Free Range Tutors" page. Reuses dispatch-tokens.css and directory.css;
-   every new class is prefixed .mbf- so nothing existing is overridden. */
-body.mbf a:focus-visible, body.mbf button:focus-visible { outline: 3px solid var(--fz-cobalt); outline-offset: 3px; }
-.mbf-crumb { margin: 18px 0 0; font-size: 13px; }
+/* "Made by Free Range Tutors" page. Shared header/footer/focus styles live in directory.css;
+   every class here is prefixed .mbf- so nothing existing is overridden. */
+.mbf-crumb { margin: 28px 0 0; font-size: 14px; }
 .mbf-crumb a { color: var(--fz-ink-muted); border-bottom: 1px solid var(--fz-rule); }
 .mbf-crumb a:hover { color: var(--fz-red); }
-.mbf-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(38px, 7vw, 68px); line-height: 1; letter-spacing: -.015em; margin: 14px 0 16px; }
-.mbf-lead { font-size: 17px; line-height: 1.6; max-width: 62ch; margin: 0 0 36px; }
-.mbf-lead a { border-bottom: 1.5px solid var(--fz-red); font-weight: 600; }
-.mbf-list { border-top: 1.5px solid var(--fz-ink); }
-.mbf-item { display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--fz-rule); }
-.mbf-item img { display: block; width: 100%; height: auto; border: 2px solid var(--fz-ink); box-shadow: 6px 6px 0 var(--fz-ink); }
-.mbf-kind { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fz-red); margin: 0 0 6px; }
-.mbf-item h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 30px; line-height: 1.1; margin: 0 0 4px; }
-.mbf-item h2 a:hover { color: var(--fz-red); }
-.mbf-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; margin: 0 0 12px; }
-.mbf-summary { line-height: 1.6; max-width: 60ch; margin: 0 0 10px; }
-.mbf-audience { font-size: 14px; color: var(--fz-ink-muted); max-width: 60ch; margin: 0 0 18px; }
-.mbf-actions { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; }
-.mbf-btn { display: inline-block; font-weight: 700; font-size: 14px; padding: 11px 16px; border: 2px solid var(--fz-red); background: var(--fz-red); color: var(--fz-paper) !important; line-height: 1.3; }
-.mbf-btn:hover { background: #9E2017; border-color: #9E2017; }
-.mbf-btn small { font-weight: 500; font-size: 12px; margin-left: 6px; }
+.mbf-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(42px, 7.5vw, 88px); line-height: .98; letter-spacing: -.02em; margin: 18px 0 20px; }
+.mbf-lead { font-family: 'Fraunces', serif; font-size: clamp(19px, 2vw, 23px); line-height: 1.5; max-width: 52ch; margin: 0 0 56px; }
+.mbf-lead a { border-bottom: 2px solid var(--fz-red); font-weight: 600; }
+.mbf-lead a:hover { color: var(--fz-red); }
+
+/* Numbered like contents-page entries; the numeral is CSS-only, nothing is added to the data. */
+.mbf-list { border-top: 1.5px solid var(--fz-ink); counter-reset: mbf; }
+.mbf-item { counter-increment: mbf; display: grid; grid-template-columns: 56px 220px minmax(0, 1fr); gap: 32px; padding: 44px 0 48px; border-bottom: 1px solid var(--fz-rule); }
+.mbf-item::before { content: counter(mbf, decimal-leading-zero); font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; color: var(--fz-red); line-height: 1.2; }
+.mbf-item > a { display: block; align-self: start; }
+.mbf-item img { display: block; width: 100%; height: auto; border: 2px solid var(--fz-ink); box-shadow: 7px 7px 0 var(--fz-ink); }
+.mbf-kind { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fz-red); margin: 0 0 8px; }
+.mbf-item h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.08; letter-spacing: -.01em; margin: 0 0 8px; }
+.mbf-item h2 a:hover { color: var(--fz-red); text-decoration: underline; text-underline-offset: 6px; }
+.mbf-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: 21px; margin: 0 0 16px; }
+.mbf-summary { font-size: 17px; line-height: 1.65; max-width: 60ch; margin: 0 0 12px; }
+.mbf-audience { font-size: 15px; line-height: 1.55; color: var(--fz-ink-muted); max-width: 60ch; margin: 0 0 24px; }
+.mbf-actions { display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: center; }
+.mbf-btn { display: inline-block; font-weight: 700; font-size: 15px; padding: 12px 18px; border: 2px solid var(--fz-red); background: var(--fz-red); color: var(--fz-paper) !important; line-height: 1.3; }
+.mbf-btn:hover { background: #8F1D14; border-color: #8F1D14; }
+.mbf-btn small { display: block; font-weight: 500; font-size: 12.5px; margin-top: 2px; opacity: .95; }
 .mbf-btn.secondary { background: transparent; color: var(--fz-ink) !important; border-color: var(--fz-ink); }
-.mbf-btn.secondary:hover { background: var(--fz-ink); color: var(--fz-paper) !important; }
-.mbf-more { font-weight: 600; font-size: 14px; border-bottom: 1.5px solid var(--fz-red); }
+.mbf-btn.secondary:hover { background: var(--fz-ink); color: var(--fz-paper) !important; border-color: var(--fz-ink); }
+.mbf-more { font-weight: 700; font-size: 15px; padding: 6px 0 3px; border-bottom: 2px solid var(--fz-red); }
+.mbf-more:hover { color: var(--fz-red); }
 .mbf-error { padding: 24px 0; font-style: italic; color: var(--fz-ink-muted); }
+@media (max-width: 900px) {
+  .mbf-item { grid-template-columns: 180px minmax(0, 1fr); gap: 20px 28px; }
+  .mbf-item::before { grid-column: 1 / -1; }
+}
 @media (max-width: 640px) {
-  .mbf-item { grid-template-columns: 1fr; gap: 20px; }
-  .mbf-item img { max-width: 200px; }
+  .mbf-item { grid-template-columns: 1fr; gap: 18px; padding: 32px 0 36px; }
+  .mbf-item img { max-width: 220px; }
+  .mbf-btn { width: 100%; }
 }

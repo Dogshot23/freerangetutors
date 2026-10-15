@@ -1,20 +1,35 @@
 /* ============================================================
-   FREE RANGE TUTORS — directory homepage styles
+   FREE RANGE TUTORS — shared site styles
    "Contemporary Editorial Fanzine" visual system (Mockup 10,
-   approved). Depends on dispatch-tokens.css for the --fz-*
-   palette tokens. Ported directly from the approved mockup —
-   see _mockups/mockup-10-editorial-full-bleed.html for the
-   design rationale behind each section.
+   approved), refined in the editorial redesign. Loaded by every
+   page (home, Made by FRT, Stop the Slop, About, resource
+   pages); page-specific sheets add only their own .mbf- / .sts- /
+   .ab- / .rd- classes on top.
+
+   Depends on dispatch-tokens.css for the --fz-* palette.
+
+   Sections
+     1. Base + shared primitives
+     2. Masthead + site navigation (every page)
+     3. Homepage intro
+     4. Search, filters, popular uses
+     5. Recently added (red feature section + halftone photo)
+     6. Resource index
+     7. Footer (every page)
+     8. Responsive
    ============================================================ */
 
 * { box-sizing: border-box; }
 
+/* ---------- 1. Base ---------- */
 body.directory {
   margin: 0;
   background: var(--fz-paper);
   color: var(--fz-ink);
-  font-family: 'Inter', sans-serif;
-  font-size: 15px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 body.directory a { color: inherit; text-decoration: none; }
 
@@ -22,458 +37,433 @@ body.directory a { color: inherit; text-decoration: none; }
 .rule { border: none; border-top: 1.5px solid var(--fz-ink); margin: 0; }
 .rule-thin { border: none; border-top: 1px solid var(--fz-rule); margin: 0; }
 
-/* ============================================================
-   MASTHEAD — compact, confident, quick to read. Wordmark left,
-   descriptor + About right, one thin rule beneath. No hero.
-   ============================================================ */
+/* One visible keyboard focus style for the whole site. Cobalt reads on cream
+   and on red; the ring is offset so it never touches the type. */
+body.directory a:focus-visible,
+body.directory button:focus-visible,
+body.directory input:focus-visible,
+body.directory select:focus-visible {
+  outline: 3px solid var(--fz-cobalt);
+  outline-offset: 3px;
+}
+.recent-band a:focus-visible { outline-color: var(--fz-paper); }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 8px; z-index: 20;
+  background: var(--fz-ink); color: var(--fz-paper) !important;
+  padding: 10px 14px; font-size: 14px; font-weight: 600;
+}
+.skip-link:focus { left: 8px; }
+
+/* text for screen readers and search engines only */
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Small uppercase label — the site's one "understated label" style. */
+.kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--fz-ink-faint);
+}
+
+/* ---------- 2. Masthead + navigation ----------
+   Wordmark left, four destinations right, one thin rule under both.
+   Home is the wordmark; the nav lists the other four destinations. */
 .masthead {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
   justify-content: space-between;
-  padding: 24px 0 16px;
+  gap: 12px 40px;
+  padding: 30px 0 16px;
 }
 .wordmark {
   font-family: 'Fraunces', serif;
   font-weight: 600;
-  font-size: 27px;
+  font-size: 34px;
   line-height: 1;
-  letter-spacing: -.01em;
+  letter-spacing: -.015em;
 }
-.masthead-right {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.masthead-descriptor {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--fz-ink-muted);
-  padding-bottom: 4px;
-  border-bottom: 2px solid var(--fz-cobalt);
-}
-.masthead-right nav a {
-  font-size: 12px;
-  font-weight: 500;
+.wordmark:hover { color: var(--fz-red); }
+.site-nav { display: flex; flex-wrap: wrap; gap: 0 28px; }
+.site-nav a {
+  display: inline-block;
+  padding: 8px 0 6px;
+  font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   color: var(--fz-ink);
+  border-bottom: 2px solid transparent;
 }
-.masthead-right nav a:hover { color: var(--fz-red); }
+.site-nav a:hover { border-bottom-color: var(--fz-red); }
+.site-nav a[aria-current="page"] { border-bottom-color: var(--fz-ink); }
 
-/* ---- editorial intro line — one sentence, sets tone, not a hero ---- */
+/* ---------- 3. Homepage intro ----------
+   The sentence gets the room; the two "made here" links sit in a ruled
+   aside beside it instead of being crammed underneath. */
 .intro {
-  padding: 18px 0 20px;
-  max-width: 62ch;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: end;
+  padding: 64px 0 40px;
 }
-.intro p {
+.intro-lede {
   font-family: 'Fraunces', serif;
   font-style: italic;
   font-weight: 400;
-  font-size: 19px;
-  line-height: 1.45;
+  font-size: clamp(27px, 3.3vw, 40px);
+  line-height: 1.25;
+  letter-spacing: -.01em;
   margin: 0;
-  color: var(--fz-ink);
+  max-width: 32ch;
+}
+.intro-aside { border-left: 1px solid var(--fz-rule); padding-left: 32px; }
+.intro-aside .kicker { display: block; margin-bottom: 4px; }
+.intro-link {
+  display: block;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--fz-rule);
+  font-size: 16px; line-height: 1.4; font-weight: 500;
+}
+.intro-link:last-child { border-bottom: none; padding-bottom: 0; }
+.intro-link:hover .intro-link-t { color: var(--fz-red); text-decoration: underline; text-underline-offset: 4px; }
+.intro-link-t { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 600; line-height: 1.2; display: block; margin-bottom: 3px; }
+.intro-link-d { color: var(--fz-ink-muted); font-size: 14px; font-weight: 400; }
+.tag-new {
+  display: inline-block; vertical-align: 2px; margin-left: 8px;
+  font-family: 'Inter', sans-serif; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--fz-paper); background: var(--fz-red); padding: 2px 7px;
 }
 
-/* ============================================================
-   FIND A RESOURCE — the publication's own index/navigation
-   system. No pills, no buttons, no panel background. A label,
-   a rule-bound search field, and filter terms separated by
-   slashes against a rule, exactly like a masthead index line.
-   ============================================================ */
-.index-strip { padding: 22px 0; }
-.index-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--fz-ink-faint);
-  margin-bottom: 10px;
-}
-.search-line {
+/* ---------- 4. Search utility ----------
+   A compact row: search field + a Filters toggle. The five filters and the
+   popular-use shortcuts live in a panel that starts collapsed, so the red
+   feature section is the next thing the eye reaches. */
+.index-strip { padding: 0; }
+.search-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 0 6px;
   border-bottom: 1.5px solid var(--fz-ink);
-  padding-bottom: 10px;
-  margin-bottom: 14px;
 }
+.search-row:focus-within { border-bottom-color: var(--fz-red); }
+.search-line { flex: 1; min-width: 0; display: flex; }
 .search-line input {
   flex: 1;
+  min-width: 0;
   border: none;
   background: transparent;
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 20px;
+  font-size: clamp(20px, 2.2vw, 24px);
   color: var(--fz-ink);
-  padding: 0;
+  padding: 10px 0;
+  min-height: 48px;
 }
-.search-line input::placeholder { color: var(--fz-ink-faint); }
-.search-line input:focus { outline: none; }
-.filter-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-}
-.filter-line span.sep { padding: 4px 14px 4px 0; color: var(--fz-ink-faint); }
+.search-line input::placeholder { color: var(--fz-ink-faint); opacity: 1; }
+.search-line input::-webkit-search-cancel-button { cursor: pointer; }
+body.directory .search-line input:focus-visible { outline: none; }
 
-/* Real <select> elements, styled to read as plain index text —
-   no native chrome, same font/colour/spacing as the surrounding
-   line. This is how real filtering is wired without changing the
-   approved appearance. */
+.filters-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-size: 15px; font-weight: 600; color: var(--fz-ink);
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2317140F' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 6px center;
+  border: none; cursor: pointer;
+  padding: 10px 24px 10px 12px; min-height: 48px;
+}
+.filters-btn[hidden] { display: none; }
+.filters-btn[aria-expanded="true"] { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 5l4-4 4 4' fill='none' stroke='%2317140F' stroke-width='1.6'/%3E%3C/svg%3E"); }
+.filters-btn:hover { color: var(--fz-red); }
+.filters-count {
+  display: inline-block; min-width: 20px; padding: 1px 6px; text-align: center;
+  font-size: 12px; font-weight: 700; line-height: 1.5;
+  color: var(--fz-paper); background: var(--fz-red); border-radius: 10px;
+}
+.filters-count[hidden] { display: none; }
+
+/* The collapsible panel */
+.filter-panel { padding: 18px 0 6px; border-bottom: 1px solid var(--fz-rule); }
+.filter-panel[hidden] { display: none; }
+
+/* Five labelled dropdowns: small label above, current value below, so
+   the chosen value is always readable ("Category / Games"). */
+.filter-line { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 28px; }
+.f-wrap { display: block; min-width: 0; }
+.f-label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink-faint); }
 .filter-line select.f {
   appearance: none;
   -webkit-appearance: none;
-  background: transparent;
+  width: 100%;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2317140F' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 2px center;
   border: none;
+  border-bottom: 1px solid var(--fz-rule);
+  border-radius: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--fz-ink);
-  padding: 4px 14px 4px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fz-ink-muted);
+  padding: 8px 20px 8px 0;
+  min-height: 44px;
   cursor: pointer;
+  text-overflow: ellipsis;
 }
-.filter-line select.f:focus-visible { outline: 1.5px solid var(--fz-red); }
+.filter-line select.f:hover { border-bottom-color: var(--fz-ink); }
+/* A filter that is currently applied reads as chosen: ink text, red rule. */
+.filter-line select.f.is-set { color: var(--fz-ink); font-weight: 600; border-bottom: 2px solid var(--fz-red); }
 
-/* ============================================================
-   RECENTLY ADDED — full-bleed red section. This is the one
-   large compositional colour event on the page: an entire
-   section going solid, cream reversed type fused with the
-   colour (not a rectangle sitting near text), the title set
-   large enough to be deliberately cropped by the section's own
-   edge. Everything else on the page stays quiet so this reads
-   as a landmark, not wallpaper.
-   ============================================================ */
+/* Popular uses: plain text shortcuts, count set small beside each. */
+.quick-line { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; padding: 14px 0 0; font-size: 15px; }
+.quick-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink-faint); margin-right: 18px; }
+.quick-chips { display: flex; flex-wrap: wrap; gap: 0 6px; margin-left: -8px; }
+.chip {
+  font: inherit; font-size: 15px; font-weight: 500; line-height: 1.2; cursor: pointer;
+  border: none; background: transparent; color: var(--fz-ink);
+  padding: 10px 8px; min-height: 44px;
+  border-bottom: 2px solid transparent;
+}
+.chip small { font-size: 12px; color: var(--fz-ink-faint); margin-left: 4px; }
+.chip:hover { color: var(--fz-red); }
+.chip[aria-pressed="true"] { font-weight: 700; border-bottom-color: var(--fz-red); }
+.chip:focus-visible { outline-offset: -2px; }
+.clear-btn {
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  background: none; border: none; color: var(--fz-red);
+  padding: 10px 8px; min-height: 44px;
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.clear-btn:hover { color: #8F1D14; }
+.clear-btn[hidden] { display: none; }
+
+/* ---------- 5. Recently added ----------
+   One landmark: a full-bleed red field. The halftone photograph is
+   printed black (dots on transparent) so it reads on cream above the
+   field and on red inside it; it straddles the top edge on purpose.
+   Text lives only in the left column, on flat red. */
 .recent-band {
   background: var(--fz-red);
   color: var(--fz-paper);
-  padding: 34px 0 30px;
-  overflow: hidden;
+  padding: 44px 0 52px;
+  margin-top: 112px;
+  --photo-w: 440px;
+  --photo-rise: 72px;      /* how far the photograph climbs above the red field */
+}
+.recent-main { display: grid; grid-template-columns: minmax(0, 1fr) var(--photo-w); gap: 48px; align-items: stretch; }
+.recent-text { min-width: 0; padding-bottom: 44px; }
+.recent-photo {
+  position: relative;
+  margin: calc(-44px - var(--photo-rise)) 0 0;   /* -(band top padding) - rise */
+  pointer-events: none;
+}
+.recent-photo img {
+  position: absolute; inset: 0;
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 0;
 }
 .recent-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 18px;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(243,238,225,.45);
 }
 .recent-head h2 {
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  margin: 0;
-  color: var(--fz-paper);
+  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  margin: 0; color: var(--fz-paper);
 }
-.recent-head .n { font-size: 12px; color: rgba(243,238,225,.65); }
+.recent-head .n { font-size: 12px; color: var(--fz-paper); }
 
 .featured-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: rgba(243,238,225,.75);
-  margin-bottom: 4px;
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--fz-paper);
+  margin-bottom: 8px;
 }
-/* The title is set large enough that it is cropped by the
-   section's right edge on desktop — a deliberate edge-crop, not
-   a layout accident. overflow:hidden on .recent-band clips it
-   cleanly. Fixed (not fluid/clamped) size, deliberately larger
-   than the content column at most desktop widths. Shrinks only
-   at the mobile breakpoint, where it wraps instead of cropping. */
-.featured-title-link {
-  display: block;
-}
-.featured-title-link:hover .featured-title,
-.featured-title-link:focus-visible .featured-title {
-  opacity: .85;
-}
+.featured-title-link { display: block; }
+.featured-title-link:hover .featured-title { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
 .featured-title {
   font-family: 'Fraunces', serif;
   font-weight: 700;
-  font-size: 148px;
-  line-height: .9;
-  letter-spacing: -.01em;
-  margin: 0 0 18px;
+  font-size: clamp(40px, 5.6vw, 76px);
+  line-height: .98;
+  letter-spacing: -.02em;
+  margin: 0 0 22px;
   color: var(--fz-paper);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
-.featured-body {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 40px;
-  align-items: end;
-}
+.featured-body { display: block; }
 .featured-desc {
-  font-size: 16px;
-  line-height: 1.6;
-  color: rgba(243,238,225,.92);
-  max-width: 48ch;
-  margin: 0 0 14px;
+  font-size: 17px; line-height: 1.6;
+  color: var(--fz-paper);
+  max-width: 50ch;
+  margin: 0 0 16px;
 }
-.featured-meta {
-  font-family: 'Inter', sans-serif;
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: .02em;
-  color: rgba(243,238,225,.8);
-}
+.featured-meta { font-size: 13.5px; font-weight: 600; letter-spacing: .01em; color: var(--fz-paper); }
 .featured-meta a {
   color: var(--fz-paper);
   font-weight: 700;
   margin-left: 14px;
-  border-bottom: 1.5px solid var(--fz-paper);
+  padding-bottom: 2px;
+  border-bottom: 2px solid var(--fz-paper);
 }
+.featured-meta a:hover { border-bottom-width: 3px; }
 
-.support-list { display: flex; flex-direction: column; border-left: 1px solid rgba(243,238,225,.3); padding-left: 28px; }
-.support-item { padding: 10px 0; border-bottom: 1px dashed rgba(243,238,225,.25); }
-.support-item:first-child { padding-top: 0; }
-.support-item:last-child { border-bottom: none; }
-.support-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: rgba(243,238,225,.6);
+.support-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 28px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(243,238,225,.45);
 }
-/* The one small remaining cobalt mark on the whole page — demoted
-   from a large field to a single quiet underline, exactly one
-   occurrence (escalation-chain, applied deterministically). */
-.support-item.accent .support-title { border-bottom: 2px solid var(--fz-cobalt); padding-bottom: 2px; }
+.support-item { display: block; }
+.support-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-paper); }
 .support-title {
-  font-family: 'Fraunces', serif;
-  font-size: 17px;
-  margin: 3px 0 4px;
-  color: var(--fz-paper);
-  display: inline-block;
+  font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; line-height: 1.2;
+  margin: 4px 0 6px; color: var(--fz-paper);
 }
+.support-item:hover .support-title { text-decoration: underline; text-underline-offset: 4px; }
 .support-desc {
-  font-size: 12px;
-  color: rgba(243,238,225,.8);
-  line-height: 1.5;
-  margin: 0 0 4px;
+  font-size: 13.5px; line-height: 1.5; color: var(--fz-paper); margin: 0 0 6px;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
-.support-meta {
-  font-family: 'Inter', sans-serif;
-  font-size: 10.5px;
-  color: rgba(243,238,225,.55);
-}
+.support-meta { font-size: 12px; color: var(--fz-paper); }
 
-/* ============================================================
-   RESOURCE INDEX — entries, not cards. Two-column typeset
-   relationship: a wide title/description column, a narrow
-   metadata+action column. Continuous rules between entries.
-   Every entry uses uniform sizing — no large-entry treatment.
-   No boxes anywhere.
-   ============================================================ */
+/* ---------- 6. Resource index ----------
+   Entries, not cards: thumbnail, a wide title/description column and
+   a narrow metadata + action column, divided by continuous rules. The
+   whole row is one link. */
 .index-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding: 30px 0 6px;
+  gap: 16px;
+  padding: 64px 0 14px;
+  scroll-margin-top: 16px;
 }
 .index-head h2 {
   font-family: 'Fraunces', serif;
   font-weight: 600;
-  font-size: 26px;
+  font-size: clamp(30px, 3.4vw, 40px);
+  letter-spacing: -.01em;
   margin: 0;
   position: relative;
-  padding-left: 16px;
+  padding-left: 18px;
+  line-height: 1.1;
 }
 .index-head h2::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 6px;
-  bottom: 6px;
-  width: 4px;
-  background: var(--fz-cobalt);
+  content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 5px; background: var(--fz-cobalt);
 }
-.index-head .n { font-size: 12px; color: var(--fz-ink-faint); font-family: 'Inter', sans-serif; }
+.index-head .n { font-size: 13px; color: var(--fz-ink-muted); }
 
 .entries { border-top: 1.5px solid var(--fz-ink); }
 .entry {
   display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 28px;
-  padding: 20px 0;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 36px;
+  padding: 32px 0;
   border-bottom: 1px solid var(--fz-rule);
   align-items: start;
 }
+.entry.has-image { grid-template-columns: 96px minmax(0, 1fr) 210px; }
+.entry:hover { background: linear-gradient(to right, rgba(194,42,30,.045), rgba(194,42,30,0) 70%); }
+.entry:hover .entry-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; text-decoration-color: var(--fz-red); }
+.entry:hover .entry-open { border-bottom-color: var(--fz-red); }
 .entry.accent { border-bottom-color: var(--fz-red); }
+.entry.accent-cobalt { border-bottom-color: var(--fz-cobalt); }
 
-/* ---- entry thumbnail — optional third column, only present when
-   a resource has data/resources/<id>.json's image field set. No
-   border, no frame, no card background around the image: the
-   duotone PNG itself (black-and-white source + primary_category
-   ink colour, generated ahead of time) is the entire visual
-   object, exactly as approved in the Mockup 10f thumbnail
-   prototype. Entries without an image keep the original
-   1fr/220px two-column layout untouched above. ---- */
-.entry.has-image {
-  grid-template-columns: 84px 1fr 220px;
-}
-.entry-thumb {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  display: block;
-}
+.entry-thumb { width: 96px; height: 96px; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--fz-rule); }
 
-.entry-label-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
-}
+.entry-label-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .entry-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: .07em;
-  text-transform: uppercase;
+  font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
   color: var(--fz-ink-faint);
 }
-.entry.accent .entry-label {
-  color: var(--fz-paper);
-  background: var(--fz-red);
-  padding: 2px 8px;
-}
-.entry.accent-cobalt { border-bottom-color: var(--fz-cobalt); }
-.entry.accent-cobalt .entry-label {
-  color: var(--fz-paper);
-  background: var(--fz-cobalt);
-  padding: 2px 8px;
-}
-.entry.accent-cobalt .entry-open { color: var(--fz-cobalt); }
+.entry.accent .entry-label { color: var(--fz-paper); background: var(--fz-red); padding: 2px 8px; }
+.entry.accent-cobalt .entry-label { color: var(--fz-paper); background: var(--fz-cobalt); padding: 2px 8px; }
 .entry-title {
   font-family: 'Fraunces', serif;
-  font-size: 24px;
-  line-height: 1.18;
-  margin: 0 0 7px;
+  font-weight: 600;
+  font-size: clamp(25px, 2.6vw, 31px);
+  line-height: 1.15;
+  letter-spacing: -.005em;
+  margin: 0 0 10px;
 }
-.entry-desc {
-  font-size: 14px;
-  color: var(--fz-ink-muted);
-  line-height: 1.58;
-  max-width: 56ch;
-  margin: 0;
-}
+.entry-desc { font-size: 16px; color: var(--fz-ink-muted); line-height: 1.6; max-width: 60ch; margin: 0; }
 
-.entry-side {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  padding-top: 2px;
-}
-.entry-meta {
-  font-family: 'Inter', sans-serif;
-  font-size: 11.5px;
-  color: var(--fz-ink-faint);
-  line-height: 1.5;
-}
-.entry-use {
-  font-family: 'Inter', sans-serif;
-  font-size: 10.5px;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-  color: var(--fz-ink-faint);
-}
+.entry-side { min-width: 0; text-align: left; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding-top: 4px; }
+.entry-meta { font-size: 14px; font-weight: 600; color: var(--fz-ink); line-height: 1.4; }
+.entry-use { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--fz-ink-faint); line-height: 1.5; }
+.entry-source { font-size: 12.5px; color: var(--fz-ink-faint); overflow-wrap: anywhere; }
 .entry-open {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--fz-red);
-  margin-top: 4px;
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px; font-weight: 700; color: var(--fz-red);
+  padding: 4px 0 3px;
+  border-bottom: 2px solid transparent;
 }
+.entry-open::after { content: ''; }
+.entry:hover .entry-open { color: #8F1D14; }
 
-.directory-empty {
-  font-family: 'Inter', sans-serif;
-  font-style: italic;
-  font-size: 14px;
-  color: var(--fz-ink-muted);
-  padding: 40px 0;
-  text-align: center;
-}
+.directory-empty { font-style: italic; font-size: 17px; color: var(--fz-ink-muted); padding: 56px 0; text-align: center; }
 
+/* ---------- 7. Footer (every page) ---------- */
 .directory-footer {
   position: relative;
   border-top: 1.5px solid var(--fz-ink);
-  padding: 22px 0 44px;
-  margin-top: 16px;
-  font-size: 12px;
-  color: var(--fz-ink-faint);
+  margin-top: 72px;
+  padding: 30px 0 56px;
+  font-size: 14px;
+  color: var(--fz-ink-muted);
 }
 .directory-footer::before {
-  content: '';
-  position: absolute;
-  top: -1.5px;
-  left: 0;
-  width: 64px;
-  height: 3px;
-  background: var(--fz-cobalt);
+  content: ''; position: absolute; top: -1.5px; left: max(36px, calc(50% - 564px)); width: 64px; height: 4px; background: var(--fz-cobalt);
 }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px 64px; align-items: start; }
+.foot-brand { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; color: var(--fz-ink); margin: 0 0 6px; }
+.foot-note { margin: 0; max-width: 52ch; line-height: 1.6; }
+.foot-nav { display: flex; flex-wrap: wrap; gap: 0 24px; }
+.foot-nav a { display: inline-block; padding: 8px 0; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink); border-bottom: 2px solid transparent; }
+.foot-nav a:hover { border-bottom-color: var(--fz-red); }
+.foot-credit { grid-column: 1 / -1; font-size: 12.5px; color: var(--fz-ink-muted); margin: 8px 0 0; padding-top: 18px; border-top: 1px solid var(--fz-rule); }
+.foot-credit a { border-bottom: 1px solid var(--fz-ink-faint); }
+.foot-credit a:hover { color: var(--fz-red); }
 
-@media (max-width: 900px) {
-  .featured-body { grid-template-columns: 1fr; }
-  .support-list { border-left: none; padding-left: 0; border-top: 1px solid rgba(243,238,225,.3); padding-top: 16px; margin-top: 8px; }
-  .entry, .entry.has-image { grid-template-columns: 1fr; gap: 8px; }
-  .entry-thumb { width: 96px; margin-bottom: 4px; }
-  .entry-side { flex-direction: column; align-items: flex-start; width: 100%; text-align: left; gap: 3px; }
-  .entry-meta { white-space: normal; }
+/* ---------- 8. Responsive ---------- */
+@media (max-width: 1000px) {
+  .intro { grid-template-columns: 1fr; gap: 36px; padding: 48px 0 32px; }
+  .filter-line { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 24px; }
+  .intro-lede { max-width: 30ch; }
+  .intro-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--fz-rule); padding-top: 20px; }
+  .recent-band { --photo-w: 300px; }
+  .recent-main { gap: 32px; }
+  .support-list { grid-template-columns: 1fr; gap: 20px; }
+  .support-item + .support-item { padding-top: 18px; border-top: 1px dashed rgba(243,238,225,.4); }
+  .entry, .entry.has-image { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
+  .entry.has-image { grid-template-columns: 72px minmax(0, 1fr); column-gap: 18px; }
+  .entry.has-image .entry-side { grid-column: 2; }
+  .entry-thumb { width: 72px; height: 72px; }
+  .entry-side { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding-top: 0; }
+  .entry-open { margin-top: 0; }
+  .foot-grid { grid-template-columns: 1fr; }
 }
-@media (max-width: 640px) {
-  .wrap { padding: 0 18px; }
-  .masthead { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .masthead-right { text-align: left; }
-  .featured-title { font-size: 58px; line-height: .95; white-space: normal; }
+@media (max-width: 700px) { .directory-footer::before { left: 20px; } }
+@media (max-width: 700px) {
+  .wrap { padding: 0 20px; }
+  .masthead { flex-direction: column; align-items: flex-start; gap: 6px; padding: 22px 0 10px; }
+  .wordmark { font-size: 30px; }
+  .site-nav { gap: 0 14px; }
+  .site-nav a { padding: 10px 0 8px; font-size: 11px; letter-spacing: .04em; }
+  .search-line input { font-size: 19px; }
+  .filters-btn { padding-left: 8px; }
+  .filter-line { grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+  .intro { padding: 36px 0 32px; }
+  .index-head { padding-top: 48px; }
+  .recent-band { margin-top: 124px; padding-bottom: 40px; --photo-rise: 84px; }
+  .recent-main { grid-template-columns: 1fr; gap: 0; }
+  .recent-photo { order: -1; width: 78%; height: 250px; margin: calc(-44px - var(--photo-rise)) 0 28px auto; }
+  .recent-text { padding-bottom: 28px; }
+  .featured-title { font-size: 40px; }
 }
-
-/* ---- homepage pointer to the Stop the Slop guide (added with /stop-the-slop/) ---- */
-.intro .intro-note {
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-top: 10px;
+@media (max-width: 400px) {
+  .site-nav { display: grid; grid-template-columns: repeat(2, max-content); gap: 0 36px; }
 }
-.intro-note-label {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--fz-paper);
-  background: var(--fz-red);
-  padding: 2px 7px;
-  margin-right: 8px;
-}
-.intro .intro-note a { font-weight: 600; border-bottom: 1.5px solid var(--fz-red); }
-.intro .intro-note a:hover { color: var(--fz-red); }
-.intro .intro-note a:focus-visible { outline: 3px solid var(--fz-cobalt); outline-offset: 3px; }
-
-/* text for screen readers and search engines only (homepage heading) */
-.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-
-/* ---- quick topic picks + clear button (built from the resource data by directory.js) ---- */
-.quick-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 12px 0 2px; font-size: 13px; }
-.quick-label { color: var(--fz-ink-muted); font-weight: 600; margin-right: 2px; }
-.quick-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip, .clear-btn {
-  font: inherit; font-size: 13px; line-height: 1.2; cursor: pointer;
-  border: 1.5px solid var(--fz-ink); background: transparent; color: var(--fz-ink);
-  padding: 7px 12px; min-height: 36px;
-}
-.chip:hover, .clear-btn:hover { background: var(--fz-ink); color: var(--fz-paper); }
-.chip[aria-pressed="true"] { background: var(--fz-ink); color: var(--fz-paper); }
-.chip small { font-size: 11px; opacity: .7; margin-left: 4px; }
-.clear-btn { border-color: var(--fz-red); color: var(--fz-red); }
-.clear-btn:hover { background: var(--fz-red); border-color: var(--fz-red); color: var(--fz-paper); }
-.chip:focus-visible, .clear-btn:focus-visible { outline: 3px solid var(--fz-cobalt); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+@media print { .recent-photo { display: none; } }

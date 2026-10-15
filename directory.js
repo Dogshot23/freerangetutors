@@ -226,7 +226,7 @@
   function renderFeatured() {
     const newest = sortNewestFirst(allResources);
     const featured = allResources.find(function (r) { return r.id === FEATURED_ID; }) || newest[0];
-    const rest = newest.filter(function (r) { return r.id !== featured.id; }).slice(0, 2);
+    const rest = newest.filter(function (r) { return r.id !== featured.id; }).slice(0, 3); // featured + 3 = the "4 newest" the heading promises
 
     const wrap = document.getElementById('recent-featured');
     wrap.innerHTML = '';
@@ -245,14 +245,14 @@
     ]);
     metaWrap.appendChild(el('a', Object.assign({}, linkAttrs(featured), { text: isExternal(featured) ? 'Open ↗' : 'Open →' })));
 
-    const body = el('div', { class: 'featured-body' }, [
-      el('div', {}, [
-        el('p', { class: 'featured-desc', text: featured.description_short }),
-        metaWrap
-      ]),
-      renderSupportList(rest)
-    ]);
-    wrap.appendChild(body);
+    wrap.appendChild(el('div', { class: 'featured-body' }, [
+      el('p', { class: 'featured-desc', text: featured.description_short }),
+      metaWrap
+    ]));
+    // The supporting items sit in their own full-width row under the photo (see index.html).
+    const support = document.getElementById('recent-support') || wrap;
+    support.innerHTML = '';
+    support.appendChild(renderSupportList(rest));
   }
 
   function renderSupportList(resources) {
@@ -277,7 +277,7 @@
      large-entry treatment. ---- */
   function entryLabelText(r) {
     let label = typeLabelFor(r.resource_type);
-    if (isExternal(r)) label += ' · External ↗';
+    if (r.primary_category) label += ' · ' + categoryLabelFor(r.primary_category);
     return label;
   }
   function accentClass(r) {
@@ -309,6 +309,7 @@
       el('div', { class: 'entry-side' }, [
         el('span', { class: 'entry-meta', text: metaLine(r) }),
         el('span', { class: 'entry-use', text: useText || ' ' }),
+        r.domain ? el('span', { class: 'entry-source', text: r.domain }) : null,
         el('span', { class: 'entry-open', text: isExternal(r) ? 'Open ↗' : 'Open →' })
       ])
     );
@@ -337,6 +338,7 @@
       b.appendChild(document.createTextNode(useLabelFor(u)));
       const n = document.createElement('small');
       n.textContent = String(counts[u]);
+      n.setAttribute('aria-label', counts[u] + ' resources');
       b.appendChild(n);
       b.addEventListener('click', function () {
         const sel = document.getElementById('filter-use');
@@ -346,6 +348,10 @@
       wrap.appendChild(b);
     });
     box.hidden = false;
+  }
+
+  /* ---- CLEAR BUTTON ---- */
+  function wireClear() {
     document.getElementById('clear-filters').addEventListener('click', function () {
       document.getElementById('directory-search').value = '';
       FILTER_IDS.forEach(function (id) { document.getElementById(id).value = ''; });
@@ -354,9 +360,29 @@
     });
   }
 
+  /* ---- FILTERS PANEL ----
+     The five filters and the popular uses live in a panel that starts collapsed.
+     The toggle only appears once JavaScript is running (without JS there is
+     nothing to filter anyway; the <noscript> list covers that case). Escape
+     closes the panel and returns focus to the toggle. */
+  function wireFiltersPanel() {
+    const btn = document.getElementById('filters-toggle');
+    const panel = document.getElementById('filter-panel');
+    if (!btn || !panel) return;
+    btn.hidden = false;
+    function setOpen(open) {
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function () { setOpen(panel.hidden); });
+    panel.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) { setOpen(false); btn.focus(); }
+    });
+  }
+
   function syncQuickPicks() {
     const box = document.getElementById('quick-picks');
-    if (!box || box.hidden) return;
+    if (!box) return;
     const use = document.getElementById('filter-use').value;
     Array.prototype.forEach.call(box.querySelectorAll('.chip'), function (b) {
       b.setAttribute('aria-pressed', b.getAttribute('data-use') === use ? 'true' : 'false');
@@ -364,6 +390,18 @@
     const active = !!document.getElementById('directory-search').value ||
       FILTER_IDS.some(function (id) { return document.getElementById(id).value; });
     document.getElementById('clear-filters').hidden = !active;
+    let setCount = 0;
+    FILTER_IDS.forEach(function (id) {
+      const isSet = !!document.getElementById(id).value;
+      if (isSet) setCount++;
+      document.getElementById(id).classList.toggle('is-set', isSet);
+    });
+    const badge = document.getElementById('filters-count');
+    if (badge) {
+      badge.hidden = !setCount;
+      badge.textContent = String(setCount);
+      badge.setAttribute('aria-label', setCount + ' filter' + (setCount === 1 ? '' : 's') + ' applied');
+    }
   }
 
   function renderEntries() {
@@ -427,6 +465,8 @@
     buildQuickPicks(resources);
     renderEntries();
     wireControls();
+    wireClear();
+    wireFiltersPanel();
   }).catch(function (err) {
     console.error('Directory failed to load resource data:', err);
     document.getElementById('index-count').textContent = 'Data unavailable';

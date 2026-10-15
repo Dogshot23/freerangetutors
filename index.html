@@ -41,63 +41,86 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="dispatch-tokens.css" />
   <link rel="stylesheet" href="directory.css" />
+  <noscript><style>.recent-band { display: none; } .recent-photo { display: none; } .index-head { padding-top: 40px; }</style></noscript>
 </head>
 <body class="directory">
+  <a class="skip-link" href="#all-resources">Skip to the resources</a>
 
   <div class="wrap">
 
-    <div class="masthead">
-      <a class="wordmark" href="/" id="masthead-home">Free Range Tutors</a>
-      <div class="masthead-right">
-        <span class="masthead-descriptor">ESL Teaching Resources</span>
-        <nav aria-label="Site"><a href="/made-by-frt/">Made by FRT</a> &nbsp;·&nbsp; <a href="about.html">About</a></nav>
+    <header>
+      <div class="masthead">
+        <a class="wordmark" href="/" id="masthead-home">Free Range Tutors</a>
+        <nav class="site-nav" aria-label="Site">
+          <a href="#all-resources">Resources</a>
+          <a href="/made-by-frt/">Made by FRT</a>
+          <a href="/stop-the-slop/">Stop the Slop</a>
+          <a href="/about">About</a>
+        </nav>
       </div>
-    </div>
-    <hr class="rule" />
+      <hr class="rule" />
+    </header>
+  </div>
 
+  <main id="main">
+  <div class="wrap">
     <h1 class="visually-hidden">Free Range Tutors: free ESL teaching resources</h1>
     <div class="intro">
-      <p>A working collection of things worth using for teaching English online — made here, and found elsewhere.</p>
-      <p class="intro-note"><span class="intro-note-label">New, free</span> <a href="/stop-the-slop/">Stop the Slop: a guide to checking AI-assisted teaching resources &rarr;</a> &nbsp;·&nbsp; <a href="/made-by-frt/">Everything made by Free Range Tutors &rarr;</a></p>
+      <p class="intro-lede">A working collection of things worth using for teaching English online — made here, and found elsewhere.</p>
+      <div class="intro-aside">
+        <span class="kicker">Made here</span>
+        <a class="intro-link" href="/stop-the-slop/"><span class="intro-link-t">Stop the Slop<span class="tag-new">New, free</span></span><span class="intro-link-d">A guide to checking AI-assisted teaching resources &rarr;</span></a>
+        <a class="intro-link" href="/made-by-frt/"><span class="intro-link-t">Made by Free Range Tutors</span><span class="intro-link-d">Everything made by Free Range Tutors &rarr;</span></a>
+      </div>
     </div>
 
-    <div class="index-strip">
-      <div class="index-label">Find a resource</div>
-      <div class="search-line">
-        <input type="search" id="directory-search" placeholder="Search — speaking, grammar, games…" aria-label="Search resources" />
+    <div class="index-strip" role="search">
+      <div class="search-row">
+        <div class="search-line">
+          <input type="search" id="directory-search" placeholder="Search resources…" aria-label="Search resources" />
+        </div>
+        <button type="button" class="filters-btn" id="filters-toggle" aria-expanded="false" aria-controls="filter-panel" hidden>Filters<span class="filters-count" id="filters-count" hidden></span></button>
+        <button type="button" class="clear-btn" id="clear-filters" aria-label="Clear search and filters" hidden>Clear</button>
       </div>
-      <div class="filter-line" aria-label="Filter resources">
-        <select class="f" id="filter-category" aria-label="Category"><option value="">Category: All</option></select><span class="sep">/</span>
-        <select class="f" id="filter-type" aria-label="Resource type"><option value="">Type: All</option></select><span class="sep">/</span>
-        <select class="f" id="filter-use" aria-label="Teaching use"><option value="">Use: All</option></select><span class="sep">/</span>
-        <select class="f" id="filter-level" aria-label="Level"><option value="">Level: All</option></select><span class="sep">/</span>
-        <select class="f" id="filter-cost" aria-label="Cost"><option value="">Cost: All</option></select>
-      </div>
-      <div class="quick-line" id="quick-picks" hidden>
-        <span class="quick-label" id="quick-label">Popular uses:</span>
-        <span class="quick-chips" role="group" aria-labelledby="quick-label"></span>
-        <button type="button" class="clear-btn" id="clear-filters" hidden>Clear search and filters</button>
+      <div class="filter-panel" id="filter-panel" role="group" aria-label="Filter resources" hidden>
+        <div class="filter-line">
+          <label class="f-wrap" for="filter-category"><span class="f-label">Category</span><select class="f" id="filter-category" aria-label="Category"><option value="">All</option></select></label>
+          <label class="f-wrap" for="filter-type"><span class="f-label">Type</span><select class="f" id="filter-type" aria-label="Resource type"><option value="">All</option></select></label>
+          <label class="f-wrap" for="filter-use"><span class="f-label">Use</span><select class="f" id="filter-use" aria-label="Teaching use"><option value="">All</option></select></label>
+          <label class="f-wrap" for="filter-level"><span class="f-label">Level</span><select class="f" id="filter-level" aria-label="Level"><option value="">All</option></select></label>
+          <label class="f-wrap" for="filter-cost"><span class="f-label">Cost</span><select class="f" id="filter-cost" aria-label="Cost"><option value="">All</option></select></label>
+        </div>
+        <div class="quick-line" id="quick-picks" hidden>
+          <span class="quick-label" id="quick-label">Popular</span>
+          <span class="quick-chips" role="group" aria-labelledby="quick-label"></span>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <section class="recent-band" id="directory-recent-section">
+  <section class="recent-band" id="directory-recent-section" aria-labelledby="recent-heading">
     <div class="wrap">
-      <div class="recent-head">
-        <h2>Recently added</h2>
-        <span class="n">4 newest</span>
-      </div>
+      <div class="recent-main">
+        <div class="recent-text">
+          <div class="recent-head">
+            <h2 id="recent-heading">Recently added</h2>
+            <span class="n">4 newest</span>
+          </div>
 
-      <div id="recent-featured"></div>
+          <div id="recent-featured"></div>
+        </div>
+        <figure class="recent-photo" aria-hidden="true">
+          <img src="/images/editorial/halftone-holyoke-1941.png" width="1100" height="1364" alt="" decoding="async" />
+        </figure>
+      </div>
+      <div id="recent-support"></div>
     </div>
   </section>
 
   <div class="wrap">
 
-    <hr class="rule" />
-
-    <div class="index-head">
+    <div class="index-head" id="all-resources" tabindex="-1">
       <h2>All resources</h2>
       <span class="n" id="index-count" role="status" aria-live="polite"></span>
     </div>
@@ -131,9 +154,25 @@
     <!-- static:resources:end -->
     <p class="directory-empty" id="directory-empty" hidden>Nothing matches that search or filter combination.</p>
 
-    <footer class="directory-footer">Free Range Tutors — built by one teacher, shared freely. No login and no ads. Basic visit statistics are collected with Google Analytics.</footer>
-
   </div>
+  </main>
+
+  <footer class="directory-footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <p class="foot-brand">Free Range Tutors</p>
+          <p class="foot-note">Built by one teacher, shared freely. No login and no ads. Basic visit statistics are collected with Google Analytics.</p>
+        </div>
+        <nav class="foot-nav" aria-label="Footer">
+          <a href="/made-by-frt/">Made by FRT</a>
+          <a href="/stop-the-slop/">Stop the Slop</a>
+          <a href="/about">About</a>
+        </nav>
+        <p class="foot-credit">Feature photograph: John Collier Jr., <em>Men talk, street scene at High Street, Holyoke, Massachusetts</em>, 1941. Library of Congress, Farm Security Administration / Office of War Information collection; no known restrictions, public domain. Printed here as a halftone.</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="data/resources.js"></script>
   <script src="directory.js"></script>

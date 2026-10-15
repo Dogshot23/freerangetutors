@@ -60,7 +60,7 @@
   --fz-paper:      #F3EEE1;
   --fz-ink:        #17140F;
   --fz-ink-muted:  #524C40;
-  --fz-ink-faint:  #8A8271;
+  --fz-ink-faint:  #6B6454;   /* darkened from #8A8271 (3.3:1) to ~5.2:1 on --fz-paper so small metadata passes AA */
   --fz-rule:       rgba(23,20,15,.22);
   --fz-red:        #C22A1E;
   --fz-cobalt:     #2A4C7C;
