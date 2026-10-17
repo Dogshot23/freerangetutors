@@ -57,7 +57,8 @@ const VERIFIED = {
   'grandpas-teeth': 'https://payhip.com/b/x5Npe',
   'mr-bones-quits': 'https://payhip.com/b/ZpK4L',
   'too-much-money': 'https://payhip.com/b/RN0GB',
-  'the-queue-jumper': 'https://payhip.com/b/oxk9I'
+  'the-queue-jumper': 'https://payhip.com/b/oxk9I',
+  'a-day-at-the-park': 'https://payhip.com/b/Ek2gX'
 };
 const PAID_IDS = Object.keys(VERIFIED);
 const entries = {};
@@ -162,10 +163,11 @@ test('each card shows the price, the level and the time that its directory entry
     const prod = products[id], ent = entries[id];
     assert(card, id + ': no card on the page');
     assert(/<p class="pr-price">\$1\.99 <small>USD<\/small><\/p>/.test(card), id + ': price on the card');
-    assert(/CEFR B1–B2/.test(card) && /About 25 minutes/.test(card) && /<dd>Pairs<\/dd>/.test(card), id + ': level/time/groups on the card');
+    const a2 = id === 'a-day-at-the-park'; /* the one A2 picture activity: its own level and time, stated in its PDF */
+    assert((a2 ? /CEFR A2/ : /CEFR B1–B2/).test(card) && (a2 ? /About 15–20 minutes/ : /About 25 minutes/).test(card) && /<dd>Pairs<\/dd>/.test(card), id + ': level/time/groups on the card');
     assert(prod.price.amount === 1.99 && /\$1\.99/.test(ent.description_short), id + ': price differs between the page data and the directory entry');
-    assert(/B1–B2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["B1","B2"]', id + ': level differs');
-    assert(/about 25 minutes/.test(ent.description_short) && ent.activity_time_minutes === 25, id + ': time differs');
+    assert(a2 ? (/CEFR A2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["A2"]') : (/B1–B2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["B1","B2"]'), id + ': level differs');
+    assert(a2 ? (/15–20 minutes/.test(ent.description_short) && ent.activity_time_minutes === 20) : (/about 25 minutes/.test(ent.description_short) && ent.activity_time_minutes === 25), id + ': time differs');
     assert(ent.group_fit.values.join() === 'pair', id + ': group differs');
     assert(ent.url === prod.payhip_url && prod.payhip_url === VERIFIED[id], id + ': directory entry URL differs from the catalogue page URL');
     assert(card.includes('src="' + prod.image + '"') && prod.image === '/paid-resources/images/' + id + '.png', id + ': cover image');
