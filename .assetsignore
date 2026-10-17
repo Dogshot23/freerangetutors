@@ -37,3 +37,16 @@ data/resource.schema.json
 
 # Build and thumbnail scripts, legacy tool templates (nothing public links to this folder)
 tools
+
+# Unfinished Stripe shop prototype: local only, never published. The repository has no .gitignore, so these
+# lines are the safeguard if the prototype files are ever committed by mistake. Remove them only if a real shop is built.
+/shop/
+data/products.json
+
+# Legacy archives, retired-system code and image masters. Nothing on the site links to or loads them (checked 2026-10-17:
+# no page, script, data file or build step uses them), so they are not published. The local files are kept.
+/_archived-activities/
+/files3/
+/files4/
+data/dispatch-match.js
+images/resources/_masters/
