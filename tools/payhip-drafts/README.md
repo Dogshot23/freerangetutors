@@ -15,7 +15,34 @@ Nothing on this branch has been committed, pushed or deployed. `tools/` is kept 
 repository itself is **public**, so anything committed (including notes in these data files) is readable there: never put credentials,
 keys or private business details in them.
 
-## Current state (last updated 2026-10-17)
+## Second release: ten more GapTheMind products (2026-10-17)
+
+Ten more finished Partner Speaking Mysteries were created on Payhip (all $1.99 USD, 4-page PDF, CEFR B1-B2, Grades 5-8, pairs, about 25 minutes) and added
+to the paid-resources page, the directory (`data/resources/<id>.json` + manifest) and the homepage no-JavaScript list. Each Payhip file was downloaded from
+Payhip and its SHA-256 compared with the local source PDF: all ten are byte-identical. The first release's product (The Exploding Pudding) is unchanged.
+
+| Title | Site id | Payhip URL | Source PDF (in the AI_Resource_Quality_Lab project) |
+|---|---|---|---|
+| The Clocks That Lie | `the-clocks-that-lie` | https://payhip.com/b/x86vs | `partner_series/unlikely_science_2026/_packages/the_clocks_that_lie_01/package/The_Clocks_That_Lie_Partner_Speaking_Mystery.pdf` |
+| The Escaped Specimen | `the-escaped-specimen` | https://payhip.com/b/dRZco | `partner_series/unlikely_science_2026/_packages/the_escaped_specimen_01/package/The_Escaped_Specimen_Partner_Speaking_Mystery.pdf` |
+| The Too-Helpful Robot | `the-too-helpful-robot` | https://payhip.com/b/FWrHk | `partner_series/unlikely_science_2026/_packages/the_too_helpful_robot_01/package/The_Too_Helpful_Robot_Partner_Speaking_Mystery.pdf` |
+| The Dog Translator | `the-dog-translator` | https://payhip.com/b/FYKHe | `partner_series/unlikely_science_2026/_packages/the_dog_translator_01/package/The_Dog_Translator_Partner_Speaking_Mystery.pdf` |
+| The Sixth Ghost | `the-sixth-ghost` | https://payhip.com/b/ZkCOX | `partner_series/halloween_2026/_packages/the_sixth_ghost_01/package/The_Sixth_Ghost_Partner_Speaking_Mystery.pdf` |
+| The 9:47 Scream | `the-947-scream` | https://payhip.com/b/MnhYO | `partner_series/halloween_2026/_packages/the_947_scream_01/package/The_947_Scream_Partner_Speaking_Mystery.pdf` |
+| Grandpa's Teeth | `grandpas-teeth` | https://payhip.com/b/x5Npe | `partner_series/halloween_2026/_packages/grandpas_teeth_01/package/Grandpas_Teeth_Partner_Speaking_Mystery.pdf` |
+| Mr Bones Quits | `mr-bones-quits` | https://payhip.com/b/ZpK4L | `partner_series/halloween_2026/_packages/mr_bones_quits_01/package/Mr_Bones_Quits_Partner_Speaking_Mystery.pdf` |
+| Too Much Money | `too-much-money` | https://payhip.com/b/RN0GB | `partner_series/halloween_2026/_packages/too_much_money_01/package/Too_Much_Money_Partner_Speaking_Mystery.pdf` |
+| The Queue Jumper | `the-queue-jumper` | https://payhip.com/b/oxk9I | `partner_series/ministry_2026/_packages/the_queue_jumper_01/package/The_Queue_Jumper_Partner_Speaking_Mystery.pdf` |
+
+Notes: the product page text was built from each product's own listing files (`tpt_listing/TPT_PRODUCT_DESCRIPTION.md`) with the TPT terms-of-use text replaced by the
+approved Payhip licence wording. Covers are the existing GapTheMind covers (not redesigned); the 480 px directory thumbnails were made with
+`python tools/generate_thumbnail.py --source <cover> --category teaching_materials --id <id> --fit crop` (this reproduces The Exploding Pudding's thumbnail
+byte for byte). The directory's "All resources" list now shows free and freemium entries first and paid entries last (each group alphabetical), so ten paid cards
+never bury the free toolkit; "Recently added" and the featured slot already ignored paid entries. The publication set is now **148 files** (118 + 10 covers
++ 10 thumbnails + 10 directory records); the 10 new 900 px masters are excluded with the other masters. `Category & Tags` (Marketplace) were not set on the new
+Payhip products.
+
+## Current state (last updated 2026-10-17; the first release's state, before the second release above)
 
 - **Product:** The Exploding Pudding (creator: GapTheMind), $1.99 USD, PDF, 4 pages.
 - **Verified direct URL:** `https://payhip.com/b/cFa7v` (taken from Payhip's own Share dialog).
@@ -127,7 +154,7 @@ published site loads them any more; they remain published and are another candid
 |---|---|
 | `tools/payhip-drafts/paid-resources.json` | Source of truth for the catalogue page: page status plus one entry per paid resource. |
 | `tools/build-paid-resources.js` | Builds `paid-resources/index.html` from that file. `--check` changes nothing. |
-| `paid-resources/` | Generated page, stylesheet (`paid-resources.css`) and cover image. Must hold exactly those 3 files (a test checks). |
+| `paid-resources/` | Generated page, stylesheet (`paid-resources.css`) and cover image. Must hold exactly the page, the stylesheet and one cover per product (a test checks). |
 | `data/resources/<id>.json` + `data/manifest.json` | The directory entry. A separate source: keep price, level, time and URL in step by hand (a test checks they agree). |
 | `images/resources/<id>.png` | 480x480 directory thumbnail made with `tools/generate_thumbnail.py` (do not hand-edit). |
 | `tools/build-static.js` | Regenerates the homepage no-JavaScript list and `sitemap.xml` (the sitemap list of pages is hard-coded in it). |
@@ -185,7 +212,7 @@ changes for the owner to make deliberately; this repository cannot do it.
 ## Add or change a product
 
 1. Put a square cover in `paid-resources/images/` and make the 480x480 directory thumbnail with `tools/generate_thumbnail.py`.
-   (If you add a cover, update the "exactly three files" test deliberately.)
+   (If you add a cover, update `PAID_IDS`/`VERIFIED` in `data/paid-resources.test.js` deliberately: the folder test lists every expected file.)
 2. Add an entry to `paid-resources.json` (copy The Exploding Pudding) and a `data/resources/<id>.json` entry plus its manifest id.
    Write only facts you have checked against the real file.
 3. Keep `status: "draft"` until the product is Unlisted or Visible in Payhip AND its link has been opened in a private window and shows

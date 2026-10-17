@@ -44,6 +44,26 @@ const data = paid.load();
 const product = data.products.find((x) => x.id === 'the-exploding-pudding');
 const entry = JSON.parse(read('data/resources/the-exploding-pudding.json'));
 const VERIFIED_URL = 'https://payhip.com/b/cFa7v';
+/* The reviewed paid catalogue. Every id here has a Payhip product that was opened in a logged-out browser, and its URL is written out
+   once more here on purpose: a typo in the data file cannot pass by agreeing with itself. Add an entry only with the owner's approval. */
+const VERIFIED = {
+  'the-exploding-pudding': 'https://payhip.com/b/cFa7v',
+  'the-clocks-that-lie': 'https://payhip.com/b/x86vs',
+  'the-escaped-specimen': 'https://payhip.com/b/dRZco',
+  'the-too-helpful-robot': 'https://payhip.com/b/FWrHk',
+  'the-dog-translator': 'https://payhip.com/b/FYKHe',
+  'the-sixth-ghost': 'https://payhip.com/b/ZkCOX',
+  'the-947-scream': 'https://payhip.com/b/MnhYO',
+  'grandpas-teeth': 'https://payhip.com/b/x5Npe',
+  'mr-bones-quits': 'https://payhip.com/b/ZpK4L',
+  'too-much-money': 'https://payhip.com/b/RN0GB',
+  'the-queue-jumper': 'https://payhip.com/b/oxk9I'
+};
+const PAID_IDS = Object.keys(VERIFIED);
+const entries = {};
+PAID_IDS.forEach((id) => { entries[id] = JSON.parse(read('data/resources/' + id + '.json')); });
+const products = {};
+PAID_IDS.forEach((id) => { products[id] = data.products.find((x) => x.id === id); });
 const BASE = '366b6b064f4af07ebb024c0af3429e4111d7fb19'; /* the redesign baseline commit this branch started from */
 
 /* Pages that carry the site navigation today. */
@@ -126,60 +146,67 @@ test('the GapTheMind / Free Range Tutors relationship is stated plainly and fact
 });
 
 console.log('\npurchase link: only the verified Payhip product URL');
-test('the page has exactly one outbound link, the verified product URL, opened in a new tab safely', () => {
+test('the only outbound links are the verified product URLs, one per product, each opened in a new tab safely', () => {
   const hrefs = (html.match(/href="[^"]+"/g) || []).map((h) => h.slice(6, -1));
   const external = hrefs.filter((h) => /^https?:/i.test(h) && !/^https:\/\/fonts\.(googleapis|gstatic)\.com/.test(h) && !/^https:\/\/www\.freerangetutors\.com\//.test(h));
-  assert(external.length === 1 && external[0] === VERIFIED_URL, 'external links: ' + external.join(', '));
-  assert(html.includes('href="' + VERIFIED_URL + '" target="_blank" rel="noopener noreferrer"'), 'link attributes');
+  assert(JSON.stringify(external.slice().sort()) === JSON.stringify(Object.values(VERIFIED).sort()), 'external links: ' + external.join(', '));
+  PAID_IDS.forEach((id) => assert(html.includes('href="' + VERIFIED[id] + '" target="_blank" rel="noopener noreferrer"'), id + ': link attributes'));
   assert(!/payhip\.com\/FreeRangeTutors/i.test(html), 'the (currently empty) storefront must not be linked');
 });
 test('no fake checkout: no form, button, input, iframe or Stripe markup on the page', () => {
   assert(!/<form|<button|<input|<iframe|stripe/i.test(html), 'checkout-like markup found');
 });
-test('the card shows the price, the level and the time that the directory entry also states', () => {
-  const card = (html.match(/<article class="pr-item"[\s\S]*?<\/article>/) || [''])[0];
-  assert(/<p class="pr-price">\$1\.99 <small>USD<\/small><\/p>/.test(card), 'price on the card');
-  assert(/CEFR B1–B2/.test(card) && /About 25 minutes/.test(card) && /<dd>Pairs<\/dd>/.test(card), 'level/time/groups on the card');
-  assert(product.price.amount === 1.99 && /\$1\.99/.test(entry.description_short), 'price differs between the page data and the directory entry');
-  assert(/B1–B2/.test(entry.description_short) && JSON.stringify(entry.cefr_level.values) === '["B1","B2"]', 'level differs');
-  assert(/about 25 minutes/.test(entry.description_short) && entry.activity_time_minutes === 25, 'time differs');
-  assert(entry.group_fit.values.join() === 'pair', 'group differs');
-  assert(entry.url === product.payhip_url, 'directory entry URL differs from the catalogue page URL');
+test('each card shows the price, the level and the time that its directory entry also states', () => {
+  PAID_IDS.forEach((id) => {
+    const card = (html.match(new RegExp('<article class="pr-item" id="' + id + '">[\\s\\S]*?</article>')) || [''])[0];
+    const prod = products[id], ent = entries[id];
+    assert(card, id + ': no card on the page');
+    assert(/<p class="pr-price">\$1\.99 <small>USD<\/small><\/p>/.test(card), id + ': price on the card');
+    assert(/CEFR B1–B2/.test(card) && /About 25 minutes/.test(card) && /<dd>Pairs<\/dd>/.test(card), id + ': level/time/groups on the card');
+    assert(prod.price.amount === 1.99 && /\$1\.99/.test(ent.description_short), id + ': price differs between the page data and the directory entry');
+    assert(/B1–B2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["B1","B2"]', id + ': level differs');
+    assert(/about 25 minutes/.test(ent.description_short) && ent.activity_time_minutes === 25, id + ': time differs');
+    assert(ent.group_fit.values.join() === 'pair', id + ': group differs');
+    assert(ent.url === prod.payhip_url && prod.payhip_url === VERIFIED[id], id + ': directory entry URL differs from the catalogue page URL');
+    assert(card.includes('src="' + prod.image + '"') && prod.image === '/paid-resources/images/' + id + '.png', id + ': cover image');
+  });
 });
 test('the VAT note matches what Payhip checkout showed (tax may be added)', () => {
   assert(/Tax, such as EU VAT, may be added at checkout\./.test(html), 'tax note missing');
 });
 
 console.log('\ndirectory entry: exactly one reviewed paid entry, nothing else changed');
-test('entry follows the schema conventions for a paid, GapTheMind-published resource', () => {
+test('every entry follows the schema conventions for a paid, GapTheMind-published resource', () => PAID_IDS.forEach((id) => {
+  const entry = entries[id];
   assert(entry.cost === 'paid' && entry.source_category === 'commercial' && entry.creator === 'GapTheMind' && entry.domain === 'payhip.com', 'paid/commercial/creator/domain');
   assert(/^https:\/\/payhip\.com\/b\/[A-Za-z0-9]+$/.test(entry.url), 'URL shape');
   assert(entry.resource_type === 'pdf' && entry.primary_category === 'teaching_materials', 'type/category');
   assert(entry.age_group.mode === 'unknown', 'age_group must stay unknown (no age range is stated in the product)');
   assert(entry.featured === false && entry.status === null, 'featured/status');
   assert(entry.internal_notes && !/payhip\.com\/b\//.test(JSON.stringify(Object.assign({}, entry, { internal_notes: '', url: '' }))), 'no stray product URL in visible fields');
-});
-test('manifest lists the entry exactly once and lists nothing else new', () => {
+  assert(entry.id === id && entry.image === 'images/resources/' + id + '.png' && entry.date_added === '2026-10-17', id + ': id/image/date');
+}));
+test('manifest lists every paid entry exactly once and lists nothing else new', () => {
   const manifest = JSON.parse(read('data/manifest.json'));
-  assert(manifest.filter((i) => i === 'the-exploding-pudding').length === 1, 'not exactly once');
-  assert(manifest.length === 20, 'manifest length ' + manifest.length);
+  PAID_IDS.forEach((id) => assert(manifest.filter((i) => i === id).length === 1, id + ': not exactly once'));
+  assert(manifest.length === 19 + PAID_IDS.length, 'manifest length ' + manifest.length);
   if (!gitAvailable()) { console.log('        (baseline comparison skipped: git or the baseline commit is not available here)'); return; }
   const base = JSON.parse(git(['show', BASE + ':data/manifest.json']));
-  assert(JSON.stringify(manifest.filter((i) => i !== 'the-exploding-pudding')) === JSON.stringify(base), 'the 19 existing ids changed or were reordered');
+  assert(JSON.stringify(manifest.filter((i) => PAID_IDS.indexOf(i) === -1)) === JSON.stringify(base), 'the 19 existing ids changed or were reordered');
 });
-test('all 19 existing resource files and originals.json are identical to the baseline commit; only the new entry file was added', () => {
+test('all 19 existing resource files and originals.json are identical to the baseline commit; only the paid entry files were added', () => {
   if (!gitAvailable()) { console.log('        (skipped: git or the baseline commit is not available here)'); return; }
   const changed = git(['diff', '--name-only', '--diff-filter=MDRTU', BASE, '--', 'data/resources', 'data/originals.json']).trim();
   assert(changed === '', 'changed since baseline: ' + changed);
   const added = git(['diff', '--name-only', '--diff-filter=A', BASE, '--', 'data/resources']).split('\n')
     .concat(git(['ls-files', '--others', '--exclude-standard', '--', 'data/resources']).split('\n'))
     .map((s) => s.trim()).filter(Boolean).filter((f, i, a) => a.indexOf(f) === i);
-  assert(added.length === 1 && added[0] === 'data/resources/the-exploding-pudding.json', 'unexpected new catalogue files: ' + added.join(', '));
+  assert(JSON.stringify(added.slice().sort()) === JSON.stringify(PAID_IDS.map((id) => 'data/resources/' + id + '.json').sort()), 'unexpected new catalogue files: ' + added.join(', '));
 });
-test('exactly one resource in the catalogue is paid', () => {
+test('exactly the reviewed resources in the catalogue are paid, and no others', () => {
   const manifest = JSON.parse(read('data/manifest.json'));
   const paidIds = manifest.filter((id) => JSON.parse(read('data/resources/' + id + '.json')).cost === 'paid');
-  assert(paidIds.join() === 'the-exploding-pudding', 'paid ids: ' + paidIds.join(', '));
+  assert(paidIds.slice().sort().join() === PAID_IDS.slice().sort().join(), 'paid ids: ' + paidIds.join(', '));
 });
 
 console.log('\nhomepage: a paid entry cannot take the featured slot or enter "Recently added"');
@@ -213,7 +240,7 @@ test('with the real catalogue the featured entry and the 3 supporting items are 
   const withoutPaid = band(catalogue.filter((r) => r.cost !== 'paid'), null);
   assert(JSON.stringify(withPaid) === JSON.stringify(withoutPaid), 'band differs: ' + JSON.stringify(withPaid) + ' vs ' + JSON.stringify(withoutPaid));
   assert(withPaid.featured === 'google-arts-culture', 'featured is no longer the pre-existing free resource: ' + withPaid.featured);
-  assert(![withPaid.featured].concat(withPaid.support).includes('the-exploding-pudding'), 'the paid entry is in the band');
+  assert(![withPaid.featured].concat(withPaid.support).some((id) => PAID_IDS.includes(id)), 'a paid entry is in the band');
 });
 test('a newer paid entry cannot take the featured slot or displace a supporting free item (synthetic cases)', () => {
   const all = [R('a', 'free', '2026-01-01'), R('b', 'freemium', '2026-03-01'), R('c', 'free', '2026-02-01'), R('d', 'free', '2026-01-15'), R('pay', 'paid', '2026-12-31')];
@@ -231,15 +258,16 @@ console.log('\ncreator: the directory card and the no-JavaScript list name GapTh
 const sourceTextFn = () => new Function(extractFn('sourceText') + '\nreturn sourceText;')();
 test('a commercial entry\'s card source line reads "GapTheMind · payhip.com"; every free entry still shows just its domain', () => {
   const f = sourceTextFn();
-  assert(f(entry) === 'GapTheMind · payhip.com', 'got: ' + f(entry));
+  PAID_IDS.forEach((id) => assert(f(entries[id]) === 'GapTheMind · payhip.com', id + ' got: ' + f(entries[id])));
   catalogue.filter((r) => r.cost !== 'paid').forEach((r) => assert(f(r) === r.domain, r.id + ' changed: ' + f(r)));
   assert(/text: sourceText\(r\)/.test(dirSrc), 'the card does not use sourceText');
 });
-test('the no-JavaScript list names the creator for the paid entry only', () => {
+test('the no-JavaScript list names the creator for the paid entries only', () => {
   const items = (read('index.html').match(/<li><a href="https?:[^]*?<\/li>/g) || []);
-  const paidLine = items.find((l) => l.includes('payhip.com/b/cFa7v'));
-  assert(paidLine && /<\/a> \(GapTheMind\) &mdash; /.test(paidLine), 'creator missing in the noscript line');
-  items.filter((l) => l !== paidLine).forEach((l) => assert(!/<\/a> \([^)]*\) &mdash; /.test(l), 'a free entry gained a creator suffix: ' + l.slice(0, 80)));
+  const paidLines = items.filter((l) => /href="https:\/\/payhip\.com\/b\//.test(l));
+  assert(paidLines.length === PAID_IDS.length, 'paid lines in the noscript list: ' + paidLines.length);
+  paidLines.forEach((l) => assert(/<\/a> \(GapTheMind\) &mdash; /.test(l), 'creator missing in the noscript line'));
+  items.filter((l) => paidLines.indexOf(l) === -1).forEach((l) => assert(!/<\/a> \([^)]*\) &mdash; /.test(l), 'a free entry gained a creator suffix: ' + l.slice(0, 80)));
 });
 
 console.log('\nnavigation and sitemap');
@@ -265,8 +293,8 @@ test('sitemap.xml lists /paid-resources/ and build-static reports nothing stale'
   const stale = staticRun(true);
   assert(stale.length === 0, 'build-static would change: ' + stale.join(', '));
 });
-test('the homepage no-JavaScript list includes the paid entry with its Payhip link', () => {
-  assert(/<li><a href="https:\/\/payhip\.com\/b\/cFa7v" rel="noopener noreferrer">The Exploding Pudding: Partner Speaking Mystery<\/a>/.test(read('index.html')), 'noscript entry');
+test('the homepage no-JavaScript list includes every paid entry with its Payhip link', () => {
+  PAID_IDS.forEach((id) => assert(read('index.html').includes('<li><a href="' + VERIFIED[id] + '" rel="noopener noreferrer">' + entries[id].name.replace(/&/g, '&amp;') + '</a>'), id + ': noscript entry'));
 });
 
 console.log('\nAbout and footer wording');
@@ -306,7 +334,7 @@ test('live mode refuses: no verification date / bad link / no live products / du
   throws(() => paid.render(d), /link_verified/, 'unverified link');
   d = fakeLive(); d.products[0].payhip_url = 'https://example.com/b/AbC12';
   throws(() => paid.render(d), /payhip_url/, 'non-Payhip link');
-  d = fakeLive(); d.products[0].status = 'draft';
+  d = fakeLive(); d.products.forEach((x) => { x.status = 'draft'; });
   throws(() => paid.render(d), /no live products/, 'empty shop');
   d = clone(data); d.products.push(clone(d.products[0]));
   throws(() => paid.render(d), /duplicate id/, 'duplicate id');
@@ -362,7 +390,7 @@ test('every prototype and internal file (shop/, tools/, products.json, notes, te
   const leaks = files.filter((f) => !ignored.has(f));
   assert(leaks.length === 0, 'would be published: ' + leaks.join(', '));
 });
-const PAID_PAGE_FILES = ['paid-resources/index.html', 'paid-resources/paid-resources.css', 'paid-resources/images/the-exploding-pudding.png'];
+const PAID_PAGE_FILES = ['paid-resources/index.html', 'paid-resources/paid-resources.css'].concat(PAID_IDS.map((id) => 'paid-resources/images/' + id + '.png'));
 test('the intended public files AND the three paid-resources page files are published (not excluded), while internal and prototype files stay excluded', () => {
   if (!gitAvailable()) { console.log('        (skipped: git is not available here)'); return; }
   const internal = PROTOTYPE_AND_INTERNAL();
@@ -372,7 +400,7 @@ test('the intended public files AND the three paid-resources page files are publ
   const leaks = internal.filter((f) => !ignored.has(f));
   assert(leaks.length === 0, 'internal/prototype files that would be published: ' + leaks.join(', '));
 });
-test('the paid-resources folder contains exactly the three expected files, so nothing stray is published with the page', () => {
+test('the paid-resources folder contains exactly the page, its stylesheet and one cover per product, so nothing stray is published with the page', () => {
   const walk = (d) => fs.readdirSync(path.join(ROOT, d), { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(d + '/' + e.name) : [d + '/' + e.name]);
   const found = walk('paid-resources').sort();
   assert(JSON.stringify(found) === JSON.stringify(PAID_PAGE_FILES.slice().sort()), 'paid-resources/ holds: ' + found.join(', '));
@@ -428,11 +456,8 @@ const blockers = [];
 if (assetsIgnore.includes('paid-resources')) {
   blockers.push('.assetsignore excludes /paid-resources/ again, but the nav, footer and sitemap link to it: those links would 404 if deployed.');
 }
-blockers.push('Cloudflare dashboard settings are unverified (Enable Preview Builds, Version URLs / workers.dev, Root directory, deploy and preview commands, and the cause of the failed 12 Oct build); see the README for the read-only checklist.');
-blockers.push('Nothing has been committed, pushed or deployed (needs the owner\'s explicit permission). Any push, even of a branch, starts a Cloudflare build and, as the 11 Oct test branch showed, a PUBLIC workers.dev preview of whatever is committed.');
-blockers.push('The Payhip storefront About text is saved as a draft but NOT published (needs the owner to publish it in Payhip).');
-blockers.push('The product is Unlisted in Payhip; the owner has decided it should become Visible (a Payhip change, not made).');
-blockers.push('EU VAT was added at checkout ($0.42 on $1.99); the owner is to review the VAT arrangements before launch (no tax setting was touched).');
+blockers.push('Ten of the eleven Payhip products were set to Unlisted when created (the direct links work; The Exploding Pudding is Visible). Making them Visible lists them in the Payhip storefront: a Payhip change the owner still has to make or approve.');
+blockers.push('The owner is to confirm their own VAT and tax position with Payhip support or an accountant (Payhip says it handles EU/UK VAT as reseller; no tax setting was touched).');
 if (blockers.length) {
   console.log('\n  GO-LIVE BLOCKERS (not test failures; set GO_LIVE=1 to make them fail):');
   blockers.forEach((b, i) => console.log('   ' + (i + 1) + '. ' + b));

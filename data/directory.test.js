@@ -55,7 +55,8 @@ function check(label, condition, detail) {
    with the owner's approval (Payhip, sold under the GapTheMind name). A paid entry that is not listed
    here fails the checks below, so none can be added by accident. Add an id here only after the owner
    has approved the entry and its Payhip link has been verified in a logged-out browser. */
-const REVIEWED_PAID_IDS = ['the-exploding-pudding'];
+const REVIEWED_PAID_IDS = ['the-exploding-pudding', 'the-clocks-that-lie', 'the-escaped-specimen', 'the-too-helpful-robot', 'the-dog-translator',
+  'the-sixth-ghost', 'the-947-scream', 'grandpas-teeth', 'mr-bones-quits', 'too-much-money', 'the-queue-jumper'];
 
 function ids(list) {
   return list.map(function (r) { return r.id; }).sort();
@@ -367,26 +368,39 @@ console.log('\nNo stale references remain in the live source');
    ============================================================ */
 console.log('\nRecently Added and All Resources — two views, one complete catalogue');
 {
-  /* ---- MUST MATCH directory.js: sortNewestFirst/sortAlphabetical ---- */
+  /* ---- MUST MATCH directory.js: sortNewestFirst/sortAlphabetical/freeFirst ---- */
   function sortNewestFirst(resources) {
     return resources.slice().sort(function (a, b) { return (b.date_added > a.date_added) ? 1 : -1; });
   }
   function sortAlphabetical(resources) {
     return resources.slice().sort(function (a, b) { return a.name.localeCompare(b.name); });
   }
+  function freeFirst(resources) {
+    return resources.filter(function (r) { return r.cost !== 'paid'; })
+      .concat(resources.filter(function (r) { return r.cost === 'paid'; }));
+  }
 
   const recent = sortNewestFirst(catalogue).slice(0, 4);
-  const allResourcesDefault = sortAlphabetical(filterCatalogue(emptyState(), catalogue));
+  const allResourcesDefault = freeFirst(sortAlphabetical(filterCatalogue(emptyState(), catalogue)));
 
   check('All Resources (default, unfiltered) contains all ' + catalogue.length + ' resources', allResourcesDefault.length === catalogue.length);
 
   check('Every Recently Added item is also present in All Resources (never excluded)',
     recent.every(function (r) { return allResourcesDefault.some(function (a) { return a.id === r.id; }); }));
 
-  check('All Resources default order is alphabetical by name, not newest-first',
+  check('All Resources default order is alphabetical by name (within free and within paid), not newest-first',
     allResourcesDefault.every(function (r, i) {
-      return i === 0 || allResourcesDefault[i - 1].name.localeCompare(r.name) <= 0;
+      return i === 0 || (allResourcesDefault[i - 1].cost === 'paid') !== (r.cost === 'paid')
+        || allResourcesDefault[i - 1].name.localeCompare(r.name) <= 0;
     }));
+
+  check('All Resources lists every free and freemium resource before any paid one',
+    allResourcesDefault.every(function (r, i) {
+      return i === 0 || !(allResourcesDefault[i - 1].cost === 'paid' && r.cost !== 'paid');
+    }));
+
+  check('directory.js orders the All Resources list with freeFirst(sortAlphabetical(...)), matching this test',
+    /const list = freeFirst\(sortAlphabetical\(filteredResources\(\)\)\);/.test(require('fs').readFileSync(require('path').join(__dirname, '..', 'directory.js'), 'utf8')));
 }
 
 /* ============================================================
