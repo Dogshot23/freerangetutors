@@ -190,6 +190,12 @@
       return a.name.localeCompare(b.name);
     });
   }
+  /* "All resources": free and freemium entries first, paid entries last, so the paid catalogue never buries the free toolkit.
+     Each group keeps its alphabetical order. */
+  function freeFirst(resources) {
+    return resources.filter(function (r) { return r.cost !== 'paid'; })
+      .concat(resources.filter(function (r) { return r.cost === 'paid'; }));
+  }
 
   /* ---- RENDER HELPERS ---- */
   function el(tag, attrs, children) {
@@ -431,7 +437,7 @@
   }
 
   function renderEntries() {
-    const list = sortAlphabetical(filteredResources());
+    const list = freeFirst(sortAlphabetical(filteredResources()));
     const container = document.getElementById('entries');
     const empty = document.getElementById('directory-empty');
     const count = document.getElementById('index-count');
