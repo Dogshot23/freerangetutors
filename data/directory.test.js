@@ -51,6 +51,12 @@ function check(label, condition, detail) {
   }
 }
 
+/* Reviewed paid entries: the ONLY paid / commercial resources allowed in the catalogue. Added 2026-10-17
+   with the owner's approval (Payhip, sold under the GapTheMind name). A paid entry that is not listed
+   here fails the checks below, so none can be added by accident. Add an id here only after the owner
+   has approved the entry and its Payhip link has been verified in a logged-out browser. */
+const REVIEWED_PAID_IDS = ['the-exploding-pudding'];
+
 function ids(list) {
   return list.map(function (r) { return r.id; }).sort();
 }
@@ -121,8 +127,12 @@ console.log('Every catalogue entry links directly to a real external destination
   check('no resource has source_category own_original (all FRT-original activities were removed)',
     catalogue.every(function (r) { return r.source_category !== 'own_original'; }));
 
-  check('every resource is source_category curated_external',
-    catalogue.every(function (r) { return r.source_category === 'curated_external'; }));
+  check('every free resource is source_category curated_external; only reviewed paid entries are commercial',
+    catalogue.every(function (r) {
+      return REVIEWED_PAID_IDS.indexOf(r.id) !== -1
+        ? r.source_category === 'commercial' && r.cost === 'paid'
+        : r.source_category === 'curated_external';
+    }));
 
   const originalFive = ['baamboozle', 'islcollective', 'learnenglish-teens', 'voa-learning-english', 'wafflebrain'];
   check('the five original resources are all still in the catalogue',
@@ -200,8 +210,9 @@ console.log('\nPrimary Category filter — matches the real primary_category dis
     catalogue.every(function (r) { return validCategories.indexOf(r.primary_category) !== -1; }));
 
   const teachingMaterials = filterCatalogue(Object.assign(emptyState(), { category: 'teaching_materials' }), catalogue);
-  check('category=teaching_materials is an honest empty result (every teaching_materials entry was an FRT-original activity, now removed)',
-    teachingMaterials.length === 0);
+  check('category=teaching_materials returns only reviewed paid entries (every earlier teaching_materials entry was an FRT-original activity, now removed)',
+    ids(teachingMaterials).join(',') === ids(catalogue.filter(function (r) { return r.primary_category === 'teaching_materials'; })).join(',')
+    && teachingMaterials.every(function (r) { return REVIEWED_PAID_IDS.indexOf(r.id) !== -1; }));
 
   ['web_apps_tools', 'games', 'websites_resource_hubs', 'media'].forEach(function (cat) {
     const got = filterCatalogue(Object.assign(emptyState(), { category: cat }), catalogue);
@@ -278,12 +289,13 @@ console.log('\nCost filter');
   const free = filterCatalogue(Object.assign(emptyState(), { cost: 'free' }), catalogue);
   const paid = filterCatalogue(Object.assign(emptyState(), { cost: 'paid' }), catalogue);
   const freemium = filterCatalogue(Object.assign(emptyState(), { cost: 'freemium' }), catalogue);
-  check('cost=free and cost=freemium together cover the whole catalogue (' + free.length + ' + ' + freemium.length + ')',
-    free.length + freemium.length === catalogue.length && free.length > 0 && freemium.length > 0);
+  check('cost=free, cost=freemium and cost=paid together cover the whole catalogue (' + free.length + ' + ' + freemium.length + ' + ' + paid.length + ')',
+    free.length + freemium.length + paid.length === catalogue.length && free.length > 0 && freemium.length > 0);
   check('cost=free returns only resources whose cost is exactly free',
     free.every(function (r) { return r.cost === 'free'; }));
-  check('cost=paid is an honest empty result (no resource has cost "paid")',
-    paid.length === catalogue.filter(function (r) { return r.cost === 'paid'; }).length && paid.length === 0);
+  check('cost=paid returns exactly the reviewed paid entries, and no others',
+    ids(paid).join(',') === REVIEWED_PAID_IDS.slice().sort().join(',')
+    && paid.length === catalogue.filter(function (r) { return r.cost === 'paid'; }).length);
 }
 
 /* ============================================================

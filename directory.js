@@ -202,6 +202,12 @@
     (children || []).forEach(function (c) { if (c) node.appendChild(c); });
     return node;
   }
+  /* The source line under a card: the site's domain. A commercial (paid) entry names its creator first,
+     e.g. "GapTheMind · payhip.com", so a visitor can see who published it. Free entries are unchanged. */
+  function sourceText(r) {
+    return (r.source_category === 'commercial' && r.creator) ? r.creator + ' · ' + r.domain : r.domain;
+  }
+
   function metaLine(r) {
     const parts = [];
     const lvl = levelLabel(r);
@@ -223,9 +229,29 @@
      catalogue (a presentation choice, not a data fact), falling
      back to the genuinely newest resource otherwise so this never
      breaks if that resource is ever removed. ---- */
+  /* Which resource gets the red featured slot. FEATURED_ID wins when it is set (a deliberate
+     choice, even for a paid entry). Otherwise it is the newest resource that is NOT paid, so a
+     newly added paid entry can never take the slot by being the most recent. If every resource
+     were paid it falls back to the newest. With no paid entries (as now) this is exactly the
+     previous behaviour: the newest resource. */
+  function pickFeatured(newest) {
+    const chosen = allResources.find(function (r) { return r.id === FEATURED_ID; });
+    if (chosen) return chosen;
+    return newest.find(function (r) { return r.cost !== 'paid'; }) || newest[0];
+  }
+
+  /* The "Recently added" band (featured entry + 3 supporting items) is a view of FREE and freemium
+     resources only, so adding a paid entry never changes which free resources appear there. Paid
+     entries are still listed in "All resources" (with a Paid label and the Cost filter) and on the
+     paid-resources page. If every resource were paid it falls back to the whole catalogue. */
+  function recentPool(resources) {
+    const free = resources.filter(function (r) { return r.cost !== 'paid'; });
+    return free.length ? free : resources;
+  }
+
   function renderFeatured() {
-    const newest = sortNewestFirst(allResources);
-    const featured = allResources.find(function (r) { return r.id === FEATURED_ID; }) || newest[0];
+    const newest = sortNewestFirst(recentPool(allResources));
+    const featured = pickFeatured(newest);
     const rest = newest.filter(function (r) { return r.id !== featured.id; }).slice(0, 3); // featured + 3 = the "4 newest" the heading promises
 
     const wrap = document.getElementById('recent-featured');
@@ -309,7 +335,7 @@
       el('div', { class: 'entry-side' }, [
         el('span', { class: 'entry-meta', text: metaLine(r) }),
         el('span', { class: 'entry-use', text: useText || ' ' }),
-        r.domain ? el('span', { class: 'entry-source', text: r.domain }) : null,
+        r.domain ? el('span', { class: 'entry-source', text: sourceText(r) }) : null,
         el('span', { class: 'entry-open', text: isExternal(r) ? 'Open ↗' : 'Open →' })
       ])
     );

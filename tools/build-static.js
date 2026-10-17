@@ -35,7 +35,7 @@ function build() {
 
   const resourceList = resources
     .slice().sort((a, b) => a.name.localeCompare(b.name))
-    .map((r) => '      <li><a href="' + esc(r.url) + '" rel="noopener noreferrer">' + esc(r.name) + '</a> &mdash; ' + esc(r.description_short) + '</li>')
+    .map((r) => '      <li><a href="' + esc(r.url) + '" rel="noopener noreferrer">' + esc(r.name) + '</a>' + (r.source_category === 'commercial' && r.creator ? ' (' + esc(r.creator) + ')' : '') + ' &mdash; ' + esc(r.description_short) + '</li>')
     .join('\n');
   const indexBlock =
     '    <noscript>\n' +
@@ -50,7 +50,7 @@ function build() {
     }).join('\n');
   const originalsBlock = '    <noscript>\n      <ul>\n' + originalsList + '\n      </ul>\n    </noscript>';
 
-  const pages = ['/', '/made-by-frt/', '/about'].concat(originals.map((o) => o.page));
+  const pages = ['/', '/made-by-frt/', '/paid-resources/', '/about'].concat(originals.map((o) => o.page));
   const sitemap =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +

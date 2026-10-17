@@ -1,0 +1,29 @@
+{
+  "page": {
+    "status": "live",
+    "store_url": null
+  },
+  "products": [
+    {
+      "id": "the-exploding-pudding",
+      "status": "live",
+      "title": "The Exploding Pudding",
+      "kind": "GapTheMind · Partner speaking mystery",
+      "summary": "Dr Wobble made six test puddings and three of them exploded. Student A has the recipe cards, Student B has the lab notes and the results, and together a pair works out what makes the pudding explode. Neither sheet solves it alone.",
+      "facts": [
+        { "label": "Level", "value": "CEFR B1–B2 · Grades 5–8" },
+        { "label": "Format", "value": "PDF, 4 pages" },
+        { "label": "Time", "value": "About 25 minutes" },
+        { "label": "Groups", "value": "Pairs" },
+        { "label": "Includes", "value": "Teacher notes, Student A and Student B sheets, answer key" }
+      ],
+      "price": { "amount": 1.99, "currency": "USD" },
+      "price_note": "Tax, such as EU VAT, may be added at checkout.",
+      "image": "/paid-resources/images/the-exploding-pudding.png",
+      "image_alt": "Cover of The Exploding Pudding, a partner speaking mystery: the Student A and Student B worksheets side by side, labelled B1–B2, Grades 5–8 and Pairs.",
+      "payhip_url": "https://payhip.com/b/cFa7v",
+      "link_verified": "2026-10-17",
+      "internal_notes": "Facts checked against the 4-page PDF and the cover (2026-10-16). Payhip product set to UNLISTED on 2026-10-17. On 2026-10-17 payhip_url was opened in a fresh, logged-out browser context: product page loaded, price $1.99, Buy Now present; Buy Now opened Payhip checkout (Stripe fields) showing $1.99 + EU VAT $0.42 = $2.41 for an EU visitor; nothing was entered or purchased. page.store_url is deliberately null: while the only product is Unlisted the Payhip storefront shows 'No products found', so do not link it. If the product is ever set back to Invisible this link stops working: set status back to 'draft' and rebuild."
+    }
+  ]
+}
