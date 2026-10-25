@@ -1,0 +1,51 @@
+{
+  "id": "sold-as-seen",
+  "name": "SOLD AS SEEN: Interactive ESL Mystery",
+  "url": "https://payhip.com/b/72Ecu",
+  "image": "images/resources/sold-as-seen.png",
+  "description_short": "An interactive choose-your-path mystery for B1–B2 learners (about ages 12–14), for screens: students read, choose between two options at each decision point and find one of seven endings (112 routes). A British used-car dealership, October 1986. About 45 minutes. PDF, 30 pages, $4.99 on Payhip.",
+  "teacher_note": null,
+  "source_category": "commercial",
+  "creator": "GapTheMind",
+  "domain": "payhip.com",
+  "resource_type": "pdf",
+  "primary_category": "teaching_materials",
+  "primary_subtype": "Interactive ESL Mystery",
+  "age_group": {
+    "mode": "specific",
+    "values": [
+      "teen"
+    ]
+  },
+  "cefr_level": {
+    "mode": "specific",
+    "values": [
+      "B1",
+      "B2"
+    ]
+  },
+  "group_fit": {
+    "mode": "specific",
+    "values": [
+      "individual",
+      "pair",
+      "group"
+    ]
+  },
+  "teaching_use": [
+    "reading"
+  ],
+  "activity_time_minutes": 45,
+  "duration_alt_minutes": null,
+  "duration_alt_note": null,
+  "prep_level": "none",
+  "setting": "either",
+  "cost": "paid",
+  "ai_powered": false,
+  "gtmk_relationship": "GapTheMind paid resource, sold through Payhip",
+  "status": null,
+  "featured": false,
+  "date_added": "2026-10-25",
+  "date_updated": null,
+  "internal_notes": "Paid entry, reviewed 2026-10-25. Facts (30 pages, A4 landscape, 17 decision pages, 7 endings, 112 routes, CEFR B1-B2, ages 12-14) checked against the open-font PDF and its cover. age_group is teen because the cover states ages 12-14. activity_time_minutes 45 is an estimate, not a measured time. prep_level none: nothing to print, cut or copy; the teacher opens the PDF. For screens; landscape recommended; not designed for printing. Price and URL must match tools/payhip-drafts/paid-resources.json. The Payhip product is UNLISTED (direct link only); the URL was opened logged out on 2026-10-25 and showed the product with Buy Now. Links were click-tested in desktop Chrome and pdf.js; not tested on a physical tablet."
+}

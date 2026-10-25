@@ -1,0 +1,45 @@
+{
+  "id": "a-day-at-the-park",
+  "name": "A Day at the Park: Partner Speaking Activity",
+  "url": "https://payhip.com/b/Ek2gX",
+  "image": "images/resources/a-day-at-the-park.png",
+  "description_short": "A partner speaking activity for pairs, CEFR A2, about 15–20 minutes: each student has a different park picture and they ask and answer questions to find ten differences. PDF, $1.99 on Payhip.",
+  "teacher_note": null,
+  "source_category": "commercial",
+  "creator": "GapTheMind",
+  "domain": "payhip.com",
+  "resource_type": "pdf",
+  "primary_category": "teaching_materials",
+  "primary_subtype": "Partner Speaking Activity",
+  "age_group": {
+    "mode": "unknown"
+  },
+  "cefr_level": {
+    "mode": "specific",
+    "values": [
+      "A2"
+    ]
+  },
+  "group_fit": {
+    "mode": "specific",
+    "values": [
+      "pair"
+    ]
+  },
+  "teaching_use": [
+    "speaking"
+  ],
+  "activity_time_minutes": 20,
+  "duration_alt_minutes": 15,
+  "duration_alt_note": "the teacher notes say 15–20 minutes",
+  "prep_level": "light",
+  "setting": "classroom",
+  "cost": "paid",
+  "ai_powered": false,
+  "gtmk_relationship": "GapTheMind paid resource, sold through Payhip",
+  "status": null,
+  "featured": false,
+  "date_added": "2026-10-17",
+  "date_updated": null,
+  "internal_notes": "Paid entry, reviewed 2026-10-17. Facts (A2, pairs, 15-20 minutes, PDF 5 pages, A4) checked against the FINAL_v3 PDF. age_group left unknown: the PDF states no ages. Price and URL must match tools/payhip-drafts/paid-resources.json. The Payhip product is UNLISTED (direct link only); the URL was opened logged out on 2026-10-17 and showed the product with Buy Now. Never rendered anywhere."
+}
