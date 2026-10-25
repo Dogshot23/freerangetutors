@@ -56,7 +56,7 @@ function check(label, condition, detail) {
    here fails the checks below, so none can be added by accident. Add an id here only after the owner
    has approved the entry and its Payhip link has been verified in a logged-out browser. */
 const REVIEWED_PAID_IDS = ['the-exploding-pudding', 'the-clocks-that-lie', 'the-escaped-specimen', 'the-too-helpful-robot', 'the-dog-translator',
-  'the-sixth-ghost', 'the-947-scream', 'grandpas-teeth', 'mr-bones-quits', 'too-much-money', 'the-queue-jumper', 'a-day-at-the-park'];
+  'the-sixth-ghost', 'the-947-scream', 'grandpas-teeth', 'mr-bones-quits', 'too-much-money', 'the-queue-jumper', 'a-day-at-the-park', 'sold-as-seen'];
 
 function ids(list) {
   return list.map(function (r) { return r.id; }).sort();

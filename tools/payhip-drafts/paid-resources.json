@@ -255,6 +255,29 @@
       "payhip_url": "https://payhip.com/b/Ek2gX",
       "link_verified": "2026-10-17",
       "internal_notes": "Facts checked against the 5-page FINAL_v3 PDF (2026-10-17): CEFR A2 printed on the pages, teacher notes say 15-20 minutes, pairs, A4. Payhip product created 2026-10-17 as UNLISTED (direct link works; it is not in the Payhip storefront). On 2026-10-17 the payhip_url was opened in a fresh, logged-out browser context: product page loaded, price $1.99, Add to Cart and Buy Now present; nothing was bought. page.store_url stays null. No age range or grade is stated because the PDF states none. Not classroom- or printer-tested."
+    },
+    {
+      "id": "sold-as-seen",
+      "status": "live",
+      "title": "SOLD AS SEEN",
+      "kind": "GapTheMind · Interactive ESL mystery",
+      "summary": "Students read a spooky-but-not-gory mystery set at a British used-car dealership in October 1986 and choose between two options at every decision point. They find one of seven endings, and there are 112 routes through the story. Open the PDF and teach: nothing to print, cut or copy.",
+      "facts": [
+        { "label": "Level", "value": "CEFR B1–B2" },
+        { "label": "Ages", "value": "About 12–14" },
+        { "label": "Format", "value": "Interactive PDF, 30 pages, A4 landscape" },
+        { "label": "Use", "value": "On screen; landscape recommended" },
+        { "label": "Time", "value": "About 45 minutes, with discussion" },
+        { "label": "Groups", "value": "Whole class, pairs or individual" },
+        { "label": "Includes", "value": "Cover, how-to page, cast page, 17 decision pages, 7 endings" }
+      ],
+      "price": { "amount": 4.99, "currency": "USD" },
+      "price_note": "Tax, such as EU VAT, may be added at checkout.",
+      "image": "/paid-resources/images/sold-as-seen.png",
+      "image_alt": "Cover of SOLD AS SEEN, an interactive English mystery for B1–B2 learners: a shattered car windscreen at a used-car dealership at night, above the labels B1–B2, ages 12–14 and 7 endings.",
+      "payhip_url": "https://payhip.com/b/72Ecu",
+      "link_verified": "2026-10-25",
+      "internal_notes": "Facts checked against the 30-page open-font PDF (2026-10-25): 30 pages, A4 landscape, 17 decision pages (pages 5-21), 7 ending pages (22-28), 112 routes (counted from the link graph), CEFR B1-B2 and ages 12-14 as printed on the cover and back cover. The 45-minute figure is an estimate (one route is about 1,600 words), not a measured classroom time. Source PDF: open_font_rebuild/SOLD_AS_SEEN_FINAL_LANDSCAPE_OPENFONTS.pdf (sha256 f336b79be21a374c542dbecbe566752f8b5496051c7cc56a69a8c791fc7e3fae). The Payhip product (created 2026-10-25 as UNLISTED, $4.99, hosted file) was downloaded and hashed: byte-identical. The URL was opened in a fresh, logged-out browser context on 2026-10-25: title, $4.99, Add to Cart and Buy Now present; nothing was bought. Links were click-tested in desktop Chrome and pdf.js; not tested on a physical tablet. Designed for screens, not for printing. If the product is ever set to Invisible this link stops working: set status back to 'draft' and rebuild."
     }
   ]
 }
