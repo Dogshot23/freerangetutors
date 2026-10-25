@@ -1,0 +1,6 @@
+# Redirects served by Cloudflare Workers static assets (syntax: <from> <to> <status>; evaluated before assets).
+# The paid resources now live on the unified Made by FRT catalogue. Keeping the same card ids means
+# /paid-resources/#sold-as-seen still lands on the right card: browsers carry the #fragment through a redirect.
+/paid-resources/ /made-by-frt/ 301
+/paid-resources /made-by-frt/ 301
+/paid-resources/index.html /made-by-frt/ 301

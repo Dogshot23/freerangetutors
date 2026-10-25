@@ -1,49 +1,54 @@
-/* "Made by Free Range Tutors": renders data/originals.json. To add an item, edit that
-   file (see data/ORIGINALS.md), then run `node tools/build-static.js`. No dependencies. */
+/* "Made by Free Range Tutors": filter buttons for the catalogue. Every card is already in the page (tools/build-catalogue.js),
+   so without this script, or if it fails, the whole catalogue is simply visible. This only shows and hides cards.
+   The two groups combine: Free or Paid, AND one category. "All resources" clears both. No dependencies. */
 (function () {
-  var KIND_LABELS = { guide: 'Free guide', printable: 'Free printable', tool: 'Browser tool', story: 'Interactive story' };
+  var filters = document.getElementById('cat-filters');
+  var list = document.getElementById('mbf-list');
+  var count = document.getElementById('cat-count');
+  var empty = document.getElementById('cat-empty');
+  if (!filters || !list || !count) return;
 
-  function el(tag, attrs, text) {
-    var n = document.createElement(tag);
-    Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, attrs[k]); });
-    if (text) n.textContent = text;
-    return n;
-  }
+  var cards = Array.prototype.slice.call(list.querySelectorAll('.cat-item'));
+  var chips = Array.prototype.slice.call(filters.querySelectorAll('.cat-chip'));
+  var resetChip = filters.querySelector('[data-reset]');
+  var state = { access: '', category: '' };
 
-  function render(items) {
-    var list = document.getElementById('mbf-list');
-    list.innerHTML = '';
-    items.slice().sort(function (a, b) { return a.date_added < b.date_added ? 1 : -1; }).forEach(function (o) {
-      var item = el('article', { 'class': 'mbf-item' });
-      var link = el('a', { href: o.page });
-      link.appendChild(el('img', { src: o.image, alt: o.image_alt || '', width: '180', loading: 'lazy' }));
-      item.appendChild(link);
-
-      var body = el('div');
-      body.appendChild(el('p', { 'class': 'mbf-kind' }, KIND_LABELS[o.kind] || o.kind));
-      var h2 = el('h2'); h2.appendChild(el('a', { href: o.page }, o.title)); body.appendChild(h2);
-      if (o.tagline) body.appendChild(el('p', { 'class': 'mbf-tagline' }, o.tagline));
-      body.appendChild(el('p', { 'class': 'mbf-summary' }, o.summary));
-      body.appendChild(el('p', { 'class': 'mbf-audience' }, 'For: ' + o.audience));
-
-      var actions = el('div', { 'class': 'mbf-actions' });
-      o.downloads.forEach(function (d, i) {
-        var a = el('a', { 'class': 'mbf-btn' + (i ? ' secondary' : ''), href: d.file, download: '' }, 'Download: ' + d.label);
-        a.appendChild(el('small', {}, d.format + ' · ' + d.detail));
-        actions.appendChild(a);
-      });
-      actions.appendChild(el('a', { 'class': 'mbf-more', href: o.page }, 'Read more →'));
-      body.appendChild(actions);
-      item.appendChild(body);
-      list.appendChild(item);
+  function apply() {
+    var shown = 0;
+    cards.forEach(function (card) {
+      var ok = (!state.access || card.getAttribute('data-access') === state.access) &&
+               (!state.category || card.getAttribute('data-category') === state.category);
+      card.hidden = !ok;
+      if (ok) shown++;
+    });
+    var total = cards.length;
+    var filtered = state.access || state.category;
+    count.textContent = filtered ? 'Showing ' + shown + ' of ' + total + ' resources' : total + ' resources';
+    if (empty) empty.hidden = shown !== 0;
+    chips.forEach(function (chip) {
+      var group = chip.getAttribute('data-group');
+      var on = group ? state[group] === chip.getAttribute('data-value') : !filtered;
+      chip.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
   }
 
-  fetch('/data/originals.json')
-    .then(function (r) { if (!r.ok) throw new Error('originals.json ' + r.status); return r.json(); })
-    .then(render)
-    .catch(function (err) {
-      console.error('Could not load originals:', err);
-      document.getElementById('mbf-error').hidden = false;
+  function reset() { state.access = ''; state.category = ''; apply(); }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var group = chip.getAttribute('data-group');
+      if (!group) { reset(); return; }
+      var value = chip.getAttribute('data-value');
+      state[group] = state[group] === value ? '' : value; /* pressing the active button turns it off */
+      apply();
     });
+  });
+  if (empty) {
+    Array.prototype.forEach.call(empty.querySelectorAll('[data-reset]'), function (b) {
+      b.addEventListener('click', function () { reset(); if (resetChip) resetChip.focus(); });
+    });
+  }
+
+  filters.hidden = false;
+  apply();
 })();

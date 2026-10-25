@@ -15,6 +15,10 @@ Nothing on this branch has been committed, pushed or deployed. `tools/` is kept 
 repository itself is **public**, so anything committed (including notes in these data files) is readable there: never put credentials,
 keys or private business details in them.
 
+## Unified catalogue (2026-10-25, local branch feature/unified-frt-catalogue, not deployed)
+
+The paid products are no longer shown on `/paid-resources/`. They are cards on `/made-by-frt/`, beside the two free items, built by `node tools/build-catalogue.js` from `data/originals.json` (free), this folder's `paid-resources.json` (paid) and `tools/catalogue.json` (page order, category, temporary Halloween tag). `/paid-resources/` redirects with the root `_redirects` file (301); `paid-resources/index.html` is only a fallback "moved" notice written by `node tools/build-paid-resources.js`, and the cover images stay in `paid-resources/images/`. To add a product: add it to `paid-resources.json`, add a line to `tools/catalogue.json`, run both builders and `node tools/build-static.js`, then the tests. `paid-resources/paid-resources.css` is now unused and can be deleted when the owner approves.
+
 ## Second release: ten more GapTheMind products (2026-10-17)
 
 Ten more finished Partner Speaking Mysteries were created on Payhip (all $1.99 USD, 4-page PDF, CEFR B1-B2, Grades 5-8, pairs, about 25 minutes) and added

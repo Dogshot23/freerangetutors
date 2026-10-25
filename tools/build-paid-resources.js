@@ -2,33 +2,26 @@
 /* ============================================================
    FREE RANGE TUTORS — build-paid-resources.js
 
-   Builds the paid-resources page from one data file:
+   The paid products live in one data file:
 
-       tools/payhip-drafts/paid-resources.json   ->   paid-resources/index.html
+       tools/payhip-drafts/paid-resources.json
 
    (tools/ is kept off the public site by .assetsignore, so the data file,
-   including draft notes, is never published.)
+   including its internal notes, is never published.)
 
-       node tools/build-paid-resources.js            # write the page
+   Since the unified catalogue, the paid products are SHOWN on /made-by-frt/ (built by tools/build-catalogue.js, which
+   reads this file through load() and validate() below). The old /paid-resources/ page is now only a small "moved" notice
+   (the same convention as dispatch.html), written by this script:
+
+       node tools/build-paid-resources.js            # write the notice
        node tools/build-paid-resources.js --check    # change nothing; exit 1 if stale
 
-   Two modes, set by page.status in the data file:
+   The real redirect is the root _redirects file (/paid-resources/ -> /made-by-frt/, 301). The notice is the fallback for
+   any host that does not apply _redirects. The 13 cover images stay in paid-resources/images/ so every image URL keeps working.
 
-   "draft" (the default and the current state)
-     - <meta name="robots" content="noindex, nofollow">; no canonical, no social tags, no analytics
-     - a visible "draft preview" banner
-     - EVERY product is shown as a preview and NO purchase link is ever written,
-       whatever the products' own status says
-
-   "live"
-     - indexable, canonical, social tags, analytics
-     - only products with status "live" are shown, each with a Payhip link
-     - refuses to build unless every live product has a payhip.com/b/<id> link AND a
-       link_verified date (the day someone opened the link in a private window and saw
-       a working Buy button), and at least one product is live (never an empty shop)
-
+   validate() refuses to build unless every live product has a payhip.com/b/<id> link AND a link_verified date (the day
+   someone opened the link in a private window and saw a working Buy button). No dependencies.
    Going live is also a manual step list: see tools/payhip-drafts/README.md.
-   No dependencies.
    ============================================================ */
 'use strict';
 const fs = require('fs');
@@ -37,8 +30,6 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const DATA_FILE = 'tools/payhip-drafts/paid-resources.json';
 const OUT_FILE = 'paid-resources/index.html';
-const SITE = 'https://www.freerangetutors.com';
-const PAGE_URL = SITE + '/paid-resources/';
 
 const PAYHIP_PRODUCT_RE = /^https:\/\/payhip\.com\/b\/[A-Za-z0-9]+$/;
 const PAYHIP_STORE_RE = /^https:\/\/payhip\.com\/[A-Za-z0-9_-]+$/;
@@ -88,156 +79,41 @@ function price(p) {
   return SYMBOLS[p.price.currency] + (Number.isInteger(n) ? String(n) : n.toFixed(2));
 }
 
-function renderProduct(p, live) {
-  const facts = p.facts.map((f) => '            <div><dt>' + esc(f.label) + '</dt><dd>' + esc(f.value) + '</dd></div>').join('\n');
-  const action = live
-    ? '          <a class="pr-btn" href="' + esc(p.payhip_url) + '" target="_blank" rel="noopener noreferrer">Buy on Payhip <span aria-hidden="true">↗</span><small>Opens Payhip in a new tab</small></a>'
-    : '          <p class="pr-status">Draft preview: not on sale yet</p>';
-  return [
-    '      <article class="pr-item" id="' + esc(p.id) + '">',
-    '        <img class="pr-cover" src="' + esc(p.image) + '" width="750" height="750" alt="' + esc(p.image_alt) + '" loading="lazy" />',
-    '        <div class="pr-body">',
-    '          <p class="pr-kind">' + esc(p.kind) + '</p>',
-    '          <h2 class="pr-name">' + esc(p.title) + '</h2>',
-    '          <p class="pr-summary">' + esc(p.summary) + '</p>',
-    '          <dl class="pr-facts">',
-    facts,
-    '          </dl>',
-    '          <div class="pr-buy">',
-    '          <p class="pr-price">' + esc(price(p)) + ' <small>' + esc(p.price.currency) + '</small></p>',
-    action,
-    '          </div>',
-    p.price_note ? '          <p class="pr-note">' + esc(p.price_note) + '</p>' : '',
-    '        </div>',
-    '      </article>'
-  ].join('\n');
-}
-
+/* The "moved" notice for the retired /paid-resources/ page: noindex, canonical to the catalogue, no analytics, no timed refresh. */
 function render(cfg) {
-  validate(cfg);
-  const live = cfg.page.status === 'live';
-  const shown = live ? cfg.products.filter((p) => p.status === 'live') : cfg.products;
-  const desc = 'Teaching resources published by GapTheMind that cost a small amount, sold through Payhip. Most of the Free Range Tutors site is free.';
-
-  const head = live
-    ? [
-      '  <title>Paid resources by GapTheMind — Free Range Tutors</title>',
-      '',
-      '  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKHTF8PMYV"></script>',
-      '  <script>',
-      '    window.dataLayer = window.dataLayer || [];',
-      '    function gtag(){dataLayer.push(arguments);}',
-      '    gtag(\'js\', new Date());',
-      '    gtag(\'config\', \'G-KKHTF8PMYV\');',
-      '  </script>',
-      '',
-      '  <meta name="description" content="' + esc(desc) + '" />',
-      '  <link rel="canonical" href="' + PAGE_URL + '" />',
-      '  <meta property="og:type" content="website" />',
-      '  <meta property="og:site_name" content="Free Range Tutors" />',
-      '  <meta property="og:url" content="' + PAGE_URL + '" />',
-      '  <meta property="og:title" content="Paid resources by GapTheMind — Free Range Tutors" />',
-      '  <meta property="og:description" content="' + esc(desc) + '" />',
-      '  <meta property="og:image" content="' + SITE + '/images/social/og-image.png" />'
-    ]
-    : [
-      '  <title>DRAFT — Paid resources — Free Range Tutors</title>',
-      '  <meta name="robots" content="noindex, nofollow" />',
-      '  <meta name="description" content="' + esc(desc) + '" />'
-    ];
-
-  const lead = live
-    ? 'Most of this site is free. These resources are published under the GapTheMind name and cost a small amount. Each one is described here so you can see what it is before you decide. Checkout and download are handled by Payhip, on its own page.'
-    : 'Most of this site is free. This page will list resources published under the GapTheMind name that cost a small amount, so you can see what each one is before you decide. Checkout and download will be handled by Payhip, on its own page.';
-
-  const banner = live ? [] : [
-    '      <aside class="pr-draft" role="note">',
-    '        <p><strong>Draft preview.</strong> This page is not published, is hidden from search engines and cannot be reached from the rest of the site. Nothing on it can be bought yet, and the product below is an example.</p>',
-    '      </aside>'
-  ];
-
-  const empty = shown.length ? [] : ['      <p class="pr-empty">No resources are listed yet.</p>'];
-  const store = (live && cfg.page.store_url)
-    ? ['      <p class="pr-store"><a href="' + esc(cfg.page.store_url) + '" target="_blank" rel="noopener noreferrer">Browse the whole Free Range Tutors store on Payhip <span aria-hidden="true">↗</span></a></p>']
-    : [];
-
-  const footNote = 'Built by one teacher. Mostly free to use; a few resources are paid. No login and no ads.' +
-    (live ? ' Basic visit statistics are collected with Google Analytics.' : '');
-
+  validate(cfg || load());
   return [
     '<!DOCTYPE html>',
     '<html lang="en-GB">',
     '<head>',
     '  <meta charset="UTF-8" />',
     '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />',
-    head.join('\n'),
-    '',
-    '  <link rel="icon" href="/favicon.ico" sizes="any" />',
-    '  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />',
-    '  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />',
-    '  <link rel="preconnect" href="https://fonts.googleapis.com" />',
-    '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />',
-    '  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />',
-    '  <link rel="stylesheet" href="/dispatch-tokens.css" />',
-    '  <link rel="stylesheet" href="/directory.css" />',
-    '  <link rel="stylesheet" href="/paid-resources/paid-resources.css" />',
+    '  <title>Moved: Made by Free Range Tutors</title>',
+    '  <meta name="robots" content="noindex" />',
+    '  <link rel="canonical" href="https://www.freerangetutors.com/made-by-frt/" />',
+    '  <style>',
+    '    body { margin: 0; background: #F3EEE1; color: #17140F; font-family: Inter, system-ui, sans-serif; }',
+    '    main { max-width: 34rem; margin: 18vh auto 0; padding: 0 24px; }',
+    '    h1 { font-family: Fraunces, Georgia, serif; font-size: 2rem; margin: 0 0 12px; }',
+    '    p { line-height: 1.6; }',
+    '    a { color: #17140F; font-weight: 600; }',
+    '    a:focus-visible { outline: 3px solid #1E4FD8; outline-offset: 3px; }',
+    '  </style>',
     '</head>',
-    '<body class="directory pr">',
-    '  <a class="skip-link" href="#main">Skip to the list</a>',
-    '',
-    '  <div class="wrap">',
-    '    <header>',
-    '      <div class="masthead">',
-    '        <a class="wordmark" href="/">Free Range Tutors</a>',
-    '        <nav class="site-nav" aria-label="Site">',
-    '          <a href="/#all-resources">Resources</a>',
-    '          <a href="/made-by-frt/">Made by FRT</a>',
-    '          <a href="/stop-the-slop/">Stop the Slop</a>',
-    '          <a href="/paid-resources/" aria-current="page">Paid resources</a>',
-    '          <a href="/about">About</a>',
-    '        </nav>',
-    '      </div>',
-    '      <hr class="rule" />',
-    '    </header>',
-    '',
-    '    <main id="main">',
-    '      <p class="pr-crumb"><a href="/">&larr; All resources</a></p>',
-    '      <h1 class="pr-title">Paid resources</h1>',
-    '      <p class="pr-lead">' + esc(lead) + '</p>',
-    banner.join('\n'),
-    '',
-    '      <div class="pr-list">',
-    empty.concat(shown.map((p) => renderProduct(p, live))).join('\n'),
-    '      </div>',
-    store.join('\n'),
-    '    </main>',
-    '  </div>',
-    '',
-    '  <footer class="directory-footer">',
-    '    <div class="wrap">',
-    '      <div class="foot-grid">',
-    '        <div>',
-    '          <p class="foot-brand">Free Range Tutors</p>',
-    '          <p class="foot-note">' + esc(footNote) + '</p>',
-    '        </div>',
-    '        <nav class="foot-nav" aria-label="Footer">',
-    '          <a href="/">All resources</a>',
-    '          <a href="/made-by-frt/">Made by FRT</a>',
-    '          <a href="/stop-the-slop/">Stop the Slop</a>',
-    '          <a href="/paid-resources/">Paid resources</a>',
-    '          <a href="/about">About</a>',
-    '        </nav>',
-    '      </div>',
-    '    </div>',
-    '  </footer>',
+    '<body>',
+    '  <main>',
+    '    <h1>This page has moved</h1>',
+    '    <p>The paid resources are now listed with the free ones on one page.</p>',
+    '    <p><a href="/made-by-frt/">Made by Free Range Tutors &rarr;</a> &nbsp;·&nbsp; <a href="/">All resources &rarr;</a></p>',
+    '  </main>',
     '</body>',
     '</html>',
     ''
-  ].join('\n').replace(/\n{3,}/g, '\n\n');
+  ].join('\n');
 }
 
 function build(cfg) {
-  return [{ file: OUT_FILE, html: render(cfg || load()) }];
+  return [{ file: OUT_FILE, html: render(cfg) }];
 }
 
 /* True when two texts are the same apart from line endings. A Windows checkout (core.autocrlf) turns the
@@ -267,10 +143,10 @@ if (require.main === module) {
   try { stale = run(check); } catch (e) { console.error(e.message); process.exit(1); }
   if (check) {
     if (stale.length) { console.error('Out of date: ' + stale.join(', ') + '\nRun: node tools/build-paid-resources.js'); process.exit(1); }
-    console.log('paid-resources page is up to date.');
+    console.log('paid-resources notice is up to date.');
   } else {
     console.log(stale.length ? 'Wrote: ' + stale.join(', ') : 'Nothing to change.');
   }
 }
 
-module.exports = { run, build, render, validate, load, sameContent, DATA_FILE, OUT_FILE };
+module.exports = { run, build, render, validate, load, sameContent, price, esc, DATA_FILE, OUT_FILE, SYMBOLS };

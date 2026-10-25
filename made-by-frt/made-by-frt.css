@@ -1,40 +1,89 @@
-/* "Made by Free Range Tutors" page. Shared header/footer/focus styles live in directory.css;
-   every class here is prefixed .mbf- so nothing existing is overridden. */
+/* "Made by Free Range Tutors" catalogue (free and paid). Shared header/footer/focus styles live in directory.css and the
+   palette in dispatch-tokens.css; every class here is prefixed .mbf- or .cat- so nothing existing is overridden.
+   Built by tools/build-catalogue.js; the filter buttons are added by made-by-frt.js. */
 .mbf-crumb { margin: 28px 0 0; font-size: 14px; }
 .mbf-crumb a { color: var(--fz-ink-muted); border-bottom: 1px solid var(--fz-rule); }
 .mbf-crumb a:hover { color: var(--fz-red); }
 .mbf-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(42px, 7.5vw, 88px); line-height: .98; letter-spacing: -.02em; margin: 18px 0 20px; }
-.mbf-lead { font-family: 'Fraunces', serif; font-size: clamp(19px, 2vw, 23px); line-height: 1.5; max-width: 52ch; margin: 0 0 56px; }
+.mbf-lead { font-family: 'Fraunces', serif; font-size: clamp(19px, 2vw, 23px); line-height: 1.5; max-width: 56ch; margin: 0 0 32px; }
 .mbf-lead a { border-bottom: 2px solid var(--fz-red); font-weight: 600; }
 .mbf-lead a:hover { color: var(--fz-red); }
 
-/* Numbered like contents-page entries; the numeral is CSS-only, nothing is added to the data. */
-.mbf-list { border-top: 1.5px solid var(--fz-ink); counter-reset: mbf; }
-.mbf-item { counter-increment: mbf; display: grid; grid-template-columns: 56px 220px minmax(0, 1fr); gap: 32px; padding: 44px 0 48px; border-bottom: 1px solid var(--fz-rule); }
-.mbf-item::before { content: counter(mbf, decimal-leading-zero); font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; color: var(--fz-red); line-height: 1.2; }
-.mbf-item > a { display: block; align-self: start; }
-.mbf-item img { display: block; width: 100%; height: auto; border: 2px solid var(--fz-ink); box-shadow: 7px 7px 0 var(--fz-ink); }
-.mbf-kind { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fz-red); margin: 0 0 8px; }
-.mbf-item h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.08; letter-spacing: -.01em; margin: 0 0 8px; }
-.mbf-item h2 a:hover { color: var(--fz-red); text-decoration: underline; text-underline-offset: 6px; }
-.mbf-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: 21px; margin: 0 0 16px; }
-.mbf-summary { font-size: 17px; line-height: 1.65; max-width: 60ch; margin: 0 0 12px; }
-.mbf-audience { font-size: 15px; line-height: 1.55; color: var(--fz-ink-muted); max-width: 60ch; margin: 0 0 24px; }
-.mbf-actions { display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: center; }
-.mbf-btn { display: inline-block; font-weight: 700; font-size: 15px; padding: 12px 18px; border: 2px solid var(--fz-red); background: var(--fz-red); color: var(--fz-paper) !important; line-height: 1.3; }
-.mbf-btn:hover { background: #8F1D14; border-color: #8F1D14; }
-.mbf-btn small { display: block; font-weight: 500; font-size: 12.5px; margin-top: 2px; opacity: .95; }
-.mbf-btn.secondary { background: transparent; color: var(--fz-ink) !important; border-color: var(--fz-ink); }
-.mbf-btn.secondary:hover { background: var(--fz-ink); color: var(--fz-paper) !important; border-color: var(--fz-ink); }
-.mbf-more { font-weight: 700; font-size: 15px; padding: 6px 0 3px; border-bottom: 2px solid var(--fz-red); }
-.mbf-more:hover { color: var(--fz-red); }
-.mbf-error { padding: 24px 0; font-style: italic; color: var(--fz-ink-muted); }
+/* Filters: two groups of toggle buttons. Hidden until the script runs, so without JavaScript every card simply shows. */
+.cat-filters { display: flex; flex-wrap: wrap; gap: 12px 28px; margin: 0 0 14px; }
+.cat-filters[hidden] { display: none; }
+.cat-fgroup { display: flex; flex-wrap: wrap; gap: 8px; }
+.cat-chip { font: inherit; font-size: 15px; font-weight: 600; line-height: 1.2; min-height: 44px; padding: 8px 16px; border: 2px solid var(--fz-ink); background: transparent; color: var(--fz-ink); cursor: pointer; }
+.cat-chip:hover { background: rgba(23, 20, 15, .08); }
+.cat-chip[aria-pressed="true"] { background: var(--fz-ink); color: var(--fz-paper); }
+.cat-count { margin: 0 0 18px; font-size: 14px; color: var(--fz-ink-muted); }
+.cat-empty { padding: 24px 0; font-style: italic; color: var(--fz-ink-muted); }
+.cat-empty[hidden] { display: none; }
+.cat-link { font: inherit; font-weight: 700; font-style: normal; color: var(--fz-ink); background: none; border: 0; border-bottom: 2px solid var(--fz-red); padding: 0 0 2px; cursor: pointer; }
+.cat-link:hover { color: var(--fz-red); }
+
+/* Cards: cover | title block, then the details under the title (desktop) or across the full width (mobile). */
+.mbf-list { border-top: 1.5px solid var(--fz-ink); }
+.cat-item { display: grid; grid-template-columns: 200px minmax(0, 1fr); grid-template-areas: "thumb head" "thumb main"; gap: 0 32px; align-content: start; padding: 36px 0 40px; border-bottom: 1px solid var(--fz-rule); }
+.cat-item[hidden] { display: none; }
+.cat-thumb { grid-area: thumb; display: block; align-self: start; }
+.cat-thumb img, img.cat-thumb { display: block; width: 100%; height: auto; border: 2px solid var(--fz-ink); box-shadow: 6px 6px 0 var(--fz-ink); }
+.cat-head { grid-area: head; }
+.cat-main { grid-area: main; min-width: 0; }
+
+.cat-kind { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fz-red); margin: 0 0 8px; }
+.cat-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(26px, 3.2vw, 38px); line-height: 1.1; letter-spacing: -.01em; margin: 0 0 10px; }
+.cat-name a:hover { color: var(--fz-red); text-decoration: underline; text-underline-offset: 6px; }
+.cat-cost { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 16px; }
+.cat-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 1; padding: 6px 9px; color: var(--fz-paper); }
+.cat-badge-free { background: var(--fz-green); }
+.cat-badge-paid { background: var(--fz-ink); }
+.cat-price { font-family: 'Fraunces', serif; font-weight: 600; font-size: 26px; line-height: 1; }
+.cat-price small { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: 12px; letter-spacing: .08em; color: var(--fz-ink-faint); }
+.cat-tag { display: inline-block; font-size: 12px; font-weight: 600; line-height: 1; padding: 5px 8px; border: 1.5px solid var(--fz-ink-muted); color: var(--fz-ink-muted); }
+
+.cat-tagline { font-family: 'Fraunces', serif; font-style: italic; font-size: 20px; margin: 0 0 12px; }
+.cat-summary { font-size: 17px; line-height: 1.6; max-width: 60ch; margin: 0 0 16px; }
+.cat-audience { font-size: 15px; line-height: 1.55; color: var(--fz-ink-muted); max-width: 60ch; margin: 0 0 20px; }
+
+.cat-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 12px 24px; max-width: 62ch; margin: 0 0 16px; }
+.cat-facts div { border-top: 1px solid var(--fz-rule); padding-top: 8px; }
+.cat-facts dt { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink-faint); margin: 0 0 3px; }
+.cat-facts dd { margin: 0; font-size: 15px; line-height: 1.45; }
+.cat-more { max-width: 62ch; margin: 0 0 20px; font-size: 15px; }
+.cat-more summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+.cat-more p { margin: 6px 0 0; line-height: 1.5; }
+
+.cat-actions { display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: stretch; }
+.cat-btn { display: inline-block; font-weight: 700; font-size: 15px; padding: 12px 18px; border: 2px solid var(--fz-red); background: var(--fz-red); color: var(--fz-paper) !important; line-height: 1.3; }
+.cat-btn:hover { background: #8F1D14; border-color: #8F1D14; }
+.cat-btn small { display: block; font-weight: 500; font-size: 12.5px; margin-top: 2px; opacity: .95; }
+.cat-btn.secondary { background: transparent; color: var(--fz-ink) !important; border-color: var(--fz-ink); }
+.cat-btn.secondary:hover { background: var(--fz-ink); color: var(--fz-paper) !important; border-color: var(--fz-ink); }
+.cat-note { margin: 12px 0 0; font-size: 13px; color: var(--fz-ink-faint); max-width: 60ch; }
+
+/* The featured card (SOLD AS SEEN): a larger cover and a tinted ground, nothing else. */
+.cat-item.is-featured { grid-template-columns: 280px minmax(0, 1fr); background: rgba(194, 42, 30, .06); padding-left: 24px; padding-right: 24px; border-left: 4px solid var(--fz-red); }
+.cat-item.is-featured .cat-name { font-size: clamp(30px, 4vw, 48px); }
+
 @media (max-width: 900px) {
-  .mbf-item { grid-template-columns: 180px minmax(0, 1fr); gap: 20px 28px; }
-  .mbf-item::before { grid-column: 1 / -1; }
+  .cat-item { grid-template-columns: 160px minmax(0, 1fr); gap: 0 24px; }
+  .cat-item.is-featured { grid-template-columns: 200px minmax(0, 1fr); }
 }
 @media (max-width: 640px) {
-  .mbf-item { grid-template-columns: 1fr; gap: 18px; padding: 32px 0 36px; }
-  .mbf-item img { max-width: 220px; }
-  .mbf-btn { width: 100%; }
+  /* Compact card: small cover beside the title, label and price; details and buttons use the full width below. */
+  .cat-item, .cat-item.is-featured { grid-template-columns: 96px minmax(0, 1fr); grid-template-areas: "thumb head" "main main"; gap: 0 16px; padding: 24px 0 28px; }
+  .cat-item.is-featured { padding-left: 14px; padding-right: 14px; margin: 0 -14px; }
+  .cat-thumb img, img.cat-thumb { box-shadow: 4px 4px 0 var(--fz-ink); }
+  .cat-name, .cat-item.is-featured .cat-name { font-size: 24px; margin-bottom: 8px; }
+  .cat-cost { margin-bottom: 14px; }
+  .cat-main { margin-top: 4px; }
+  .cat-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
+  .cat-summary { font-size: 16px; }
+  .cat-actions { flex-direction: column; }
+  .cat-btn { display: block; text-align: center; width: 100%; padding: 14px 18px; }
+  .mbf-lead { font-size: 18px; margin-bottom: 24px; }
+  .cat-chip { font-size: 14px; padding: 8px 11px; }
+  .cat-filters { gap: 8px; }
+  .cat-fgroup { gap: 6px; }
 }

@@ -19,6 +19,7 @@ const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const paid = require('../tools/build-paid-resources.js');
+const cat = require('../tools/build-catalogue.js');
 const { run: staticRun } = require('../tools/build-static.js');
 
 const ROOT = path.join(__dirname, '..');
@@ -38,7 +39,7 @@ function throws(fn, re, m) {
 }
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
-const PAGE = 'paid-resources/index.html';
+const PAGE = 'made-by-frt/index.html'; /* the unified catalogue; /paid-resources/ is now only a redirect plus a "moved" notice (see data/catalogue.test.js) */
 const html = read(PAGE);
 const data = paid.load();
 const product = data.products.find((x) => x.id === 'the-exploding-pudding');
@@ -88,14 +89,14 @@ function gitAvailable() {
   try { git(['cat-file', '-e', BASE + '^{commit}']); return true; } catch (e) { return false; }
 }
 
-console.log('paid-resources page: complete, canonical, indexable');
-test('paid-resources/index.html exists and is up to date with the data file (fix: node tools/build-paid-resources.js)', () => {
+console.log('catalogue page (free and paid): complete, canonical, indexable');
+test('made-by-frt/index.html exists and is up to date with the data files (fix: node tools/build-catalogue.js); the moved notice is too', () => {
   assert(exists(PAGE), PAGE + ' is missing');
-  const stale = paid.run(true);
+  const stale = cat.run(true).concat(paid.run(true));
   assert(stale.length === 0, 'out of date: ' + stale.join(', '));
 });
 test('the up-to-date check ignores CRLF versus LF but still catches real content differences', () => {
-  const html = paid.build()[0].html;
+  const html = cat.build()[0].html;
   const crlf = html.replace(/\n/g, '\r\n');
   assert(paid.sameContent(html, html), 'identical text must match');
   assert(paid.sameContent(crlf, html), 'a CRLF copy (Windows checkout) must match');
@@ -113,12 +114,14 @@ test('data file is in the reviewed live state', () => {
   assert(/^\d{4}-\d{2}-\d{2}$/.test(product.link_verified), 'link_verified date missing');
   assert(data.page.store_url === null, 'store_url must stay null while the Payhip storefront would show "No products found"');
 });
-test('has the GapTheMind title, a description, one h1, a canonical URL on the real domain and social tags', () => {
-  assert(/<title>Paid resources by GapTheMind — Free Range Tutors<\/title>/.test(html), 'title');
-  assert(/<meta name="description" content="[^"]{30,}"/.test(html), 'description');
-  assert((html.match(/<h1\b/g) || []).length === 1 && /<h1 class="pr-title">Paid resources<\/h1>/.test(html), 'h1');
-  assert(/<link rel="canonical" href="https:\/\/www\.freerangetutors\.com\/paid-resources\/" \/>/.test(html), 'canonical');
-  assert(/property="og:url" content="https:\/\/www\.freerangetutors\.com\/paid-resources\/"/.test(html), 'og:url');
+test('has the catalogue title, a description, one h1, a canonical URL on the real domain and social tags', () => {
+  assert(html.includes('<title>' + cat.TITLE + '</title>'), 'title');
+  assert(html.includes('<meta name="description" content="' + cat.DESCRIPTION + '" />'), 'description');
+  assert((html.match(/<h1\b/g) || []).length === 1 && /<h1 class="mbf-title">Made by Free Range Tutors<\/h1>/.test(html), 'h1');
+  assert(/<link rel="canonical" href="https:\/\/www\.freerangetutors\.com\/made-by-frt\/" \/>/.test(html), 'canonical');
+  assert(/property="og:url" content="https:\/\/www\.freerangetutors\.com\/made-by-frt\/"/.test(html), 'og:url');
+  assert(/property="og:description" content="Teaching resources made by Free Range Tutors, some free/.test(html), 'og:description');
+  assert(!/Everything on this page is free/.test(html), 'the old free-only claim remains');
 });
 test('is indexable (no noindex), carries analytics like the other pages, and the footer says so', () => {
   assert(!/noindex/i.test(html), 'noindex present');
@@ -134,19 +137,17 @@ test('every local link, stylesheet and image resolves', () => {
   while ((m = re.exec(clean))) { const t = resolveLocal(m[1]); if (t && !cleanUrlOk(t)) bad.push(m[1]); }
   assert(bad.length === 0, 'unresolved: ' + bad.join(', '));
 });
-test('uses the shared design system (tokens + directory.css) and only .pr- selectors of its own', () => {
+test('uses the shared design system (tokens + directory.css) and only .mbf- and .cat- selectors of its own', () => {
   assert(html.includes('href="/dispatch-tokens.css"') && html.includes('href="/directory.css"'), 'shared stylesheets');
-  const css = read('paid-resources/paid-resources.css');
+  const css = read('made-by-frt/made-by-frt.css');
   const selectors = css.replace(/\/\*[\s\S]*?\*\//g, '').replace(/@media[^{]*\{/g, '').match(/[^{}]+(?=\{)/g) || [];
-  const stray = selectors.map((s) => s.trim()).filter((s) => s && !/^\.pr[-\s.:{,]|^\.pr-/.test(s));
-  assert(stray.length === 0, 'selectors outside the .pr- namespace: ' + stray.join(' | '));
+  const stray = selectors.map((s) => s.trim()).filter((s) => s && !/^(\.mbf-|\.cat-|img\.cat-)/.test(s));
+  assert(stray.length === 0, 'selectors outside the .mbf-/.cat- namespace: ' + stray.join(' | '));
 });
 test('the GapTheMind / Free Range Tutors relationship is stated plainly and factually', () => {
-  assert(/published under the GapTheMind name/.test(html), 'relationship sentence');
-  assert(/<p class="pr-kind">GapTheMind · Partner speaking mystery<\/p>/.test(html), 'card brand label');
+  assert(/<p class="cat-kind">GapTheMind · Partner speaking mystery<\/p>/.test(html), 'card brand label');
   assert(!/guarantee|proven|best-selling|tested in class/i.test(html), 'unverified claim wording');
 });
-
 console.log('\npurchase link: only the verified Payhip product URL');
 test('the only outbound links are the verified product URLs, one per product, each opened in a new tab safely', () => {
   const hrefs = (html.match(/href="[^"]+"/g) || []).map((h) => h.slice(6, -1));
@@ -155,16 +156,18 @@ test('the only outbound links are the verified product URLs, one per product, ea
   PAID_IDS.forEach((id) => assert(html.includes('href="' + VERIFIED[id] + '" target="_blank" rel="noopener noreferrer"'), id + ': link attributes'));
   assert(!/payhip\.com\/FreeRangeTutors/i.test(html), 'the (currently empty) storefront must not be linked');
 });
-test('no fake checkout: no form, button, input, iframe or Stripe markup on the page', () => {
-  assert(!/<form|<button|<input|<iframe|stripe/i.test(html), 'checkout-like markup found');
+test('no fake checkout: no form, input, iframe or Stripe markup; the only buttons are the filter buttons', () => {
+  assert(!/<form|<input|<iframe|stripe/i.test(html), 'checkout-like markup found');
+  (html.match(/<button\b[^>]*>/g) || []).forEach((b) => assert(/class="cat-(chip|link)"/.test(b) && /type="button"/.test(b), 'unexpected button: ' + b));
 });
 test('each card shows the price, the level and the time that its directory entry also states', () => {
   PAID_IDS.forEach((id) => {
-    const card = (html.match(new RegExp('<article class="pr-item" id="' + id + '">[\\s\\S]*?</article>')) || [''])[0];
+    const card = (html.match(new RegExp('<article class="cat-item[^"]*" id="' + id + '"[^>]*>[\\s\\S]*?</article>')) || [''])[0];
     const prod = products[id], ent = entries[id];
     assert(card, id + ': no card on the page');
     const sas = id === 'sold-as-seen'; /* the one $4.99 interactive story for the whole class, pairs or individuals: its own price, time and groups, stated in its PDF and listing */
-    assert((sas ? /<p class="pr-price">\$4\.99 <small>USD<\/small><\/p>/ : /<p class="pr-price">\$1\.99 <small>USD<\/small><\/p>/).test(card), id + ': price on the card');
+    assert((sas ? /<span class="cat-price">\$4\.99 <small>USD<\/small><\/span>/ : /<span class="cat-price">\$1\.99 <small>USD<\/small><\/span>/).test(card), id + ': price on the card');
+    assert(/<span class="cat-badge cat-badge-paid">Paid<\/span>/.test(card), id + ': no Paid label');
     const a2 = id === 'a-day-at-the-park'; /* the one A2 picture activity: its own level and time, stated in its PDF */
     assert((a2 ? /CEFR A2/ : /CEFR B1–B2/).test(card) && (a2 ? /About 15–20 minutes/ : sas ? /About 45 minutes, with discussion/ : /About 25 minutes/).test(card) && (sas ? /<dd>Whole class, pairs or individual<\/dd>/ : /<dd>Pairs<\/dd>/).test(card), id + ': level/time/groups on the card');
     assert(prod.price.amount === (sas ? 4.99 : 1.99) && (sas ? /\$4\.99/ : /\$1\.99/).test(ent.description_short), id + ': price differs between the page data and the directory entry');
@@ -276,25 +279,27 @@ test('the no-JavaScript list names the creator for the paid entries only', () =>
 });
 
 console.log('\nnavigation and sitemap');
-test('every page with the site navigation links to /paid-resources/ in both the masthead and the footer, just before About', () => {
-  NAV_PAGES.concat([PAGE]).forEach((p) => {
+test('no page links to /paid-resources/ any more: the masthead and footer lead to Made by FRT and end with About', () => {
+  NAV_PAGES.forEach((p) => {
     const s = read(p);
+    assert(!/href="\/paid-resources\/?"/.test(s), p + ' still links to the retired page');
     ['site-nav', 'foot-nav'].forEach((cls) => {
       const m = s.match(new RegExp('<nav class="' + cls + '"[^>]*>([^]*?)</nav>'));
       assert(m, p + ': no ' + cls);
       const links = (m[1].match(/<a [^>]*href="[^"]*"/g) || []).map((a) => a.match(/href="([^"]*)"/)[1]);
-      const i = links.indexOf('/paid-resources/');
-      assert(i !== -1, p + ': ' + cls + ' lacks the link');
-      assert(links[i + 1] === '/about', p + ': ' + cls + ' link is not directly before About');
+      assert(links.includes('/made-by-frt/'), p + ': ' + cls + ' lacks Made by FRT');
+      assert(links[links.length - 1] === '/about', p + ': ' + cls + ' does not end with About');
     });
   });
 });
-test('only the paid page marks itself aria-current; no other page marks the paid link as current', () => {
-  assert(/<a href="\/paid-resources\/" aria-current="page">Paid resources<\/a>/.test(html), 'paid page lacks aria-current');
-  NAV_PAGES.forEach((p) => assert(!/<a href="\/paid-resources\/" aria-current/.test(read(p)), p + ' marks it current'));
+test('only the catalogue marks Made by FRT as the current page in its own navigation', () => {
+  assert(/<a href="\/made-by-frt\/" aria-current="page">Made by FRT<\/a>/.test(html), 'catalogue lacks aria-current');
+  ['index.html', 'about.html', 'stop-the-slop/index.html'].forEach((p) => assert(!/<a href="\/made-by-frt\/" aria-current/.test(read(p)), p + ' marks it current'));
 });
-test('sitemap.xml lists /paid-resources/ and build-static reports nothing stale', () => {
-  assert(read('sitemap.xml').includes('<loc>https://www.freerangetutors.com/paid-resources/</loc>'), 'not in sitemap.xml');
+test('sitemap.xml lists the catalogue, no longer lists /paid-resources/, and build-static reports nothing stale', () => {
+  const sm = read('sitemap.xml');
+  assert(sm.includes('<loc>https://www.freerangetutors.com/made-by-frt/</loc>'), 'catalogue not in sitemap.xml');
+  assert(!sm.includes('/paid-resources/'), 'the retired URL is still in sitemap.xml');
   const stale = staticRun(true);
   assert(stale.length === 0, 'build-static would change: ' + stale.join(', '));
 });
@@ -309,8 +314,8 @@ test('About acknowledges paid resources and keeps its free-first emphasis', () =
   assert(/Some linked resources may be paid\./.test(about) && /Most of what is listed here is free to use/.test(about), 'approved wording missing');
   assert(/name="description" content="About Free Range Tutors: a mostly free, no-login collection/.test(about), 'meta description');
 });
-test('all five pages and the paid page use the approved footer wording', () => {
-  NAV_PAGES.concat([PAGE]).forEach((p) => {
+test('all five pages use the approved footer wording', () => {
+  NAV_PAGES.forEach((p) => {
     const s = read(p);
     assert(/Built by one teacher\. Mostly free to use; a few resources are paid\. No login and no ads\./.test(s), p + ': footer wording');
     assert(!/shared freely/.test(s), p + ': old wording remains');
@@ -324,14 +329,14 @@ const fakeLive = () => {
   d.products[0].status = 'live'; d.products[0].payhip_url = 'https://payhip.com/b/AbC12'; d.products[0].link_verified = '2026-01-02';
   return d;
 };
-test('draft mode never writes a purchase link, even if a product says "live" and has a URL', () => {
-  const d = fakeLive(); d.page.status = 'draft';
-  const out = paid.render(d);
-  assert(!/payhip\.com/i.test(out) && /noindex/.test(out) && !/<script/i.test(out), 'a draft build leaked a link, lost noindex, or loaded a script');
+test('the catalogue refuses a draft paid file (no unverified purchase link can be written)', () => {
+  const src = Object.assign(cat.load(), { paid: fakeLive() }); src.paid.page.status = 'draft';
+  throws(() => cat.render(src), /must be "live"/, 'draft paid data');
 });
-test('live mode shows only live products', () => {
+test('the catalogue shows only live products', () => {
   const d = fakeLive(); const extra = clone(d.products[0]); extra.id = 'second-draft'; extra.status = 'draft'; d.products.push(extra);
-  const out = paid.render(d);
+  const src = cat.load(); src.paid = d;
+  const out = cat.render(src);
   assert(out.includes('id="the-exploding-pudding"') && !out.includes('id="second-draft"'), 'draft product shown on a live page');
 });
 test('live mode refuses: no verification date / bad link / no live products / duplicate ids / missing image', () => {

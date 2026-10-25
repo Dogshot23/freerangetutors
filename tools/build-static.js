@@ -7,7 +7,7 @@
    step with the data files:
 
      - the <noscript> resource list in index.html
-     - the <noscript> list of originals in made-by-frt/index.html
+     - (the Made by FRT catalogue, made-by-frt/index.html, is a full static page of its own: tools/build-catalogue.js)
      - sitemap.xml
 
    Run it after adding or changing a resource:
@@ -43,14 +43,7 @@ function build() {
     '      <ul>\n' + resourceList + '\n      </ul>\n' +
     '    </noscript>';
 
-  const originalsList = originals
-    .map((o) => {
-      const dl = o.downloads.map((d) => '<a href="' + esc(d.file) + '">' + esc(d.label) + ' (' + esc(d.format) + ', ' + esc(d.detail) + ')</a>').join('; ');
-      return '      <li><a href="' + esc(o.page) + '">' + esc(o.title) + '</a> &mdash; ' + esc(o.summary) + ' Downloads: ' + dl + '.</li>';
-    }).join('\n');
-  const originalsBlock = '    <noscript>\n      <ul>\n' + originalsList + '\n      </ul>\n    </noscript>';
-
-  const pages = ['/', '/made-by-frt/', '/paid-resources/', '/about'].concat(originals.map((o) => o.page));
+  const pages = ['/', '/made-by-frt/', '/about'].concat(originals.map((o) => o.page));
   const sitemap =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
@@ -58,7 +51,6 @@ function build() {
 
   return [
     { file: 'index.html', marker: 'static:resources', block: indexBlock },
-    { file: 'made-by-frt/index.html', marker: 'static:originals', block: originalsBlock },
     { file: 'sitemap.xml', whole: sitemap }
   ];
 }

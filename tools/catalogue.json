@@ -1,0 +1,20 @@
+{
+  "_readme": "Display order and grouping for the Made by FRT catalogue (/made-by-frt/). Build input only: tools/ is kept off the public site by .assetsignore. Order here IS the page order. Free items are read from data/originals.json and paid items from tools/payhip-drafts/paid-resources.json (so titles, text, prices and links are never copied here). category is one of interactive-stories, partner-speaking, guides. tags is for temporary labels only (halloween): remove the tag, or move the items down the list, when the season is over. featured gives one card the larger layout.",
+  "items": [
+    { "id": "sold-as-seen", "category": "interactive-stories", "featured": true },
+    { "id": "stop-the-slop", "category": "guides" },
+    { "id": "the-school-trip-that-should-have-been-cancelled", "category": "interactive-stories" },
+    { "id": "the-sixth-ghost", "category": "partner-speaking", "tags": ["halloween"] },
+    { "id": "the-947-scream", "category": "partner-speaking", "tags": ["halloween"] },
+    { "id": "grandpas-teeth", "category": "partner-speaking", "tags": ["halloween"] },
+    { "id": "mr-bones-quits", "category": "partner-speaking", "tags": ["halloween"] },
+    { "id": "too-much-money", "category": "partner-speaking", "tags": ["halloween"] },
+    { "id": "the-exploding-pudding", "category": "partner-speaking" },
+    { "id": "the-clocks-that-lie", "category": "partner-speaking" },
+    { "id": "the-escaped-specimen", "category": "partner-speaking" },
+    { "id": "the-too-helpful-robot", "category": "partner-speaking" },
+    { "id": "the-dog-translator", "category": "partner-speaking" },
+    { "id": "the-queue-jumper", "category": "partner-speaking" },
+    { "id": "a-day-at-the-park", "category": "partner-speaking" }
+  ]
+}
