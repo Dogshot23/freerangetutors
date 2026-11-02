@@ -1,0 +1,140 @@
+/* The Sixth Astronaut: product page (/resources/the-sixth-astronaut/) and the homepage feature band (.ts-feature).
+   Uses the site's own tokens (dispatch-tokens.css) and masthead/footer (directory.css). Every class here is prefixed .ts-
+   so nothing existing is overridden. The product's own palette (petrol, ivory, copper, from the approved cover) appears
+   only inside the cover frame, the dark "Inside the investigation" band and the homepage feature band. */
+
+.ts-page, .ts-feature {
+  --ts-petrol: #17343e;
+  --ts-petrol-deep: #0f2730;
+  --ts-ivory: #f5ecd8;
+  --ts-copper: #d9965a;
+  --ts-copper-deep: #b87333;
+}
+
+/* ---------- shared bits ---------- */
+.ts-crumbs { margin: 18px 0 6px; font-size: 13px; font-weight: 500; }
+.ts-crumbs a:hover { color: var(--fz-red); }
+.ts-label { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fz-red); }
+.ts-h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(26px, 3.6vw, 40px); line-height: 1.1; letter-spacing: -.01em; margin: 0 0 16px; }
+.ts-h2-small { font-size: 22px; }
+.ts-section { padding: 44px 0; border-top: 1.5px solid var(--fz-ink); }
+.ts-section > p, .ts-sample-text > p, .ts-buy > div > p { font-size: 17px; line-height: 1.6; max-width: 62ch; margin: 0 0 14px; }
+.ts-small { font-size: 15.5px; line-height: 1.6; max-width: 66ch; margin: 0 0 12px; color: var(--fz-ink-muted); }
+.ts-small strong { color: var(--fz-ink); }
+.ts-small-lead { margin-top: -6px; }
+.ts-section > .ts-note, .ts-sample-text > .ts-note, .ts-buy > div > .ts-note, .ts-note { font-size: 14px; line-height: 1.55; max-width: 62ch; color: var(--fz-ink-muted); margin: 24px 0 0; }
+.ts-note strong { color: var(--fz-ink); }
+
+.ts-btn { display: inline-block; font-weight: 700; font-size: 16px; line-height: 1.3; padding: 13px 20px; min-height: 48px; border: 2px solid var(--fz-ink); background: transparent; color: var(--fz-ink) !important; text-align: left; }
+.ts-btn small { display: block; font-weight: 500; font-size: 12.5px; margin-top: 2px; opacity: .9; }
+.ts-btn:hover { background: var(--fz-ink); color: var(--fz-paper) !important; }
+.ts-btn-primary { background: var(--fz-red); border-color: var(--fz-red); color: var(--fz-paper) !important; }
+.ts-btn-primary:hover { background: #8F1D14; border-color: #8F1D14; }
+.ts-actions { display: flex; flex-wrap: wrap; gap: 12px 14px; margin: 22px 0 0; }
+a:focus-visible.ts-btn { outline: 3px solid var(--fz-cobalt); outline-offset: 3px; }
+
+/* ---------- hero ---------- */
+.ts-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 40px; align-items: start; padding: 22px 0 48px; }
+.ts-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(44px, 7vw, 84px); line-height: .98; letter-spacing: -.02em; margin: 0 0 16px; }
+.ts-lead { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(21px, 2.4vw, 27px); line-height: 1.35; margin: 0 0 18px; max-width: 28ch; }
+.ts-intro { font-size: 17px; line-height: 1.6; max-width: 58ch; margin: 0 0 20px; }
+.ts-facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 22px; max-width: 520px; }
+.ts-facts li { border-top: 1px solid var(--fz-rule); padding-top: 8px; font-size: 15px; line-height: 1.4; }
+.ts-facts span { display: block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink-faint); margin-bottom: 2px; }
+.ts-cover { margin: 0; }
+.ts-cover img { display: block; width: 100%; height: auto; border: 2px solid var(--fz-ink); box-shadow: 8px 8px 0 var(--ts-petrol); background: var(--ts-petrol); }
+
+/* ---------- how it works ---------- */
+.ts-steps { list-style: none; counter-reset: ts; margin: 0 0 28px; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 22px; }
+.ts-steps li { counter-increment: ts; border-top: 1px solid var(--fz-rule); padding: 14px 0 0; font-size: 15.5px; line-height: 1.55; }
+.ts-steps li::before { content: counter(ts, decimal-leading-zero); display: block; font-family: 'Fraunces', serif; font-weight: 700; font-size: 30px; line-height: 1; color: var(--fz-red); margin-bottom: 8px; }
+.ts-steps strong { font-weight: 700; }
+.ts-shot { margin: 0; }
+.ts-shot img { display: block; width: 100%; height: auto; border: 2px solid var(--fz-ink); box-shadow: 6px 6px 0 var(--fz-ink); }
+.ts-shot figcaption, .ts-band-shots figcaption { font-size: 13px; line-height: 1.4; color: var(--fz-ink-muted); margin-top: 12px; }
+.ts-shot-small { max-width: 520px; }
+.ts-section > .ts-shot { max-width: 760px; }
+
+/* ---------- dark band: the product's own world ---------- */
+.ts-band { background: var(--ts-petrol); color: var(--ts-ivory); margin: 0; padding: 56px 0; border-top: 4px solid var(--ts-copper-deep); border-bottom: 4px solid var(--ts-copper-deep); }
+.ts-band-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 44px; align-items: center; }
+.ts-band-label { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ts-copper); }
+.ts-h2-band { color: var(--ts-ivory); }
+.ts-band-text p { font-size: 17px; line-height: 1.6; margin: 0 0 14px; max-width: 54ch; }
+.ts-band-list { margin: 18px 0 0; padding: 0; list-style: none; border-top: 1px solid rgba(245, 236, 216, .25); }
+.ts-band-list li { padding: 11px 0 11px 22px; border-bottom: 1px solid rgba(245, 236, 216, .25); font-size: 15.5px; line-height: 1.5; position: relative; }
+.ts-band-list li::before { content: ""; position: absolute; left: 0; top: 18px; width: 9px; height: 9px; background: var(--ts-copper); }
+.ts-band-shots { display: grid; gap: 22px; }
+.ts-band-shots figure { margin: 0; }
+.ts-band-shots img { display: block; width: 100%; height: auto; border: 2px solid var(--ts-copper-deep); box-shadow: 0 0 0 4px var(--ts-petrol-deep); }
+.ts-band-shots figcaption { color: rgba(245, 236, 216, .85); }
+
+/* ---------- sample ---------- */
+.ts-sample { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 44px; align-items: start; }
+.ts-sample:target, .ts-sample:focus { outline: none; }
+
+/* ---------- specifications ---------- */
+.ts-specs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 22px; margin: 0 0 24px; }
+.ts-specs div { border-top: 1px solid var(--fz-rule); padding-top: 9px; }
+.ts-specs dt { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink-faint); margin: 0 0 3px; }
+.ts-specs dd { margin: 0; font-family: 'Fraunces', serif; font-weight: 600; font-size: 21px; line-height: 1.25; }
+
+/* ---------- ideas / buy / artwork ---------- */
+.ts-ideas { margin: 0; padding-left: 22px; max-width: 62ch; font-size: 16.5px; line-height: 1.6; }
+.ts-ideas li { margin-bottom: 6px; }
+.ts-buy { background: rgba(194, 42, 30, .06); border-left: 4px solid var(--fz-red); padding-left: 28px; padding-right: 20px; }
+.ts-price { margin: 0 0 4px !important; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.ts-price-n { font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1; }
+.ts-artwork { padding: 28px 0 8px; }
+.ts-back { margin: 20px 0 48px; font-size: 15px; font-weight: 600; }
+.ts-back a { border-bottom: 2px solid var(--fz-red); padding-bottom: 2px; }
+.ts-back a:hover { color: var(--fz-red); }
+
+/* ---------- tablet ---------- */
+@media (max-width: 960px) {
+  .ts-hero, .ts-sample, .ts-band-inner { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .ts-cover { order: -1; max-width: 640px; }
+  .ts-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 22px; }
+  .ts-specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ts-band { padding: 44px 0; }
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 640px) {
+  .ts-section { padding: 34px 0; }
+  .ts-hero { padding-top: 14px; gap: 24px; }
+  .ts-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
+  .ts-steps { grid-template-columns: minmax(0, 1fr); }
+  .ts-actions { flex-direction: column; }
+  .ts-btn { display: block; width: 100%; text-align: center; }
+  .ts-cover img { box-shadow: 5px 5px 0 var(--ts-petrol); }
+  .ts-shot img { box-shadow: 4px 4px 0 var(--fz-ink); }
+  .ts-buy { padding-left: 16px; padding-right: 14px; margin: 0 -14px; }
+  .ts-specs dd { font-size: 19px; }
+  .ts-intro, .ts-section > p, .ts-sample-text > p, .ts-buy > div > p { font-size: 16px; }
+}
+
+/* ============================================================
+   Homepage feature band (/): static markup in index.html, no script.
+   ============================================================ */
+.ts-feature { background: var(--ts-petrol); color: var(--ts-ivory); border-top: 4px solid var(--ts-copper-deep); border-bottom: 4px solid var(--ts-copper-deep); margin: 0; }
+.ts-feature-inner { max-width: var(--max-width, 1180px); margin: 0 auto; padding: 40px var(--gutter, 24px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.ts-feature-label { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ts-copper); }
+.ts-feature h2 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(32px, 4.6vw, 56px); line-height: 1; letter-spacing: -.02em; margin: 0 0 12px; color: var(--ts-ivory); }
+.ts-feature-lead { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(19px, 2.1vw, 24px); line-height: 1.35; margin: 0 0 12px; }
+.ts-feature-text p { font-size: 16.5px; line-height: 1.55; margin: 0 0 18px; max-width: 54ch; }
+.ts-feature-actions { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; }
+.ts-feature .ts-feature-btn { display: inline-block; font-weight: 700; font-size: 16px; line-height: 1.3; padding: 13px 20px; min-height: 48px; background: var(--ts-copper); color: var(--ts-petrol-deep) !important; border: 2px solid var(--ts-copper); }
+.ts-feature .ts-feature-btn:hover { background: var(--ts-ivory); border-color: var(--ts-ivory); }
+.ts-feature .ts-feature-btn:focus-visible, .ts-feature a:focus-visible { outline: 3px solid var(--ts-ivory); outline-offset: 3px; }
+.ts-feature-meta { font-size: 13.5px; color: rgba(245, 236, 216, .85); }
+.ts-feature-pic { margin: 0; }
+.ts-feature-pic img { display: block; width: 100%; height: auto; border: 2px solid var(--ts-copper-deep); box-shadow: 0 0 0 4px var(--ts-petrol-deep); }
+@media (max-width: 860px) {
+  .ts-feature-inner { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 32px; padding-bottom: 34px; }
+  .ts-feature-pic { order: -1; max-width: 560px; }
+}
+@media (max-width: 640px) {
+  .ts-feature .ts-feature-btn { display: block; width: 100%; text-align: center; }
+  .ts-feature-actions { flex-direction: column; align-items: stretch; }
+}

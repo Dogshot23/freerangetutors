@@ -43,7 +43,9 @@ function build() {
     '      <ul>\n' + resourceList + '\n      </ul>\n' +
     '    </noscript>';
 
-  const pages = ['/', '/made-by-frt/', '/about'].concat(originals.map((o) => o.page));
+  // Pages that are not in data/originals.json (not part of the Made by FRT catalogue) but belong in the sitemap.
+  const extraPages = ['/resources/the-sixth-astronaut/'];
+  const pages = ['/', '/made-by-frt/', '/about'].concat(originals.map((o) => o.page), extraPages);
   const sitemap =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
