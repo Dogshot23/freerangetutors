@@ -308,16 +308,16 @@ test('directory.js, directory.css, the manifest, every directory record and orig
   catch (e) { console.log('        (skipped: git is not available here)'); return; }
   assert(out === '', 'changed: ' + out);
 });
-test('index.html differs from the last commit only by the two removed Paid resources links and the promo wording', () => {
-  let diff;
-  try { diff = git(['diff', '-U0', '--ignore-cr-at-eol', 'HEAD', '--', 'index.html']); } catch (e) { console.log('        (skipped: git is not available here)'); return; }
-  const changed = diff.split('\n').filter((l) => /^[+-]/.test(l) && !/^(\+\+\+|---)/.test(l));
-  eq(changed, [
-    '-          <a href="/paid-resources/">Paid resources</a>',
-    '-        <a class="intro-link" href="/made-by-frt/"><span class="intro-link-t">Made by Free Range Tutors</span><span class="intro-link-d">Everything made by Free Range Tutors &rarr;</span></a>',
-    '+        <a class="intro-link" href="/made-by-frt/"><span class="intro-link-t">Made by Free Range Tutors</span><span class="intro-link-d">Free and paid resources made by Free Range Tutors &rarr;</span></a>',
-    '-          <a href="/paid-resources/">Paid resources</a>'
-  ].map((l) => l.replace(/\r$/, '')));
+test('the homepage has no link to the retired /paid-resources/ page, and still links to /made-by-frt/ from its header, promo and footer', () => {
+  // State check, not a git diff. It was written against uncommitted edits (the removed Paid resources links), which no longer show as a diff.
+  // Image paths under /paid-resources/images/ are assets, not the retired page, so only <a href> targets are checked.
+  const idx = read('index.html');
+  const links = [...idx.matchAll(/<a\b[^>]*\shref="([^"]*)"/g)].map((m) => m[1]);
+  const retired = links.filter((h) => /^\/paid-resources\/?(#.*)?$/.test(h));
+  assert(retired.length === 0, 'links to the retired page: ' + retired.join(', '));
+  assert(!idx.includes('>Paid resources</a>'), 'a "Paid resources" nav link is back');
+  const catalogueLinks = links.filter((h) => h === '/made-by-frt/').length;
+  assert(catalogueLinks >= 3, 'expected the header, promo and footer links to /made-by-frt/, found ' + catalogueLinks);
 });
 
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
