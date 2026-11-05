@@ -41,7 +41,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="dispatch-tokens.css" />
   <link rel="stylesheet" href="directory.css" />
-  <link rel="stylesheet" href="/resources/the-sixth-astronaut/the-sixth-astronaut.css" />
   <link rel="stylesheet" href="/christmas-feature.css" />
   <noscript><style>.recent-band { display: none; } .recent-photo { display: none; } .index-head { padding-top: 40px; }</style></noscript>
 </head>
@@ -113,7 +112,7 @@
           <div id="recent-featured"></div>
         </div>
         <figure class="recent-photo" aria-hidden="true">
-          <img src="/images/editorial/halftone-holyoke-1941.png" width="1100" height="1364" alt="" decoding="async" />
+          <img width="1100" height="1364" alt="" decoding="async" />
         </figure>
       </div>
       <div id="recent-support"></div>
@@ -145,25 +144,6 @@
     </div>
   </section>
 
-  <!-- FEATURED: The Sixth Astronaut (review draft). Static markup, no script. Links to the product page only, never to Payhip. -->
-  <section class="ts-feature" aria-labelledby="ts-feature-h">
-    <div class="ts-feature-inner">
-      <div class="ts-feature-text">
-        <p class="ts-feature-label">Made here &middot; Interactive story</p>
-        <h2 id="ts-feature-h">The Sixth Astronaut</h2>
-        <p class="ts-feature-lead">Someone has been cut out of the crew photo. Nobody will say who.</p>
-        <p>An interactive science-fiction mystery for English learners. Read, follow the evidence and choose what to do next. Your decisions lead to one of 10 possible endings.</p>
-        <div class="ts-feature-actions">
-          <a class="ts-feature-btn" href="/resources/the-sixth-astronaut/#sample">Try the free sample</a>
-          <span class="ts-feature-meta">About B1&ndash;B2 &middot; ages 11&ndash;15 &middot; interactive PDF for screens</span>
-        </div>
-      </div>
-      <figure class="ts-feature-pic">
-        <a href="/resources/the-sixth-astronaut/" aria-label="The Sixth Astronaut: see the full page"><img src="/resources/the-sixth-astronaut/images/cover.jpg" width="1600" height="1131" loading="lazy" alt="Cover of The Sixth Astronaut: a space-station command room with an old monitor showing four small figures and a blank space between them." /></a>
-      </figure>
-    </div>
-  </section>
-
   <div class="wrap">
 
     <div class="index-head" id="all-resources" tabindex="-1">
@@ -174,7 +154,7 @@
     <div class="entries" id="entries"></div>
 <!-- static:resources:start -->
     <noscript>
-      <p>This list is normally searchable and filterable, which needs JavaScript. Without it, here are all 33 resources:</p>
+      <p>This list is normally searchable and filterable, which needs JavaScript. Without it, here are all 34 resources:</p>
       <ul>
       <li><a href="https://payhip.com/b/Ek2gX" rel="noopener noreferrer">A Day at the Park: Partner Speaking Activity</a> (GapTheMind) &mdash; A partner speaking activity for pairs, CEFR A2, about 15–20 minutes: each student has a different park picture and they ask and answer questions to find ten differences. PDF, $1.99 on Payhip.</li>
       <li><a href="https://www.baamboozle.com/" rel="noopener noreferrer">Baamboozle</a> &mdash; A whole-class team quiz game played on one shared screen — teachers browse and play ready-made games without requiring students to use individual devices.</li>
@@ -187,6 +167,7 @@
       <li><a href="https://www.englishclub.com/esl-games/" rel="noopener noreferrer">EnglishClub ESL Games</a> &mdash; Over 1,000 free grammar and vocabulary games, playable on phone or desktop with zero setup — quick drilling for a specific grammar point or word set.</li>
       <li><a href="https://freerice.com/" rel="noopener noreferrer">FreeRice</a> &mdash; A vocabulary trivia game where each correct answer triggers a rice donation to the UN World Food Programme — quick multiple-choice rounds with a genuine real-world hook to discuss.</li>
       <li><a href="https://www.gamestolearnenglish.com/" rel="noopener noreferrer">Games to Learn English</a> &mdash; 50+ small browser games covering tenses, vocabulary, spelling, and phrasal verbs — click-and-play with no setup, good for a quick warm-up or drill.</li>
+      <li><a href="https://www.gapminder.org/teaching/materials/" rel="noopener noreferrer">Gapminder</a> &mdash; Free interactive data tools and teaching materials from an independent educational non-profit: bubble charts, slides and videos, plus Dollar Street, photographs of everyday life in homes on different income levels around the world. Good for sparking discussion, comparing lifestyles and challenging assumptions.</li>
       <li><a href="https://artsandculture.google.com/" rel="noopener noreferrer">Google Arts &amp; Culture</a> &mdash; A free virtual museum of digitized art and cultural artifacts from institutions worldwide, browsable by artist, period, or theme — good source material for image description and cultural discussion.</li>
       <li><a href="https://payhip.com/b/x5Npe" rel="noopener noreferrer">Grandpa's Teeth: Partner Speaking Mystery</a> (GapTheMind) &mdash; A partner speaking mystery for pairs, CEFR B1–B2, about 25 minutes: Student A has the family's memories and Student B has the street map, and together they rebuild the route to find Grandpa's lost teeth. PDF, $1.99 on Payhip.</li>
       <li><a href="https://en.islcollective.com/" rel="noopener noreferrer">iSLCollective</a> &mdash; A huge printable-worksheet archive — every level, every skill. Broad by nature, so metadata here is a range, not a fixed value.</li>
@@ -229,7 +210,7 @@
           <a href="/stop-the-slop/">Stop the Slop</a>
           <a href="/about">About</a>
         </nav>
-        <p class="foot-credit">Feature photograph: John Collier Jr., <em>Men talk, street scene at High Street, Holyoke, Massachusetts</em>, 1941. Library of Congress, Farm Security Administration / Office of War Information collection; no known restrictions, public domain. Printed here as a halftone.</p>
+        <p class="foot-credit" id="foot-credit" hidden></p>
       </div>
     </div>
   </footer>

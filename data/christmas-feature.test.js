@@ -20,7 +20,7 @@ const img = (seg.match(/<img\b[^>]*>/) || [''])[0];
 const src = (img.match(/src="([^"]+)"/) || [])[1];
 t('cover image exists on disk and has alt text, width and height', !!src && fs.existsSync(path.join(root, src.slice(1))) && /\balt="[^"]{20,}"/.test(img) && /\bwidth="\d+"/.test(img) && /\bheight="\d+"/.test(img), src);
 t('feature is static (no script) and contains no workers.dev address', !/<script/.test(seg) && !/workers\.dev/.test(seg));
-t('feature sits before the Sixth Astronaut band; both bands, the recent band and the directory markup are intact', i > home.indexOf('<section class="recent-band"') && i < home.indexOf('<section class="ts-feature"') && (home.match(/<section class="ts-feature"/g) || []).length === 1 && home.includes('id="all-resources"') && home.includes('<script src="directory.js">'));
+t('feature sits directly after the recent band and before All resources; the Sixth Astronaut band is gone; the directory markup is intact', i > home.indexOf('<section class="recent-band"') && i < home.indexOf('id="all-resources"') && !home.includes('class="ts-feature"') && home.includes('<script src="directory.js">'));
 const cssN = css.replace(/\/\*[\s\S]*?\*\//g, '');
 t('stylesheet: only .cd- selectors', [...cssN.matchAll(/^\s*([^@\s}][^{]*)\{/gm)].every(m => m[1].split(',').every(sel => /\.cd-/.test(sel))), [...cssN.matchAll(/^\s*([^@\s}][^{]*)\{/gm)].filter(m => !m[1].split(',').every(sel => /\.cd-/.test(sel))).map(m => m[1].trim()).join(' | '));
 t('stylesheet is not excluded from the public site by .assetsignore', !/christmas-feature|^\*\.css/m.test(read('.assetsignore')));

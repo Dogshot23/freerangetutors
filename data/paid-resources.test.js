@@ -69,6 +69,8 @@ PAID_IDS.forEach((id) => { entries[id] = JSON.parse(read('data/resources/' + id 
 const products = {};
 PAID_IDS.forEach((id) => { products[id] = data.products.find((x) => x.id === id); });
 const BASE = '366b6b064f4af07ebb024c0af3429e4111d7fb19'; /* the redesign baseline commit this branch started from */
+/* Free directory entries added after the baseline on purpose (each is a deliberate, reviewed addition, not a paid product). Any other new or changed free entry still fails the checks below. */
+const FREE_ADDITIONS = ['gapminder'];
 
 /* Pages that carry the site navigation today. */
 const NAV_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html',
@@ -199,19 +201,20 @@ test('every entry follows the schema conventions for a paid, GapTheMind-publishe
 test('manifest lists every paid entry exactly once and lists nothing else new', () => {
   const manifest = JSON.parse(read('data/manifest.json'));
   PAID_IDS.forEach((id) => assert(manifest.filter((i) => i === id).length === 1, id + ': not exactly once'));
-  assert(manifest.length === 19 + PAID_IDS.length, 'manifest length ' + manifest.length);
+  assert(manifest.length === 19 + FREE_ADDITIONS.length + PAID_IDS.length, 'manifest length ' + manifest.length);
+  FREE_ADDITIONS.forEach((id) => assert(manifest.filter((i) => i === id).length === 1, id + ': not exactly once'));
   if (!gitAvailable()) { console.log('        (baseline comparison skipped: git or the baseline commit is not available here)'); return; }
   const base = JSON.parse(git(['show', BASE + ':data/manifest.json']));
-  assert(JSON.stringify(manifest.filter((i) => PAID_IDS.indexOf(i) === -1)) === JSON.stringify(base), 'the 19 existing ids changed or were reordered');
+  assert(JSON.stringify(manifest.filter((i) => PAID_IDS.indexOf(i) === -1 && FREE_ADDITIONS.indexOf(i) === -1)) === JSON.stringify(base), 'the 19 existing ids changed or were reordered');
 });
-test('all 19 existing resource files and originals.json are identical to the baseline commit; only the paid entry files were added', () => {
+test('all 19 existing resource files and originals.json are identical to the baseline commit; only the paid entry files and the named free additions were added', () => {
   if (!gitAvailable()) { console.log('        (skipped: git or the baseline commit is not available here)'); return; }
   const changed = git(['diff', '--name-only', '--diff-filter=MDRTU', BASE, '--', 'data/resources', 'data/originals.json']).trim();
   assert(changed === '', 'changed since baseline: ' + changed);
   const added = git(['diff', '--name-only', '--diff-filter=A', BASE, '--', 'data/resources']).split('\n')
     .concat(git(['ls-files', '--others', '--exclude-standard', '--', 'data/resources']).split('\n'))
     .map((s) => s.trim()).filter(Boolean).filter((f, i, a) => a.indexOf(f) === i);
-  assert(JSON.stringify(added.slice().sort()) === JSON.stringify(PAID_IDS.map((id) => 'data/resources/' + id + '.json').sort()), 'unexpected new catalogue files: ' + added.join(', '));
+  assert(JSON.stringify(added.slice().sort()) === JSON.stringify(PAID_IDS.concat(FREE_ADDITIONS).map((id) => 'data/resources/' + id + '.json').sort()), 'unexpected new catalogue files: ' + added.join(', '));
 });
 test('exactly the reviewed resources in the catalogue are paid, and no others', () => {
   const manifest = JSON.parse(read('data/manifest.json'));
@@ -249,7 +252,7 @@ test('with the real catalogue the featured entry and the 3 supporting items are 
   const withPaid = band(catalogue, null);
   const withoutPaid = band(catalogue.filter((r) => r.cost !== 'paid'), null);
   assert(JSON.stringify(withPaid) === JSON.stringify(withoutPaid), 'band differs: ' + JSON.stringify(withPaid) + ' vs ' + JSON.stringify(withoutPaid));
-  assert(withPaid.featured === 'google-arts-culture', 'featured is no longer the pre-existing free resource: ' + withPaid.featured);
+  assert(withPaid.featured === 'gapminder', 'featured is not the newest free resource (gapminder, added 2026-11-05): ' + withPaid.featured);
   assert(![withPaid.featured].concat(withPaid.support).some((id) => PAID_IDS.includes(id)), 'a paid entry is in the band');
 });
 test('a newer paid entry cannot take the featured slot or displace a supporting free item (synthetic cases)', () => {
