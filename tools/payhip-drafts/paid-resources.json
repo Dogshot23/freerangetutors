@@ -301,6 +301,45 @@
       "payhip_url": "https://payhip.com/b/MWIoz",
       "link_verified": "2026-11-05",
       "internal_notes": "Prepared 2026-11-05 on branch feature/christmas-dinner-resource; set live the same day after the Payhip product (MWIoz) was made Visible and opened in a logged-out browser: title, $4.99, Add to Cart and Buy Now present; nothing was bought. Facts checked against the final 42-page PDF (MD5 018a66bf5b49e702c1b1c0471a41e83e): 42 pages 960x540, 29 story pages, 9 decisions, 5 endings, 49 routes, 12 Case File cards, 5 activities, 8 fillable fields. CEFR A2-B1 is the author's label, not independently measured; ages 11-15 are the suggested range (the PDF prints no age). Time: story about 10-15 minutes, activities about 30 minutes. Hosted PDF SHA-256 2bd309f2...93e5 equals the local file. Cover: titled square cover made from the IMG-001 cover illustration. Not tested on a physical tablet or phone. If the product is ever set to Invisible this link stops working: set status back to draft, remove it from tools/catalogue.json and rebuild."
+    },
+    {
+      "id": "one-resource-start-to-finish",
+      "status": "live",
+      "title": "One Resource, Start to Finish",
+      "kind": "GapTheMind · Practical guide for teachers",
+      "summary": "A practical guide for independent ESL/EFL teachers who want to develop, check and prepare their own teaching resources. It takes one resource from an idea to a released, closed project in thirteen stages, with a checklist at each stage and a one-page release checklist at the end.",
+      "facts": [
+        {
+          "label": "For",
+          "value": "Independent ESL/EFL teachers who make their own resources"
+        },
+        {
+          "label": "Format",
+          "value": "One downloadable PDF, 60 pages, A5 portrait"
+        },
+        {
+          "label": "Use",
+          "value": "Designed for reading on screen; the release checklist page can be printed"
+        },
+        {
+          "label": "Structure",
+          "value": "Stages 0 to 12, each with the same layout: Goal, Do, Use, Check, If it goes wrong, Finish with"
+        },
+        {
+          "label": "Includes",
+          "value": "The 60-page guide only: clickable contents, PDF bookmarks, short invented examples, a brief Winter Raccoon Mystery case study and a one-page release checklist. It does not include a workbook, templates, an AI prompt collection or a completed worked example, and it is not legal advice."
+        }
+      ],
+      "price": {
+        "amount": 4.99,
+        "currency": "USD"
+      },
+      "price_note": "Plus VAT where applicable. Tax, such as EU VAT, may be added at checkout.",
+      "image": "/paid-resources/images/one-resource-start-to-finish.png",
+      "image_alt": "Cover of One Resource, Start to Finish: the title in large black capitals on a cream background, with the first letters of Start highlighted in lime green, above a field of teal and orange dots. A line at the top reads A guide for ESL/EFL teachers.",
+      "payhip_url": "https://payhip.com/b/zkyw0",
+      "link_verified": "2026-11-05",
+      "internal_notes": "Prepared 2026-11-05 on branch feature/christmas-dinner-resource. Payhip product zkyw0 made Visible the same day and opened in a logged-out browser: title, US$4.99, Add to Cart and Buy Now present; Buy Now opened checkout (EU VAT 1.05 added on 4.99 in the test session); nothing was bought. Facts from the final v6 PDF (60 pages, A5 portrait; sha256 71b25880c931...3470). Cover is page 1 of that PDF rendered at 300 dpi (LAUNCH_ASSETS_One_Resource_Start_to_Finish), shown portrait here; the 480px directory thumbnail is a duotone square crop of its top. Store currency is USD, so the price is US$4.99. The guide is licensed for individual use; the PDF's own copyright line is Mark Adlington, 2026."
     }
   ]
 }
