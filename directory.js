@@ -285,6 +285,40 @@
     const support = document.getElementById('recent-support') || wrap;
     support.innerHTML = '';
     support.appendChild(renderSupportList(rest));
+    renderFeaturePhoto(featured.id);
+  }
+
+  /* The halftone photograph beside the featured website, and its footer credit. Each featured website has its
+     OWN photograph, looked up by resource id in data/featured-images.json (see tools/FEATURED_IMAGE_WORKFLOW.md).
+     There is deliberately no fallback to another website's photograph: with no entry (or if the file can't be
+     read) the photograph and the credit are hidden and the band still works. */
+  function renderFeaturePhoto(id) {
+    const fig = document.querySelector('.recent-photo');
+    const img = fig && fig.querySelector('img');
+    const credit = document.getElementById('foot-credit');
+    function none() { if (fig) fig.hidden = true; if (credit) { credit.hidden = true; credit.textContent = ''; } }
+    if (!fig || !img) return;
+    fetch('/data/featured-images.json').then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function (data) {
+      const p = data && data.images && data.images[id];
+      if (!p || !p.file) { none(); return; }
+      img.setAttribute('src', '/' + p.file);
+      fig.hidden = false;
+      if (credit) {
+        credit.textContent = '';
+        credit.appendChild(document.createTextNode('Feature photograph: '));
+        credit.appendChild(el('a', { href: p.source_page, target: '_blank', rel: 'noopener', text: p.title }));
+        credit.appendChild(document.createTextNode(', ' + p.creator + ', ' + p.year + ', ' + p.source_site + '. '));
+        credit.appendChild(el('a', { href: p.licence_url, target: '_blank', rel: 'noopener', text: p.licence }));
+        credit.appendChild(document.createTextNode('. ' + p.change_note));
+        credit.hidden = false;
+      }
+    }).catch(function (err) {
+      console.warn('Feature photograph unavailable:', err);
+      none();
+    });
   }
 
   function renderSupportList(resources) {

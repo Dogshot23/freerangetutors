@@ -172,3 +172,7 @@ value onto it would misrepresent what it does.
 
 Still a flat-file data layer, not a CMS: no admin UI, no database, no
 draft/publish workflow.
+
+**Featured website photograph.** The red homepage band shows one halftone photograph per featured website (the featured
+website is the newest free entry by `date_added`). When a new free entry becomes the featured website, follow
+`tools/FEATURED_IMAGE_WORKFLOW.md`: `data/featured-images.test.js` fails until `data/featured-images.json` has an entry for it.

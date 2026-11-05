@@ -4,6 +4,7 @@
     { "id": "sold-as-seen", "category": "interactive-stories", "featured": true },
     { "id": "stop-the-slop", "category": "guides" },
     { "id": "the-school-trip-that-should-have-been-cancelled", "category": "interactive-stories" },
+    { "id": "the-christmas-dinner-that-keeps-getting-bigger", "category": "interactive-stories", "tags": ["christmas"] },
     { "id": "the-sixth-ghost", "category": "partner-speaking", "tags": ["halloween"] },
     { "id": "the-947-scream", "category": "partner-speaking", "tags": ["halloween"] },
     { "id": "grandpas-teeth", "category": "partner-speaking", "tags": ["halloween"] },

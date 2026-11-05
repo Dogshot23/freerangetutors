@@ -60,7 +60,8 @@ const VERIFIED = {
   'too-much-money': 'https://payhip.com/b/RN0GB',
   'the-queue-jumper': 'https://payhip.com/b/oxk9I',
   'a-day-at-the-park': 'https://payhip.com/b/Ek2gX',
-  'sold-as-seen': 'https://payhip.com/b/72Ecu'
+  'sold-as-seen': 'https://payhip.com/b/72Ecu',
+  'the-christmas-dinner-that-keeps-getting-bigger': 'https://payhip.com/b/MWIoz'
 };
 const PAID_IDS = Object.keys(VERIFIED);
 const entries = {};
@@ -68,6 +69,8 @@ PAID_IDS.forEach((id) => { entries[id] = JSON.parse(read('data/resources/' + id 
 const products = {};
 PAID_IDS.forEach((id) => { products[id] = data.products.find((x) => x.id === id); });
 const BASE = '366b6b064f4af07ebb024c0af3429e4111d7fb19'; /* the redesign baseline commit this branch started from */
+/* Free directory entries added after the baseline on purpose (each is a deliberate, reviewed addition, not a paid product). Any other new or changed free entry still fails the checks below. */
+const FREE_ADDITIONS = ['gapminder'];
 
 /* Pages that carry the site navigation today. */
 const NAV_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html',
@@ -166,14 +169,15 @@ test('each card shows the price, the level and the time that its directory entry
     const prod = products[id], ent = entries[id];
     assert(card, id + ': no card on the page');
     const sas = id === 'sold-as-seen'; /* the one $4.99 interactive story for the whole class, pairs or individuals: its own price, time and groups, stated in its PDF and listing */
-    assert((sas ? /<span class="cat-price">\$4\.99 <small>USD<\/small><\/span>/ : /<span class="cat-price">\$1\.99 <small>USD<\/small><\/span>/).test(card), id + ': price on the card');
+    const xmas = id === 'the-christmas-dinner-that-keeps-getting-bigger'; /* the $4.99 A2-B1 interactive Christmas mystery for individuals and pairs: its own price, level, time and groups, stated in its PDF and listing */
+    assert(((sas || xmas) ? /<span class="cat-price">\$4\.99 <small>USD<\/small><\/span>/ : /<span class="cat-price">\$1\.99 <small>USD<\/small><\/span>/).test(card), id + ': price on the card');
     assert(/<span class="cat-badge cat-badge-paid">Paid<\/span>/.test(card), id + ': no Paid label');
     const a2 = id === 'a-day-at-the-park'; /* the one A2 picture activity: its own level and time, stated in its PDF */
-    assert((a2 ? /CEFR A2/ : /CEFR B1–B2/).test(card) && (a2 ? /About 15–20 minutes/ : sas ? /About 45 minutes, with discussion/ : /About 25 minutes/).test(card) && (sas ? /<dd>Whole class, pairs or individual<\/dd>/ : /<dd>Pairs<\/dd>/).test(card), id + ': level/time/groups on the card');
-    assert(prod.price.amount === (sas ? 4.99 : 1.99) && (sas ? /\$4\.99/ : /\$1\.99/).test(ent.description_short), id + ': price differs between the page data and the directory entry');
-    assert(a2 ? (/CEFR A2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["A2"]') : (/B1–B2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["B1","B2"]'), id + ': level differs');
-    assert(a2 ? (/15–20 minutes/.test(ent.description_short) && ent.activity_time_minutes === 20) : sas ? (/About 45 minutes/.test(ent.description_short) && ent.activity_time_minutes === 45) : (/about 25 minutes/.test(ent.description_short) && ent.activity_time_minutes === 25), id + ': time differs');
-    assert(ent.group_fit.values.join() === (sas ? 'individual,pair,group' : 'pair'), id + ': group differs');
+    assert(((a2 || xmas) ? (xmas ? /CEFR A2–B1/ : /CEFR A2/) : /CEFR B1–B2/).test(card) && (a2 ? /About 15–20 minutes/ : sas ? /About 45 minutes, with discussion/ : xmas ? /About 10–15 minutes to read, plus about 30 minutes of activities/ : /About 25 minutes/).test(card) && (sas ? /<dd>Whole class, pairs or individual<\/dd>/ : xmas ? /<dd>Individual reading and pair discussion<\/dd>/ : /<dd>Pairs<\/dd>/).test(card), id + ': level/time/groups on the card');
+    assert(prod.price.amount === ((sas || xmas) ? 4.99 : 1.99) && ((sas || xmas) ? /\$4\.99/ : /\$1\.99/).test(ent.description_short), id + ': price differs between the page data and the directory entry');
+    assert(xmas ? (/A2–B1/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["A2","B1"]') : a2 ? (/CEFR A2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["A2"]') : (/B1–B2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["B1","B2"]'), id + ': level differs');
+    assert(a2 ? (/15–20 minutes/.test(ent.description_short) && ent.activity_time_minutes === 20) : (sas || xmas) ? (/About 45 minutes/.test(ent.description_short) && ent.activity_time_minutes === 45) : (/about 25 minutes/.test(ent.description_short) && ent.activity_time_minutes === 25), id + ': time differs');
+    assert(ent.group_fit.values.join() === (sas ? 'individual,pair,group' : xmas ? 'individual,pair' : 'pair'), id + ': group differs');
     assert(ent.url === prod.payhip_url && prod.payhip_url === VERIFIED[id], id + ': directory entry URL differs from the catalogue page URL');
     assert(card.includes('src="' + prod.image + '"') && prod.image === '/paid-resources/images/' + id + '.png', id + ': cover image');
   });
@@ -192,24 +196,25 @@ test('every entry follows the schema conventions for a paid, GapTheMind-publishe
   assert(id === 'sold-as-seen' ? (entry.age_group.mode === 'specific' && entry.age_group.values.join() === 'teen') : entry.age_group.mode === 'unknown', 'age_group must stay unknown unless the product states an age range');
   assert(entry.featured === false && entry.status === null, 'featured/status');
   assert(entry.internal_notes && !/payhip\.com\/b\//.test(JSON.stringify(Object.assign({}, entry, { internal_notes: '', url: '' }))), 'no stray product URL in visible fields');
-  assert(entry.id === id && entry.image === 'images/resources/' + id + '.png' && entry.date_added === (id === 'sold-as-seen' ? '2026-10-25' : '2026-10-17'), id + ': id/image/date');
+  assert(entry.id === id && entry.image === 'images/resources/' + id + '.png' && entry.date_added === (id === 'sold-as-seen' ? '2026-10-25' : id === 'the-christmas-dinner-that-keeps-getting-bigger' ? '2026-11-05' : '2026-10-17'), id + ': id/image/date');
 }));
 test('manifest lists every paid entry exactly once and lists nothing else new', () => {
   const manifest = JSON.parse(read('data/manifest.json'));
   PAID_IDS.forEach((id) => assert(manifest.filter((i) => i === id).length === 1, id + ': not exactly once'));
-  assert(manifest.length === 19 + PAID_IDS.length, 'manifest length ' + manifest.length);
+  assert(manifest.length === 19 + FREE_ADDITIONS.length + PAID_IDS.length, 'manifest length ' + manifest.length);
+  FREE_ADDITIONS.forEach((id) => assert(manifest.filter((i) => i === id).length === 1, id + ': not exactly once'));
   if (!gitAvailable()) { console.log('        (baseline comparison skipped: git or the baseline commit is not available here)'); return; }
   const base = JSON.parse(git(['show', BASE + ':data/manifest.json']));
-  assert(JSON.stringify(manifest.filter((i) => PAID_IDS.indexOf(i) === -1)) === JSON.stringify(base), 'the 19 existing ids changed or were reordered');
+  assert(JSON.stringify(manifest.filter((i) => PAID_IDS.indexOf(i) === -1 && FREE_ADDITIONS.indexOf(i) === -1)) === JSON.stringify(base), 'the 19 existing ids changed or were reordered');
 });
-test('all 19 existing resource files and originals.json are identical to the baseline commit; only the paid entry files were added', () => {
+test('all 19 existing resource files and originals.json are identical to the baseline commit; only the paid entry files and the named free additions were added', () => {
   if (!gitAvailable()) { console.log('        (skipped: git or the baseline commit is not available here)'); return; }
   const changed = git(['diff', '--name-only', '--diff-filter=MDRTU', BASE, '--', 'data/resources', 'data/originals.json']).trim();
   assert(changed === '', 'changed since baseline: ' + changed);
   const added = git(['diff', '--name-only', '--diff-filter=A', BASE, '--', 'data/resources']).split('\n')
     .concat(git(['ls-files', '--others', '--exclude-standard', '--', 'data/resources']).split('\n'))
     .map((s) => s.trim()).filter(Boolean).filter((f, i, a) => a.indexOf(f) === i);
-  assert(JSON.stringify(added.slice().sort()) === JSON.stringify(PAID_IDS.map((id) => 'data/resources/' + id + '.json').sort()), 'unexpected new catalogue files: ' + added.join(', '));
+  assert(JSON.stringify(added.slice().sort()) === JSON.stringify(PAID_IDS.concat(FREE_ADDITIONS).map((id) => 'data/resources/' + id + '.json').sort()), 'unexpected new catalogue files: ' + added.join(', '));
 });
 test('exactly the reviewed resources in the catalogue are paid, and no others', () => {
   const manifest = JSON.parse(read('data/manifest.json'));
@@ -247,7 +252,7 @@ test('with the real catalogue the featured entry and the 3 supporting items are 
   const withPaid = band(catalogue, null);
   const withoutPaid = band(catalogue.filter((r) => r.cost !== 'paid'), null);
   assert(JSON.stringify(withPaid) === JSON.stringify(withoutPaid), 'band differs: ' + JSON.stringify(withPaid) + ' vs ' + JSON.stringify(withoutPaid));
-  assert(withPaid.featured === 'google-arts-culture', 'featured is no longer the pre-existing free resource: ' + withPaid.featured);
+  assert(withPaid.featured === 'gapminder', 'featured is not the newest free resource (gapminder, added 2026-11-05): ' + withPaid.featured);
   assert(![withPaid.featured].concat(withPaid.support).some((id) => PAID_IDS.includes(id)), 'a paid entry is in the band');
 });
 test('a newer paid entry cannot take the featured slot or displace a supporting free item (synthetic cases)', () => {
@@ -400,7 +405,9 @@ test('every prototype and internal file (shop/, tools/, products.json, notes, te
   const leaks = files.filter((f) => !ignored.has(f));
   assert(leaks.length === 0, 'would be published: ' + leaks.join(', '));
 });
-const PAID_PAGE_FILES = ['paid-resources/index.html', 'paid-resources/paid-resources.css'].concat(PAID_IDS.map((id) => 'paid-resources/images/' + id + '.png'));
+/* Draft products (not yet in the catalogue) already have their cover here, so the folder check below counts them too. */
+const DRAFT_IDS = data.products.filter((p) => p.status === 'draft').map((p) => p.id);
+const PAID_PAGE_FILES = ['paid-resources/index.html', 'paid-resources/paid-resources.css'].concat(PAID_IDS.concat(DRAFT_IDS).map((id) => 'paid-resources/images/' + id + '.png'));
 test('the intended public files AND the three paid-resources page files are published (not excluded), while internal and prototype files stay excluded', () => {
   if (!gitAvailable()) { console.log('        (skipped: git is not available here)'); return; }
   const internal = PROTOTYPE_AND_INTERNAL();

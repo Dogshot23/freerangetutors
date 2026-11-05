@@ -1,0 +1,48 @@
+{
+  "_readme": "One halftone photograph per featured website, keyed by the directory resource id (data/resources/<id>.json). directory.js shows images[<featured id>] beside the red 'Recently added' band and builds the footer credit from the same entry. A featured website with no entry here gets NO photograph (never another site's). Add entries only by following tools/FEATURED_IMAGE_WORKFLOW.md. Paths are relative to the site root; masters live in images/resources/_masters/ (not published).",
+  "images": {
+    "gapminder": {
+      "file": "images/editorial/feature-gapminder.png",
+      "master": "images/resources/_masters/gapminder-feature-source.jpg",
+      "master_sha256": "981e6ffdc82d6f93bef3a1808f1c147ea21e4fd1bb7ff3a918833279c3b9bea5",
+      "title": "Cooking pots and bowls in a family's home in Haiti",
+      "creator": "Zoriah Miller",
+      "year": "2014",
+      "source_site": "Dollar Street (Gapminder)",
+      "source_page": "https://www.gapminder.org/dollar-street/family?place=family-7&topic=cooking-pots",
+      "source_file_url": "https://media.dollarstreet.org/5d4bf44acf0b3a0f3f35b644/5d4bf44acf0b3a0f3f35b644.jpg",
+      "creator_url": "https://www.gapminder.org/dollar-street/photographers/zoriah-miller",
+      "dollar_street_media_id": "5d4bf44acf0b3a0f3f35b644",
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://www.gapminder.org/dollar-street/about",
+          "text": "Licensed by Creative Commons license 4.0, you are free to reuse, edit and share the images."
+        },
+        {
+          "url": "https://www.gapminder.org/videos/everyone-lives-on-dollar-street",
+          "text": "All images are free to use, under Creative Common License CC BY 4.0."
+        }
+      ],
+      "attribution_requirements": "CC BY 4.0: credit the creator (Zoriah Miller), link the licence, say the image was changed, keep any notices. Commercial use and adaptation are allowed. No 'NoDerivatives' or 'NonCommercial' term applies.",
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-05",
+      "notes": "Zoriah Miller is listed as the photographer on the Dollar Street page and in the image record (photographer.slug zoriah-miller). Dollar Street home 'Family 7', Haiti, visited 2014-11-28; topic 'Cooking pots'. The photograph shows pots and bowls and no people. Source file 2700 x 1800 px. Chosen over six other Dollar Street home photographs tried through the script (including a lamp): its ink coverage (58%, 35% transparent) is the closest to the Holyoke original (61%, 30% transparent), so it keeps the same open, see-through feel; the bright bowls rise into the cream area. Halftoned with tools/make_feature_halftone.py (default centre focus, no manual settings)."
+    }
+  },
+  "retired": {
+    "holyoke-1941": {
+      "file": "images/editorial/halftone-holyoke-1941.png",
+      "master": "tools/halftone-source-holyoke-1941.jpg",
+      "regression_crop": "0.125,0.075,0.86,1.0",
+      "title": "Men talk, street scene at High Street, Holyoke, Massachusetts",
+      "creator": "John Collier Jr.",
+      "year": "1941",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Men_talk,_street_scene_at_(High_Street,)_Holyoke,_Massachusetts_(1941).jpg",
+      "licence": "Public domain (US federal employee work; Library of Congress FSA/OWI, digital ID fsa.8c33286)",
+      "notes": "The original homepage photograph. Not shown for any current featured website. Kept as the reference image for the halftone regression test (data/featured-images.test.js)."
+    }
+  }
+}
