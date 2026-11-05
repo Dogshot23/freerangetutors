@@ -60,7 +60,8 @@ const VERIFIED = {
   'too-much-money': 'https://payhip.com/b/RN0GB',
   'the-queue-jumper': 'https://payhip.com/b/oxk9I',
   'a-day-at-the-park': 'https://payhip.com/b/Ek2gX',
-  'sold-as-seen': 'https://payhip.com/b/72Ecu'
+  'sold-as-seen': 'https://payhip.com/b/72Ecu',
+  'the-christmas-dinner-that-keeps-getting-bigger': 'https://payhip.com/b/MWIoz'
 };
 const PAID_IDS = Object.keys(VERIFIED);
 const entries = {};
@@ -166,14 +167,15 @@ test('each card shows the price, the level and the time that its directory entry
     const prod = products[id], ent = entries[id];
     assert(card, id + ': no card on the page');
     const sas = id === 'sold-as-seen'; /* the one $4.99 interactive story for the whole class, pairs or individuals: its own price, time and groups, stated in its PDF and listing */
-    assert((sas ? /<span class="cat-price">\$4\.99 <small>USD<\/small><\/span>/ : /<span class="cat-price">\$1\.99 <small>USD<\/small><\/span>/).test(card), id + ': price on the card');
+    const xmas = id === 'the-christmas-dinner-that-keeps-getting-bigger'; /* the $4.99 A2-B1 interactive Christmas mystery for individuals and pairs: its own price, level, time and groups, stated in its PDF and listing */
+    assert(((sas || xmas) ? /<span class="cat-price">\$4\.99 <small>USD<\/small><\/span>/ : /<span class="cat-price">\$1\.99 <small>USD<\/small><\/span>/).test(card), id + ': price on the card');
     assert(/<span class="cat-badge cat-badge-paid">Paid<\/span>/.test(card), id + ': no Paid label');
     const a2 = id === 'a-day-at-the-park'; /* the one A2 picture activity: its own level and time, stated in its PDF */
-    assert((a2 ? /CEFR A2/ : /CEFR B1–B2/).test(card) && (a2 ? /About 15–20 minutes/ : sas ? /About 45 minutes, with discussion/ : /About 25 minutes/).test(card) && (sas ? /<dd>Whole class, pairs or individual<\/dd>/ : /<dd>Pairs<\/dd>/).test(card), id + ': level/time/groups on the card');
-    assert(prod.price.amount === (sas ? 4.99 : 1.99) && (sas ? /\$4\.99/ : /\$1\.99/).test(ent.description_short), id + ': price differs between the page data and the directory entry');
-    assert(a2 ? (/CEFR A2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["A2"]') : (/B1–B2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["B1","B2"]'), id + ': level differs');
-    assert(a2 ? (/15–20 minutes/.test(ent.description_short) && ent.activity_time_minutes === 20) : sas ? (/About 45 minutes/.test(ent.description_short) && ent.activity_time_minutes === 45) : (/about 25 minutes/.test(ent.description_short) && ent.activity_time_minutes === 25), id + ': time differs');
-    assert(ent.group_fit.values.join() === (sas ? 'individual,pair,group' : 'pair'), id + ': group differs');
+    assert(((a2 || xmas) ? (xmas ? /CEFR A2–B1/ : /CEFR A2/) : /CEFR B1–B2/).test(card) && (a2 ? /About 15–20 minutes/ : sas ? /About 45 minutes, with discussion/ : xmas ? /About 10–15 minutes to read, plus about 30 minutes of activities/ : /About 25 minutes/).test(card) && (sas ? /<dd>Whole class, pairs or individual<\/dd>/ : xmas ? /<dd>Individual reading and pair discussion<\/dd>/ : /<dd>Pairs<\/dd>/).test(card), id + ': level/time/groups on the card');
+    assert(prod.price.amount === ((sas || xmas) ? 4.99 : 1.99) && ((sas || xmas) ? /\$4\.99/ : /\$1\.99/).test(ent.description_short), id + ': price differs between the page data and the directory entry');
+    assert(xmas ? (/A2–B1/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["A2","B1"]') : a2 ? (/CEFR A2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["A2"]') : (/B1–B2/.test(ent.description_short) && JSON.stringify(ent.cefr_level.values) === '["B1","B2"]'), id + ': level differs');
+    assert(a2 ? (/15–20 minutes/.test(ent.description_short) && ent.activity_time_minutes === 20) : (sas || xmas) ? (/About 45 minutes/.test(ent.description_short) && ent.activity_time_minutes === 45) : (/about 25 minutes/.test(ent.description_short) && ent.activity_time_minutes === 25), id + ': time differs');
+    assert(ent.group_fit.values.join() === (sas ? 'individual,pair,group' : xmas ? 'individual,pair' : 'pair'), id + ': group differs');
     assert(ent.url === prod.payhip_url && prod.payhip_url === VERIFIED[id], id + ': directory entry URL differs from the catalogue page URL');
     assert(card.includes('src="' + prod.image + '"') && prod.image === '/paid-resources/images/' + id + '.png', id + ': cover image');
   });
@@ -192,7 +194,7 @@ test('every entry follows the schema conventions for a paid, GapTheMind-publishe
   assert(id === 'sold-as-seen' ? (entry.age_group.mode === 'specific' && entry.age_group.values.join() === 'teen') : entry.age_group.mode === 'unknown', 'age_group must stay unknown unless the product states an age range');
   assert(entry.featured === false && entry.status === null, 'featured/status');
   assert(entry.internal_notes && !/payhip\.com\/b\//.test(JSON.stringify(Object.assign({}, entry, { internal_notes: '', url: '' }))), 'no stray product URL in visible fields');
-  assert(entry.id === id && entry.image === 'images/resources/' + id + '.png' && entry.date_added === (id === 'sold-as-seen' ? '2026-10-25' : '2026-10-17'), id + ': id/image/date');
+  assert(entry.id === id && entry.image === 'images/resources/' + id + '.png' && entry.date_added === (id === 'sold-as-seen' ? '2026-10-25' : id === 'the-christmas-dinner-that-keeps-getting-bigger' ? '2026-11-05' : '2026-10-17'), id + ': id/image/date');
 }));
 test('manifest lists every paid entry exactly once and lists nothing else new', () => {
   const manifest = JSON.parse(read('data/manifest.json'));
