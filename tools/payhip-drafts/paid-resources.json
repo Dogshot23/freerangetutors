@@ -278,6 +278,29 @@
       "payhip_url": "https://payhip.com/b/72Ecu",
       "link_verified": "2026-10-25",
       "internal_notes": "Facts checked against the 30-page open-font PDF (2026-10-25): 30 pages, A4 landscape, 17 decision pages (pages 5-21), 7 ending pages (22-28), 112 routes (counted from the link graph), CEFR B1-B2 and ages 12-14 as printed on the cover and back cover. The 45-minute figure is an estimate (one route is about 1,600 words), not a measured classroom time. Source PDF: open_font_rebuild/SOLD_AS_SEEN_FINAL_LANDSCAPE_OPENFONTS.pdf (sha256 f336b79be21a374c542dbecbe566752f8b5496051c7cc56a69a8c791fc7e3fae). The Payhip product (created 2026-10-25 as UNLISTED, $4.99, hosted file) was downloaded and hashed: byte-identical. The URL was opened in a fresh, logged-out browser context on 2026-10-25: title, $4.99, Add to Cart and Buy Now present; nothing was bought. Links were click-tested in desktop Chrome and pdf.js; not tested on a physical tablet. Designed for screens, not for printing. If the product is ever set to Invisible this link stops working: set status back to 'draft' and rebuild."
+    },
+    {
+      "id": "the-christmas-dinner-that-keeps-getting-bigger",
+      "status": "draft",
+      "title": "The Christmas Dinner That Keeps Getting Bigger",
+      "kind": "GapTheMind · Interactive ESL mystery",
+      "summary": "A comic, interactive Christmas mystery for English learners. Follow a mysteriously growing guest list, make decisions, explore different routes and examine the clues at the Crooked Goose Hotel.",
+      "facts": [
+        { "label": "Level", "value": "CEFR A2–B1" },
+        { "label": "Ages", "value": "About 11–15" },
+        { "label": "Format", "value": "Interactive PDF, 42 pages, 16:9 landscape" },
+        { "label": "Use", "value": "On screen; not designed for printing" },
+        { "label": "Time", "value": "About 10–15 minutes to read, plus about 30 minutes of activities" },
+        { "label": "Groups", "value": "Individual reading and pair discussion" },
+        { "label": "Includes", "value": "29 story pages, 9 decision points, 5 endings, a 12-card Case File, five follow-up activities with 8 fillable boxes and a teacher page" }
+      ],
+      "price": { "amount": 4.99, "currency": "USD" },
+      "price_note": "Tax, such as EU VAT, may be added at checkout.",
+      "image": "/paid-resources/images/the-christmas-dinner-that-keeps-getting-bigger.png",
+      "image_alt": "Cover of The Christmas Dinner That Keeps Getting Bigger: a leaning snowy hotel with a goose in a Santa hat on the roof, a parrot at a window and a crowd of villagers, a llama and a brass band in the street, above the title.",
+      "payhip_url": "https://payhip.com/b/MWIoz",
+      "link_verified": "2026-11-05",
+      "internal_notes": "DRAFT, prepared 2026-11-05 on branch feature/christmas-dinner-resource; not in tools/catalogue.json, so it is not built into the public catalogue. Facts checked against the final 42-page PDF (MD5 018a66bf5b49e702c1b1c0471a41e83e): 42 pages 960x540, 29 story pages, 9 decisions, 5 endings, 49 routes, 12 Case File cards, 5 activities, 8 fillable fields. CEFR A2-B1 is the author's label, not independently measured; ages 11-15 are the project's intended range (the PDF does not print an age). Time: story about 10-15 minutes (validate.py estimate 5-17 min), activities about 30 minutes (from the PDF's activity hub). Payhip product MWIoz was made Visible on 2026-11-05 and opened in a logged-out browser the same day: title, $4.99, Add to Cart and Buy Now present; nothing was bought. Hosted PDF SHA-256 2bd309f2...93e5 equals the local file. Cover: titled square cover made from the IMG-001 cover illustration (Previews/Christmas_Dinner_Square_Cover.png in the Christmas_Dinner_Launch_Package folder on the Desktop). Not tested on a physical tablet or phone. To go live: set status to live, add one line to tools/catalogue.json (category interactive-stories, tags christmas), run tools/build-catalogue.js, then update the tests that count products."
     }
   ]
 }

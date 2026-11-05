@@ -37,7 +37,7 @@ const CATEGORIES = [
   { id: 'guides', label: 'Guides' }
 ];
 /* Temporary tags: shown on the card, not a filter. */
-const TAGS = { halloween: 'Halloween' };
+const TAGS = { halloween: 'Halloween', christmas: 'Christmas' };
 const KIND_LABELS = { guide: 'Free guide', printable: 'Free printable', tool: 'Browser tool', story: 'Interactive story' };
 
 const TITLE = 'Made by Free Range Tutors — free and paid teaching resources';

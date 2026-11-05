@@ -400,7 +400,9 @@ test('every prototype and internal file (shop/, tools/, products.json, notes, te
   const leaks = files.filter((f) => !ignored.has(f));
   assert(leaks.length === 0, 'would be published: ' + leaks.join(', '));
 });
-const PAID_PAGE_FILES = ['paid-resources/index.html', 'paid-resources/paid-resources.css'].concat(PAID_IDS.map((id) => 'paid-resources/images/' + id + '.png'));
+/* Draft products (not yet in the catalogue) already have their cover here, so the folder check below counts them too. */
+const DRAFT_IDS = data.products.filter((p) => p.status === 'draft').map((p) => p.id);
+const PAID_PAGE_FILES = ['paid-resources/index.html', 'paid-resources/paid-resources.css'].concat(PAID_IDS.concat(DRAFT_IDS).map((id) => 'paid-resources/images/' + id + '.png'));
 test('the intended public files AND the three paid-resources page files are published (not excluded), while internal and prototype files stay excluded', () => {
   if (!gitAvailable()) { console.log('        (skipped: git is not available here)'); return; }
   const internal = PROTOTYPE_AND_INTERNAL();
