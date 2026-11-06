@@ -1,0 +1,5 @@
+# Full-resolution originals (about 200 MB) for the editorial photograph library behind "Website of the Day".
+# Kept on this machine only: not committed. They are also never deployed (.assetsignore lists images/resources/_masters/).
+# Each master's source URL and SHA-256 are recorded in data/editorial-library.json, so a lost copy can be re-downloaded and checked.
+# data/editorial-library.test.js skips its master-dependent checks (and says so) when the masters are absent.
+images/resources/_masters/library/

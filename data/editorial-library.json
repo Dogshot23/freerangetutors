@@ -1,0 +1,574 @@
+{
+  "_readme": "Reusable black-halftone photographs for the homepage 'Website of the Day' feature, matched to websites by tags (data/SCHEMA.md, 'Website of the Day'; tools/EDITORIAL_LIBRARY_WORKFLOW.md). NOT one photograph per website. status 'reserve' = kept, never matched. Paths are relative to the site root; masters live in images/resources/_masters/library/ (not published). Every entry's credit line is shown on the homepage.",
+  "images": {
+    "hove-library-shelves": {
+      "file": "images/editorial/library/hove-library-shelves.png",
+      "master": "images/resources/_masters/library/hove-library-shelves.jpg",
+      "master_sha256": "1460a68d61cea53fcc1e1916253e998a514ce5b8ac45cec7d75425d737d35703",
+      "subject": "Library bookshelves",
+      "tags": [
+        "books",
+        "library",
+        "words",
+        "reading",
+        "dictionary",
+        "vocabulary"
+      ],
+      "status": "active",
+      "title": "Bookshelves in Hove Library",
+      "creator": "Andy Li",
+      "year": "2025",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Bookshelves_in_Hove_Library_2025-08-20.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Bookshelves_in_Hove_Library_2025-08-20.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Bookshelves_in_Hove_Library_2025-08-20.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Bookshelves_in_Hove_Library_2025-08-20.jpg",
+          "text": "Wikimedia Commons file page: own work by Andy Li, published under CC0 1.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (verified on the Commons file page only)."
+    },
+    "loc-reading-room": {
+      "file": "images/editorial/library/loc-reading-room.png",
+      "master": "images/resources/_masters/library/loc-reading-room.jpg",
+      "master_sha256": "ac6fa964c2369c875bc3036f65497b14d6c1f92edc398fead1816028b353d1d7",
+      "subject": "Library of Congress reading room",
+      "tags": [
+        "library",
+        "books",
+        "architecture",
+        "reading",
+        "culture",
+        "learning"
+      ],
+      "status": "active",
+      "title": "Reading room of the Thomas Jefferson Building, Library of Congress",
+      "creator": "Packer1028",
+      "year": "2023",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Thomas_Jefferson_Building_reading_room,_Library_of_Congress.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Thomas_Jefferson_Building_reading_room%2C_Library_of_Congress.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Thomas_Jefferson_Building_reading_room,_Library_of_Congress.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Thomas_Jefferson_Building_reading_room,_Library_of_Congress.jpg",
+          "text": "Wikimedia Commons file page: own work by Packer1028, published under CC0 1.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (verified on the Commons file page only)."
+    },
+    "world-map-1719": {
+      "file": "images/editorial/library/world-map-1719.png",
+      "master": "images/resources/_masters/library/world-map-1719.jpg",
+      "master_sha256": "e8805e1ff69984dab29f9ba99eaf1ce27c47141d4f3820a189140ee0a3ad1802",
+      "subject": "Moll world map, 1719",
+      "tags": [
+        "maps",
+        "geography",
+        "world",
+        "history"
+      ],
+      "status": "active",
+      "title": "A new & correct map of the whole World",
+      "creator": "Herman Moll",
+      "year": "1719",
+      "source_site": "Library of Congress, Geography and Map Division",
+      "source_page": "https://www.loc.gov/item/99446208/",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/Moll_World_Map_1719_master-gmd-gmd3-g3200-g3200-ct007070.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Moll_World_Map_1719_master-gmd-gmd3-g3200-g3200-ct007070.jpg",
+      "licence": "Public domain",
+      "licence_url": "https://www.loc.gov/item/99446208/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://web.archive.org/web/20260110220608/https://www.loc.gov/resource/g3200.ct007070/",
+          "text": "Library of Congress record (Internet Archive copy of the loc.gov page; loc.gov blocks automated access), Rights & Access: \"The content of the Library of Congress Geography and Map Division digitized collections is free to use and reuse unless a Rights Advisory statement is present that indicates otherwise.\" No Rights Advisory statement is present. Credit Line: Library of Congress, Geography and Map Division."
+        },
+        {
+          "url": "https://www.loc.gov/item/99446208/",
+          "text": "Record LCCN 99446208, Herman Moll, London, 1719, Digital Id g3200.ct007070, the same id as the Wikimedia Commons file's source field, so the file is this item. Published 1719: public domain by age."
+        }
+      ],
+      "attribution_requirements": "None required. Credit line requested by the Library of Congress: Library of Congress, Geography and Map Division. Shown on the page.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Verified at the Library of Congress record (read through an archived copy because loc.gov blocks automated clients)."
+    },
+    "newspaper-window": {
+      "file": "images/editorial/library/newspaper-window.png",
+      "master": "images/resources/_masters/library/newspaper-window.jpg",
+      "master_sha256": "83371fe5c4f446f5ed26854462b6e1b65b91f81042cc85b5021aa04b835be6cd",
+      "subject": "Men reading headlines, Brockton, 1940",
+      "tags": [
+        "news",
+        "newspaper",
+        "reading",
+        "street",
+        "people"
+      ],
+      "status": "active",
+      "title": "Men reading headlines posted in street-corner of Brockton Enterprise newspaper office, Brockton, Mass.",
+      "creator": "Jack Delano",
+      "year": "1940",
+      "source_site": "Library of Congress, Prints & Photographs Division (FSA/OWI)",
+      "source_page": "https://www.loc.gov/pictures/item/2017877374/",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Men_reading_headlines_posted_in_street-corner_of_Brockton_Enterprise_newspaper_office%2C_Brockton%2C_Mass._LCCN2017877374.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Men_reading_headlines_posted_in_street-corner_of_Brockton_Enterprise_newspaper_office,_Brockton,_Mass._LCCN2017877374.jpg",
+      "licence": "Public domain",
+      "licence_url": "https://www.loc.gov/pictures/item/2017877374/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://web.archive.org/web/2024/https://www.loc.gov/pictures/item/2017877374/",
+          "text": "Library of Congress record (Internet Archive copy), Rights Advisory: \"No known restrictions on publication.\" Creator: Delano, Jack, 1914-1997, photographer; 1940 Dec; Farm Security Administration / Office of War Information collection."
+        },
+        {
+          "url": "https://www.flickr.com/photos/library_of_congress/2179044484/",
+          "text": "The Library of Congress's own Flickr page for the same photograph: \"Rights Info: No known restrictions on publication.\" and the label \"No known copyright restrictions\"."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Verified at the Library of Congress record. Silhouetted, non-identifiable people."
+    },
+    "typewriter-1940s": {
+      "file": "images/editorial/library/typewriter-1940s.png",
+      "master": "images/resources/_masters/library/typewriter-1940s.jpg",
+      "master_sha256": "1412e67ada87fc8877bdb290ac285b9e2c4ab2182660981adc2035a7fe566a76",
+      "subject": "1940s Woodstock typewriter",
+      "tags": [
+        "writing",
+        "words",
+        "paper",
+        "notebooks"
+      ],
+      "status": "active",
+      "title": "Woodstock typewriter, 1940s, daylight",
+      "creator": "Cbaile19",
+      "year": "2021",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woodstock_typewriter,_1940s,_daylight.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Woodstock_typewriter%2C_1940s%2C_daylight.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Woodstock_typewriter,_1940s,_daylight.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Woodstock_typewriter,_1940s,_daylight.jpg",
+          "text": "Wikimedia Commons file page: own work by Cbaile19, published under CC0 1.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (verified on the Commons file page only)."
+    },
+    "mountain-peak": {
+      "file": "images/editorial/library/mountain-peak.png",
+      "master": "images/resources/_masters/library/mountain-peak.jpg",
+      "master_sha256": "1daae597917b7e05c4687df7b0d05aad8deba69c8540f3b4acd38fabd588f6b5",
+      "subject": "Mountain peak and scree, Ergaki",
+      "tags": [
+        "nature",
+        "landscape",
+        "travel",
+        "world"
+      ],
+      "status": "active",
+      "title": "Mountain lake Skazka and rock formations, Ergaki, Sayan Mountains, Russia",
+      "creator": "Vyacheslav Argenberg",
+      "year": "2016",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ergaki,_Mountain_lake_Skazka,_Rock_formations,_Valley,_Sayan_Mountains,_Russia.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Ergaki%2C_Mountain_lake_Skazka%2C_Rock_formations%2C_Valley%2C_Sayan_Mountains%2C_Russia.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Ergaki,_Mountain_lake_Skazka,_Rock_formations,_Valley,_Sayan_Mountains,_Russia.jpg",
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Ergaki,_Mountain_lake_Skazka,_Rock_formations,_Valley,_Sayan_Mountains,_Russia.jpg",
+          "text": "Wikimedia Commons file page: own work by Vyacheslav Argenberg, published under CC BY 4.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "CC BY 4.0: credit the creator (Vyacheslav Argenberg), link the licence, say the image was changed, keep any notices. Commercial use and adaptation are allowed. No NoDerivatives or NonCommercial term applies.",
+      "credit_required": true,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (Commons file page). Credit is required and is shown on the homepage.",
+      "halftone_focus": "0.85,0.5"
+    },
+    "great-blue-heron": {
+      "file": "images/editorial/library/great-blue-heron.png",
+      "master": "images/resources/_masters/library/great-blue-heron.jpg",
+      "master_sha256": "ae9dbf700e4985fca6db1407e764c23fb5c4f2ac102eb5faa162479d873bb525",
+      "subject": "Great blue heron",
+      "tags": [
+        "nature",
+        "animals",
+        "wildlife"
+      ],
+      "status": "active",
+      "title": "Great blue heron, Lake Andes National Wildlife Refuge, South Dakota",
+      "creator": "Liz Julian/USFWS",
+      "year": "2024",
+      "source_site": "U.S. Fish and Wildlife Service (Flickr, USFWS Mountain-Prairie)",
+      "source_page": "https://www.flickr.com/photos/usfwsmtnprairie/53924316032",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Great_Blue_Heron_Lake_Andes_National_Wildlife_Refuge_South_Dakota_%2853924316032%29.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Great_Blue_Heron_Lake_Andes_National_Wildlife_Refuge_South_Dakota_(53924316032).jpg",
+      "licence": "Public domain",
+      "licence_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://www.flickr.com/photos/usfwsmtnprairie/53924316032",
+          "text": "USFWS Mountain-Prairie Flickr page (read directly): rights label \"Public domain\" linking to the Public Domain Mark 1.0; description: \"Great blue heron on Lake Andes National Wildlife Refuge in South Dakota. Photo credit: Liz Julian/USFWS\"."
+        },
+        {
+          "url": "https://www.fws.gov/disclaimer",
+          "text": "USFWS Disclaimer and Copyright Information: \"Not all the information on our site is in the public domain.\" So the per-photograph Public Domain Mark above is the evidence for this image."
+        }
+      ],
+      "attribution_requirements": "None required. Credit recommended and shown: Liz Julian/USFWS.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Verified at the USFWS Flickr page (Public Domain Mark)."
+    },
+    "radio-boardinghouse": {
+      "file": "images/editorial/library/radio-boardinghouse.png",
+      "master": "images/resources/_masters/library/radio-boardinghouse.jpg",
+      "master_sha256": "02ad294d6ef58846387bde3aca6f7d3c79e4702356c6f960dd88d19e0328bd50",
+      "subject": "A radio is company for this girl, 1943",
+      "tags": [
+        "radio",
+        "listening",
+        "audio",
+        "media",
+        "people"
+      ],
+      "status": "active",
+      "title": "Washington, D.C. A radio is company for this girl in her boardinghouse room",
+      "creator": "Esther Bubley",
+      "year": "1943",
+      "source_site": "Library of Congress, Prints & Photographs Division (FSA/OWI)",
+      "source_page": "https://www.loc.gov/item/2017862336/",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Esther_Bubley%2C_A_radio_is_company_for_this_girl_in_her_boardinghouse_room%2C_Washington%2C_D.C.%2C_1943.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Esther_Bubley,_A_radio_is_company_for_this_girl_in_her_boardinghouse_room,_Washington,_D.C.,_1943.jpg",
+      "licence": "Public domain",
+      "licence_url": "https://www.loc.gov/item/2017862336/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://web.archive.org/web/20250223181043/https://www.loc.gov/item/2017862336/",
+          "text": "Library of Congress record 2017862336 (Internet Archive copy), Rights Advisory: \"No known restrictions.\" Credit Line: Library of Congress, Prints & Photographs Division, Farm Security Administration/Office of War Information Black-and-White Negatives. Reproduction number LC-DIG-fsa-8d33579."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Verified at the Library of Congress record. Shows an identifiable person (1943)."
+    },
+    "classroom-empty": {
+      "file": "images/editorial/library/classroom-empty.png",
+      "master": "images/resources/_masters/library/classroom-empty.jpg",
+      "master_sha256": "4e3ac79914ecd333eddb785b6b8ae1cef8c80b0853e8ed99ca0075b287089081",
+      "subject": "Empty high-school classroom",
+      "tags": [
+        "classroom",
+        "school",
+        "learning",
+        "teacher"
+      ],
+      "status": "active",
+      "title": "A public school, high school classroom in the United States 02",
+      "creator": "Harrison Keely",
+      "year": "2004",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:A_public_school,_high_school_classroom_in_the_United_States_02.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/A_public_school%2C_high_school_classroom_in_the_United_States_02.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:A_public_school,_high_school_classroom_in_the_United_States_02.jpg",
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:A_public_school,_high_school_classroom_in_the_United_States_02.jpg",
+          "text": "Wikimedia Commons file page: own work by Harrison Keely, published under CC BY 4.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "CC BY 4.0: credit the creator (Harrison Keely), link the licence, say the image was changed, keep any notices. Commercial use and adaptation are allowed. No NoDerivatives or NonCommercial term applies.",
+      "credit_required": true,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (Commons file page). No people in frame. Credit is required and is shown on the homepage."
+    },
+    "notebook-writing": {
+      "file": "images/editorial/library/notebook-writing.png",
+      "master": "images/resources/_masters/library/notebook-writing.jpg",
+      "master_sha256": "4c371d7bb627927667fced4fb6ef5d80bff264ff19ce4f4403d7dbf5d192fd96",
+      "subject": "Hand writing in a notebook",
+      "tags": [
+        "writing",
+        "notebooks",
+        "paper",
+        "learning"
+      ],
+      "status": "active",
+      "title": "Person writing on notebook",
+      "creator": "Tookapic",
+      "year": "2015",
+      "source_site": "Pexels",
+      "source_page": "https://www.pexels.com/photo/person-writing-on-notebook-8769/",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/Pen-writing-notes-studying.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Pen-writing-notes-studying.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://www.pexels.com/photo/person-writing-on-notebook-8769/",
+          "text": "Pexels page (read directly): photo 8769 by Tookapic, uploaded 2015-08-11; the page's own data field gives license \"CC0\"."
+        },
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Pen-writing-notes-studying.jpg",
+          "text": "Wikimedia Commons file page: cc-zero with a LicenseReview of the Pexels source page (2025-02-08)."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Verified at the Pexels page. A hand only, no face."
+    },
+    "museum-hall": {
+      "file": "images/editorial/library/museum-hall.png",
+      "master": "images/resources/_masters/library/museum-hall.jpg",
+      "master_sha256": "d5188405cf62cd752af3af287b0f7e97109d5f425b88ffa69b0fbf280e0994c4",
+      "subject": "Kelvingrove museum central hall",
+      "tags": [
+        "art",
+        "museum",
+        "culture",
+        "architecture"
+      ],
+      "status": "active",
+      "title": "Kelvingrove Art Gallery and Museum Central Hall",
+      "creator": "Michael D Beckwith",
+      "year": "2015",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Kelvingrove_Art_Gallery_and_Museum_Central_Hall.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Kelvingrove_Art_Gallery_and_Museum_Central_Hall.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Kelvingrove_Art_Gallery_and_Museum_Central_Hall.jpg",
+      "licence": "CC BY 3.0",
+      "licence_url": "https://creativecommons.org/licenses/by/3.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Kelvingrove_Art_Gallery_and_Museum_Central_Hall.jpg",
+          "text": "Wikimedia Commons file page: own work by Michael D Beckwith, published under CC BY 3.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "CC BY 3.0: credit the creator (Michael D Beckwith), link the licence, say the image was changed, keep any notices. Commercial use and adaptation are allowed. No NoDerivatives or NonCommercial term applies.",
+      "credit_required": true,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (Commons file page). Credit is required and is shown on the homepage."
+    },
+    "street-innsbruck": {
+      "file": "images/editorial/library/street-innsbruck.png",
+      "master": "images/resources/_masters/library/street-innsbruck.jpg",
+      "master_sha256": "14ac920db4c16ebeaea525200fb97a63dcdf827cd7ff2f81daab65a4a1264d8c",
+      "subject": "Innsbruck old-town street",
+      "tags": [
+        "city",
+        "travel",
+        "street",
+        "everyday",
+        "world"
+      ],
+      "status": "active",
+      "title": "Herzog-Friedrich-Straße in Innsbruck's Historic Old Town, Austria",
+      "creator": "Wilfredo Rafael Rodriguez Hernandez",
+      "year": "2024",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Herzog-Friedrich-Stra%C3%9Fe_in_Innsbruck's_Historic_Old_Town,_Austria.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Herzog-Friedrich-Stra%C3%9Fe_in_Innsbruck%27s_Historic_Old_Town%2C_Austria.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Herzog-Friedrich-Stra%C3%9Fe_in_Innsbruck's_Historic_Old_Town,_Austria.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Herzog-Friedrich-Stra%C3%9Fe_in_Innsbruck's_Historic_Old_Town,_Austria.jpg",
+          "text": "Wikimedia Commons file page: own work by Wilfredo Rafael Rodriguez Hernandez, published under CC0 1.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (verified on the Commons file page only). Small distant figures."
+    },
+    "microscope-antique": {
+      "file": "images/editorial/library/microscope-antique.png",
+      "master": "images/resources/_masters/library/microscope-antique.jpg",
+      "master_sha256": "f7fcc688910f7df50cca1f15723b277c924d497de8ca9c613c35e0bef1865519",
+      "subject": "Antique microscope, c.1750",
+      "tags": [
+        "science",
+        "technology",
+        "tools"
+      ],
+      "status": "reserve",
+      "title": "Microscope",
+      "creator": "Claude-Siméon Passemant",
+      "year": "c. 1750",
+      "source_site": "The Metropolitan Museum of Art (Open Access)",
+      "source_page": "https://www.metmuseum.org/art/collection/search/207549",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Microscope_MET_DP108688.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Microscope_MET_DP108688.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://collectionapi.metmuseum.org/public/collection/v1/objects/207549",
+          "text": "The Met's Collection API for object 207549 (read directly): isPublicDomain true; Microscope, Claude-Siméon Passemant, ca. 1750. Credit line: Purchase, Mr. and Mrs. Charles Wrightsman Gift and Gift of Mr. and Mrs. Charles Wrightsman, by exchange, 1986."
+        },
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Microscope_MET_DP108688.jpg",
+          "text": "Wikimedia Commons file page: permission Cc-zero (Met Open Access), source metmuseum.org/art/collection/search/207549."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Verified in the Met's API. RESERVE: kept for future science websites and not matched by the active rotation."
+    },
+    "school-supplies": {
+      "file": "images/editorial/library/school-supplies.png",
+      "master": "images/resources/_masters/library/school-supplies.jpg",
+      "master_sha256": "f9151b98d937527f75ba86d7b05334aa77a2a070455de9595ab8e04a7b0269b9",
+      "subject": "School supplies flat-lay",
+      "tags": [
+        "stationery",
+        "notebooks",
+        "school",
+        "learning",
+        "everyday"
+      ],
+      "status": "active",
+      "title": "School Supplies",
+      "creator": "TheUltimateGrass",
+      "year": "2025",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:School_Supplies.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/School_Supplies.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:School_Supplies.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:School_Supplies.jpg",
+          "text": "Wikimedia Commons file page: own work by TheUltimateGrass, published under CC0 1.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (verified on the Commons file page only)."
+    },
+    "bread-loaves": {
+      "file": "images/editorial/library/bread-loaves.png",
+      "master": "images/resources/_masters/library/bread-loaves.jpg",
+      "master_sha256": "5ee9e4364ab75945de6681148c4fdd44f6db42e5375655b62d6c42d1a82340b8",
+      "subject": "Loaves of bread",
+      "tags": [
+        "food",
+        "everyday",
+        "vocabulary"
+      ],
+      "status": "active",
+      "title": "Big loaves of bread for sale",
+      "creator": "Ahmet Düz",
+      "year": "2026",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Big_loaves_of_bread_for_sale.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Big_loaves_of_bread_for_sale.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Big_loaves_of_bread_for_sale.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Big_loaves_of_bread_for_sale.jpg",
+          "text": "Wikimedia Commons file page: own work by Ahmet Düz, published under CC0 1.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (licence from the Commons file page; creator's page not separately read)."
+    },
+    "chess-set": {
+      "file": "images/editorial/library/chess-set.png",
+      "master": "images/resources/_masters/library/chess-set.jpg",
+      "master_sha256": "f9d97efc5445b5e471ef739b2d092270c52693e482746005409c4fac6a3eeaf3",
+      "subject": "Staunton chess set",
+      "tags": [
+        "games",
+        "play",
+        "puzzle"
+      ],
+      "status": "active",
+      "title": "Chess game Staunton No. 6",
+      "creator": "Wilfredo Rafael Rodriguez Hernandez",
+      "year": "2024",
+      "source_site": "Wikimedia Commons",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6.jpg",
+      "source_file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_game_Staunton_No._6.jpg",
+      "commons_page": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6.jpg",
+      "licence": "CC0 1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use": "yes",
+      "licence_evidence": [
+        {
+          "url": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6.jpg",
+          "text": "Wikimedia Commons file page: own work by Wilfredo Rafael Rodriguez Hernandez, published under CC0 1.0 (licence template recorded by Commons). The licence template and author are recorded on that page."
+        }
+      ],
+      "attribution_requirements": "None required (public domain / CC0). A credit is shown as a courtesy. Commercial use and adaptation are allowed.",
+      "credit_required": false,
+      "change_note": "Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.",
+      "retrieved": "2026-11-06",
+      "notes": "Creator-licensed (licence from the Commons file page; creator's page not separately read)."
+    }
+  }
+}
