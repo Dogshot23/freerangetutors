@@ -15,6 +15,7 @@
   "cefr_level": { "mode": "unknown" },
   "group_fit": { "mode": "unknown" },
   "teaching_use": ["listening", "vocabulary", "pronunciation"],
+  "image_tags": ["video", "media", "listening", "words", "people"],
   "activity_time_minutes": null,
   "duration_alt_minutes": null,
   "duration_alt_note": null,

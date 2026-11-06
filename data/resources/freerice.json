@@ -15,6 +15,7 @@
   "cefr_level": { "mode": "specific", "values": ["A2", "B1", "B2", "C1"] },
   "group_fit": { "mode": "unknown" },
   "teaching_use": ["vocabulary", "warm-up", "review"],
+  "image_tags": ["food", "everyday", "world", "games"],
   "activity_time_minutes": null,
   "duration_alt_minutes": null,
   "duration_alt_note": null,

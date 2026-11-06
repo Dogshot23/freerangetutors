@@ -72,6 +72,7 @@ from the previous revision — this part of the schema was already correct.
 | `cefr_level` | semantic set | yes | Four-state object over `["A1","A2","B1","B2","C1"]`. |
 | `group_fit` | semantic set | no | Four-state object over `["individual","pair","group"]`. Meaningful mainly for FRT-original activities — external tools/websites often leave this `not_applicable` or `unknown`. |
 | `teaching_use` | array of string | no | **What the teacher can USE it for.** Open-ended, multi-valued. See below. Empty array is honest for admin tools and unassessed external resources — never guessed to fill it. |
+| `image_tags` | array of string | no | Lowercase hyphenated words that describe a loose editorial subject for the site (e.g. `["maps", "geography", "world"]`), used only to choose the photograph on the homepage "Website of the Day" feature. Matched against `tags` in `data/editorial-library.json`. Optional: when absent, tags are derived from `resource_type`, `primary_category` and `teaching_use`. Not shown anywhere and not a filter. See "Website of the Day" below. |
 | `activity_time_minutes` | number \| null | conditional | `null` for a tool, website, or genuinely non-time-boxed resource. |
 | `duration_alt_minutes` | number \| null | no | An honest secondary duration. |
 | `duration_alt_note` | string \| null | no | Short clause explaining the alt duration. |
@@ -176,3 +177,19 @@ draft/publish workflow.
 **Featured website photograph.** The red homepage band shows one halftone photograph per featured website (the featured
 website is the newest free entry by `date_added`). When a new free entry becomes the featured website, follow
 `tools/FEATURED_IMAGE_WORKFLOW.md`: `data/featured-images.test.js` fails until `data/featured-images.json` has an entry for it.
+
+## Website of the Day (homepage)
+
+The homepage section "Website of the Day" (between "Recently added" and the Christmas Dinner band) features one external website per weekday. It is code only (`website-of-the-day.js` + `website-of-the-day.css`), with no list to maintain, no database and no scheduled job.
+
+**Which website.** The pool is every resource with `source_category: "curated_external"` (never `own_original` or `commercial`), sorted by `date_added` ascending then `id`. The weekday number counts Monday to Friday from the fixed anchor Monday 5 January 2026 (UTC); Saturday and Sunday show Friday's website; the sequence continues week after week, so with N sites no site repeats until all N have been shown. Everyone sees the same website on the same UTC date.
+
+**Never the same website twice.** The "Recently added" band features the newest free resource. So the homepage does not feature one website twice, Website of the Day leaves out every free resource that shares the newest `date_added` (the whole group, because which of several tied resources the band features is decided by the browser's sort, not by this code). This is derived from the catalogue (no list to maintain) and does not depend on the date, so weekends, the cycle and every visitor are unaffected; the rotation is simply one site shorter. If leaving the group out would leave fewer than two sites (a tiny catalogue, or a big batch added on one day) nothing is left out. When a newer resource is added, it takes the band's slot and is left out, and the previously featured one returns to the rotation. The band's three smaller tiles are not excluded: their order depends on the browser, so they can occasionally coincide with the day's website.
+
+**Adding a website.** Add it to the catalogue as usual (this file, "Adding a resource"). It joins the pool automatically on the next page load. Because N changes, the position in the cycle shifts: that day's website may change once, and across the change a site may repeat or be skipped. This is unavoidable for a stateless date rule. Optionally add `image_tags`; without them tags are derived from existing fields.
+
+**Which photograph.** `data/editorial-library.json` is a small library of reusable black halftone photographs (not one photograph per website). A site's tags are matched against each photograph's `tags`: most shared tags first, then id; the choice rotates by cycle and site position and never repeats the previous weekday's photograph. Photographs with `"status": "reserve"` are kept but never matched (set it to `"active"` to bring one into use). A site with no matching photograph, or a library that fails to load, simply shows the text-only layout; the section never breaks the page.
+
+**Adding or changing photographs.** Follow `tools/EDITORIAL_LIBRARY_WORKFLOW.md` (same licence rules as `tools/FEATURED_IMAGE_WORKFLOW.md`; processed with the unchanged `tools/make_feature_halftone.py`). `data/editorial-library.test.js` checks metadata, licences, checksums and the PNGs.
+
+The "Recently added" band and its Gapminder photograph (`data/featured-images.json`) are a separate system and are not affected.

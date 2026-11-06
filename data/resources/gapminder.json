@@ -15,6 +15,7 @@
   "cefr_level": { "mode": "unknown" },
   "group_fit": { "mode": "unknown" },
   "teaching_use": ["speaking"],
+  "image_tags": ["world", "everyday", "food", "maps"],
   "activity_time_minutes": null,
   "duration_alt_minutes": null,
   "duration_alt_note": null,

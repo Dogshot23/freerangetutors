@@ -42,6 +42,7 @@
   <link rel="stylesheet" href="dispatch-tokens.css" />
   <link rel="stylesheet" href="directory.css" />
   <link rel="stylesheet" href="/christmas-feature.css" />
+  <link rel="stylesheet" href="/website-of-the-day.css" />
   <noscript><style>.recent-band { display: none; } .recent-photo { display: none; } .index-head { padding-top: 40px; }</style></noscript>
 </head>
 <body class="directory">
@@ -117,6 +118,29 @@
         </figure>
       </div>
       <div id="recent-support"></div>
+    </div>
+  </section>
+
+  <!-- Website of the Day: one external website per weekday (Mon-Fri, UTC), chosen by website-of-the-day.js from the catalogue. Hidden until the script has filled it in; the photograph (src) and its credit are set from data/editorial-library.json, never hard-coded here. -->
+  <section class="wotd" id="website-of-the-day" aria-labelledby="wotd-heading" hidden>
+    <div class="wrap">
+      <div class="wotd-panel">
+        <div class="wotd-text">
+          <div class="wotd-head">
+            <h2 class="wotd-heading" id="wotd-heading">Website of the Day</h2>
+            <span class="wotd-day"></span>
+          </div>
+          <a class="wotd-title-link"><h3 class="wotd-title"></h3></a>
+          <p class="wotd-meta"></p>
+          <p class="wotd-desc"></p>
+          <p class="wotd-use" hidden></p>
+          <a class="wotd-btn"></a>
+        </div>
+        <figure class="wotd-photo" aria-hidden="true" hidden>
+          <img width="1100" height="1364" alt="" decoding="async" />
+        </figure>
+      </div>
+      <p class="wotd-credit" hidden></p>
     </div>
   </section>
 
@@ -219,5 +243,6 @@
 
   <script src="data/resources.js"></script>
   <script src="directory.js"></script>
+  <script src="website-of-the-day.js"></script>
 </body>
 </html>

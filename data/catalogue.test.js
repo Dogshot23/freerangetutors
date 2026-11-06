@@ -307,12 +307,100 @@ test('the catalogue title, lead and promo say what the page is, without claims',
 
 console.log('\nthe main directory is untouched');
 function git(args) { return execFileSync('git', ['--no-optional-locks'].concat(args), { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] }).toString(); }
-test('directory.js, directory.css, every existing directory record and originals.json are identical to the last commit (new records are untracked, so they cannot hide a change to an old one)', () => {
-  let out;
-  try { out = git(['diff', '--name-only', 'HEAD', '--', 'directory.js', 'directory.css', 'dispatch-tokens.css', 'data/resources', 'data/originals.json', 'data/resources.js']).trim(); }
+/* The ONE approved change to existing directory records (homepage "Website of the Day", see data/SCHEMA.md). tools/approved-record-additions.js
+   (shared with data/paid-resources.test.js) pins it exactly: `image_tags` on the 20 named curated_external records with exactly their approved
+   values, and the approved wording of teacher_note on the 9 named records that had none. Every other field of every existing record, nested
+   values, extra or missing fields, key order and record identity must still equal the last commit. directory.js, the CSS, resources.js and
+   originals.json stay byte-identical. */
+const approved = require(path.join(ROOT, 'tools', 'approved-record-additions.js'));
+function recordProblem(rel, committedText) {
+  if (!fs.existsSync(path.join(ROOT, rel))) return 'the record was deleted or moved';
+  let now; try { now = JSON.parse(read(rel)); } catch (e) { return 'the record is not valid JSON'; }
+  const was = JSON.parse(committedText);
+  if (!approved.hasApprovedAdditions(was.id)) return 'changed (this record has no approved change, so any change at all, even formatting, is refused)';
+  return approved.approvedRecordProblem(was, now);
+}
+test('directory.js, directory.css, originals.json and resources.js are identical to the last commit, and every existing directory record is too apart from the approved image_tags and teacher_note additions (new records are untracked, so they cannot hide a change to an old one)', () => {
+  let out, recs;
+  try {
+    out = git(['diff', '--name-only', 'HEAD', '--', 'directory.js', 'directory.css', 'dispatch-tokens.css', 'data/originals.json', 'data/resources.js']).trim();
+    recs = git(['diff', '--name-only', 'HEAD', '--', 'data/resources']).split('\n').map((s) => s.trim()).filter(Boolean);
+  }
   catch (e) { console.log('        (skipped: git is not available here)'); return; }
   assert(out === '', 'changed: ' + out);
+  const bad = recs.map((f) => [f, /^data\/resources\/[a-z0-9-]+\.json$/.test(f) ? recordProblem(f, git(['show', 'HEAD:' + f])) : 'not a record file']).filter((x) => x[1]);
+  assert(bad.length === 0, 'existing records changed beyond the approved additions:\n        ' + bad.map((x) => x[0] + ': ' + x[1]).join('\n        '));
 });
+test('the approved additions are present exactly as approved: the 20 image_tags sets and the 9 teacher notes are pinned, whatever git says', () => {
+  const ids = Object.keys(approved.APPROVED_IMAGE_TAGS);
+  assert(ids.length === 20, 'expected 20 approved image_tags records');
+  ids.forEach((id) => {
+    const r = JSON.parse(read('data/resources/' + id + '.json'));
+    assert(r.source_category === 'curated_external', id + ': image_tags approved only for curated_external');
+    eq(r.image_tags, approved.APPROVED_IMAGE_TAGS[id], id + ': image_tags differ from the approved values');
+    assert(approved.imageTagsProblem(r.image_tags) === null, id + ': ' + approved.imageTagsProblem(r.image_tags));
+  });
+  Object.keys(approved.APPROVED_TEACHER_NOTES).forEach((id) => {
+    const r = JSON.parse(read('data/resources/' + id + '.json'));
+    assert(r.teacher_note === approved.APPROVED_TEACHER_NOTES[id], id + ': teacher_note differs from the approved wording');
+  });
+});
+test('no other record that existed when the additions were approved carries image_tags (paid products, FRT originals and the rest are out of scope)', () => {
+  let existing;
+  try { existing = git(['ls-tree', '--name-only', approved.APPROVAL_BASE_COMMIT, 'data/resources/']).split('\n').map((s) => s.trim()).filter(Boolean); }
+  catch (e) { console.log('        (skipped: git or the approval commit is not available here)'); return; }
+  const strays = existing.filter((f) => { const id = path.basename(f, '.json'); return !Object.prototype.hasOwnProperty.call(approved.APPROVED_IMAGE_TAGS, id) && exists(f) && 'image_tags' in JSON.parse(read(f)); });
+  assert(strays.length === 0, 'image_tags on: ' + strays.join(', '));
+});
+console.log('\nthe guard itself: crafted cases that it must accept or refuse');
+{
+  let ok = true; try { git(['cat-file', '-e', approved.APPROVAL_BASE_COMMIT + '^{commit}']); } catch (e) { ok = false; }
+  const HEAD_REC = (id) => JSON.parse(git(['show', approved.APPROVAL_BASE_COMMIT + ':data/resources/' + id + '.json']));
+  const withApproved = (id) => { const r = HEAD_REC(id), o = {}; Object.keys(r).forEach((k) => { if (k === 'image_tags') return; o[k] = r[k]; if (k === 'teaching_use' && approved.APPROVED_IMAGE_TAGS[id]) o.image_tags = approved.APPROVED_IMAGE_TAGS[id]; }); if (approved.APPROVED_TEACHER_NOTES[id]) o.teacher_note = approved.APPROVED_TEACHER_NOTES[id]; return o; };
+  const cases = (label, fn) => test(label, () => { if (!ok) { console.log('        (skipped: git or the approval commit is not available here)'); return; } fn(); });
+  const refuses = (id, mutate, why) => { const was = HEAD_REC(id), now = withApproved(id); const m = mutate(now); assert(approved.approvedRecordProblem(was, m || now), 'NOT refused: ' + why); };
+  cases('the guard accepts an unchanged record and a record with exactly the approved additions', () => {
+    ['the-exploding-pudding', 'sold-as-seen'].forEach((id) => assert(approved.approvedRecordProblem(HEAD_REC(id), HEAD_REC(id)) === null, id + ': an unchanged unapproved record was rejected'));
+    assert(approved.approvedRecordProblem(HEAD_REC('seterra'), HEAD_REC('seterra')), 'an approved record WITHOUT its pinned additions was accepted (the approved values must be present)');
+    Object.keys(approved.APPROVED_IMAGE_TAGS).forEach((id) => assert(approved.approvedRecordProblem(HEAD_REC(id), withApproved(id)) === null, id + ': ' + approved.approvedRecordProblem(HEAD_REC(id), withApproved(id))));
+    assert(approved.approvedRecordProblem(withApproved('wafflebrain'), withApproved('wafflebrain')) === null, 'committed-then-unchanged rejected');
+  });
+  cases('it refuses invalid image_tags: numbers, empty strings, upper case, spaces, duplicates, malformed slugs, wrong type, too many, none', () => {
+    const bad = [[1, 'ok'], ['', 'ok'], ['Maps'], ['two words'], ['maps', 'maps'], ['-lead'], ['trail-'], ['dou--ble'], ['under_score'], 'maps', null, [], Array.from({ length: 9 }, (_, i) => 'tag' + i), ['maps', null], [['nested']]];
+    bad.forEach((v) => refuses('seterra', (r) => { r.image_tags = v; }, 'image_tags ' + JSON.stringify(v)));
+  });
+  cases('it refuses valid-looking image_tags that differ from the approved values (pinned, not just format-checked)', () => {
+    refuses('seterra', (r) => { r.image_tags = ['maps', 'geography']; }, 'changed tags');
+    refuses('seterra', (r) => { r.image_tags = approved.APPROVED_IMAGE_TAGS.seterra.slice().reverse(); }, 'reordered tags');
+    refuses('seterra', (r) => { r.image_tags = approved.APPROVED_IMAGE_TAGS.seterra.concat(['extra']); }, 'extra tag');
+    refuses('seterra', (r) => { delete r.image_tags; }, 'approved image_tags removed');
+  });
+  cases('it refuses image_tags on paid products, FRT originals and any other unapproved record', () => {
+    ['the-exploding-pudding', 'sold-as-seen', 'the-christmas-dinner-that-keeps-getting-bigger', 'one-resource-start-to-finish'].forEach((id) => refuses(id, (r) => { r.image_tags = ['maps']; }, 'image_tags on ' + id));
+  });
+  cases('it refuses any teacher_note other than the pinned wording on the nine records, and any note change elsewhere', () => {
+    refuses('wafflebrain', (r) => { r.teacher_note = 'A completely different but long enough note.'; }, 'other wording');
+    refuses('wafflebrain', (r) => { r.teacher_note = approved.APPROVED_TEACHER_NOTES.wafflebrain + ' '; }, 'one extra space');
+    refuses('wafflebrain', (r) => { r.teacher_note = null; }, 'approved note removed');
+    refuses('seterra', (r) => { r.teacher_note = 'A long enough note on a record that is not approved.'; }, 'note on non-approved null record');
+    refuses('islcollective', (r) => { r.teacher_note = 'Edited existing teacher note text.'; }, 'edited existing note');
+    refuses('youglish', (r) => { r.teacher_note = null; }, 'existing note removed');
+  });
+  cases('it refuses every other kind of change: a field, a nested value, an added field, a missing field, key order, a renamed or swapped record', () => {
+    refuses('seterra', (r) => { r.cost = 'paid'; }, 'changed field');
+    refuses('seterra', (r) => { r.cefr_level = { mode: 'specific', values: ['C1'] }; }, 'changed nested value');
+    refuses('seterra', (r) => { r.group_fit.extra = 1; }, 'added nested field');
+    refuses('seterra', (r) => { r.surprise = 1; }, 'added field');
+    refuses('seterra', (r) => { delete r.domain; }, 'missing field');
+    refuses('seterra', (r) => { r.description_short = ''; }, 'emptied field');
+    refuses('seterra', (r) => { const { id, ...rest } = r; Object.keys(r).forEach((k) => delete r[k]); Object.assign(r, rest, { id }); }, 'reordered keys');
+    refuses('seterra', (r) => { r.id = 'seterra-2'; }, 'renamed record');
+    refuses('seterra', () => withApproved('wordwall'), 'another record swapped into the file');
+    refuses('seterra', (r) => { r.internal_notes = r.internal_notes + '.'; }, 'one character in internal_notes');
+    assert(approved.approvedRecordProblem(HEAD_REC('seterra'), null), 'null record not refused');
+    assert(approved.approvedRecordProblem(HEAD_REC('seterra'), [HEAD_REC('seterra')]), 'array record not refused');
+  });
+}
 /* The manifest is compared with the last commit too: every id in the committed manifest must still be there, in the same order,
    and the ONLY difference allowed is the ids named here, appended at the end, each with its own new record. Anything else fails. */
 const MANIFEST_ADDITIONS_SINCE_HEAD = [GUIDE];

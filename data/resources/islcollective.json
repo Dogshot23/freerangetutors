@@ -15,6 +15,7 @@
   "cefr_level": { "mode": "specific", "values": ["A1", "A2", "B1", "B2", "C1"] },
   "group_fit": { "mode": "unknown" },
   "teaching_use": [],
+  "image_tags": ["writing", "notebooks", "paper", "learning", "stationery"],
   "activity_time_minutes": null,
   "duration_alt_minutes": null,
   "duration_alt_note": null,
