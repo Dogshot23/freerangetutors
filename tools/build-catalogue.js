@@ -153,7 +153,7 @@ function renderFilters(n) {
   ].join('\n');
 }
 
-const NAV = [['/#all-resources', 'Resources'], ['/made-by-frt/', 'Made by FRT'], ['/stop-the-slop/', 'Stop the Slop'], ['/about', 'About']];
+const NAV = [['/#all-resources', 'Resources'], ['/rescue/', 'Rescue Cards'], ['/made-by-frt/', 'Made by FRT'], ['/stop-the-slop/', 'Stop the Slop'], ['/about', 'About']];
 const navLinks = (indent, current) => NAV.map(([h, t]) => indent + '<a href="' + h + '"' + (h === current ? ' aria-current="page"' : '') + '>' + t + '</a>').join('\n');
 
 function render(src) {
@@ -239,7 +239,8 @@ function render(src) {
     '        </div>',
     '        <nav class="foot-nav" aria-label="Footer">',
     '          <a href="/">All resources</a>',
-    navLinks('          ', '').replace(/^\s+<a href="\/#all-resources">Resources<\/a>\n/, ''),
+    /* the footer keeps its original links: header-only items (Resources, Rescue Cards) are left out */
+    navLinks('          ', '').split('\n').filter((l) => !/#all-resources|\/rescue\//.test(l)).join('\n'),
     '        </nav>',
     '      </div>',
     '    </div>',

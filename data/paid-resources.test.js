@@ -61,7 +61,8 @@ const VERIFIED = {
   'the-queue-jumper': 'https://payhip.com/b/oxk9I',
   'a-day-at-the-park': 'https://payhip.com/b/Ek2gX',
   'sold-as-seen': 'https://payhip.com/b/72Ecu',
-  'the-christmas-dinner-that-keeps-getting-bigger': 'https://payhip.com/b/MWIoz'
+  'the-christmas-dinner-that-keeps-getting-bigger': 'https://payhip.com/b/MWIoz',
+  'one-resource-start-to-finish': 'https://payhip.com/b/zkyw0'
 };
 const PAID_IDS = Object.keys(VERIFIED);
 const entries = {};
@@ -168,6 +169,14 @@ test('each card shows the price, the level and the time that its directory entry
     const card = (html.match(new RegExp('<article class="cat-item[^"]*" id="' + id + '"[^>]*>[\\s\\S]*?</article>')) || [''])[0];
     const prod = products[id], ent = entries[id];
     assert(card, id + ': no card on the page');
+    if (id === 'one-resource-start-to-finish') { /* a $4.99 guide for teachers, not a classroom activity: no CEFR level, activity time or group size, so those checks do not apply; price, format, VAT wording, URL and image still do */
+      assert(/<span class="cat-price">\$4\.99 <small>USD<\/small><\/span>/.test(card) && /Plus VAT where applicable/.test(card), id + ': price and VAT wording on the card');
+      assert(/60 pages/.test(card) && prod.price.amount === 4.99 && /US\$4\.99/.test(ent.description_short) && /60 pages/.test(ent.description_short), id + ': price or page count differs between the card and the directory entry');
+      assert(!/<dt>[^<]*(Level|Time|Groups)[^<]*<\/dt>/.test(card), id + ': a level, time or group fact on a guide');
+      assert(ent.url === prod.payhip_url && prod.payhip_url === VERIFIED[id], id + ': directory entry URL differs from the catalogue page URL');
+      assert(card.includes('src="' + prod.image + '"') && prod.image === '/paid-resources/images/' + id + '.png', id + ': cover image');
+      return;
+    }
     const sas = id === 'sold-as-seen'; /* the one $4.99 interactive story for the whole class, pairs or individuals: its own price, time and groups, stated in its PDF and listing */
     const xmas = id === 'the-christmas-dinner-that-keeps-getting-bigger'; /* the $4.99 A2-B1 interactive Christmas mystery for individuals and pairs: its own price, level, time and groups, stated in its PDF and listing */
     assert(((sas || xmas) ? /<span class="cat-price">\$4\.99 <small>USD<\/small><\/span>/ : /<span class="cat-price">\$1\.99 <small>USD<\/small><\/span>/).test(card), id + ': price on the card');
@@ -196,7 +205,7 @@ test('every entry follows the schema conventions for a paid, GapTheMind-publishe
   assert(id === 'sold-as-seen' ? (entry.age_group.mode === 'specific' && entry.age_group.values.join() === 'teen') : entry.age_group.mode === 'unknown', 'age_group must stay unknown unless the product states an age range');
   assert(entry.featured === false && entry.status === null, 'featured/status');
   assert(entry.internal_notes && !/payhip\.com\/b\//.test(JSON.stringify(Object.assign({}, entry, { internal_notes: '', url: '' }))), 'no stray product URL in visible fields');
-  assert(entry.id === id && entry.image === 'images/resources/' + id + '.png' && entry.date_added === (id === 'sold-as-seen' ? '2026-10-25' : id === 'the-christmas-dinner-that-keeps-getting-bigger' ? '2026-11-05' : '2026-10-17'), id + ': id/image/date');
+  assert(entry.id === id && entry.image === 'images/resources/' + id + '.png' && entry.date_added === (id === 'sold-as-seen' ? '2026-10-25' : (id === 'the-christmas-dinner-that-keeps-getting-bigger' || id === 'one-resource-start-to-finish') ? '2026-11-05' : '2026-10-17'), id + ': id/image/date');
 }));
 test('manifest lists every paid entry exactly once and lists nothing else new', () => {
   const manifest = JSON.parse(read('data/manifest.json'));

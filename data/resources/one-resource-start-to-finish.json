@@ -1,0 +1,37 @@
+{
+  "id": "one-resource-start-to-finish",
+  "name": "One Resource, Start to Finish: A Practical Guide for ESL/EFL Teachers",
+  "url": "https://payhip.com/b/zkyw0",
+  "image": "images/resources/one-resource-start-to-finish.png",
+  "description_short": "A practical guide for independent ESL/EFL teachers who want to develop, check and prepare their own teaching resources: thirteen stages from deciding what you are making to release, with a checklist at each stage and a one-page release checklist. One downloadable PDF, 60 pages, US$4.99 on Payhip. No workbook, templates, prompt collection or worked example.",
+  "teacher_note": null,
+  "source_category": "commercial",
+  "creator": "GapTheMind",
+  "domain": "payhip.com",
+  "resource_type": "pdf",
+  "primary_category": "teaching_materials",
+  "primary_subtype": "Guide for teachers",
+  "age_group": {
+    "mode": "unknown"
+  },
+  "cefr_level": {
+    "mode": "unknown"
+  },
+  "group_fit": {
+    "mode": "not_applicable"
+  },
+  "teaching_use": [],
+  "activity_time_minutes": null,
+  "duration_alt_minutes": null,
+  "duration_alt_note": null,
+  "prep_level": "none",
+  "setting": "either",
+  "cost": "paid",
+  "ai_powered": false,
+  "gtmk_relationship": "GapTheMind paid resource, sold through Payhip",
+  "status": null,
+  "featured": false,
+  "date_added": "2026-11-05",
+  "date_updated": null,
+  "internal_notes": "Teaching guide rather than a classroom activity. Age, level and activity duration are not specified."
+}

@@ -41,15 +41,16 @@ const PAID_IDS = paidData.products.filter((p) => p.status === 'live').map((p) =>
 const TOP_THREE = ['sold-as-seen', 'stop-the-slop', 'the-school-trip-that-should-have-been-cancelled'];
 const HALLOWEEN = ['the-sixth-ghost', 'the-947-scream', 'grandpas-teeth', 'mr-bones-quits', 'too-much-money'];
 const CHRISTMAS = 'the-christmas-dinner-that-keeps-getting-bigger';
+const GUIDE = 'one-resource-start-to-finish';
 const ALL_IDS = [
-  'sold-as-seen', 'stop-the-slop', 'the-school-trip-that-should-have-been-cancelled', CHRISTMAS,
+  'sold-as-seen', 'stop-the-slop', 'the-school-trip-that-should-have-been-cancelled', CHRISTMAS, GUIDE,
   'the-sixth-ghost', 'the-947-scream', 'grandpas-teeth', 'mr-bones-quits', 'too-much-money',
   'the-exploding-pudding', 'the-clocks-that-lie', 'the-escaped-specimen', 'the-too-helpful-robot', 'the-dog-translator',
   'the-queue-jumper', 'a-day-at-the-park'
 ];
 const CATEGORY = {
   'sold-as-seen': 'interactive-stories', 'the-school-trip-that-should-have-been-cancelled': 'interactive-stories', 'stop-the-slop': 'guides',
-  [CHRISTMAS]: 'interactive-stories'
+  [CHRISTMAS]: 'interactive-stories', [GUIDE]: 'guides'
 };
 const categoryOf = (id) => CATEGORY[id] || 'partner-speaking';
 
@@ -62,18 +63,19 @@ const cardOrder = [];
   cards[id] = c;
 });
 
-console.log('the 16 items: each once, in the approved order');
-test('exactly 16 cards: the 2 free items and the 14 live paid products, each once', () => {
+console.log('the 17 items: each once, in the approved order');
+test('exactly 17 cards: the 2 free items and the 15 live paid products, each once', () => {
   eq(cardOrder.slice().sort(), ALL_IDS.slice().sort(), 'card ids');
-  assert(new Set(cardOrder).size === 16, 'duplicate card');
+  assert(new Set(cardOrder).size === 17, 'duplicate card');
   eq(FREE_IDS.slice().sort(), ['stop-the-slop', 'the-school-trip-that-should-have-been-cancelled'], 'free ids in originals.json');
-  eq(PAID_IDS.length, 14, 'live paid products');
+  eq(PAID_IDS.length, 15, 'live paid products');
 });
-test('order: SOLD AS SEEN, Stop the Slop, The School Trip, then The Christmas Dinner, then the Halloween group, then the other paid products in their existing order', () => {
+test('order: SOLD AS SEEN, Stop the Slop, The School Trip, then The Christmas Dinner, then One Resource Start to Finish, then the Halloween group, then the other paid products in their existing order', () => {
   eq(cardOrder, ALL_IDS, 'page order');
   eq(cardOrder.slice(0, 3), TOP_THREE, 'top three');
   eq(cardOrder[3], CHRISTMAS, 'The Christmas Dinner follows the top three');
-  eq(cardOrder.slice(4, 9), HALLOWEEN, 'Halloween group follows The Christmas Dinner');
+  eq(cardOrder[4], GUIDE, 'the guide follows The Christmas Dinner');
+  eq(cardOrder.slice(5, 10), HALLOWEEN, 'Halloween group follows the guide');
   eq(order.map((o) => o.id), ALL_IDS, 'tools/catalogue.json order');
 });
 test('only SOLD AS SEEN is featured; the five Halloween products (only) carry the temporary Halloween tag and The Christmas Dinner (only) the Christmas tag', () => {
@@ -88,7 +90,7 @@ test('each card has the category the owner approved', () => {
 });
 
 console.log('\nfree or paid: unmistakable on every card');
-test('every card has exactly one Free or Paid label; free = the 2 originals, paid = the 14 products with a visible price', () => {
+test('every card has exactly one Free or Paid label; free = the 2 originals, paid = the 15 products with a visible price', () => {
   ALL_IDS.forEach((id) => {
     const free = FREE_IDS.includes(id);
     const c = cards[id];
@@ -126,7 +128,8 @@ test('paid cards keep title, kind, summary, every fact, price, VAT note, image, 
   });
   assert(cards['sold-as-seen'].includes('$4.99 <small>USD'), 'SOLD AS SEEN price');
   assert(cards[CHRISTMAS].includes('$4.99 <small>USD'), 'The Christmas Dinner price');
-  assert(PAID_IDS.filter((id) => id !== 'sold-as-seen' && id !== CHRISTMAS).every((id) => cards[id].includes('$1.99 <small>USD')), 'a paid price is not $1.99');
+  assert(cards[GUIDE].includes('$4.99 <small>USD'), 'the guide price');
+  assert(PAID_IDS.filter((id) => id !== 'sold-as-seen' && id !== CHRISTMAS && id !== GUIDE).every((id) => cards[id].includes('$1.99 <small>USD')), 'a paid price is not $1.99');
 });
 test('the Includes fact is collapsible, every other fact is visible without opening anything', () => {
   PAID_IDS.forEach((id) => {
@@ -201,32 +204,32 @@ const isFree = (id) => FREE_IDS.includes(id);
 test('without JavaScript every card is in the HTML, none is hidden, and the filter bar is hidden until the script shows it', () => {
   assert(!/<article class="cat-item[^"]*"[^>]*\shidden/.test(html), 'a card is hidden in the HTML');
   assert(/<div class="cat-filters" id="cat-filters"[^>]*hidden>/.test(html), 'filter bar must start hidden');
-  assert(/>16 resources<\/p>/.test(html), 'static count');
+  assert(/>17 resources<\/p>/.test(html), 'static count');
   assert(!/<noscript>/.test(html), 'no noscript copy is needed: the cards are the page');
 });
-test('on load: the filter bar appears, all 16 show, "All resources" is the only pressed button, the count reads "16 resources"', () => {
+test('on load: the filter bar appears, all 17 show, "All resources" is the only pressed button, the count reads "17 resources"', () => {
   const f = runFilters();
   assert(f.filters.hidden === false, 'bar not shown');
   eq(f.visible(), ALL_IDS, 'visible');
   eq(f.pressed(), ['all']);
-  assert(f.count.textContent === '16 resources', f.count.textContent);
+  assert(f.count.textContent === '17 resources', f.count.textContent);
 });
-test('Free shows exactly the 2 free items; Paid shows exactly the 14 paid products', () => {
+test('Free shows exactly the 2 free items; Paid shows exactly the 15 paid products', () => {
   let f = runFilters(); f.click('free');
-  eq(f.visible(), ids(isFree)); assert(f.count.textContent === 'Showing 2 of 16 resources', f.count.textContent); eq(f.pressed(), ['free']);
+  eq(f.visible(), ids(isFree)); assert(f.count.textContent === 'Showing 2 of 17 resources', f.count.textContent); eq(f.pressed(), ['free']);
   f = runFilters(); f.click('paid');
-  eq(f.visible(), ids((id) => !isFree(id))); assert(f.count.textContent === 'Showing 14 of 16 resources', f.count.textContent);
+  eq(f.visible(), ids((id) => !isFree(id))); assert(f.count.textContent === 'Showing 15 of 17 resources', f.count.textContent);
 });
 test('each category shows the right items', () => {
-  [['interactive-stories', 3], ['partner-speaking', 12], ['guides', 1]].forEach(([c, n]) => {
+  [['interactive-stories', 3], ['partner-speaking', 12], ['guides', 2]].forEach(([c, n]) => {
     const f = runFilters(); f.click(c);
     eq(f.visible(), ids((id) => categoryOf(id) === c), c); assert(f.visible().length === n, c + ' count');
   });
 });
-test('combinations: Paid then Partner speaking keeps both; Free + Interactive stories gives the School Trip only; Paid + Interactive stories gives SOLD AS SEEN and The Christmas Dinner; Paid + Guides is empty with a message', () => {
+test('combinations: Paid then Partner speaking keeps both; Free + Interactive stories gives the School Trip only; Paid + Interactive stories gives SOLD AS SEEN and The Christmas Dinner; Free + Partner speaking is empty with a message', () => {
   let f = runFilters(); f.click('paid'); f.click('partner-speaking');
   eq(f.visible(), ids((id) => !isFree(id) && categoryOf(id) === 'partner-speaking')); eq(f.pressed().sort(), ['paid', 'partner-speaking']);
-  assert(f.visible().length === 12 && f.count.textContent === 'Showing 12 of 16 resources', 'count ' + f.count.textContent);
+  assert(f.visible().length === 12 && f.count.textContent === 'Showing 12 of 17 resources', 'count ' + f.count.textContent);
   f = runFilters(); f.click('partner-speaking'); f.click('paid');   /* the other way round gives the same answer */
   eq(f.visible().length, 12);
   f = runFilters(); f.click('free'); f.click('interactive-stories');
@@ -234,7 +237,9 @@ test('combinations: Paid then Partner speaking keeps both; Free + Interactive st
   f = runFilters(); f.click('paid'); f.click('interactive-stories');
   eq(f.visible(), ['sold-as-seen', CHRISTMAS]);
   f = runFilters(); f.click('paid'); f.click('guides');
-  eq(f.visible(), []); assert(f.empty.hidden === false && f.count.textContent === 'Showing 0 of 16 resources', 'empty state');
+  eq(f.visible(), [GUIDE]);
+  f = runFilters(); f.click('free'); f.click('partner-speaking');
+  eq(f.visible(), []); assert(f.empty.hidden === false && f.count.textContent === 'Showing 0 of 17 resources', 'empty state');
 });
 test('pressing an active filter turns it off; switching Free to Paid replaces it (they do not both apply)', () => {
   let f = runFilters(); f.click('free'); f.click('free');
@@ -243,9 +248,9 @@ test('pressing an active filter turns it off; switching Free to Paid replaces it
   eq(f.visible(), ids((id) => !isFree(id)));
 });
 test('"All resources" resets both groups, and so does the reset link in the empty message (which then returns focus to All resources)', () => {
-  let f = runFilters(); f.click('paid'); f.click('guides'); f.click('All resources');
-  eq(f.visible(), ALL_IDS); eq(f.pressed(), ['all']); assert(f.empty.hidden === true && f.count.textContent === '16 resources', 'not reset');
-  f = runFilters(); f.click('paid'); f.click('guides');
+  let f = runFilters(); f.click('free'); f.click('partner-speaking'); f.click('All resources');
+  eq(f.visible(), ALL_IDS); eq(f.pressed(), ['all']); assert(f.empty.hidden === true && f.count.textContent === '17 resources', 'not reset');
+  f = runFilters(); f.click('free'); f.click('partner-speaking');
   f.emptyReset.handlers.click();
   eq(f.visible(), ALL_IDS); assert(f.chipEls.find((c) => 'data-reset' in c.attrs).focused === true, 'focus not returned');
 });
@@ -302,11 +307,24 @@ test('the catalogue title, lead and promo say what the page is, without claims',
 
 console.log('\nthe main directory is untouched');
 function git(args) { return execFileSync('git', ['--no-optional-locks'].concat(args), { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] }).toString(); }
-test('directory.js, directory.css, the manifest, every directory record and originals.json are identical to the last commit', () => {
+test('directory.js, directory.css, every existing directory record and originals.json are identical to the last commit (new records are untracked, so they cannot hide a change to an old one)', () => {
   let out;
-  try { out = git(['diff', '--name-only', 'HEAD', '--', 'directory.js', 'directory.css', 'dispatch-tokens.css', 'data/manifest.json', 'data/resources', 'data/originals.json', 'data/resources.js']).trim(); }
+  try { out = git(['diff', '--name-only', 'HEAD', '--', 'directory.js', 'directory.css', 'dispatch-tokens.css', 'data/resources', 'data/originals.json', 'data/resources.js']).trim(); }
   catch (e) { console.log('        (skipped: git is not available here)'); return; }
   assert(out === '', 'changed: ' + out);
+});
+/* The manifest is compared with the last commit too: every id in the committed manifest must still be there, in the same order,
+   and the ONLY difference allowed is the ids named here, appended at the end, each with its own new record. Anything else fails. */
+const MANIFEST_ADDITIONS_SINCE_HEAD = [GUIDE];
+test('the manifest equals the last commit plus exactly the named new entries, appended in order, each with its own directory record', () => {
+  let committed;
+  try { committed = JSON.parse(git(['show', 'HEAD:data/manifest.json'])); }
+  catch (e) { console.log('        (skipped: git is not available here)'); return; }
+  const now = JSON.parse(read('data/manifest.json'));
+  const fresh = MANIFEST_ADDITIONS_SINCE_HEAD.filter((id) => !committed.includes(id)); /* already committed: nothing left to account for */
+  eq(now, committed.concat(fresh), 'manifest = last commit + named additions');
+  assert(new Set(now).size === now.length, 'duplicate id in the manifest');
+  fresh.forEach((id) => assert(exists('data/resources/' + id + '.json'), id + ': named in the manifest but has no directory record'));
 });
 test('the homepage has no link to the retired /paid-resources/ page, and still links to /made-by-frt/ from its header, promo and footer', () => {
   // State check, not a git diff. It was written against uncommitted edits (the removed Paid resources links), which no longer show as a diff.

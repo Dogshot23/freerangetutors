@@ -1,0 +1,697 @@
+{
+  "_readme": "Rescue Cards content. This file is the authoritative source for /rescue/ (built by tools/build-rescue.js). Text was transferred from the approved editorial draft with presentation-only typography (en dashes in ranges, curly quotes, ellipses); the wording is unchanged. time_short is the leading duration of time, shown on the collapsed card. level and age are null where the draft says n/a.",
+  "categories": [
+    {
+      "id": "out-of-material",
+      "number": 1,
+      "label": "Out of material, or time to fill"
+    },
+    {
+      "id": "silent-or-low-energy",
+      "number": 2,
+      "label": "Silent, flat or low-energy"
+    },
+    {
+      "id": "level-and-challenge",
+      "number": 3,
+      "label": "Level and challenge"
+    },
+    {
+      "id": "technology-failing",
+      "number": 4,
+      "label": "Technology failing"
+    },
+    {
+      "id": "attention-and-behaviour",
+      "number": 5,
+      "label": "Attention and behaviour, mostly children"
+    },
+    {
+      "id": "managing-students-and-parents",
+      "number": 6,
+      "label": "Managing students, parents and expectations"
+    }
+  ],
+  "cards": [
+    {
+      "id": "1.1",
+      "category": "out-of-material",
+      "title": "Eight minutes left and nothing planned",
+      "time": "8 min",
+      "prep": "none",
+      "level": "A2–C1",
+      "age": "any",
+      "problem": "The planned material is finished and there is time to fill.",
+      "steps": [
+        "Tell them you missed today and ask them to teach you three things from the lesson. Play slightly confused and plant one wrong version.",
+        "Pick three words or mistakes from today’s chat box. They use each in a sentence about tomorrow.",
+        "They choose one thing to practise before next lesson and say when. Type it into the shared notes."
+      ],
+      "say": "“I wasn’t here today. Can you teach me three things? Careful, I might get one wrong.”",
+      "fallback": "Use card 1.5 (Interview the tutor).",
+      "adapt": null,
+      "note": null,
+      "time_short": "8 min"
+    },
+    {
+      "id": "1.2",
+      "category": "out-of-material",
+      "title": "Make the textbook sentence true",
+      "time": "8–10 min",
+      "prep": "none",
+      "level": "A2–B2",
+      "age": "any",
+      "problem": "They finished the exercise quickly, and it was about no one in particular.",
+      "steps": [
+        "Pick 3 sentences from the exercise they have just finished.",
+        "They change each one so it is true about them or someone they know.",
+        "Ask one follow-up question on each."
+      ],
+      "say": "“‘She goes to work by bus.’ Make it true about someone you know.” / “Why the train, not the bus?”",
+      "fallback": "If personal topics feel awkward, use a celebrity or a fictional character.",
+      "adapt": "A2 changes one word. B2 and above change two things and add “because”.",
+      "note": null,
+      "time_short": "8–10 min"
+    },
+    {
+      "id": "1.3",
+      "category": "out-of-material",
+      "title": "Dictate it back",
+      "time": "10 min",
+      "prep": "2 min",
+      "level": "A2–C1",
+      "age": "teen to adult (children on paper)",
+      "problem": "There is time to fill, and you would like to know what they actually hear.",
+      "steps": [
+        "Write 4 sentences using today’s words or grammar. Read each twice at natural speed while they type in the chat.",
+        "Share your version. They spot and circle the differences. There are no marks.",
+        "For each difference, ask whether it was spelling, grammar or not hearing it. This tells you what to teach next."
+      ],
+      "say": "“I’ll read each one twice. Type exactly what you hear.”",
+      "fallback": "If typing is slow, read only 2 sentences and discuss them.",
+      "adapt": "A2 gets 3 shorter sentences at half speed. C1 gets reduced forms (“gonna”, “should’ve”).",
+      "note": null,
+      "time_short": "10 min"
+    },
+    {
+      "id": "1.4",
+      "category": "out-of-material",
+      "title": "Walk the street",
+      "time": "10–12 min",
+      "prep": "1 min, plus a one-off 5 min to save two spare images",
+      "level": "A2–C1",
+      "age": "teen to adult",
+      "problem": "You need a visual prompt that gets them talking with no preparation.",
+      "steps": [
+        "Share one street-level image of a place they know, such as their town centre. Do not show their own street unless they are happy with it.",
+        "Ask in order, stopping when they run dry: “What can you see?” then “Where would you go first?” then “What would you change?”",
+        "Done. There is no swapping and no steering."
+      ],
+      "say": "“Here’s the main square in your city. What can you see?”",
+      "fallback": "Keep two spare photos saved on your computer (for example a busy street and a market). If street view will not load, use one of those. If you cannot share anything at all, describe a place from one of the photos in four sentences and let them ask you questions about it.",
+      "adapt": null,
+      "note": null,
+      "time_short": "10–12 min"
+    },
+    {
+      "id": "1.5",
+      "category": "out-of-material",
+      "title": "Interview the tutor",
+      "time": "8–10 min",
+      "prep": "none",
+      "level": "A1–C1",
+      "age": "any",
+      "problem": "The student is tired and you have nothing planned.",
+      "steps": [
+        "Put question words on screen (What / Where / Who / Why / How) and say, “You interview me. Five questions about my last holiday.”",
+        "Answer each in 15–20 seconds with real detail, slightly slower than normal.",
+        "They tell you two things they learned. You type one new word you used."
+      ],
+      "say": "“Ask me anything about my last holiday. Start with ‘Where…?’”",
+      "fallback": "If they run out of questions, give them three topic choices: food, travel, work.",
+      "adapt": "A1 uses yes/no question frames. C1 asks follow-ups and challenges your answers.",
+      "note": null,
+      "time_short": "8–10 min"
+    },
+    {
+      "id": "2.1",
+      "category": "silent-or-low-energy",
+      "title": "Every answer is two or three words",
+      "time": "5–10 min",
+      "prep": "none",
+      "level": "A2–B2",
+      "age": "any",
+      "problem": "You ask open questions and get a word or two back.",
+      "steps": [
+        "Type their answer on the screen as a headline: Football.",
+        "Guess the rest, confidently and wrongly. They correct you with full information.",
+        "Type each correction as a sentence and read it back: “That’s four sentences.”"
+      ],
+      "say": "“So you play football every morning at school and you always lose?”",
+      "fallback": "Offer either/or guesses, or put a sentence starter on screen (“On Saturdays I…”).",
+      "adapt": null,
+      "note": "Keep the guesses plausible, not silly, for shy adults.",
+      "time_short": "5–10 min"
+    },
+    {
+      "id": "2.2",
+      "category": "silent-or-low-energy",
+      "title": "“I don’t know” on repeat",
+      "time": "5 min",
+      "prep": "none",
+      "level": "A2–B2",
+      "age": "any",
+      "problem": "They answer “I don’t know”, and asking again does not help.",
+      "steps": [
+        "Put three options on screen for them to pick by number: 1) I’ve never thought about it. 2) I know, but I can’t say it in English. 3) I don’t want to talk about it.",
+        "Respond to the one they pick. For 1, offer two opposing opinions (“Some people say X, others say Y. Which is closer to your friends?”). For 2, let them say it in fragments or their own language, then rebuild it in English on screen. For 3, drop that subject and offer a different topic (“Let’s try something else. Would you rather talk about food or travel?”).",
+        "Say their answer back in a better sentence and ask, “Is that what you meant?” Note which option they pick most often."
+      ],
+      "say": "“Which one is true: 1, 2 or 3?”",
+      "fallback": "Switch to a task with no opinion in it, such as describing a picture.",
+      "adapt": null,
+      "note": null,
+      "time_short": "5 min"
+    },
+    {
+      "id": "2.3",
+      "category": "silent-or-low-energy",
+      "title": "The lesson has gone flat",
+      "time": "10 min",
+      "prep": "none",
+      "level": "any",
+      "age": "teen to adult",
+      "problem": "The same routine for weeks, and the energy has gone.",
+      "steps": [
+        "Ask them to keep one thing from your usual routine and bin one. Give them ten seconds and follow their choice.",
+        "Keep the content, change the constraint. Redo what they just did in exactly 30 words, as a news report, or from the other person’s point of view.",
+        "Offer a menu of three ways to start next lesson and let them choose."
+      ],
+      "say": "“Keep one thing, bin one. What goes?”",
+      "fallback": "If they say “I don’t mind”, choose the topic yourself from three you know they like.",
+      "adapt": null,
+      "note": null,
+      "time_short": "10 min"
+    },
+    {
+      "id": "2.4",
+      "category": "silent-or-low-energy",
+      "title": "Tired student: put the story in order",
+      "time": "10 min",
+      "prep": "2 min if you shuffle a text from today’s lesson; 5–8 min to write a new 6-sentence story",
+      "level": "A2–B2",
+      "age": "any",
+      "problem": "They are tired and speaking feels like too much.",
+      "steps": [
+        "Paste 6 sentences of a short story into the shared doc in the wrong order. Use a paragraph from today’s lesson or one about their hobby.",
+        "They type the correct order into the chat. No speaking yet.",
+        "They read the ordered story aloud once. Ask, “What happens next?”"
+      ],
+      "say": "“Put these in the right order. You can just type the numbers.”",
+      "fallback": "Cut it to 4 sentences, or switch to card 1.5.",
+      "adapt": null,
+      "note": "Stories are only reusable if they are generic (for example, a day at the market). Plan to build a small bank of 3–4 over time, not all at once.",
+      "time_short": "10 min"
+    },
+    {
+      "id": "2.5",
+      "category": "silent-or-low-energy",
+      "title": "Freezes for fear of mistakes",
+      "time": "12 min",
+      "prep": "none",
+      "level": "A2–C1",
+      "age": "teen to adult",
+      "problem": "They stop mid-sentence and wait to be corrected.",
+      "steps": [
+        "Agree the rule: “For five minutes I won’t stop you. I’ll take notes.” Ask whether they would rather hear corrections now or at the end.",
+        "They talk about a topic. You note 3 things they did well and 1–2 errors that matter (patterns, not slips) on paper.",
+        "Give feedback in that order. Read the good ones back exactly as they said them. Then give each error as a model, not a question: “I’d say, ‘I’ve lived here for five years.’ Say it once with me.” Do not ask them to find their own mistakes."
+      ],
+      "say": "“For five minutes I won’t stop you. I’ll just take notes.”",
+      "fallback": "Send the rest of the notes as a short written message after the lesson.",
+      "adapt": null,
+      "note": null,
+      "time_short": "12 min"
+    },
+    {
+      "id": "2.6",
+      "category": "silent-or-low-energy",
+      "title": "Slips into their own language",
+      "time": "10 min",
+      "prep": "none",
+      "level": "A1–B1",
+      "age": "any",
+      "problem": "They switch to their first language whenever it gets hard.",
+      "steps": [
+        "Let them say it once in their own language: “Say it your way. Then we’ll find the English.”",
+        "You type the English chunk (not word for word). They repeat it and use it in a new sentence.",
+        "Keep a “bridge list” in the doc. In the last 2 minutes they use each chunk in a sentence."
+      ],
+      "say": "“Say it your way. Then we’ll find the English.”",
+      "fallback": "For the word they are missing, draw the object or find a photo of it, show it and ask “Is this it?”",
+      "adapt": null,
+      "note": "If you do not speak their language, teach “It’s a kind of… / You use it to… / It’s the thing that…”",
+      "time_short": "10 min"
+    },
+    {
+      "id": "3.1",
+      "category": "level-and-challenge",
+      "title": "Capable and coasting",
+      "time": "10 min",
+      "prep": "none",
+      "level": "B1–C1",
+      "age": "teen to adult",
+      "problem": "They get everything right and look unchallenged.",
+      "steps": [
+        "Redo something they got right, with a rule: no word you have already used, or no stopping for 60 seconds.",
+        "Take away the preparation. Ask for a one-minute talk with no notes, then repeat it in 45 seconds (an adapted repetition technique: the same talk again in less time, in the spirit of the 4/3/2 activity but not that method).",
+        "Take one of their sentences and upgrade it: “Say it to a friend. Now say it to your boss. What changed?”"
+      ],
+      "say": "“Tell it again, but don’t use ‘good’ or ‘nice’.”",
+      "fallback": "Ask them to teach you the topic while you make deliberate mistakes for them to correct.",
+      "adapt": null,
+      "note": null,
+      "time_short": "10 min"
+    },
+    {
+      "id": "3.2",
+      "category": "level-and-challenge",
+      "title": "Two levels, one task",
+      "time": "15 min",
+      "prep": "3 min",
+      "level": "A1–B2",
+      "age": "pairs or siblings",
+      "problem": "Two students at different levels in one slot.",
+      "steps": [
+        "Share one picture or short text.",
+        "Ask each a different depth of question about the same thing. A: “Who? Where? What can you see?” B: “What happened just before? Why do you think so?”",
+        "Swap. The lower-level student asks B a question from a frame, and B must answer with “because”."
+      ],
+      "say": "“B, what happened just before this picture was taken?”",
+      "fallback": "Give the stronger student a word limit.",
+      "adapt": null,
+      "note": null,
+      "time_short": "15 min"
+    },
+    {
+      "id": "3.3",
+      "category": "level-and-challenge",
+      "title": "The text is too hard",
+      "time": "12–15 min",
+      "prep": "2 min",
+      "level": "A2–B2",
+      "age": "any",
+      "problem": "They are lost in the first paragraph.",
+      "steps": [
+        "Read the title and the last sentence. Ask, “What do you think this is about?”",
+        "Read the text to them while they follow. Set only 3 gist questions.",
+        "Teach 5 words at most, the ones the gist depends on. Tell them to ignore the rest."
+      ],
+      "say": "“You don’t need every word. Just tell me who, where, and what happened.”",
+      "fallback": "Swap the text for 5 simpler sentences that you write.",
+      "adapt": null,
+      "note": null,
+      "time_short": "12–15 min"
+    },
+    {
+      "id": "3.4",
+      "category": "level-and-challenge",
+      "title": "Knows the rule, can’t use it",
+      "time": "12–15 min",
+      "prep": "3 min",
+      "level": "A2–B2",
+      "age": "teen to adult",
+      "problem": "They did the exercise and know the rule, but they do not use the structure when they talk.",
+      "steps": [
+        "Choose a topic that naturally needs the structure: past simple for last weekend, present perfect for “things you have done”, conditionals for “what would you do if…”. Put 3–4 sentence frames on screen.",
+        "Have a real conversation about the topic for about 5 minutes. React to what they say, ask real questions, and quietly tally on paper each time they use the structure without a prompt. Do not stop them.",
+        "Retell it. Tell their story back to them in 4 sentences using the structure (“So last weekend you went to your grandma’s and you cooked…”). They correct any details and retell it in their own words. Next lesson, use a new topic with fewer frames."
+      ],
+      "say": "“Tell me about the best trip you’ve ever taken.”",
+      "fallback": "If they still avoid the structure, recast it naturally inside the conversation (“Oh, you went to Rome in 2019?”) and keep going.",
+      "adapt": null,
+      "note": null,
+      "time_short": "12–15 min"
+    },
+    {
+      "id": "3.5",
+      "category": "level-and-challenge",
+      "title": "Mixed ages: different jobs",
+      "time": "15 min",
+      "prep": "none",
+      "level": "A1–B1",
+      "age": "7–14, pairs or siblings",
+      "problem": "Two children of different ages, and what suits one bores or loses the other.",
+      "steps": [
+        "Use one activity, such as describing a picture. The younger child describes and the older one draws or asks questions.",
+        "Swap jobs after 4 minutes.",
+        "The older child gives one correction in a fixed frame: “You said X. Try Y.”"
+      ],
+      "say": "“You’re the artist. Draw what she describes.”",
+      "fallback": "Run the activity separately with each child in turn.",
+      "adapt": null,
+      "note": "Some older children dislike being the helper. Give them their own challenge, such as a six-word limit.",
+      "time_short": "15 min"
+    },
+    {
+      "id": "3.6",
+      "category": "level-and-challenge",
+      "title": "The pronunciation error won’t shift",
+      "time": "10–12 min",
+      "prep": "3 min",
+      "level": "A1–C1",
+      "age": "any",
+      "problem": "They keep making the same pronunciation error (for example “ship” for “sheep”, /s/ for /th/, or dropped final consonants).",
+      "steps": [
+        "Check recognition first, separate from production. Say word pairs in random order (“ship / sheep”) and have them type which one they heard. If they cannot tell them apart, repeating after you will not help, so spend the time on listening.",
+        "If they can hear the difference, work on production: show on camera what your mouth does (for example tongue between the teeth, or a hand in front of your mouth to feel the air). Use their own camera as a mirror. Do 3 slow repetitions alone, then in a word, then in a short phrase.",
+        "Anchor it in three words they actually use, such as their name, job or city. Build a 3-line mini-script and have them say it at the start of the next lesson."
+      ],
+      "say": "“Which one did I say? Type 1 or 2.” / “Watch my tongue. Now you. Look at your own camera.”",
+      "fallback": "If the error does not affect understanding, leave it and choose a different one.",
+      "adapt": null,
+      "note": "Ask who they speak English with and aim for being easily understood by those people, not for a single “correct” accent. Pick one model (for example a UK or US pronunciation) so you stay consistent within a lesson, but do not present any accent as the universal target. Prioritise errors that cause misunderstanding.",
+      "time_short": "10–12 min"
+    },
+    {
+      "id": "3.7",
+      "category": "level-and-challenge",
+      "title": "The grammar explanation isn’t working",
+      "time": "12–15 min",
+      "prep": "3 min",
+      "level": "A2–B2",
+      "age": "any",
+      "problem": "You have explained the same structure several times and they still do not understand or use it.",
+      "steps": [
+        "Stop explaining. Collect 3–4 sentences they actually produce on the topic. Work out whether the problem is the form, the meaning or when to use it.",
+        "Replace the explanation with a contrast. Put short situations and sentences side by side in the doc, for example for past simple and present perfect: (a) “I visited Rome in 2019.” – a finished time; we are looking back at one event. (b) “I’ve visited Rome.” – life experience; the time does not matter. (c) “I’ve lost my phone.” – a past event, with the focus on what it means now: I cannot call you, or I am looking for it. Ask: “Which sentence can have ‘in 2019’? Which one is about now?” Let them state the rule in their own words, then refine it.",
+        "They write 3 true sentences using the structure. Put one of them back at the start of the next lesson."
+      ],
+      "say": "“Which one can have ‘in 2019’? Which one is about now?”",
+      "fallback": "Teach it as a fixed chunk for now (“Have you ever…?”) and return to the rule in a few weeks.",
+      "adapt": null,
+      "note": "Other structures need their own contrasting situations. Also consider whether the structure exists in their first language.",
+      "time_short": "12–15 min"
+    },
+    {
+      "id": "4.1",
+      "category": "technology-failing",
+      "title": "Audio is bad (echo or cutting out)",
+      "time": "3–5 min",
+      "prep": "none",
+      "level": "any",
+      "age": "any",
+      "problem": "Echo, crackle or delay.",
+      "steps": [
+        "Type as well as say: “I can hear an echo. Please use headphones and close other tabs.”",
+        "Test it: “Say ‘one, two, three’.” They type yes or no for whether they can hear you.",
+        "If it is unusable after 5 minutes, you type and they speak until you can move to a phone call or another platform with the doc still open."
+      ],
+      "say": "“Can you hear me? Please type yes or no.”",
+      "fallback": "If no phone call or second platform is possible, continue the lesson as a text chat in the shared document. You type, they type or speak when they can, and you keep your messages short and in simple English.",
+      "adapt": null,
+      "note": null,
+      "time_short": "3–5 min"
+    },
+    {
+      "id": "4.2",
+      "category": "technology-failing",
+      "title": "Video is freezing",
+      "time": "2 min to switch",
+      "prep": "none",
+      "level": "any",
+      "age": "any",
+      "problem": "The picture lags or freezes.",
+      "steps": [
+        "Type: “Let’s turn cameras off to save bandwidth.”",
+        "Use the shared doc as the screen, with gap-fills or dictation.",
+        "Keep turns short, one sentence at a time."
+      ],
+      "say": "“Let’s turn our cameras off for now.”",
+      "fallback": "If audio is also bad, see card 4.1.",
+      "adapt": null,
+      "note": null,
+      "time_short": "2 min"
+    },
+    {
+      "id": "4.3",
+      "category": "technology-failing",
+      "title": "The whiteboard or platform won’t load",
+      "time": "10–12 min",
+      "prep": "paper and pen",
+      "level": "A1–B1",
+      "age": "any",
+      "problem": "The board or your normal tool has failed.",
+      "steps": [
+        "Ask them to get a pen and paper.",
+        "You describe a simple scene (“There is a cat under the table. The table is blue.”). They draw it and show you on camera.",
+        "Swap. They describe and you draw."
+      ],
+      "say": "“Get a pen and paper. I’ll describe a picture and you draw it.”",
+      "fallback": "If the camera is off too, do dictation by voice and chat.",
+      "adapt": null,
+      "note": null,
+      "time_short": "10–12 min"
+    },
+    {
+      "id": "4.4",
+      "category": "technology-failing",
+      "title": "Dropout and rejoin",
+      "time": "2 min plus lost time",
+      "prep": "agree in lesson 1",
+      "level": "any",
+      "age": "any",
+      "problem": "The call dropped and you lost time.",
+      "steps": [
+        "In the first lesson, agree: “If I drop, I’ll rejoin within 5 minutes. If I can’t, I’ll message you on [platform].”",
+        "When you are back, do a 90-second reset. They say where you stopped, and you have left the last sentence in the doc.",
+        "Apply a rule you set in advance. For example, under 5 minutes lost means carry on, and over 10 means a short make-up slot."
+      ],
+      "say": "“Welcome back. Where were we?”",
+      "fallback": "If you cannot reconnect, send a message offering two make-up slots.",
+      "adapt": null,
+      "note": "Your platform may have its own rules about lost time. Check them.",
+      "time_short": "2 min"
+    },
+    {
+      "id": "5.1",
+      "category": "attention-and-behaviour",
+      "title": "Keeps leaving the screen",
+      "time": "8 min",
+      "prep": "none",
+      "level": "A1–A2",
+      "age": "5–9",
+      "problem": "The child keeps wandering away from the camera.",
+      "steps": [
+        "Turn it into fetch tasks: “Bring me something red!”",
+        "Count aloud to 10. They come back and say “I have a red book.”",
+        "Use at most two per lesson, each tied to the target word."
+      ],
+      "say": "“Bring me something red!”",
+      "fallback": "For children who dislike movement, use “find it on the screen” or have them draw it.",
+      "adapt": null,
+      "note": null,
+      "time_short": "8 min"
+    },
+    {
+      "id": "5.2",
+      "category": "attention-and-behaviour",
+      "title": "Falls apart after a mistake",
+      "time": "5 min",
+      "prep": "none",
+      "level": "A1–B1",
+      "age": "6–14",
+      "problem": "A mistake leads to tears, silence or “I can’t”.",
+      "steps": [
+        "React to the meaning first and recast casually, without comment on the mistake. Child: “I goed to the park.” You: “Oh, you went to the park! What did you do there?”",
+        "If they notice and get upset, slow down and normalise it: “That one’s tricky. Even I mix it up. Let’s say it together.” Say it with them, then let them say it alone.",
+        "Come back to the same item later in a different task, not straight away."
+      ],
+      "say": "“Oh, you went to the park! What did you do there?”",
+      "fallback": "Switch to a task you know they can do for a couple of minutes, or stop and finish with something calm.",
+      "adapt": null,
+      "note": null,
+      "time_short": "5 min"
+    },
+    {
+      "id": "5.3",
+      "category": "attention-and-behaviour",
+      "title": "Build the lesson in short blocks (preventative; not an emergency fix)",
+      "time": "5 min to set up once, then built into each lesson",
+      "prep": "5 min",
+      "level": "A1–A2",
+      "age": "6–10 (in 45–60 min lessons)",
+      "problem": "The child cannot hold attention for a whole lesson (“When does it finish?” by minute 20). This is a lesson-structure technique to use from the start of the lesson or from next lesson. If they have already lost focus, use card 5.1 or 5.2 first.",
+      "steps": [
+        "Before the lesson, put a picture menu in the doc: 4 blocks of 8–10 minutes each, such as hello chat, new words, a game or drawing task, and a story.",
+        "Tick off each block as you go: “Four things, then finished.”",
+        "Put the hardest block second and the quietest last."
+      ],
+      "say": "“Four things today. Let’s tick the first one.”",
+      "fallback": "For children who dislike games, swap the game for a “make” task such as drawing.",
+      "adapt": null,
+      "note": null,
+      "time_short": "5 min"
+    },
+    {
+      "id": "5.4",
+      "category": "attention-and-behaviour",
+      "title": "Off-topic storyteller",
+      "time": "5 min plus 5 at the end",
+      "prep": "none",
+      "level": "A1–B1",
+      "age": "7–13",
+      "problem": "A great talker, but not in English and not on topic.",
+      "steps": [
+        "Say, “Great story. Let’s save it.” Draw a “story box” in the doc and write one keyword.",
+        "While they talk, pick out 3 English chunks they used or could use.",
+        "In the last 5 minutes, they retell it in 3 English sentences using those chunks."
+      ],
+      "say": "“You said ‘my cat broke the lamp’. Say ‘broke the lamp’.”",
+      "fallback": "If there is no time at the end, schedule it as the start of the next lesson.",
+      "adapt": null,
+      "note": null,
+      "time_short": "5 min"
+    },
+    {
+      "id": "5.5",
+      "category": "attention-and-behaviour",
+      "title": "Teenager is disengaged",
+      "time": "10 min",
+      "prep": "none",
+      "level": "A2–B2",
+      "age": "13–17",
+      "problem": "Camera off, phone out, “whatever”.",
+      "steps": [
+        "Set the structure calmly, once, and keep control: “We have 40 minutes. First 10 on this, then 10 on your choice of A or B.”",
+        "Make the expectation specific and short: “Phone away until 10:20, then a one-minute break.”",
+        "Use their interests as the content, inside your structure. A game chat or a song lyric becomes a task: “Explain this to someone who has never seen it. Three lines.”"
+      ],
+      "say": "“Phone away until 10:20, then you get a one-minute break.”",
+      "fallback": "If it continues over two lessons, ask them privately what would help. Involve the parent only after telling the student you will.",
+      "adapt": null,
+      "note": null,
+      "time_short": "10 min"
+    },
+    {
+      "id": "6.1",
+      "category": "managing-students-and-parents",
+      "title": "The parent answers for the child",
+      "time": "2 min in the lesson plus a message",
+      "prep": "none",
+      "level": "A1–B1",
+      "age": "5–12",
+      "problem": "A parent sits in and supplies the answers.",
+      "steps": [
+        "Set the tone warmly in the first minute, in front of them: “Thanks for being here. For the speaking parts I’ll ask [child] directly. She might take a moment to think, and that’s part of how she learns. If she’s stuck I’ll help.”",
+        "Give the parent a role: “If you could note any words you’d like us to cover, I’ll go through them at the end.”",
+        "Afterwards, send one line with something the child said on her own."
+      ],
+      "say": "“Thanks for being here. For the speaking parts I’ll ask [child] directly.”",
+      "fallback": "If it continues, send a private message suggesting the parent stays for the first and last 5 minutes only.",
+      "adapt": null,
+      "note": "Some parents stay for support, such as with younger children or technical help. Do not assume bad intent.",
+      "time_short": "2 min"
+    },
+    {
+      "id": "6.2",
+      "category": "managing-students-and-parents",
+      "title": "“I’m not improving”",
+      "time": "15 min once a month",
+      "prep": "none",
+      "level": "B1+",
+      "age": "teen to adult",
+      "problem": "The student feels they are not progressing.",
+      "steps": [
+        "Ask first. Get clear permission before any recording. For under-18s, ask the parent or guardian and also the child. Say what you are recording, why, where it is stored and when you will delete it. Offer a no-recording option as the default.",
+        "With permission, record 60 seconds of them answering one question in lesson 1, and repeat every 4–6 weeks. If they decline, keep your own typed notes of a few sentences they said.",
+        "Play both back. Ask them to find three differences (length, new words, mistakes), then add what they missed. Write a “can do now” list of 3 things."
+      ],
+      "say": "“Can I record one minute so we can listen back in a few weeks? You can say no.”",
+      "fallback": "Compare two short written samples instead.",
+      "adapt": null,
+      "note": "Check the privacy and data-protection rules where you and the student live, and your platform’s own recording rules. Keep recordings private.",
+      "time_short": "15 min"
+    },
+    {
+      "id": "6.3",
+      "category": "managing-students-and-parents",
+      "title": "Their goal and level don’t match",
+      "time": "15 min",
+      "prep": "5 min to choose the task",
+      "level": "B1–B2",
+      "age": "teen to adult",
+      "problem": "They want an exam score or level that is well above their current ability.",
+      "steps": [
+        "Do 10 minutes of the real task, such as a timed speaking task from their target exam, unprepared.",
+        "Show the gap in 2–3 specific facts, not a score: “You spoke for 50 seconds, the task needs 2 minutes, and you paused 6 times.”",
+        "Say what would need to change, not when it will happen: “I can’t promise a date. Here’s what would need to be different.”"
+      ],
+      "say": "“I can’t promise a date. Here’s what would need to be different.”",
+      "fallback": "If they are upset, split the goal into a nearer target they can reach this month.",
+      "adapt": null,
+      "note": null,
+      "time_short": "15 min"
+    },
+    {
+      "id": "6.4",
+      "category": "managing-students-and-parents",
+      "title": "Late cancellations",
+      "time": "5 min admin",
+      "prep": "written policy",
+      "level": null,
+      "age": null,
+      "problem": "Cancellations and no-shows with no agreed rules.",
+      "steps": [
+        "Check before you write anything. Read your platform’s terms, because marketplaces often set their own cancellation rules and may restrict side arrangements. Check the consumer and contract rules that apply to you and your student. For under-18s, the parent or guardian is who agrees.",
+        "If you are independent, put a short policy in writing at booking and ask for agreement: “Cancellations with less than 24 hours’ notice are charged unless we can rearrange within the same week.”",
+        "Apply it consistently. Offer two specific slots within 7 days, not “when are you free?” Say when you are making an exception: “Just this once. Next time the policy applies.”"
+      ],
+      "say": "“Cancellations with less than 24 hours’ notice are charged unless we can rearrange within the same week.”",
+      "fallback": "If a platform sets the rules, follow them and do not add your own.",
+      "adapt": null,
+      "note": "This is not legal or tax advice. Check local requirements.",
+      "time_short": "5 min"
+    },
+    {
+      "id": "6.5",
+      "category": "managing-students-and-parents",
+      "title": "Homework never gets done",
+      "time": "3 min per week",
+      "prep": "none",
+      "level": "any",
+      "age": "teen to adult",
+      "problem": "You set homework and nothing comes back.",
+      "steps": [
+        "Shrink it to 3 minutes: one voice note answering one question.",
+        "Make the first 3 minutes of the next lesson the check: “Play me your voice note.” If they have not sent one, do it live without guilt.",
+        "Ask what is stopping them: “Is it time, forgetting, or not seeing the point?” Change the task to fit the answer."
+      ],
+      "say": "“Play me your voice note.”",
+      "fallback": "Drop homework for a month and add a 5-minute recall at the start of each lesson.",
+      "adapt": null,
+      "note": null,
+      "time_short": "3 min"
+    },
+    {
+      "id": "6.6",
+      "category": "managing-students-and-parents",
+      "title": "First-lesson diagnostic",
+      "time": "20–25 min in one lesson, or 12–15 min across two",
+      "prep": "5 min (a private notes grid)",
+      "level": "A1–C1",
+      "age": "any",
+      "problem": "You need to know their real level without making the lesson feel like an exam.",
+      "steps": [
+        "Start with a conversation in three steps of rising difficulty: now (name, day, work or school), past (last weekend or holiday), then opinions or future (“What would you change about your city?”). Note where they hesitate. Say: “There are no right answers. I’m learning how you speak so I can plan lessons.”",
+        "Add one short task: they describe a photo or object for two minutes, then read 3–4 lines aloud and answer two questions. Ask them to type one sentence in the chat as a quick writing sample.",
+        "Close with their goals: “In six months, what would you like to be able to do?” Tell them 2–3 things they did well and 1–2 things you will work on, and what the next lesson will be."
+      ],
+      "say": "“Tell me about your last holiday. Take your time.”",
+      "fallback": "If they are nervous, do the goals first. For a beginner, replace the reading with naming objects and colours.",
+      "adapt": null,
+      "note": "You can spread this over two lessons if the student is nervous or the lesson is short: do step 1 and the goals question in lesson 1, and step 2 in lesson 2. Say, “We’ll finish getting to know your English next time.” Keep a private notes grid: grammar range, vocabulary range, fluency, pronunciation, how often they ask you to repeat, writing. This is an informal snapshot, not a certified assessment. Do not give a CEFR label unless they ask.",
+      "time_short": "20–25 min"
+    }
+  ]
+}
