@@ -35,7 +35,7 @@ t('the catalogue card is still present on /made-by-frt/ with the same Payhip lin
 console.log('\nthe homepage has exactly these two featured areas');
 t('the Sixth Astronaut band and its stylesheet link are gone from the homepage', !home.includes('class="ts-feature"') && !home.includes('the-sixth-astronaut.css') && !/ts-feature-h/.test(home));
 t('the Sixth Astronaut product page, its stylesheet and its sitemap entry are intact', fs.existsSync(path.join(root, 'resources/the-sixth-astronaut/index.html')) && fs.existsSync(path.join(root, 'resources/the-sixth-astronaut/the-sixth-astronaut.css')) && read('sitemap.xml').includes('<loc>https://www.freerangetutors.com/resources/the-sixth-astronaut/</loc>'));
-const order = [...home.matchAll(/<section class="(recent-band|cd-feature|ts-feature)"/g)].map(m => m[1]);
-t('section order is: recent band (featured website), then the Christmas Dinner band, with nothing else featured in between', JSON.stringify(order) === JSON.stringify(['recent-band', 'cd-feature']), JSON.stringify(order));
+const order = [...home.matchAll(/<section class="(recent-band|wotd|cd-feature|ts-feature)"/g)].map(m => m[1]);
+t('section order is: recent band (featured website), then the Website of the Day, then the Christmas Dinner band, with nothing else featured in between', JSON.stringify(order) === JSON.stringify(['recent-band', 'wotd', 'cd-feature']), JSON.stringify(order));
 t('navigation, All resources and the directory script are intact', ['#all-resources', '/made-by-frt/', '/stop-the-slop/', '/about'].every(h => home.includes('href="' + h + '"')) && home.includes('id="all-resources"') && home.includes('<script src="directory.js">'));
 console.log('\n' + pass + ' passed, ' + fail + ' failed'); process.exit(fail ? 1 : 0);
