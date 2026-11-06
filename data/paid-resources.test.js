@@ -216,9 +216,23 @@ test('manifest lists every paid entry exactly once and lists nothing else new', 
   const base = JSON.parse(git(['show', BASE + ':data/manifest.json']));
   assert(JSON.stringify(manifest.filter((i) => PAID_IDS.indexOf(i) === -1 && FREE_ADDITIONS.indexOf(i) === -1)) === JSON.stringify(base), 'the 19 existing ids changed or were reordered');
 });
-test('all 19 existing resource files and originals.json are identical to the baseline commit; only the paid entry files and the named free additions were added', () => {
+/* The ONE approved change to existing resource files (homepage "Website of the Day", see data/SCHEMA.md), pinned exactly by
+   tools/approved-record-additions.js (shared with data/catalogue.test.js): image_tags on the 20 named curated_external records with exactly
+   their approved values, and the approved wording of teacher_note on the 9 named records that had none. Every other field, nested value,
+   added or missing field, key order and the record's id must still equal the baseline. */
+const approved = require(path.join(ROOT, 'tools', 'approved-record-additions.js'));
+function baselineProblem(rel) {
+  if (!/^data\/resources\/[a-z0-9-]+\.json$/.test(rel)) return 'not a record file';
+  if (!fs.existsSync(path.join(ROOT, rel))) return 'the record was deleted or moved';
+  let now; try { now = JSON.parse(read(rel)); } catch (e) { return 'the record is not valid JSON'; }
+  const was = JSON.parse(git(['show', BASE + ':' + rel]));
+  if (!approved.hasApprovedAdditions(was.id)) return 'changed (this record has no approved change, so any change at all, even formatting, is refused)';
+  return approved.approvedRecordProblem(was, now);
+}
+test('all 19 existing resource files and originals.json are identical to the baseline commit apart from the approved image_tags and teacher_note additions; only the paid entry files and the named free additions were added', () => {
   if (!gitAvailable()) { console.log('        (skipped: git or the baseline commit is not available here)'); return; }
-  const changed = git(['diff', '--name-only', '--diff-filter=MDRTU', BASE, '--', 'data/resources', 'data/originals.json']).trim();
+  const changedFiles = git(['diff', '--name-only', '--diff-filter=MDRTU', BASE, '--', 'data/resources', 'data/originals.json']).split('\n').map((s) => s.trim()).filter(Boolean);
+  const changed = changedFiles.map((f) => [f, baselineProblem(f)]).filter((x) => x[1]).map((x) => x[0] + ' (' + x[1] + ')').join(', ');
   assert(changed === '', 'changed since baseline: ' + changed);
   const added = git(['diff', '--name-only', '--diff-filter=A', BASE, '--', 'data/resources']).split('\n')
     .concat(git(['ls-files', '--others', '--exclude-standard', '--', 'data/resources']).split('\n'))

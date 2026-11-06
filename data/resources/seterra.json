@@ -15,6 +15,7 @@
   "cefr_level": { "mode": "unknown" },
   "group_fit": { "mode": "unknown" },
   "teaching_use": ["speaking", "vocabulary", "warm-up"],
+  "image_tags": ["maps", "geography", "world"],
   "activity_time_minutes": null,
   "duration_alt_minutes": null,
   "duration_alt_note": null,

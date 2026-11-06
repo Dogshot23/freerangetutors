@@ -72,6 +72,10 @@
       "type": "array",
       "items": { "type": "string" }
     },
+    "image_tags": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" }
+    },
     "activity_time_minutes": { "type": ["number", "null"], "minimum": 0 },
     "duration_alt_minutes":  { "type": ["number", "null"], "minimum": 0 },
     "duration_alt_note":     { "type": ["string", "null"] },
