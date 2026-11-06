@@ -338,8 +338,7 @@
       "image": "/paid-resources/images/one-resource-start-to-finish.png",
       "image_alt": "Cover of One Resource, Start to Finish: the title in large black capitals on a cream background, with the first letters of Start highlighted in lime green, above a field of teal and orange dots. A line at the top reads A guide for ESL/EFL teachers.",
       "payhip_url": "https://payhip.com/b/zkyw0",
-      "link_verified": "2026-11-05",
-      "internal_notes": "Prepared 2026-11-05 on branch feature/christmas-dinner-resource. Payhip product zkyw0 made Visible the same day and opened in a logged-out browser: title, US$4.99, Add to Cart and Buy Now present; Buy Now opened checkout (EU VAT 1.05 added on 4.99 in the test session); nothing was bought. Facts from the final v6 PDF (60 pages, A5 portrait; sha256 71b25880c931...3470). Cover is page 1 of that PDF rendered at 300 dpi (LAUNCH_ASSETS_One_Resource_Start_to_Finish), shown portrait here; the 480px directory thumbnail is a duotone square crop of its top. Store currency is USD, so the price is US$4.99. The guide is licensed for individual use; the PDF's own copyright line is Mark Adlington, 2026."
+      "link_verified": "2026-11-05"
     }
   ]
 }
