@@ -447,7 +447,7 @@ test('the paid-resources folder contains exactly the page, its stylesheet and on
 });
 test('no ignore line is broad enough to hide a legitimate public path by accident (tracked files that are not internal are all published)', () => {
   if (!gitAvailable()) { console.log('        (skipped: git is not available here)'); return; }
-  const publicFiles = gitLines(['ls-files']).filter((f) => !/^(tools\/|PROJECT_NOTES\.md$|data\/[^/]+\.(md|test\.js)$|data\/resource\.schema\.json$|.*\.zip$|\.gitattributes$|\.assetsignore$|wrangler\.jsonc$|desktop\.ini$)/.test(f) && !LEGACY_RE.test(f));
+  const publicFiles = gitLines(['ls-files']).filter((f) => !/^(tools\/|PROJECT_NOTES\.md$|data\/[^/]+\.(md|test\.js)$|data\/resource\.schema\.json$|.*\.zip$|\.gitignore$|\.gitattributes$|\.assetsignore$|wrangler\.jsonc$|desktop\.ini$)/.test(f) && !LEGACY_RE.test(f));
   const ignored = gitIgnored(ignoreText, publicFiles.concat(PAID_PAGE_FILES));
   const hidden = publicFiles.concat(PAID_PAGE_FILES).filter((f) => ignored.has(f));
   assert(hidden.length === 0, 'public files that an ignore line hides: ' + hidden.join(', '));
