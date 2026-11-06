@@ -44,7 +44,7 @@ function build() {
     '    </noscript>';
 
   // Pages that are not in data/originals.json (not part of the Made by FRT catalogue) but belong in the sitemap.
-  const extraPages = ['/resources/the-sixth-astronaut/'];
+  const extraPages = ['/resources/the-sixth-astronaut/', '/rescue/'];
   const pages = ['/', '/made-by-frt/', '/about'].concat(originals.map((o) => o.page), extraPages);
   const sitemap =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +

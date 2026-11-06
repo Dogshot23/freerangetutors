@@ -1,0 +1,82 @@
+/* Rescue Cards page. The shared header, footer, skip link and focus ring live in directory.css and the palette in
+   dispatch-tokens.css; every class here is prefixed .rc- so nothing existing is overridden.
+   Built by tools/build-rescue.js; the search box and category buttons are added by rescue.js. */
+
+.rc-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(42px, 7.5vw, 88px); line-height: .98; letter-spacing: -.02em; margin: 40px 0 20px; }
+.rc-lead { font-family: 'Fraunces', serif; font-size: clamp(19px, 2vw, 23px); line-height: 1.5; max-width: 56ch; margin: 0 0 12px; }
+.rc-note { font-size: 15px; color: var(--fz-ink-muted); max-width: 56ch; margin: 0 0 28px; }
+
+/* Controls: hidden until the script runs, so without JavaScript every card simply shows. */
+.rc-controls { margin: 0 0 14px; }
+.rc-controls[hidden] { display: none; }
+.rc-search { margin: 0 0 14px; }
+.rc-search input {
+  display: block; width: 100%; max-width: 560px; min-height: 48px; padding: 10px 14px;
+  font: inherit; font-size: 16px; color: var(--fz-ink); background: #FBF8F0; border: 2px solid var(--fz-ink); border-radius: 0;
+}
+.rc-search input::placeholder { color: var(--fz-ink-muted); }
+.rc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.rc-chip {
+  font: inherit; font-size: 15px; font-weight: 600; line-height: 1.2; min-height: 44px; padding: 8px 14px;
+  border: 2px solid var(--fz-ink); background: transparent; color: var(--fz-ink); cursor: pointer; text-align: left;
+}
+.rc-chip:hover { background: rgba(23, 20, 15, .08); }
+.rc-chip[aria-pressed="true"] { background: var(--fz-ink); color: var(--fz-paper); }
+
+.rc-count { margin: 0 0 18px; font-size: 14px; color: var(--fz-ink-muted); }
+.rc-empty { padding: 24px 0; font-style: italic; color: var(--fz-ink-muted); }
+.rc-empty[hidden] { display: none; }
+.rc-link { font: inherit; font-weight: 700; font-style: normal; color: var(--fz-ink); background: none; border: 0; border-bottom: 2px solid var(--fz-red); padding: 0 0 2px; cursor: pointer; }
+.rc-link:hover { color: var(--fz-red); }
+
+/* Groups and cards */
+.rc-group { margin: 0 0 44px; }
+.rc-group[hidden] { display: none; }
+.rc-group-h {
+  display: flex; align-items: baseline; gap: 14px;
+  font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.15; letter-spacing: -.01em;
+  margin: 0; padding: 14px 0 12px; border-top: 1.5px solid var(--fz-ink);
+}
+.rc-group-n { font-family: 'Inter', system-ui, sans-serif; font-size: 13px; font-weight: 700; color: var(--fz-red); letter-spacing: .08em; }
+.rc-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fz-rule); }
+.rc-card { border-bottom: 1px solid var(--fz-rule); }
+.rc-card[hidden] { display: none; }
+
+.rc-card summary {
+  display: flex; align-items: baseline; gap: 14px; min-height: 56px; padding: 14px 4px;
+  cursor: pointer; list-style: none;
+}
+.rc-card summary::-webkit-details-marker { display: none; }
+.rc-card summary::before { content: "+"; content: "+" / ""; flex: none; width: 1.1em; font-weight: 700; color: var(--fz-red); }
+.rc-card details[open] > summary::before { content: "\2212"; content: "\2212" / ""; }
+.rc-card summary:hover .rc-sum-title { color: var(--fz-red); text-decoration: underline; text-underline-offset: 4px; }
+.rc-card summary:focus-visible { outline: 3px solid var(--fz-cobalt); outline-offset: 2px; }
+.rc-sum-title { flex: 1 1 auto; font-family: 'Fraunces', serif; font-weight: 600; font-size: 20px; line-height: 1.25; }
+.rc-sum-time { flex: none; font-size: 14px; color: var(--fz-ink-muted); white-space: nowrap; }
+
+/* An open card */
+.rc-body { padding: 4px 4px 30px calc(1.1em + 14px); max-width: 68ch; }
+.rc-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0 0 6px; font-size: 14px; }
+.rc-meta div { display: flex; gap: 6px; }
+.rc-meta dt { font-weight: 700; color: var(--fz-ink-muted); }
+.rc-meta dt::after { content: ":"; }
+.rc-meta dd { margin: 0; }
+.rc-h { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fz-red); margin: 20px 0 6px; }
+.rc-body p { margin: 0 0 8px; }
+.rc-steps { margin: 0; padding-left: 1.4em; }
+.rc-steps li { margin: 0 0 8px; padding-left: 4px; }
+.rc-steps li::marker { font-weight: 700; }
+.rc-body .rc-say { font-family: 'Fraunces', serif; font-size: 18px; line-height: 1.45; border-left: 4px solid var(--fz-red); padding: 6px 0 6px 14px; margin: 0 0 8px; }
+
+@media (max-width: 700px) {
+  .rc-title { margin-top: 28px; }
+  .rc-card summary { flex-wrap: wrap; row-gap: 2px; }
+  .rc-sum-title { flex-basis: calc(100% - 2.1em); font-size: 19px; }
+  .rc-sum-time { margin-left: calc(1.1em + 14px); }
+  .rc-body { padding-left: 4px; }
+  .rc-chip { font-size: 14px; padding: 8px 11px; }
+}
+
+/* References such as "card 1.5" link to that card */
+.rc-body a { border-bottom: 2px solid var(--fz-red); font-weight: 600; }
+.rc-body a:hover { color: var(--fz-red); }

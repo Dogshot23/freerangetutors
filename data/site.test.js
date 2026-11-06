@@ -18,7 +18,7 @@ function test(name, fn) {
 function assert(c, m) { if (!c) throw new Error(m || 'assertion failed'); }
 
 const originals = JSON.parse(read('data/originals.json'));
-const PUBLIC_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html',
+const PUBLIC_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html', 'rescue/index.html',
   'resources/the-school-trip-that-should-have-been-cancelled/index.html',
   'resources/the-school-trip-that-should-have-been-cancelled/play/index.html'];
 const STUBS = ['browse.html', 'dispatch.html', 'dispatch-home.html'];
