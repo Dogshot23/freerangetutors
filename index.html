@@ -43,7 +43,7 @@
   <link rel="stylesheet" href="directory.css" />
   <link rel="stylesheet" href="/christmas-feature.css" />
   <link rel="stylesheet" href="/website-of-the-day.css" />
-  <noscript><style>.index-head { padding-top: 40px; }</style></noscript>
+  <noscript><style>.index-head { padding-top: 40px; } #cd-promo { display: block; }</style></noscript>
 </head>
 <body class="directory">
   <a class="skip-link" href="#all-resources">Skip to the resources</a>
@@ -125,31 +125,6 @@
     </div>
   </section>
 
-  <!-- NEW: The Christmas Dinner That Keeps Getting Bigger (review draft). Static markup, no script. Links to its Made by FRT catalogue card and to its Payhip page. -->
-  <section class="cd-feature" aria-labelledby="cd-feature-h">
-    <div class="cd-feature-inner">
-      <div class="cd-feature-text">
-        <p class="cd-feature-label"><span class="cd-new">New resource</span>Interactive Christmas mystery</p>
-        <h2 id="cd-feature-h">The Christmas Dinner That Keeps Getting Bigger</h2>
-        <p class="cd-feature-lead">The booking book says 12 guests. Then 63. Then 212.</p>
-        <p>An interactive Christmas mystery PDF for English learners. Follow the guest list at the Crooked Goose Hotel, choose what happens next and examine the clues.</p>
-        <ul class="cd-feature-points" aria-label="Key features">
-          <li>9 decisions</li>
-          <li>5 possible endings</li>
-          <li>5 follow-up activities</li>
-        </ul>
-        <div class="cd-feature-actions">
-          <a class="cd-feature-btn" href="/made-by-frt/#the-christmas-dinner-that-keeps-getting-bigger">Explore the resource</a>
-          <a class="cd-feature-btn cd-feature-btn-alt" href="https://payhip.com/b/MWIoz" rel="noopener noreferrer">Buy on Payhip &middot; US$4.99</a>
-        </div>
-        <p class="cd-feature-meta">About A2&ndash;B1 &middot; ages 11&ndash;15 &middot; interactive PDF for screens</p>
-      </div>
-      <figure class="cd-feature-pic">
-        <a href="/made-by-frt/#the-christmas-dinner-that-keeps-getting-bigger" aria-label="The Christmas Dinner That Keeps Getting Bigger: see it in Made by Free Range Tutors"><img src="/paid-resources/images/the-christmas-dinner-that-keeps-getting-bigger.png" width="750" height="750" loading="lazy" alt="Cover of The Christmas Dinner That Keeps Getting Bigger: a leaning snowy hotel with a goose in a Santa hat on the roof, a parrot at a window, and a crowd of villagers, a llama and a brass band in the street, above the title." /></a>
-      </figure>
-    </div>
-  </section>
-
   <div class="wrap">
 
     <div class="index-head" id="all-resources" tabindex="-1">
@@ -158,6 +133,32 @@
     </div>
 
     <div class="entries" id="entries"></div>
+    <!-- The Christmas Dinner That Keeps Getting Bigger: a compact promotional card (static markup, no script of its own). directory.js moves it into the list
+         after the first few resources when no search or filter is active, and takes it out of the list while one is. Without JavaScript it simply
+         shows here, above the plain list below. Links to its Made by FRT catalogue card and to its Payhip page. -->
+    <section class="cd-feature" id="cd-promo" aria-labelledby="cd-feature-h">
+      <div class="cd-feature-inner">
+        <div class="cd-feature-text">
+          <p class="cd-feature-label"><span class="cd-new">New resource</span>Interactive Christmas mystery</p>
+          <h2 id="cd-feature-h">The Christmas Dinner That Keeps Getting Bigger</h2>
+          <p class="cd-feature-lead">The booking book says 12 guests. Then 63. Then 212.</p>
+          <p>An interactive Christmas mystery PDF for English learners. Follow the guest list at the Crooked Goose Hotel, choose what happens next and examine the clues.</p>
+          <ul class="cd-feature-points" aria-label="Key features">
+            <li>9 decisions</li>
+            <li>5 possible endings</li>
+            <li>5 follow-up activities</li>
+          </ul>
+          <div class="cd-feature-actions">
+            <a class="cd-feature-btn" href="/made-by-frt/#the-christmas-dinner-that-keeps-getting-bigger">Explore the resource</a>
+            <a class="cd-feature-btn cd-feature-btn-alt" href="https://payhip.com/b/MWIoz" rel="noopener noreferrer">Buy on Payhip &middot; US$4.99</a>
+          </div>
+          <p class="cd-feature-meta">About A2&ndash;B1 &middot; ages 11&ndash;15 &middot; interactive PDF for screens</p>
+        </div>
+        <figure class="cd-feature-pic">
+          <a href="/made-by-frt/#the-christmas-dinner-that-keeps-getting-bigger" aria-label="The Christmas Dinner That Keeps Getting Bigger: see it in Made by Free Range Tutors"><img src="/paid-resources/images/the-christmas-dinner-that-keeps-getting-bigger.png" width="750" height="750" loading="lazy" alt="Cover of The Christmas Dinner That Keeps Getting Bigger: a leaning snowy hotel with a goose in a Santa hat on the roof, a parrot at a window, and a crowd of villagers, a llama and a brass band in the street, above the title." /></a>
+        </figure>
+      </div>
+    </section>
 <!-- static:resources:start -->
     <noscript>
       <p>This list is normally searchable and filterable, which needs JavaScript. Without it, here are all 35 resources:</p>

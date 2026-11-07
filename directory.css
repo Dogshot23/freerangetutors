@@ -329,7 +329,7 @@ body.directory .search-line input:focus-visible { outline: none; }
 
 /* ---------- 8. Responsive ---------- */
 @media (max-width: 1000px) {
-  .intro { grid-template-columns: 1fr; gap: 36px; padding: 48px 0 32px; }
+  .intro { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 28px; }
   .filter-line { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 24px; }
   .intro-lede { max-width: 30ch; }
   .intro-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--fz-rule); padding-top: 20px; }
@@ -351,10 +351,19 @@ body.directory .search-line input:focus-visible { outline: none; }
   .search-line input { font-size: 19px; }
   .filters-btn { padding-left: 8px; }
   .filter-line { grid-template-columns: 1fr 1fr; gap: 6px 20px; }
-  .intro { padding: 36px 0 32px; }
-  .index-head { padding-top: 48px; }
+  .intro { padding: 20px 0 20px; gap: 14px; }
+  .intro-lede { font-size: 25px; line-height: 1.22; }
+  .intro-aside { padding-top: 12px; }
+  .intro-link { padding: 8px 0; }
+  .intro-link-t { font-size: 19px; margin-bottom: 1px; }
+  .intro-link-d { font-size: 13.5px; line-height: 1.4; }
+  .index-head { padding-top: 36px; }
 }
 @media (max-width: 400px) {
   .site-nav { display: grid; grid-template-columns: repeat(2, max-content); gap: 0 36px; }
+}
+/* Homepage phones: the five links need not take three rows (the introduction and search should stay near the top). Other pages keep theirs. */
+@media (max-width: 700px) {
+  body.directory .masthead .site-nav { display: flex; flex-wrap: wrap; gap: 0 16px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }

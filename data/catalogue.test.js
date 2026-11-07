@@ -321,14 +321,15 @@ function recordProblem(rel, committedText) {
   if (!approved.hasApprovedAdditions(was.id)) return 'changed (this record has no approved change, so any change at all, even formatting, is refused)';
   return approved.approvedRecordProblem(was, now);
 }
-/* The ONE approved edit to the shared directory files (homepage: the "Recently added" band was removed and the Website of the Day became the
-   homepage's red feature block): directory.js and directory.css may differ from the last commit only by being EXACTLY this approved content,
+/* The ONE approved edit to the shared directory files (homepage hierarchy: the compact Website of the Day, All resources higher up, and the
+   Christmas Dinner card placed inside the list by directory.js; earlier the "Recently added" band was removed and the Website of the Day
+   became the homepage's red feature block): directory.js and directory.css may differ from the last commit only by being EXACTLY this approved content,
    pinned by the SHA-256 of the line-ending-normalised file. Any other change to either file still fails; once the approved content is
    committed the last commit equals it and the plain "identical to the last commit" rule applies again. To change either file later, change
    it in git first (commit) and update the pin here only if the content is deliberately re-approved. */
 const APPROVED_DIRECTORY_FILES = {
-  'directory.js': '6f72beb1639d84b04241645e1fc3ecdad4b1aad16eb31baa69adad8ae1a27172',
-  'directory.css': '318e15e43b01ebace83ce3ffe842cb8f51cec279fa9c8c3cac6ee3319eb8aeff'
+  'directory.js': '6455e37f4fd2b775dd2aa39e08cf40e2dea92a785dd0bb85ed533387c88a7b73',
+  'directory.css': '55d8c00a844d4d1c9927a7a9e7243c9569ee0492d1193766d579d799fa0302d7'
 };
 const sha256Lf = (rel) => crypto.createHash('sha256').update(read(rel).replace(/\r\n/g, '\n')).digest('hex');
 test('directory.js, directory.css, originals.json and resources.js are identical to the last commit (directory.js and directory.css may instead be exactly the approved content), and every existing directory record is too apart from the approved image_tags and teacher_note additions (new records are untracked, so they cannot hide a change to an old one)', () => {

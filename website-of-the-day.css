@@ -1,33 +1,34 @@
 /* Homepage "Website of the Day": the one red feature block (filled in by website-of-the-day.js; markup in index.html).
    Uses the site's own tokens (dispatch-tokens.css) and fonts. Every class is prefixed .wotd so nothing existing is overridden.
 
-   One landmark: a full-bleed red field with the text in the left column on flat red. The halftone photograph is printed black
-   (dots on transparent, not blended or faded) so it reads on the cream above the field and on the red inside it; it climbs
-   over the top edge of the field on purpose. This is the geometry the homepage's red "Recently added" band used (44px top
-   padding, 112px lead-in, 440px photograph column, 72px rise), now carrying the Website of the Day.
-   Text is full-strength paper on red (4.98:1); nothing here is semi-transparent text. Photograph column: 440px, 300px under
-   1000px, stacked above the text under 700px. */
+   A COMPACT band, so the resource directory starts high on the page: a full-bleed red field with the text on the left and a small
+   halftone photograph on the right. The photograph is printed black (dots on transparent, not blended or faded) so it reads on the
+   cream above the field and on the red inside it, and it climbs over the TOP EDGE of the field on purpose: that bleed is the
+   signature of this block and is kept at every width (--wotd-rise below). Nothing here clips it: no overflow:hidden on the
+   section, and the section's top margin is always larger than the rise, so the photograph never reaches the search row above.
+   The photograph column stretches to the height of the text rows, so the picture always fills the field it rises out of.
+   Text is full-strength paper on red (4.98:1); nothing here is semi-transparent text. */
 
 .wotd {
-  --wotd-photo-w: 440px;
-  --wotd-rise: 72px;       /* how far the photograph climbs above the red field */
+  --wotd-photo-w: 176px;
+  --wotd-rise: 44px;       /* how far the photograph climbs above the red field */
+  --wotd-pad-top: 18px;    /* the field's top padding; the photograph starts above it */
   background: var(--fz-red);
   color: var(--fz-paper);
-  padding: 44px 0 52px;
-  margin-top: 112px;
+  padding: var(--wotd-pad-top) 0 18px;
+  margin-top: calc(var(--wotd-rise) + 28px);   /* room for the rise, plus a gap below the search row */
 }
 .wotd[hidden] { display: none; }
-/* No photograph for this website: nothing rises above the field, so the lead-in and the text padding shrink. */
-.wotd.wotd-no-photo { margin-top: 64px; }
+/* No photograph for this website: nothing rises above the field, so the lead-in shrinks. */
+.wotd.wotd-no-photo { margin-top: 28px; }
 
-.wotd-main { display: grid; grid-template-columns: minmax(0, 1fr) var(--wotd-photo-w); gap: 48px; align-items: stretch; }
-.wotd-text { min-width: 0; padding-bottom: 44px; }
+.wotd-main { display: grid; grid-template-columns: minmax(0, 1fr) var(--wotd-photo-w); gap: 36px; align-items: stretch; }
+.wotd-text { min-width: 0; }
 .wotd-no-photo .wotd-main { grid-template-columns: minmax(0, 1fr); }
-.wotd-no-photo .wotd-text { padding-bottom: 4px; }
 
 .wotd-photo {
   position: relative;
-  margin: calc(-44px - var(--wotd-rise)) 0 0;   /* -(field top padding) - rise */
+  margin: calc(-1 * (var(--wotd-pad-top) + var(--wotd-rise))) 0 0;   /* -(field top padding) - rise */
   pointer-events: none;
 }
 .wotd-photo[hidden] { display: none; }
@@ -37,11 +38,7 @@
   object-fit: cover; object-position: 50% 0;
 }
 
-.wotd-head {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-  margin-bottom: 26px; padding-bottom: 12px;
-  border-bottom: 1px solid rgba(243, 238, 225, .45);
-}
+.wotd-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; margin: 0 0 8px; }
 .wotd-heading {
   font-family: 'Inter', sans-serif;
   font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
@@ -50,32 +47,35 @@
 .wotd-day { font-size: 12px; font-weight: 600; color: var(--fz-paper); }
 
 .wotd-title-link { display: block; color: var(--fz-paper); }
-.wotd-title-link:hover .wotd-title { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
+.wotd-title-link:hover .wotd-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
 .wotd-title {
   font-family: 'Fraunces', serif; font-weight: 700;
-  font-size: clamp(38px, 5vw, 68px); line-height: .98; letter-spacing: -.02em;
-  margin: 0 0 12px; color: var(--fz-paper); overflow-wrap: anywhere;
+  font-size: clamp(28px, 3.4vw, 40px); line-height: 1.02; letter-spacing: -.02em;
+  margin: 0 0 4px; color: var(--fz-paper); overflow-wrap: anywhere;
 }
-.wotd-meta { font-size: 13.5px; font-weight: 600; letter-spacing: .01em; color: var(--fz-paper); margin: 0 0 20px; }
-.wotd-desc { font-size: 17px; line-height: 1.6; color: var(--fz-paper); max-width: 50ch; margin: 0 0 16px; }
-.wotd-use { font-size: 16px; line-height: 1.55; color: var(--fz-paper); max-width: 52ch; margin: 0 0 24px; padding-left: 14px; border-left: 3px solid var(--fz-paper); }
-.wotd-use strong { font-weight: 700; }
-.wotd-use[hidden] { display: none; }
+.wotd-meta { font-size: 13px; font-weight: 600; letter-spacing: .01em; color: var(--fz-paper); margin: 0 0 8px; }
+/* The short description: one or two lines; the full text stays in the page. */
+.wotd-desc {
+  font-size: 15.5px; line-height: 1.5; color: var(--fz-paper); max-width: 64ch; margin: 0 0 12px;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
+}
+/* "How to use it" is not part of the compact feature (the resource's own entry below has the detail). */
+.wotd .wotd-use { display: none; }
 
-/* The prominent link to the external website: a paper button on the red field, inverting on hover. */
+/* The visit link: a compact paper button on the red field, inverting on hover. */
 .wotd .wotd-btn {
-  display: inline-block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.3;
-  padding: 13px 22px; min-height: 48px;
+  display: inline-block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; line-height: 1.3;
+  padding: 9px 16px; min-height: 44px;
   background: var(--fz-paper); color: var(--fz-red); border: 2px solid var(--fz-paper);
 }
 .wotd .wotd-btn:hover { background: transparent; color: var(--fz-paper); }
 /* One focus ring for the site is cobalt (directory.css); on red it needs to be paper. Higher specificity on purpose. */
 body.directory .wotd a:focus-visible { outline-color: var(--fz-paper); }
 
-/* Photograph credit and licence: a quiet row under the block, divided by a rule (the slot the old band's supporting list used). */
+/* Photograph credit and licence: kept in full, a quiet row under the text, divided by a rule. */
 .wotd-credit {
-  font-size: 12.5px; line-height: 1.55; color: var(--fz-paper);
-  margin: 0; padding-top: 18px; max-width: 90ch;
+  font-size: 12px; line-height: 1.5; color: var(--fz-paper);
+  margin: 14px 0 0; padding-top: 10px; max-width: 110ch;
   border-top: 1px solid rgba(243, 238, 225, .45);
 }
 .wotd-credit[hidden] { display: none; }
@@ -83,17 +83,29 @@ body.directory .wotd a:focus-visible { outline-color: var(--fz-paper); }
 .wotd-credit a:hover { border-bottom-width: 2px; }
 
 @media (max-width: 1000px) {
-  .wotd { --wotd-photo-w: 300px; }
-  .wotd-main { gap: 32px; }
+  .wotd { --wotd-photo-w: 150px; }
+  .wotd-main { gap: 28px; }
 }
+/* Phones: the photograph sits on the right of the label, name and short description; the visit link and the credit run full width
+   below. The photograph still rises above the red field. */
 @media (max-width: 700px) {
-  .wotd { --wotd-rise: 84px; margin-top: 124px; padding-bottom: 40px; }
-  .wotd.wotd-no-photo { margin-top: 44px; }
-  .wotd-main { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .wotd-photo { order: -1; width: 78%; height: 250px; margin: calc(-44px - var(--wotd-rise)) 0 28px auto; }
-  .wotd-text { padding-bottom: 28px; }
-  .wotd-no-photo .wotd-text { padding-bottom: 4px; }
-  .wotd-title { font-size: 40px; }
-  .wotd .wotd-btn { display: block; text-align: center; }
+  .wotd { --wotd-photo-w: 108px; --wotd-rise: 30px; --wotd-pad-top: 14px; padding-bottom: 14px; margin-top: calc(var(--wotd-rise) + 22px); }
+  .wotd.wotd-no-photo { margin-top: 22px; }
+  .wotd-main { grid-template-columns: minmax(0, 1fr) var(--wotd-photo-w); column-gap: 14px; row-gap: 0; }
+  .wotd-no-photo .wotd-main { grid-template-columns: minmax(0, 1fr); }
+  .wotd-text { display: contents; }
+  .wotd-head { grid-column: 1; grid-row: 1; margin-bottom: 6px; }
+  .wotd-title-link { grid-column: 1; grid-row: 2; }
+  .wotd-meta { display: none; }   /* type, domain and cost are in the visit link's target and the resource's own entry below */
+  .wotd-desc { grid-column: 1; grid-row: 3; font-size: 14.5px; -webkit-line-clamp: 2; line-clamp: 2; margin-bottom: 10px; }
+  .wotd .wotd-btn { grid-column: 1; grid-row: 4; justify-self: start; }
+  .wotd-photo { grid-column: 2; grid-row: 1 / span 4; }
+  .wotd-no-photo .wotd-head, .wotd-no-photo .wotd-title-link, .wotd-no-photo .wotd-desc, .wotd-no-photo .wotd-btn { grid-column: 1 / -1; }
+  .wotd-title { font-size: 28px; }
+  .wotd-credit { font-size: 11.5px; margin-top: 10px; padding-top: 8px; }
+}
+@media (max-width: 400px) {
+  .wotd { --wotd-photo-w: 92px; }
+  .wotd-title { font-size: 25px; }
 }
 @media print { .wotd-photo { display: none; } }
