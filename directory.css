@@ -13,7 +13,7 @@
      2. Masthead + site navigation (every page)
      3. Homepage intro
      4. Search, filters, popular uses
-     5. Recently added (red feature section + halftone photo)
+     5. (reserved: the red feature block is the Website of the Day, styled in website-of-the-day.css)
      6. Resource index
      7. Footer (every page)
      8. Responsive
@@ -46,7 +46,6 @@ body.directory select:focus-visible {
   outline: 3px solid var(--fz-cobalt);
   outline-offset: 3px;
 }
-.recent-band a:focus-visible { outline-color: var(--fz-paper); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 8px; z-index: 20;
@@ -231,101 +230,6 @@ body.directory .search-line input:focus-visible { outline: none; }
 .clear-btn:hover { color: #8F1D14; }
 .clear-btn[hidden] { display: none; }
 
-/* ---------- 5. Recently added ----------
-   One landmark: a full-bleed red field. The halftone photograph is
-   printed black (dots on transparent) so it reads on cream above the
-   field and on red inside it; it straddles the top edge on purpose.
-   Text lives only in the left column, on flat red. */
-.recent-band {
-  background: var(--fz-red);
-  color: var(--fz-paper);
-  padding: 44px 0 52px;
-  margin-top: 112px;
-  --photo-w: 440px;
-  --photo-rise: 72px;      /* how far the photograph climbs above the red field */
-}
-.recent-main { display: grid; grid-template-columns: minmax(0, 1fr) var(--photo-w); gap: 48px; align-items: stretch; }
-.recent-text { min-width: 0; padding-bottom: 44px; }
-.recent-photo {
-  position: relative;
-  margin: calc(-44px - var(--photo-rise)) 0 0;   /* -(band top padding) - rise */
-  pointer-events: none;
-}
-.recent-photo img {
-  position: absolute; inset: 0;
-  display: block; width: 100%; height: 100%;
-  object-fit: cover; object-position: 50% 0;
-}
-.recent-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 26px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(243,238,225,.45);
-}
-.recent-head h2 {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-  margin: 0; color: var(--fz-paper);
-}
-.recent-head .n { font-size: 12px; color: var(--fz-paper); }
-
-.featured-label {
-  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--fz-paper);
-  margin-bottom: 8px;
-}
-.featured-title-link { display: block; }
-.featured-title-link:hover .featured-title { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
-.featured-title {
-  font-family: 'Fraunces', serif;
-  font-weight: 700;
-  font-size: clamp(40px, 5.6vw, 76px);
-  line-height: .98;
-  letter-spacing: -.02em;
-  margin: 0 0 22px;
-  color: var(--fz-paper);
-  overflow-wrap: anywhere;
-}
-.featured-body { display: block; }
-.featured-desc {
-  font-size: 17px; line-height: 1.6;
-  color: var(--fz-paper);
-  max-width: 50ch;
-  margin: 0 0 16px;
-}
-.featured-meta { font-size: 13.5px; font-weight: 600; letter-spacing: .01em; color: var(--fz-paper); }
-.featured-meta a {
-  color: var(--fz-paper);
-  font-weight: 700;
-  margin-left: 14px;
-  padding-bottom: 2px;
-  border-bottom: 2px solid var(--fz-paper);
-}
-.featured-meta a:hover { border-bottom-width: 3px; }
-
-.support-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 28px;
-  padding-top: 26px;
-  border-top: 1px solid rgba(243,238,225,.45);
-}
-.support-item { display: block; }
-.support-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-paper); }
-.support-title {
-  font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; line-height: 1.2;
-  margin: 4px 0 6px; color: var(--fz-paper);
-}
-.support-item:hover .support-title { text-decoration: underline; text-underline-offset: 4px; }
-.support-desc {
-  font-size: 13.5px; line-height: 1.5; color: var(--fz-paper); margin: 0 0 6px;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-}
-.support-meta { font-size: 12px; color: var(--fz-paper); }
-
 /* ---------- 6. Resource index ----------
    Entries, not cards: thumbnail, a wide title/description column and
    a narrow metadata + action column, divided by continuous rules. The
@@ -422,9 +326,6 @@ body.directory .search-line input:focus-visible { outline: none; }
 .foot-nav { display: flex; flex-wrap: wrap; gap: 0 24px; }
 .foot-nav a { display: inline-block; padding: 8px 0; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fz-ink); border-bottom: 2px solid transparent; }
 .foot-nav a:hover { border-bottom-color: var(--fz-red); }
-.foot-credit { grid-column: 1 / -1; font-size: 12.5px; color: var(--fz-ink-muted); margin: 8px 0 0; padding-top: 18px; border-top: 1px solid var(--fz-rule); }
-.foot-credit a { border-bottom: 1px solid var(--fz-ink-faint); }
-.foot-credit a:hover { color: var(--fz-red); }
 
 /* ---------- 8. Responsive ---------- */
 @media (max-width: 1000px) {
@@ -432,10 +333,6 @@ body.directory .search-line input:focus-visible { outline: none; }
   .filter-line { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px 24px; }
   .intro-lede { max-width: 30ch; }
   .intro-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--fz-rule); padding-top: 20px; }
-  .recent-band { --photo-w: 300px; }
-  .recent-main { gap: 32px; }
-  .support-list { grid-template-columns: 1fr; gap: 20px; }
-  .support-item + .support-item { padding-top: 18px; border-top: 1px dashed rgba(243,238,225,.4); }
   .entry, .entry.has-image { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
   .entry.has-image { grid-template-columns: 72px minmax(0, 1fr); column-gap: 18px; }
   .entry.has-image .entry-side { grid-column: 2; }
@@ -456,14 +353,8 @@ body.directory .search-line input:focus-visible { outline: none; }
   .filter-line { grid-template-columns: 1fr 1fr; gap: 6px 20px; }
   .intro { padding: 36px 0 32px; }
   .index-head { padding-top: 48px; }
-  .recent-band { margin-top: 124px; padding-bottom: 40px; --photo-rise: 84px; }
-  .recent-main { grid-template-columns: 1fr; gap: 0; }
-  .recent-photo { order: -1; width: 78%; height: 250px; margin: calc(-44px - var(--photo-rise)) 0 28px auto; }
-  .recent-text { padding-bottom: 28px; }
-  .featured-title { font-size: 40px; }
 }
 @media (max-width: 400px) {
   .site-nav { display: grid; grid-template-columns: repeat(2, max-content); gap: 0 36px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
-@media print { .recent-photo { display: none; } }

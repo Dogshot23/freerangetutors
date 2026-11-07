@@ -1,16 +1,18 @@
 /* ============================================================
    FREE RANGE TUTORS — directory homepage
-   Search + filters + Recently Added + resource index, no
-   questionnaire before the resources are visible.
+   Search + filters + resource index, no questionnaire before
+   the resources are visible. (The red feature block above the
+   index is the Website of the Day, see website-of-the-day.js;
+   the old "Recently added" band was removed from the homepage.)
 
    Visual system: "Contemporary Editorial Fanzine" (Mockup 10,
-   approved) — a full-bleed featured section plus a typeset
-   resource index, rather than a card grid. Search/filter/sort
-   logic below is unchanged from the previous card-grid-era
-   implementation (already correct, already covered by
-   data/directory.test.js); only the render functions differ,
-   to produce Mockup 10's approved markup instead of resource
-   cards. See data/SCHEMA.md for the underlying data model.
+   approved) — a typeset resource index, rather than a card
+   grid. Search/filter/sort logic below is unchanged from the
+   previous card-grid-era implementation (already correct,
+   already covered by data/directory.test.js); only the render
+   functions differ, to produce Mockup 10's approved markup
+   instead of resource cards. See data/SCHEMA.md for the
+   underlying data model.
    ============================================================ */
 
 (function () {
@@ -18,22 +20,18 @@
   const CEFR_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
   // Deterministic presentation rules (Mockup 10, approved) — not
-  // data. These IDs decide which real resources get the featured/
-  // accent treatment; the underlying data/resources/*.json records
-  // are untouched. The large-entry treatment (LARGE_IDS) has been
-  // removed — every All Resources entry now uses uniform sizing;
-  // this does not affect the separate Recently Added/FEATURED_ID
-  // treatment below, which never referenced LARGE_IDS.
+  // data. These IDs decide which real resources get the accent
+  // treatment in the index; the underlying data/resources/*.json
+  // records are untouched. The large-entry treatment (LARGE_IDS)
+  // has been removed — every All Resources entry uses uniform
+  // sizing.
   //
   // As of the external-links-only catalogue change, all FRT-original
   // activities (the only resources these IDs ever referenced) were
-  // removed from the live catalogue, so all four lists below are
-  // empty — FEATURED_ID falls back to the genuinely newest resource
-  // (see renderFeatured()), and the accent lists simply never match.
-  const FEATURED_ID = null;
+  // removed from the live catalogue, so both lists below are empty
+  // and simply never match.
   const RED_ACCENT_IDS = [];
   const COBALT_ACCENT_IDS = [];
-  const SUPPORT_ACCENT_IDS = [];
 
   let allResources = [];
 
@@ -180,11 +178,6 @@
   }
 
   /* ---- SORTING ---- */
-  function sortNewestFirst(resources) {
-    return resources.slice().sort(function (a, b) {
-      return (b.date_added > a.date_added) ? 1 : -1;
-    });
-  }
   function sortAlphabetical(resources) {
     return resources.slice().sort(function (a, b) {
       return a.name.localeCompare(b.name);
@@ -226,114 +219,6 @@
     const attrs = { href: r.url };
     if (isExternal(r)) { attrs.target = '_blank'; attrs.rel = 'noopener noreferrer'; }
     return attrs;
-  }
-
-  /* ---- RENDER: Recently Added — full-bleed featured entry +
-     a short supporting list. Deliberately NOT a card grid; see
-     directory.css .recent-band for the visual treatment. The
-     featured resource is fixed by FEATURED_ID when present in the
-     catalogue (a presentation choice, not a data fact), falling
-     back to the genuinely newest resource otherwise so this never
-     breaks if that resource is ever removed. ---- */
-  /* Which resource gets the red featured slot. FEATURED_ID wins when it is set (a deliberate
-     choice, even for a paid entry). Otherwise it is the newest resource that is NOT paid, so a
-     newly added paid entry can never take the slot by being the most recent. If every resource
-     were paid it falls back to the newest. With no paid entries (as now) this is exactly the
-     previous behaviour: the newest resource. */
-  function pickFeatured(newest) {
-    const chosen = allResources.find(function (r) { return r.id === FEATURED_ID; });
-    if (chosen) return chosen;
-    return newest.find(function (r) { return r.cost !== 'paid'; }) || newest[0];
-  }
-
-  /* The "Recently added" band (featured entry + 3 supporting items) is a view of FREE and freemium
-     resources only, so adding a paid entry never changes which free resources appear there. Paid
-     entries are still listed in "All resources" (with a Paid label and the Cost filter) and on the
-     paid-resources page. If every resource were paid it falls back to the whole catalogue. */
-  function recentPool(resources) {
-    const free = resources.filter(function (r) { return r.cost !== 'paid'; });
-    return free.length ? free : resources;
-  }
-
-  function renderFeatured() {
-    const newest = sortNewestFirst(recentPool(allResources));
-    const featured = pickFeatured(newest);
-    const rest = newest.filter(function (r) { return r.id !== featured.id; }).slice(0, 3); // featured + 3 = the "4 newest" the heading promises
-
-    const wrap = document.getElementById('recent-featured');
-    wrap.innerHTML = '';
-
-    wrap.appendChild(el('div', {
-      class: 'featured-label',
-      text: typeLabelFor(featured.resource_type) + ' — ' + (featured.source_category === 'own_original' ? 'FRT Original' : featured.creator)
-    }));
-    const titleLink = el('a', Object.assign({ class: 'featured-title-link' }, linkAttrs(featured)), [
-      el('h3', { class: 'featured-title', text: featured.name })
-    ]);
-    wrap.appendChild(titleLink);
-
-    const metaWrap = el('div', { class: 'featured-meta' }, [
-      document.createTextNode(metaLine(featured) + ' ')
-    ]);
-    metaWrap.appendChild(el('a', Object.assign({}, linkAttrs(featured), { text: isExternal(featured) ? 'Open ↗' : 'Open →' })));
-
-    wrap.appendChild(el('div', { class: 'featured-body' }, [
-      el('p', { class: 'featured-desc', text: featured.description_short }),
-      metaWrap
-    ]));
-    // The supporting items sit in their own full-width row under the photo (see index.html).
-    const support = document.getElementById('recent-support') || wrap;
-    support.innerHTML = '';
-    support.appendChild(renderSupportList(rest));
-    renderFeaturePhoto(featured.id);
-  }
-
-  /* The halftone photograph beside the featured website, and its footer credit. Each featured website has its
-     OWN photograph, looked up by resource id in data/featured-images.json (see tools/FEATURED_IMAGE_WORKFLOW.md).
-     There is deliberately no fallback to another website's photograph: with no entry (or if the file can't be
-     read) the photograph and the credit are hidden and the band still works. */
-  function renderFeaturePhoto(id) {
-    const fig = document.querySelector('.recent-photo');
-    const img = fig && fig.querySelector('img');
-    const credit = document.getElementById('foot-credit');
-    function none() { if (fig) fig.hidden = true; if (credit) { credit.hidden = true; credit.textContent = ''; } }
-    if (!fig || !img) return;
-    fetch('/data/featured-images.json').then(function (res) {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.json();
-    }).then(function (data) {
-      const p = data && data.images && data.images[id];
-      if (!p || !p.file) { none(); return; }
-      img.setAttribute('src', '/' + p.file);
-      fig.hidden = false;
-      if (credit) {
-        credit.textContent = '';
-        credit.appendChild(document.createTextNode('Feature photograph: '));
-        credit.appendChild(el('a', { href: p.source_page, target: '_blank', rel: 'noopener', text: p.title }));
-        credit.appendChild(document.createTextNode(', ' + p.creator + ', ' + p.year + ', ' + p.source_site + '. '));
-        credit.appendChild(el('a', { href: p.licence_url, target: '_blank', rel: 'noopener', text: p.licence }));
-        credit.appendChild(document.createTextNode('. ' + p.change_note));
-        credit.hidden = false;
-      }
-    }).catch(function (err) {
-      console.warn('Feature photograph unavailable:', err);
-      none();
-    });
-  }
-
-  function renderSupportList(resources) {
-    const list = el('div', { class: 'support-list' }, []);
-    resources.forEach(function (r) {
-      const cls = 'support-item' + (SUPPORT_ACCENT_IDS.indexOf(r.id) !== -1 ? ' accent' : '');
-      const item = el('a', Object.assign({ class: cls }, linkAttrs(r)), [
-        el('div', { class: 'support-label', text: typeLabelFor(r.resource_type) }),
-        el('h4', { class: 'support-title', text: r.name }),
-        el('p', { class: 'support-desc', text: r.description_short }),
-        el('div', { class: 'support-meta', text: metaLine(r) })
-      ]);
-      list.appendChild(item);
-    });
-    return list;
   }
 
   /* ---- RENDER: All Resources — typeset entries, not cards.
@@ -527,7 +412,6 @@
   FRT.ready().then(function (resources) {
     allResources = resources;
     populateFilters(resources);
-    renderFeatured();
     buildQuickPicks(resources);
     renderEntries();
     wireControls();

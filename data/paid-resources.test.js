@@ -9,7 +9,7 @@
      - the catalogue page is complete, canonical, and links ONLY to the verified Payhip product URL
      - the directory entry and the catalogue page agree on price, level, time and link
      - exactly one paid entry exists (the reviewed one) and every other directory resource is unchanged
-     - a paid entry can never take the homepage's red featured slot or enter "Recently added"
+     - a paid entry can never take the homepage's red feature block (the Website of the Day, which replaced the old "Recently added" band)
      - navigation and sitemap link to the page consistently on every page
      - the About and footer wording stays honest
      - .assetsignore publishes the page while keeping internal files, the Stripe prototype and tools off the site, and the remaining
@@ -245,7 +245,7 @@ test('exactly the reviewed resources in the catalogue are paid, and no others', 
   assert(paidIds.slice().sort().join() === PAID_IDS.slice().sort().join(), 'paid ids: ' + paidIds.join(', '));
 });
 
-console.log('\nhomepage: a paid entry cannot take the featured slot or enter "Recently added"');
+console.log('\nhomepage: a paid entry cannot take the red feature block (the Website of the Day)');
 const dirSrc = read('directory.js');
 function extractFn(name) {
   const start = dirSrc.indexOf('function ' + name + '(');
@@ -254,40 +254,36 @@ function extractFn(name) {
   for (; i < dirSrc.length; i++) { if (dirSrc[i] === '{') depth++; else if (dirSrc[i] === '}') { depth--; if (!depth) break; } }
   return dirSrc.slice(start, i + 1);
 }
-function load() {
-  return new Function('allResources', 'FEATURED_ID', extractFn('recentPool') + '\n' + extractFn('pickFeatured') + '\nreturn { recentPool: recentPool, pickFeatured: pickFeatured };');
-}
-const newestFirst = (rs) => rs.slice().sort((a, b) => (b.date_added > a.date_added) ? 1 : -1);
-const R = (id, cost, date) => ({ id, cost, date_added: date });
 const catalogue = JSON.parse(read('data/manifest.json')).map((id) => JSON.parse(read('data/resources/' + id + '.json')));
-function band(resources, featuredId) {
-  const fns = load()(resources, featuredId);
-  const newest = newestFirst(fns.recentPool(resources));
-  const featured = fns.pickFeatured(newest);
-  return { featured: featured.id, support: newest.filter((r) => r.id !== featured.id).slice(0, 3).map((r) => r.id) };
-}
-test('directory.js still ships FEATURED_ID = null and renderFeatured uses the free-only pool and pickFeatured', () => {
-  assert(/const FEATURED_ID = null;/.test(dirSrc), 'FEATURED_ID changed');
-  assert(/const newest = sortNewestFirst\(recentPool\(allResources\)\);/.test(dirSrc), 'renderFeatured does not use recentPool');
-  assert(/const featured = pickFeatured\(newest\);/.test(dirSrc), 'renderFeatured does not use pickFeatured');
+const WOTD = require(path.join(ROOT, 'website-of-the-day.js'));
+const DAY_MS = 864e5, ANCHOR_MS = Date.UTC(2026, 0, 5);
+const weekdayDate = (k) => new Date(ANCHOR_MS + Math.floor(k / 5) * 7 * DAY_MS + (k % 5) * DAY_MS);
+test('the red feature block is the Website of the Day: the old featured-slot code (FEATURED_ID, recentPool, pickFeatured, renderFeatured) is gone from directory.js and the homepage has no Recently added band', () => {
+  assert(!/FEATURED_ID|recentPool|pickFeatured|renderFeatured/.test(dirSrc), 'directory.js still has the old featured-slot code');
+  const home = read('index.html');
+  assert(/<section class="wotd"/.test(home) && !/recent-band|Recently added/i.test(home), 'homepage structure');
 });
-test('with the real catalogue the featured entry and the 3 supporting items are exactly what they are without the paid entry', () => {
-  const withPaid = band(catalogue, null);
-  const withoutPaid = band(catalogue.filter((r) => r.cost !== 'paid'), null);
-  assert(JSON.stringify(withPaid) === JSON.stringify(withoutPaid), 'band differs: ' + JSON.stringify(withPaid) + ' vs ' + JSON.stringify(withoutPaid));
-  assert(withPaid.featured === 'gapminder', 'featured is not the newest free resource (gapminder, added 2026-11-05): ' + withPaid.featured);
-  assert(![withPaid.featured].concat(withPaid.support).some((id) => PAID_IDS.includes(id)), 'a paid entry is in the band');
+test('with the real catalogue only curated_external websites can be featured: no paid or commercial entry is eligible, in the rotation, or ever shown on any weekday for two years', () => {
+  const eligible = WOTD.eligibleWebsites(catalogue);
+  assert(eligible.length > 0 && eligible.every((r) => r.source_category === 'curated_external'), 'a non-external entry is eligible');
+  assert(!eligible.some((r) => PAID_IDS.includes(r.id) || r.source_category === 'commercial' || r.cost === 'paid' && r.source_category !== 'curated_external'), 'a paid entry is eligible');
+  for (let k = 0; k < 520; k++) {
+    const w = WOTD.pickWebsite(catalogue, weekdayDate(k)).website;
+    assert(w.source_category === 'curated_external' && !PAID_IDS.includes(w.id), 'a paid entry was shown on weekday ' + k + ': ' + w.id);
+  }
 });
-test('a newer paid entry cannot take the featured slot or displace a supporting free item (synthetic cases)', () => {
-  const all = [R('a', 'free', '2026-01-01'), R('b', 'freemium', '2026-03-01'), R('c', 'free', '2026-02-01'), R('d', 'free', '2026-01-15'), R('pay', 'paid', '2026-12-31')];
-  const b = band(all, null);
-  assert(b.featured === 'b' && b.support.join() === 'c,d,a', JSON.stringify(b));
+test('a newer paid entry cannot take the feature block or displace a free website (synthetic cases)', () => {
+  const site = (id, d, x) => Object.assign({ id, name: id, url: 'https://e.org/' + id, source_category: 'curated_external', cost: 'free', date_added: d }, x || {});
+  const all = [site('a', '2026-01-01'), site('b', '2026-02-01'), site('c', '2026-03-01'), site('pay', '2026-12-31', { source_category: 'commercial', cost: 'paid' })];
+  const ids = (rs) => rs.map((r) => r.id).join();
+  assert(ids(WOTD.eligibleWebsites(all)) === 'a,b,c', 'paid entry is eligible: ' + ids(WOTD.eligibleWebsites(all)));
+  assert(WOTD.rotationPool === undefined, 'the old newest-date exclusion (rotationPool) must be gone: every eligible free website rotates');
+  for (let k = 0; k < 3; k++) assert(WOTD.pickWebsite(all, weekdayDate(k)).website.id === 'abc'[k], 'the paid entry must not displace any free website: weekday ' + k);
+  for (let k = 0; k < 40; k++) assert(WOTD.pickWebsite(all, weekdayDate(k)).website.id !== 'pay', 'paid entry shown');
 });
-test('FEATURED_ID can still deliberately choose a paid entry; an all-paid catalogue falls back to the whole catalogue', () => {
-  const all = [R('a', 'free', '2026-01-01'), R('pay', 'paid', '2026-09-09')];
-  assert(band(all, 'pay').featured === 'pay', 'explicit choice ignored');
-  const onlyPaid = [R('p1', 'paid', '2026-01-01'), R('p2', 'paid', '2026-02-01')];
-  assert(band(onlyPaid, null).featured === 'p2', 'fallback');
+test('a paid entry is ignored even when every other resource is paid or absent: the rotation shows nothing rather than a paid product', () => {
+  const pay = [{ id: 'p1', name: 'p1', url: 'https://payhip.com/b/x', source_category: 'commercial', cost: 'paid', date_added: '2026-01-01' }];
+  assert(WOTD.pickWebsite(pay, weekdayDate(0)) === null && WOTD.pickForDate(pay, [], weekdayDate(0)) === null, 'a paid-only catalogue must feature nothing');
 });
 
 console.log('\ncreator: the directory card and the no-JavaScript list name GapTheMind');

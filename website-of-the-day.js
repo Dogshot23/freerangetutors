@@ -4,10 +4,11 @@
    The homepage "Website of the Day" feature.
 
    PART 1 (pure, no DOM, no network): which external website is featured on a
-   given UTC date, and which editorial photograph goes with it. This part is a
-   plain function of (catalogue, photo library, date), so every visitor sees the
-   same thing on the same UTC date, and data/website-of-the-day.test.js tests the
-   real code by require()-ing this file. See data/SCHEMA.md ("Website of the Day").
+   given UTC date, and which photograph goes with it. This part is a plain
+   function of (catalogue, photo library, pinned photographs, date), so every
+   visitor sees the same thing on the same UTC date, and
+   data/website-of-the-day.test.js tests the real code by require()-ing this
+   file. See data/SCHEMA.md ("Website of the Day").
 
    PART 2 (browser only): fills the <section class="wotd"> in index.html. The
    section stays hidden unless everything needed is available, and a missing
@@ -18,14 +19,15 @@
        date_added (ascending) then id. FRT's own products and paid/commercial
        entries are never included. Adding an external resource to the catalogue
        adds it to the pool automatically (there is no second list).
-     - The websites in the "Recently added" band's newest-date group are left out (see recentlyAddedGroup), so the same website is
-       never featured twice on the homepage. If that would leave fewer than two sites, nothing is left out.
      - One website per weekday, advancing Monday to Friday only. Saturday and
        Sunday show Friday's website. The sequence continues across weeks, so
        with N sites in the pool no site repeats until all N have been shown.
      - Adding or removing a site changes N, so the position in the cycle shifts
        (today's website may change, and a site may repeat or be skipped once
        around that change). That is unavoidable for a stateless rule.
+     - Photograph: a website that has its OWN entry in data/featured-images.json (a "pinned" photograph, with its licence and
+       credit) shows that photograph; every other website gets the best tag match from data/editorial-library.json, or the
+       text-only layout. A pinned entry that is incomplete or malformed is ignored, never shown without its credit.
    ============================================================ */
 (function (root, factory) {
   var api = factory();
@@ -72,8 +74,8 @@
     return WEEKDAYS[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MONTHS[d.getUTCMonth()];
   }
 
-  /* The rotation pool. Strictly curated_external: own_original and commercial (the paid GapTheMind
-     products) are excluded. Stable order: date_added ascending, then id (plain string comparison). */
+  /* The rotation pool: every eligible website, with nothing else left out. Strictly curated_external: own_original and commercial
+     (the paid GapTheMind products) are excluded. Stable order: date_added ascending, then id (plain string comparison). */
   function eligibleWebsites(resources) {
     return (resources || []).filter(function (r) {
       return r && r.source_category === 'curated_external' && r.id && r.url;
@@ -84,41 +86,11 @@
     });
   }
 
-  /* The "Recently added" band in directory.js features the newest FREE resource (recentPool, sortNewestFirst, pickFeatured) and
-     shows three more beside it. So that the same website is never featured twice on the homepage, Website of the Day leaves out
-     every resource that could be that featured one: the group of free resources sharing the newest date_added. A group, not a
-     single record, because directory.js orders resources that share a date in an engine-dependent way, so which one of a tied
-     group it features is not predictable here; excluding the whole group is always safe. It is derived from the catalogue itself
-     (no list to maintain) and does not depend on the date, so weekends and every visitor are unaffected.
-     MUST MATCH directory.js (recentPool: cost !== 'paid', falling back to everything if nothing is free; newest by date_added;
-     FEATURED_ID null). data/website-of-the-day.test.js checks directory.js still has those rules. */
-  var MIN_ROTATION = 2;
-
-  function recentlyAddedGroup(resources) {
-    var all = (resources || []).filter(function (r) { return r && r.id; });
-    var free = all.filter(function (r) { return r.cost !== 'paid'; });
-    var source = free.length ? free : all;
-    var newest = '';
-    source.forEach(function (r) { var d = String(r.date_added || ''); if (d > newest) newest = d; });
-    if (!newest) return [];
-    return source.filter(function (r) { return String(r.date_added || '') === newest; });
-  }
-
-  /* The sites the rotation actually cycles through: the eligible pool minus the Recently added group. If that would leave fewer
-     than MIN_ROTATION sites (a tiny catalogue, or a big batch added on one day) the exclusion is skipped, because a working
-     rotation matters more than avoiding the overlap. */
-  function rotationPool(resources) {
-    var eligible = eligibleWebsites(resources), skip = {};
-    recentlyAddedGroup(resources).forEach(function (r) { skip[r.id] = true; });
-    var pool = eligible.filter(function (r) { return !skip[r.id]; });
-    return pool.length >= MIN_ROTATION ? pool : eligible;
-  }
-
   function mod(n, m) { return ((n % m) + m) % m; }
 
   /* Which website for a date. Returns null when there is nothing to rotate. */
   function pickWebsite(resources, date) {
-    var pool = rotationPool(resources);
+    var pool = eligibleWebsites(resources);
     if (!pool.length) return null;
     var index = weekdayIndex(date);
     return { website: pool[mod(index, pool.length)], index: index, poolSize: pool.length, position: mod(index, pool.length), cycle: Math.floor(index / pool.length) };
@@ -205,10 +177,44 @@
 
   /* Everything the page needs for a date: { website, photoId, index, poolSize, dayLabel } or null. */
   function pickForDate(resources, library, date) {
-    var pool = rotationPool(resources);          // the same filtered pool for the website and for photograph matching
+    var pool = eligibleWebsites(resources);      // the same pool for the website and for photograph matching
     var w = pickWebsite(resources, date);
     if (!w) return null;
     return { website: w.website, photoId: photoIdForIndex(pool, library, w.index), index: w.index, poolSize: w.poolSize, dayLabel: formatDay(date) };
+  }
+
+  /* ---- resource-specific ("pinned") photographs, from data/featured-images.json ---- */
+
+  /* Everything the credit line needs. A pinned entry missing any of these is not used (a photograph is never shown without its credit
+     and licence). `year` is optional. */
+  var PINNED_REQUIRED = ['file', 'title', 'creator', 'source_site', 'source_page', 'licence', 'licence_url', 'change_note'];
+  var SAFE_IMAGE_PATH = /^images\/[A-Za-z0-9._\-\/]+\.(png|jpe?g|webp)$/i;
+
+  /* The entry itself if it is complete and safe to show, otherwise null. */
+  function usablePinnedPhoto(entry) {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return null;
+    for (var i = 0; i < PINNED_REQUIRED.length; i++) {
+      var v = entry[PINNED_REQUIRED[i]];
+      if (typeof v !== 'string' || !v.trim()) return null;
+    }
+    if (!SAFE_IMAGE_PATH.test(entry.file) || entry.file.indexOf('..') !== -1) return null;
+    if (!/^https:\/\//.test(entry.source_page) || !/^https:\/\//.test(entry.licence_url)) return null;
+    if (entry.year != null && typeof entry.year !== 'string' && typeof entry.year !== 'number') return null;
+    return entry;
+  }
+
+  /* The photograph to show for a pick: the website's own pinned photograph if it has a usable one (it takes precedence over any
+     generic match), else the library photograph matched for that day, else null (text-only). libraryImages and pinnedImages are
+     the `images` objects of data/editorial-library.json and data/featured-images.json, each keyed by id; either may be missing. */
+  function choosePhoto(pick, libraryImages, pinnedImages) {
+    if (!pick || !pick.website) return null;
+    var id = pick.website.id;
+    if (pinnedImages && typeof pinnedImages === 'object' && Object.prototype.hasOwnProperty.call(pinnedImages, id)) {
+      var pinned = usablePinnedPhoto(pinnedImages[id]);
+      if (pinned) return pinned;
+    }
+    if (pick.photoId && libraryImages && Object.prototype.hasOwnProperty.call(libraryImages, pick.photoId)) return libraryImages[pick.photoId];
+    return null;
   }
 
   /* ---------------- PART 2: browser rendering ---------------- */
@@ -279,13 +285,20 @@
       if (win.console) win.console.warn('Website of the Day photographs unavailable:', err);
       return {};
     });
-    Promise.all([win.FRT.ready(), libraryPromise]).then(function (parts) {
-      var images = parts[1];
+    // Resource-specific photographs: if the file cannot be read the page just uses the library photograph for that day.
+    var pinnedPromise = win.fetch('/data/featured-images.json').then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function (data) { return (data && data.images && typeof data.images === 'object') ? data.images : {}; }).catch(function (err) {
+      if (win.console) win.console.warn('Website of the Day pinned photographs unavailable:', err);
+      return {};
+    });
+    Promise.all([win.FRT.ready(), libraryPromise, pinnedPromise]).then(function (parts) {
+      var images = parts[1], pinned = parts[2];
       var library = Object.keys(images).map(function (id) { return { id: id, tags: images[id].tags, status: images[id].status }; });
       var pick = pickForDate(win.FRT.all(), library, new Date());
       if (!pick) return;
-      var photo = pick.photoId && images[pick.photoId] ? images[pick.photoId] : null;
-      render(doc, pick, photo);
+      render(doc, pick, choosePhoto(pick, images, pinned));
     }).catch(function (err) {
       if (win.console) win.console.warn('Website of the Day unavailable:', err);   // the section simply stays hidden
     });
@@ -294,8 +307,9 @@
   return {
     ANCHOR_UTC: ANCHOR_UTC,
     weekdayIndex: weekdayIndex, effectiveDate: effectiveDate, formatDay: formatDay,
-    eligibleWebsites: eligibleWebsites, recentlyAddedGroup: recentlyAddedGroup, rotationPool: rotationPool, pickWebsite: pickWebsite,
+    eligibleWebsites: eligibleWebsites, pickWebsite: pickWebsite,
     tagsFor: tagsFor, photoCandidates: photoCandidates, photoIdForIndex: photoIdForIndex,
+    usablePinnedPhoto: usablePinnedPhoto, choosePhoto: choosePhoto,
     pickForDate: pickForDate, render: render, start: start
   };
 });

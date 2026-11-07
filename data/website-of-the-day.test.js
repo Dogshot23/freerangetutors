@@ -64,8 +64,7 @@ t('real catalogue: every pool member is curated_external, none is a GapTheMind /
 
 // ---------------------------------------------------------------------------------------------
 console.log('\nwhich website on which day');
-const pool20 = W.eligibleWebsites(catalogue);                 // every eligible (curated_external) website
-const POOL = W.rotationPool(catalogue), N = POOL.length;      // the sites the rotation actually cycles through (eligible minus the Recently added group)
+const POOL = W.eligibleWebsites(catalogue), N = POOL.length;   // the rotation cycles through EVERY eligible (curated_external) website: nothing is left out
 const monday = U(2026, 11, 9);
 t('a different website every weekday: any ' + N + ' consecutive weekdays show ' + N + ' distinct websites (no repeat until the list is exhausted)', (() => {
   for (let start = 0; start < 3 * N; start++) {
@@ -92,10 +91,7 @@ t('the real catalogue never rotates in a paid or commercial product, over two fu
 t('empty pool returns null; a pool of one always returns that site', W.pickWebsite([], monday) === null && W.pickWebsite([site('x')], monday).website.id === 'x' && W.pickWebsite([site('x')], U(2027, 3, 3)).website.id === 'x' && W.pickWebsite([site('p', '2026-01-01', { source_category: 'commercial' })], monday) === null);
 
 console.log('\nadding a website');
-// RECENT stands in for the newest free resource of the catalogue (an FRT original, never in the pool), so these small fixtures
-// test plain rotation behaviour without the Recently added exclusion taking away their newest site. The exclusion has its own section below.
-const RECENT = site('recent-feature', '2099-01-01', { source_category: 'own_original' });
-const base3 = [site('a', '2026-01-01'), site('b', '2026-02-01'), site('c', '2026-03-01'), RECENT];
+const base3 = [site('a', '2026-01-01'), site('b', '2026-02-01'), site('c', '2026-03-01')];
 const added = base3.concat([site('d-new', '2026-11-06')]);
 t('a new curated_external record joins the pool automatically (there is no second list) and, being newest, goes to the end so existing order is untouched', ids(W.eligibleWebsites(added)).join() === 'a,b,c,d-new');
 t('it is shown within the next cycle', (() => { const seen = new Set(); for (let k = 0; k < 4; k++) seen.add(W.pickWebsite(added, new Date(ANCHOR + k * DAY)).website.id); return seen.has('d-new'); })());
@@ -106,81 +102,43 @@ t('unavoidable trade-off, documented: adding a site changes the pool size, so th
 t('a paid or commercial record added to the catalogue changes nothing', (() => { const withPaid = base3.concat([site('gtmk-pack', '2026-11-06', { source_category: 'commercial', cost: 'paid' })]); for (let k = 0; k < 12; k++) { const d = new Date(ANCHOR + k * DAY); if (W.pickWebsite(base3, d).website.id !== W.pickWebsite(withPaid, d).website.id) return false; } return true; })());
 
 // ---------------------------------------------------------------------------------------------
-console.log('\nnever the same website twice on the homepage (Recently added exclusion)');
+console.log('\nthe rotation pool: every eligible website, with nothing left out');
 const weekdaySeq = (resources, n) => { const out = []; for (let k = 0; k < n; k++) out.push(W.pickWebsite(resources, new Date(ANCHOR + Math.floor(k / 5) * 7 * DAY + (k % 5) * DAY)).website.id); return out; };
+const weekdayDate = (k) => new Date(ANCHOR + Math.floor(k / 5) * 7 * DAY + (k % 5) * DAY);
 const sitesDated = (spec) => spec.map(([id, d, x]) => site(id, d, x));
-// An independent copy of what directory.js does to choose the featured item (recentPool -> sortNewestFirst -> pickFeatured), run with the two
-// kinds of sort an engine may use. directory.js's comparator returns -1 for equal dates, so which of several tied resources a browser features varies.
-const mergeStable = (arr, cmp) => { if (arr.length < 2) return arr; const m = arr.length >> 1, L = mergeStable(arr.slice(0, m), cmp), R = mergeStable(arr.slice(m), cmp), out = []; while (L.length && R.length) out.push(cmp(L[0], R[0]) <= 0 ? L.shift() : R.shift()); return out.concat(L, R); };
-const dirFeatured = (resources, sorter) => { const free = resources.filter(r => r.cost !== 'paid'); const pool = free.length ? free : resources; const newest = sorter(pool.slice(), (a, b) => (b.date_added > a.date_added) ? 1 : -1); return newest.find(r => r.cost !== 'paid') || newest[0]; };
-const nativeSort = (arr, cmp) => arr.sort(cmp);
-
-{ // a single newest-date resource
-  const group = W.recentlyAddedGroup(catalogue), newestDate = catalogue.filter(r => r.cost !== 'paid').map(r => r.date_added).sort().pop();
-  t('real catalogue: the Recently added group is exactly the free resources sharing the newest date_added', group.length >= 1 && group.every(r => r.date_added === newestDate && r.cost !== 'paid') && group.length === catalogue.filter(r => r.cost !== 'paid' && r.date_added === newestDate).length, ids(group).join());
-  t('real catalogue: the group is left out of the rotation, and every other eligible website stays in it', W.rotationPool(catalogue).every(r => !ids(group).includes(r.id)) && pool20.filter(r => !ids(group).includes(r.id)).every(r => ids(W.rotationPool(catalogue)).includes(r.id)) && W.rotationPool(catalogue).length === pool20.filter(r => !ids(group).includes(r.id)).length);
-  t('real catalogue: the Recently added featured website is never picked, over four full cycles of weekdays, but every other eligible website is', (() => { const seen = new Set(weekdaySeq(catalogue, 4 * N)); return !ids(group).some(i => seen.has(i)) && W.rotationPool(catalogue).every(r => seen.has(r.id)); })());
+{ // the real catalogue
+  const independent = catalogue.filter(r => r && r.source_category === 'curated_external' && r.id && r.url);   // counted without the module
+  t('the pool is exactly the curated_external websites that have an id and a URL (counted independently of the module), with none left out', N === independent.length && ids(POOL).slice().sort().join() === ids(independent).slice().sort().join(), N + ' vs ' + independent.length);
+  t('the pool is the expanded one: at least 20 websites. The old newest-date exclusion (which left the newest free resource out and made the pool 19) and its fallback are gone from the module', N >= 20 && !('rotationPool' in W) && !('recentlyAddedGroup' in W));
+  t('the stable order is unchanged: date_added ascending, then id (plain string comparison), so the newest resource is last', POOL.every((r, i) => i === 0 || String(POOL[i - 1].date_added) < String(r.date_added) || (String(POOL[i - 1].date_added) === String(r.date_added) && POOL[i - 1].id < r.id)) && POOL[N - 1].date_added === independent.map(r => r.date_added).sort().pop());
+  t('Gapminder is eligible: it is in the pool (it is the newest resource, so last in the order)', ids(POOL).includes('gapminder') && POOL[N - 1].id === 'gapminder');
+  t('Gapminder appears in the rotation naturally: exactly once in any ' + N + ' consecutive weekdays, with no special treatment', (() => { for (let s = 0; s < 2 * N; s++) if (weekdaySeq(catalogue, s + N).slice(s).filter(i => i === 'gapminder').length !== 1) return false; return true; })());
+  t('plain rule, nothing else: the website for weekday number k is simply pool[k mod N] of the (date_added, id)-ordered pool, for two years of weekdays', (() => { for (let k = 0; k < 520; k++) if (W.pickWebsite(catalogue, weekdayDate(k)).website.id !== POOL[k % N].id) return false; return true; })());
+  t('a different website every weekday: any ' + N + ' consecutive weekdays show ' + N + ' distinct websites (a clean cycle through the whole pool)', (() => { for (let s = 0; s < 2 * N; s++) if (new Set(weekdaySeq(catalogue, s + N).slice(s)).size !== N) return false; return true; })());
+  t('deterministic: the same catalogue and date always give the same website, whatever the time of day and however the records are ordered; the input is not mutated', (() => { const copy = catalogue.slice(); const a = weekdaySeq(catalogue, 40).join(), b = weekdaySeq(catalogue.slice().reverse(), 40).join(); return a === b && catalogue.every((r, i) => r === copy[i]) && W.pickWebsite(catalogue, U(2026, 12, 15, 1)).website.id === W.pickWebsite(catalogue, U(2026, 12, 15, 22)).website.id; })());
+  t('adding one more website to the real catalogue makes the pool ' + (N + 1) + ', puts it last, and shows it once per cycle', (() => { const more = catalogue.concat([site('brand-new', '2026-12-01')]); const e = W.eligibleWebsites(more); return e.length === N + 1 && e[N].id === 'brand-new' && weekdaySeq(more, N + 1).filter(i => i === 'brand-new').length === 1; })());
+}
+{ // newest-date resources are ordinary members of the pool
   const single = sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['c', '2026-03-01'], ['d', '2026-11-05']]);
-  t('a single newest-date resource: it is excluded and the others rotate (a, b, c)', ids(W.recentlyAddedGroup(single)).join() === 'd' && ids(W.rotationPool(single)).join() === 'a,b,c' && !weekdaySeq(single, 30).includes('d') && new Set(weekdaySeq(single, 3)).size === 3);
-}
-{ // several share the newest date
-  const multi = sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['c', '2026-03-01'], ['d', '2026-04-01'], ['e', '2026-11-01'], ['f', '2026-11-01']]);
-  t('several resources sharing the newest date: the whole group is excluded (whichever of them directory.js features), the rest rotate', ids(W.recentlyAddedGroup(multi)).sort().join() === 'e,f' && ids(W.rotationPool(multi)).join() === 'a,b,c,d' && !weekdaySeq(multi, 40).some(i => i === 'e' || i === 'f') && new Set(weekdaySeq(multi, 4)).size === 4);
-}
-{ // a newly added newest resource
-  const before = sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['c', '2026-03-01'], ['d', '2026-11-05']]);
-  const after = before.concat(sitesDated([['fresh', '2026-11-07']]));
-  t('a newly added resource with the newest date joins the catalogue, takes the Recently added slot and is excluded; the previously featured one re-enters the rotation', ids(W.rotationPool(before)).join() === 'a,b,c' && ids(W.rotationPool(after)).join() === 'a,b,c,d' && ids(W.recentlyAddedGroup(after)).join() === 'fresh');
-  t('it enters the rotation on its own (no list to edit) once it is no longer the newest', (() => { const later = after.concat(sitesDated([['fresher', '2026-11-09']])); return ids(W.rotationPool(later)).includes('fresh') && !ids(W.rotationPool(later)).includes('fresher'); })());
-}
-{ // small pools
-  const two = sitesDated([['a', '2026-01-01'], ['b', '2026-11-05']]), three = sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['c', '2026-11-05']]), one = sitesDated([['only', '2026-11-05']]);
-  t('small pool, two sites: excluding the newest would leave one (no rotation), so nothing is excluded and both rotate', ids(W.rotationPool(two)).join() === 'a,b' && new Set(weekdaySeq(two, 6)).size === 2);
-  t('small pool, three sites: the newest is excluded and the remaining two alternate', ids(W.rotationPool(three)).join() === 'a,b' && weekdaySeq(three, 4).join() === 'a,b,a,b');
-  t('small pool, one site: it is still shown every weekday', weekdaySeq(one, 7).every(i => i === 'only') && W.pickForDate(one, library, monday).website.id === 'only');
-}
-{ // the filtered pool would be empty or too small
+  t('a single newest-date resource is in the pool and is shown in its turn (a, b, c, d)', ids(W.eligibleWebsites(single)).join() === 'a,b,c,d' && weekdaySeq(single, 4).join() === 'a,b,c,d');
+  const multi = sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['e', '2026-11-01'], ['f', '2026-11-01']]);
+  t('several resources sharing the newest date are all in the pool, ordered by id (a, b, e, f)', weekdaySeq(multi, 4).join() === 'a,b,e,f');
   const batch = sitesDated([['a', '2026-09-23'], ['b', '2026-09-23'], ['c', '2026-09-23'], ['d', '2026-09-23'], ['e', '2026-09-23']]);
-  t('a whole batch added on the newest date would empty the pool: the exclusion is skipped and the rotation still works (5 distinct sites in 5 weekdays)', ids(W.recentlyAddedGroup(batch)).length === 5 && ids(W.rotationPool(batch)).join() === 'a,b,c,d,e' && new Set(weekdaySeq(batch, 5)).size === 5);
-  const nearly = sitesDated([['a', '2026-01-01'], ['b', '2026-11-05'], ['c', '2026-11-05'], ['d', '2026-11-05']]);
-  t('a newest group that would leave only one site is also skipped, so there is always a rotation of at least two', ids(W.rotationPool(nearly)).join() === 'a,b,c,d');
-  t('with nothing to rotate (no eligible websites) the result is null and nothing throws', W.pickWebsite([RECENT], monday) === null && W.pickForDate([RECENT], library, monday) === null && W.rotationPool([]).length === 0 && W.rotationPool(undefined).length === 0);
-}
-{ // what counts as "Recently added"
-  const paidNewest = sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['c', '2026-03-01'], ['gtmk', '2026-12-01', { source_category: 'commercial', cost: 'paid' }]]);
-  t('a newer paid product is not part of the Recently added group (directory.js only features free resources), so the newest free website is the one excluded', ids(W.recentlyAddedGroup(paidNewest)).join() === 'c' && ids(W.rotationPool(paidNewest)).join() === 'a,b' && !ids(W.rotationPool(paidNewest)).includes('gtmk'));
-  const ownNewest = sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['c', '2026-03-01'], ['frt-tool', '2026-12-01', { source_category: 'own_original' }]]);
-  t('when the newest free resource is not an external website, no website is left out', ids(W.recentlyAddedGroup(ownNewest)).join() === 'frt-tool' && ids(W.rotationPool(ownNewest)).join() === 'a,b,c');
-  const allPaid = sitesDated([['a', '2026-01-01', { cost: 'paid' }], ['b', '2026-02-01', { cost: 'paid' }], ['c', '2026-03-01', { cost: 'paid' }]]);
-  t('if nothing is free, directory.js falls back to the whole catalogue and so does the group', ids(W.recentlyAddedGroup(allPaid)).join() === 'c' && ids(W.rotationPool(allPaid)).join() === 'a,b');
-  t('records without a date_added contribute no group (nothing is excluded), and malformed input is tolerated', W.recentlyAddedGroup([{ id: 'x', cost: 'free' }, { id: 'y' }]).length === 0 && W.recentlyAddedGroup([null, undefined, {}]).length === 0 && W.recentlyAddedGroup(undefined).length === 0);
-  t('the exclusion comes from the catalogue itself: an unchanged catalogue gives the same pool however the records are ordered, and the input is not mutated', (() => { const copy = single_(); const a = ids(W.rotationPool(copy)).join(), b = ids(W.rotationPool(copy.slice().reverse())).join(); return a === b && copy[0].id === 'a'; function single_() { return sitesDated([['a', '2026-01-01'], ['b', '2026-02-01'], ['c', '2026-03-01'], ['d', '2026-11-05']]); } })());
+  t('a whole batch added on one day rotates normally: 5 distinct sites in 5 weekdays, in id order', weekdaySeq(batch, 5).join() === 'a,b,c,d,e');
+  const two = sitesDated([['a', '2026-01-01'], ['b', '2026-11-05']]), one = sitesDated([['only', '2026-11-05']]);
+  t('small pools need no special case: two sites alternate, and a single site is shown every weekday', weekdaySeq(two, 4).join() === 'a,b,a,b' && weekdaySeq(one, 7).every(i => i === 'only') && W.pickForDate(one, library, monday).website.id === 'only');
+  t('a record without a date_added is still eligible (it sorts first)', ids(W.eligibleWebsites([site('b', '2026-01-01'), { id: 'nodate', name: 'nodate', url: 'https://example.org/nodate', source_category: 'curated_external' }])).join() === 'nodate,b');
+  t('paid and commercial products and FRT originals are still not eligible, however new they are', ids(W.eligibleWebsites(sitesDated([['a', '2026-01-01'], ['gtmk', '2026-12-01', { source_category: 'commercial', cost: 'paid' }], ['frt-tool', '2026-12-02', { source_category: 'own_original' }], ['nourl', '2026-12-03', { url: '' }]]))).join() === 'a');
+  t('with nothing to rotate (no eligible websites) the result is null and nothing throws', W.pickWebsite([], monday) === null && W.pickWebsite(undefined, monday) === null && W.pickForDate([], library, monday) === null && W.pickWebsite([site('p', '2026-01-01', { source_category: 'commercial', cost: 'paid' })], monday) === null && W.eligibleWebsites(null).length === 0);
 }
 { // weekends, determinism, photographs
   const fri = W.pickForDate(catalogue, library, U(2026, 11, 6)), sat = W.pickForDate(catalogue, library, U(2026, 11, 7)), sun = W.pickForDate(catalogue, library, U(2026, 11, 8, 23, 59)), mon = W.pickForDate(catalogue, library, monday);
-  t('weekend retention still holds with the exclusion: Friday\'s website and photograph stay through Saturday and Sunday and Monday moves on', fri.website.id === sat.website.id && sat.website.id === sun.website.id && fri.photoId === sat.photoId && sat.photoId === sun.photoId && mon.website.id !== fri.website.id);
+  t('weekend retention: Friday\'s website and photograph stay through Saturday and Sunday and Monday moves on', fri.website.id === sat.website.id && sat.website.id === sun.website.id && fri.photoId === sat.photoId && sat.photoId === sun.photoId && mon.website.id !== fri.website.id);
   t('deterministic: the same date, catalogue and library always give the same website and photograph, whatever the time of day', (() => { const a = W.pickForDate(catalogue, library, U(2026, 12, 15, 1)), b = W.pickForDate(catalogue, library, U(2026, 12, 15, 22)); return a.website.id === b.website.id && a.photoId === b.photoId; })());
-  t('any ' + N + ' consecutive weekdays still show ' + N + ' distinct websites (a clean cycle, just one shorter)', (() => { for (let s = 0; s < 2 * N; s++) { const seq = weekdaySeq(catalogue, s + N).slice(s); if (new Set(seq).size !== N) return false; } return true; })());
-  t('photograph matching uses the same filtered pool as the website choice', (() => { for (let k = 0; k < 3 * N; k++) { const d = new Date(ANCHOR + Math.floor(k / 5) * 7 * DAY + (k % 5) * DAY), p = W.pickForDate(catalogue, library, d); if (p.photoId !== W.photoIdForIndex(W.rotationPool(catalogue), library, p.index) || p.poolSize !== N) return false; } return true; })());
-  t('the same photograph still never appears on two weekdays running, and the reserve microscope is still never used', (() => { let prev = null; for (let k = 0; k < 4 * N; k++) { const p = W.pickForDate(catalogue, library, new Date(ANCHOR + Math.floor(k / 5) * 7 * DAY + (k % 5) * DAY)).photoId; if (p === 'microscope-antique' || (p && p === prev)) return false; prev = p; } return true; })());
-  t('text-only fallback is unchanged: a website with no matching photograph is still picked, with no photograph', (() => { const s = sitesDated([['a', '2026-01-01', { image_tags: ['zzz'] }], ['b', '2026-02-01', { image_tags: ['zzz'] }], ['c', '2026-11-05']]); const p = W.pickForDate(s, library, monday); return p.website.id === 'a' && p.photoId === null; })());
+  t('photograph matching uses the same pool as the website choice, and pickForDate reports the pool size', (() => { for (let k = 0; k < 3 * N; k++) { const p = W.pickForDate(catalogue, library, weekdayDate(k)); if (p.photoId !== W.photoIdForIndex(POOL, library, p.index) || p.poolSize !== N) return false; } return true; })());
+  t('the same photograph still never appears on two weekdays running, and the reserve microscope is still never used', (() => { let prev = null; for (let k = 0; k < 4 * N; k++) { const p = W.pickForDate(catalogue, library, weekdayDate(k)).photoId; if (p === 'microscope-antique' || (p && p === prev)) return false; prev = p; } return true; })());
+  t('text-only fallback is unchanged: a website with no matching photograph is still picked, with no photograph', (() => { const s = sitesDated([['a', '2026-01-01', { image_tags: ['zzz'] }], ['b', '2026-02-01', { image_tags: ['zzz'] }], ['c', '2026-11-05']]); const p = W.pickForDate(s, library, weekdayDate(0)); return p.website.id === 'a' && p.photoId === null; })());
 }
-{ // agreement with directory.js
-  const dir = read('directory.js');
-  t('directory.js still has the rules the exclusion mirrors: FEATURED_ID is null, recentPool keeps cost !== "paid", newest by date_added, three supporting items', /const FEATURED_ID = null;/.test(dir) && /function recentPool\(resources\) \{\s*const free = resources\.filter\(function \(r\) \{ return r\.cost !== 'paid'; \}\);\s*return free\.length \? free : resources;/.test(dir) && /return \(b\.date_added > a\.date_added\) \? 1 : -1;/.test(dir) && /\.slice\(0, 3\)/.test(dir) && /newest\.find\(function \(r\) \{ return r\.cost !== 'paid'; \}\) \|\| newest\[0\]/.test(dir));
-  let seed = 12345; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
-  const shuffle = (a) => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
-  const baseGroup = ids(W.recentlyAddedGroup(catalogue)).sort().join();
-  let ok = true, why = '';
-  for (let k = 0; k < 40 && ok; k++) {
-    const cat = k === 0 ? catalogue : shuffle(catalogue), g = ids(W.recentlyAddedGroup(cat)).sort().join();
-    const f1 = dirFeatured(cat, nativeSort), f2 = dirFeatured(cat, mergeStable);
-    if (g !== baseGroup || !g.split(',').includes(f1.id) || !g.split(',').includes(f2.id)) { ok = false; why = 'order ' + k + ': group ' + g + ' featured ' + f1.id + '/' + f2.id; }
-  }
-  t('whichever resource directory.js features (under either tie ordering and 40 shuffled catalogue orders), it is inside the excluded group, and the group does not depend on record order', ok, why);
-  t('the real band\'s featured resource is not what Website of the Day shows on any weekday', (() => { const f = dirFeatured(catalogue, nativeSort); return !weekdaySeq(catalogue, 5 * N).includes(f.id); })());
-}
-
 console.log('\ntags');
 t('image_tags are used when present (trimmed, lower-cased, de-duplicated, non-strings ignored)', W.tagsFor({ image_tags: [' Maps ', 'maps', 'WORLD', 7, null, ''] }).join() === 'maps,world');
 t('missing image_tags: tags are derived from existing fields, so a new website still gets a plausible photograph', (() => { const g = W.tagsFor({ resource_type: 'game', primary_category: 'games', teaching_use: ['vocabulary'] }); return g.includes('games') && g.includes('words'); })());
@@ -211,13 +169,50 @@ t('a website gets a different photograph in the next cycle when it has more than
   const seen = new Set(); for (let k = 0; k < 6; k++) seen.add(W.pickForDate(s, l, new Date(ANCHOR + k * DAY)).photoId);
   return seen.size >= 2;
 })());
-t('real data: every eligible website has at least one matching photograph in the active library', pool20.every(r => W.photoCandidates(W.tagsFor(r), library).length > 0), pool20.filter(r => !W.photoCandidates(W.tagsFor(r), library).length).map(r => r.id).join());
+t('real data: every eligible website has at least one matching photograph in the active library', POOL.every(r => W.photoCandidates(W.tagsFor(r), library).length > 0), POOL.filter(r => !W.photoCandidates(W.tagsFor(r), library).length).map(r => r.id).join());
 t('real data: the reserve microscope is never selected, and the photographs are spread over many images', (() => {
   const used = {}; for (let k = 0; k < 4 * N; k++) { const p = W.pickForDate(catalogue, library, new Date(ANCHOR + Math.floor(k / 5) * 7 * DAY + (k % 5) * DAY)).photoId; used[p] = (used[p] || 0) + 1; }
   return !used['microscope-antique'] && Object.keys(used).length >= 10 && !used['null'];
 })());
 t('real data: still works far in the future and stays fast (index in 2035)', (() => { const t0 = Date.now(); const p = W.pickForDate(catalogue, library, U(2035, 6, 15)); return !!p.website && (Date.now() - t0) < 500; })());
 t('a library of only reserve photographs gives the text-only layout', W.pickForDate(catalogue, [{ id: 'r', tags: ['books', 'world', 'maps'], status: 'reserve' }], monday).photoId === null);
+
+// ---------------------------------------------------------------------------------------------
+console.log('\nresource-specific ("pinned") photographs from data/featured-images.json');
+const pinnedData = JSON.parse(read('data/featured-images.json')).images;
+const goodPin = (x) => Object.assign({ file: 'images/editorial/feature-gapminder.png', title: 'A pinned title', creator: 'Pat Pinner', year: '2014', source_site: 'Pin Source', source_page: 'https://example.org/pin', licence: 'CC BY 4.0', licence_url: 'https://creativecommons.org/licenses/by/4.0/', change_note: 'Adapted by Free Range Tutors: cropped and printed as a black halftone on a transparent background.' }, x || {});
+// The first weekday on which the real rotation shows Gapminder (found from the rotation itself, not assumed).
+const gapK = (() => { for (let k = 0; k < 4 * N; k++) if (W.pickWebsite(catalogue, weekdayDate(k)).website.id === 'gapminder') return k; return -1; })();
+const gapDate = weekdayDate(gapK);
+const gapPick = W.pickForDate(catalogue, library, gapDate);
+{
+  t('every entry in the real featured-images.json is usable (complete, safe path, https links), so none is silently ignored, and each is keyed by a real directory resource', Object.keys(pinnedData).length >= 1 && Object.keys(pinnedData).every(id => !!W.usablePinnedPhoto(pinnedData[id]) && catalogue.some(r => r.id === id)), Object.keys(pinnedData).filter(id => !W.usablePinnedPhoto(pinnedData[id])).join());
+  t('Gapminder has a pinned photograph: the Dollar Street photograph, credited to Zoriah Miller under CC BY 4.0', !!pinnedData.gapminder && pinnedData.gapminder.creator === 'Zoriah Miller' && pinnedData.gapminder.licence === 'CC BY 4.0' && pinnedData.gapminder.file === 'images/editorial/feature-gapminder.png');
+  t('on the Gapminder day the generic matcher WOULD pick a library photograph (' + gapPick.photoId + '), and the pinned photograph takes precedence over it', !!gapPick.photoId && gapPick.website.id === 'gapminder' && W.choosePhoto(gapPick, libData, pinnedData) === pinnedData.gapminder && W.choosePhoto(gapPick, libData, pinnedData) !== libData[gapPick.photoId]);
+  t('precedence is not Gapminder-specific: any resource with a usable pinned entry shows it instead of the matched library photograph', (() => { const p = W.pickForDate(catalogue, library, weekdayDate(0)); const pins = { [p.website.id]: goodPin({ file: 'images/editorial/library/chess-set.png', creator: 'Someone Else' }) }; const c = W.choosePhoto(p, libData, pins); return p.website.id !== 'gapminder' && c === pins[p.website.id] && c.creator === 'Someone Else'; })());
+  t('existing behaviour is unchanged when there is no pinned entry: every other website, on every day of a full cycle, still gets exactly the library photograph the matcher chose', (() => { let seen = 0; for (let k = 0; k < N; k++) { const p = W.pickForDate(catalogue, library, weekdayDate(k)); if (p.website.id === 'gapminder') continue; seen++; if (W.choosePhoto(p, libData, pinnedData) !== (p.photoId ? libData[p.photoId] : null)) return false; } return seen === N - 1; })());
+  t('and when there is neither a pinned entry nor a library match the result is null (text-only)', (() => { const s = sitesDated([['a', '2026-01-01', { image_tags: ['zzz'] }]]); const p = W.pickForDate(s, library, monday); return W.choosePhoto(p, libData, {}) === null && W.choosePhoto(p, libData, pinnedData) === null && W.choosePhoto(p, {}, {}) === null; })());
+}
+{ // missing or invalid pinned metadata falls back safely: never shown without its credit and licence, never a broken page
+  const base = { website: { id: 'gapminder' }, photoId: 'chess-set' };
+  const generic = libData['chess-set'];
+  const bad = [
+    ['no file', { file: undefined }], ['empty file', { file: '' }], ['file outside images/', { file: '/etc/passwd' }], ['path traversal', { file: 'images/../secrets/x.png' }], ['not an image extension', { file: 'images/editorial/x.html' }], ['absolute URL as file', { file: 'https://evil.example/x.png' }],
+    ['no title', { title: undefined }], ['no creator', { creator: '' }], ['no source site', { source_site: undefined }], ['no source page', { source_page: undefined }], ['http source page', { source_page: 'http://example.org/p' }],
+    ['no licence', { licence: undefined }], ['blank licence', { licence: '   ' }], ['no licence link', { licence_url: undefined }], ['http licence link', { licence_url: 'http://creativecommons.org/licenses/by/4.0/' }], ['javascript licence link', { licence_url: 'javascript:alert(1)' }],
+    ['no change note', { change_note: undefined }], ['numeric title', { title: 7 }], ['object creator', { creator: { name: 'x' } }], ['object year', { year: { y: 1 } }]
+  ];
+  bad.forEach(([label, patch]) => {
+    const entry = goodPin(patch);
+    t('pinned entry with ' + label + ' is ignored and the generic library photograph is used instead', W.usablePinnedPhoto(entry) === null && W.choosePhoto(base, libData, { gapminder: entry }) === generic);
+  });
+  t('a pinned entry with no year, or a numeric year, is still fine (year is optional)', (() => { const e1 = goodPin(); delete e1.year; return !!W.usablePinnedPhoto(e1) && !!W.usablePinnedPhoto(goodPin({ year: 2014 })) && W.choosePhoto(base, libData, { gapminder: e1 }) === e1; })());
+  t('entries that are not objects (null, a string, a number, an array, undefined) are ignored', [null, 'images/x.png', 7, [], undefined, true].every(v => W.usablePinnedPhoto(v) === null && W.choosePhoto(base, libData, { gapminder: v }) === generic));
+  t('a missing, null or malformed pinned map is ignored (undefined, null, a string, a number, an array)', [undefined, null, 'x', 7, [], true].every(m => W.choosePhoto(base, libData, m) === generic));
+  t('an entry under a different id is never used, and inherited keys cannot match (constructor, __proto__, toString)', ['constructor', '__proto__', 'toString', 'hasOwnProperty'].every(id => W.choosePhoto({ website: { id }, photoId: 'chess-set' }, libData, { gapminder: goodPin() }) === generic) && W.choosePhoto({ website: { id: 'seterra' }, photoId: 'chess-set' }, libData, { gapminder: goodPin() }) === generic);
+  t('no pick, or a pick with no website, gives no photograph and does not throw', W.choosePhoto(null, libData, pinnedData) === null && W.choosePhoto({}, libData, pinnedData) === null && W.choosePhoto(undefined, undefined, undefined) === null);
+  t('the retired Holyoke photograph (under "retired") is never offered as a pinned photograph: only "images" is read', !!JSON.parse(read('data/featured-images.json')).retired && !Object.prototype.hasOwnProperty.call(pinnedData, 'holyoke-1941'));
+}
 
 // ---------------------------------------------------------------------------------------------
 console.log('\nrendering (small DOM stub) and fallbacks');
@@ -256,20 +251,68 @@ function mkDoc() {
 }
 
 const flush = () => new Promise(r => setTimeout(r, 20));
+// start() reads the clock with `new Date()`, so these tests pin the clock to a fixed instant while it runs.
+const RealDate = Date;
+const withClock = async (when, fn) => { const ms = when.getTime(); global.Date = class extends RealDate { constructor(...a) { if (a.length === 0) super(ms); else super(...a); } static now() { return ms; } }; try { return await fn(); } finally { global.Date = RealDate; } };
+// A fetch that answers per URL: an object = JSON body, an Error = network failure, a number = that HTTP status, undefined/missing = 404.
+const LIB_URL = '/data/editorial-library.json', PIN_URL = '/data/featured-images.json';
+const route = (map) => (url) => { const v = map[url]; if (v instanceof Error) return Promise.reject(v); if (typeof v === 'number') return Promise.resolve({ ok: false, status: v }); if (v === undefined) return Promise.resolve({ ok: false, status: 404 }); return Promise.resolve({ ok: true, json: () => (v && v.__badJson ? Promise.reject(new SyntaxError('bad json')) : Promise.resolve(v)) }); };
+const frt = { ready: () => Promise.resolve(), all: () => catalogue };
+const startOn = async (when, map, warned) => { const m = mkDoc(); await withClock(when, async () => { W.start({ FRT: frt, fetch: route(map), console: { warn() { if (warned) warned.n++; } } }, m.doc); await flush(); }); return m; };
+const fullData = { [LIB_URL]: { images: libData }, [PIN_URL]: JSON.parse(read('data/featured-images.json')) };
+const shownSrc = (m) => m.sec.querySelector('img').getAttribute('src');
+const creditText = (m) => m.sec.querySelector('.wotd-credit').textContent;
+const creditLinks = (m) => { const out = []; const walk = n => { (n.children || []).forEach(c => { if (c.tagName === 'a') out.push(c.getAttribute('href')); walk(c); }); }; walk(m.sec.querySelector('.wotd-credit')); return out; };
 (async () => {
-  let m = mkDoc();
-  const frt = { ready: () => Promise.resolve(), all: () => catalogue };
-  const okLib = { ok: true, json: () => Promise.resolve({ images: libData }) };
-  W.start({ FRT: frt, fetch: () => Promise.resolve(okLib), console: { warn() { } } }, m.doc); await flush();
-  t('start: with the catalogue and library available the section is filled in and shown, with a photograph from the library', m.sec.hidden === false && /^\/images\/editorial\/library\/[a-z0-9-]+\.png$/.test(m.sec.querySelector('img').getAttribute('src') || ''));
-  m = mkDoc(); let warned = 0;
-  W.start({ FRT: frt, fetch: () => Promise.reject(new Error('offline')), console: { warn() { warned++; } } }, m.doc); await flush();
-  t('start: if the photograph library cannot be loaded, the website is still shown, text-only (the homepage never breaks)', m.sec.hidden === false && m.sec.cls.has('wotd-no-photo') && warned > 0);
-  m = mkDoc();
-  W.start({ FRT: frt, fetch: () => Promise.resolve({ ok: false, status: 404 }), console: { warn() { } } }, m.doc); await flush();
+  // ---- render with a pinned entry (the same credit builder as for library photographs) ----
+  {
+    const m = mkDoc(); W.render(m.doc, gapPick, pinnedData.gapminder);
+    const c = m.sec.querySelector('.wotd-credit').textContent;
+    t('render with the Gapminder pinned photograph: the picture is the Dollar Street halftone and the credit names the photograph, Zoriah Miller, 2014, Dollar Street (Gapminder), CC BY 4.0 and the halftone change', m.sec.querySelector('img').getAttribute('src') === '/images/editorial/feature-gapminder.png' && /^Photograph: Cooking pots and bowls in a family's home in Haiti, Zoriah Miller, 2014, Dollar Street \(Gapminder\)\. CC BY 4\.0\. Adapted by Free Range Tutors: cropped and printed as a black halftone/.test(c) && m.sec.querySelector('.wotd-credit').hidden === false && m.sec.querySelector('.wotd-photo').hidden === false);
+    const links = (() => { const out = []; const walk = n => (n.children || []).forEach(x => { if (x.tagName === 'a') out.push(x.getAttribute('href')); walk(x); }); walk(m.sec.querySelector('.wotd-credit')); return out; })();
+    t('and the credit links to the photograph\'s source page and to the CC BY 4.0 licence', links.includes(pinnedData.gapminder.source_page) && links.includes('https://creativecommons.org/licenses/by/4.0/'));
+  }
+
+  // ---- start(): the real flow, on fixed dates ----
+  const mondayNoon = U(2026, 11, 9, 12);                      // islcollective: no pinned entry
+  let m = await startOn(mondayNoon, fullData);
+  t('start: with the catalogue, library and pinned photographs available, a website WITHOUT a pinned entry shows a photograph from the library, credited from the library entry', m.sec.hidden === false && m.sec.querySelector('.wotd-title').textContent === 'iSLCollective' && /^\/images\/editorial\/library\/[a-z0-9-]+\.png$/.test(shownSrc(m) || '') && !/Zoriah Miller/.test(creditText(m)) && /^Photograph: /.test(creditText(m)));
+  m = await startOn(gapDate, fullData);
+  t('start: on the day Gapminder is selected, the section shows Gapminder with its OWN pinned photograph (not the generic match) and its proper attribution and licence', m.sec.hidden === false && m.sec.querySelector('.wotd-title').textContent === 'Gapminder' && shownSrc(m) === '/images/editorial/feature-gapminder.png' && /Zoriah Miller/.test(creditText(m)) && /CC BY 4\.0/.test(creditText(m)) && /halftone/.test(creditText(m)) && creditLinks(m).includes('https://creativecommons.org/licenses/by/4.0/') && !m.sec.cls.has('wotd-no-photo'));
+  t('start: Gapminder\'s weekend keeps Friday\'s selection, photograph and credit', await (async () => { const sat = new Date(gapDate.getTime() + (((5 - ((gapDate.getUTCDay() + 6) % 7)) + 1) % 7 || 1) * DAY); const wk = new Date(Date.UTC(gapDate.getUTCFullYear(), gapDate.getUTCMonth(), gapDate.getUTCDate())); const dow = (wk.getUTCDay() + 6) % 7; const satDate = new Date(wk.getTime() + (5 - dow) * DAY), sunDate = new Date(wk.getTime() + (6 - dow) * DAY); if (dow !== 4) return true; const a = await startOn(satDate, fullData), b = await startOn(sunDate, fullData); return a.sec.querySelector('.wotd-title').textContent === 'Gapminder' && shownSrc(a) === shownSrc(b) && creditText(a) === creditText(b) && shownSrc(a) === '/images/editorial/feature-gapminder.png'; })());
+  {
+    const islPin = goodPin({ file: 'images/editorial/library/chess-set.png', title: 'ISL pinned photo', creator: 'Ina Pinner' });
+    m = await startOn(mondayNoon, { [LIB_URL]: { images: libData }, [PIN_URL]: { images: Object.assign({}, fullData[PIN_URL].images, { islcollective: islPin }) } });
+    t('start: any other resource shows its pinned photograph when it has one (precedence over the generic match, no Gapminder-specific code), with that entry\'s own credit', m.sec.querySelector('.wotd-title').textContent === 'iSLCollective' && shownSrc(m) === '/images/editorial/library/chess-set.png' && /Ina Pinner/.test(creditText(m)) && /ISL pinned photo/.test(creditText(m)) && !/Zoriah Miller/.test(creditText(m)));
+  }
+
+  // ---- failures: the page never breaks, and falls back safely ----
+  let warn = { n: 0 };
+  m = await startOn(gapDate, { [LIB_URL]: { images: libData }, [PIN_URL]: 404 }, warn);
+  t('start: if the pinned photographs cannot be loaded (404), Gapminder is still shown with the generic library photograph and its credit (not text-only), and a warning is logged', m.sec.hidden === false && m.sec.querySelector('.wotd-title').textContent === 'Gapminder' && /^\/images\/editorial\/library\//.test(shownSrc(m) || '') && !/Zoriah Miller/.test(creditText(m)) && warn.n > 0);
+  m = await startOn(gapDate, { [LIB_URL]: { images: libData }, [PIN_URL]: new Error('offline') });
+  t('start: a network failure for the pinned photographs is handled the same way', m.sec.hidden === false && /^\/images\/editorial\/library\//.test(shownSrc(m) || ''));
+  m = await startOn(gapDate, { [LIB_URL]: { images: libData }, [PIN_URL]: { __badJson: true } });
+  t('start: malformed JSON for the pinned photographs is handled the same way', m.sec.hidden === false && /^\/images\/editorial\/library\//.test(shownSrc(m) || ''));
+  t('start: a pinned file with no "images", with "images" of the wrong type, or empty, is ignored (generic library photograph)', await (async () => { for (const body of [{}, { images: 5 }, { images: null }, { images: 'x' }, null, [], { images: [] }]) { const x = await startOn(gapDate, { [LIB_URL]: { images: libData }, [PIN_URL]: body }); if (x.sec.hidden !== false || !/^\/images\/editorial\/library\//.test(shownSrc(x) || '')) return false; } return true; })());
+  {
+    const broken = JSON.parse(JSON.stringify(fullData[PIN_URL])); delete broken.images.gapminder.licence;
+    m = await startOn(gapDate, { [LIB_URL]: { images: libData }, [PIN_URL]: broken });
+    t('start: Gapminder\'s pinned entry with its licence missing is NOT shown (a photograph never appears without its licence); the generic library photograph is used', m.sec.querySelector('.wotd-title').textContent === 'Gapminder' && /^\/images\/editorial\/library\//.test(shownSrc(m) || '') && !/feature-gapminder/.test(shownSrc(m)));
+    const traversal = JSON.parse(JSON.stringify(fullData[PIN_URL])); traversal.images.gapminder.file = 'images/../data/manifest.json';
+    m = await startOn(gapDate, { [LIB_URL]: { images: libData }, [PIN_URL]: traversal });
+    t('start: a pinned entry whose file path is unsafe is ignored', /^\/images\/editorial\/library\//.test(shownSrc(m) || ''));
+  }
+  m = await startOn(gapDate, { [LIB_URL]: 404, [PIN_URL]: fullData[PIN_URL] });
+  t('start: the pinned photograph does not depend on the library: with the library unavailable, Gapminder still shows its pinned photograph and credit', m.sec.hidden === false && shownSrc(m) === '/images/editorial/feature-gapminder.png' && /Zoriah Miller/.test(creditText(m)));
+  m = await startOn(gapDate, { [LIB_URL]: 404, [PIN_URL]: 404 });
+  t('start: with neither the library nor the pinned photographs available, the website is still shown, text-only (the homepage never breaks)', m.sec.hidden === false && m.sec.querySelector('.wotd-title').textContent === 'Gapminder' && m.sec.cls.has('wotd-no-photo') && m.sec.querySelector('.wotd-photo').hidden === true && m.sec.querySelector('.wotd-credit').hidden === true);
+  m = await startOn(mondayNoon, { [LIB_URL]: new Error('offline'), [PIN_URL]: fullData[PIN_URL] }, warn = { n: 0 });
+  t('start: if the photograph library cannot be loaded, a website with no pinned entry is still shown, text-only, and a warning is logged', m.sec.hidden === false && m.sec.cls.has('wotd-no-photo') && warn.n > 0);
+  m = await startOn(mondayNoon, { [LIB_URL]: 404, [PIN_URL]: 404 });
   t('start: a 404 for the library is handled the same way', m.sec.hidden === false && m.sec.cls.has('wotd-no-photo'));
   m = mkDoc();
-  W.start({ FRT: { ready: () => Promise.reject(new Error('no catalogue')), all: () => [] }, fetch: () => Promise.resolve(okLib), console: { warn() { } } }, m.doc); await flush();
+  await withClock(mondayNoon, async () => { W.start({ FRT: { ready: () => Promise.reject(new Error('no catalogue')), all: () => [] }, fetch: route(fullData), console: { warn() { } } }, m.doc); await flush(); });
   t('start: if the catalogue cannot be loaded the section simply stays hidden', m.sec.hidden === true);
   t('start: without FRT, fetch or the section it returns quietly', (() => { try { W.start({}, mkDoc().doc); W.start({ FRT: frt, fetch() { } }, { getElementById: () => null }); return true; } catch (e) { return false; } })());
 
@@ -280,11 +323,15 @@ const flush = () => new Promise(r => setTimeout(r, 20));
   const seg = i < 0 ? '' : home.slice(i, home.indexOf('</section>', i));
   t('the section exists exactly once, hidden until filled in, labelled "Website of the Day"', (home.match(/<section class="wotd"/g) || []).length === 1 && /\bhidden>/.test(home.slice(i, home.indexOf('>', i) + 1)) && />Website of the Day<\/h2>/.test(seg));
   const order = [...home.matchAll(/<section class="(recent-band|wotd|cd-feature|ts-feature)"/g)].map(x => x[1]);
-  t('order: Recently added band, then Website of the Day, then the Christmas Dinner band, then All resources', JSON.stringify(order) === JSON.stringify(['recent-band', 'wotd', 'cd-feature']) && home.indexOf('class="wotd"') < home.indexOf('class="cd-feature"') && home.indexOf('class="cd-feature"') < home.indexOf('id="all-resources"'), JSON.stringify(order));
+  t('order: the red Website of the Day block, then the Christmas Dinner band, then All resources (no Recently added band)', JSON.stringify(order) === JSON.stringify(['wotd', 'cd-feature']) && home.indexOf('class="wotd"') < home.indexOf('class="cd-feature"') && home.indexOf('class="cd-feature"') < home.indexOf('id="all-resources"'), JSON.stringify(order));
   t('no photograph or credit is hard-coded in index.html: the img has no src and the credit is an empty placeholder', !/images\/editorial/.test(seg) && /<img width="1100" height="1364" alt="" decoding="async" \/>/.test(seg) && /<p class="wotd-credit" hidden><\/p>/.test(seg));
   t('the stylesheet and script are each linked once, the script after data/resources.js', (home.match(/<link rel="stylesheet" href="\/website-of-the-day\.css" \/>/g) || []).length === 1 && (home.match(/<script src="website-of-the-day\.js"><\/script>/g) || []).length === 1 && home.indexOf('<script src="data/resources.js">') < home.indexOf('<script src="website-of-the-day.js">'));
-  t('the existing Recently added band is untouched in the page: same markup, its own photograph figure and credit placeholder', /<figure class="recent-photo" aria-hidden="true">\s*<img width="1100" height="1364" alt="" decoding="async" \/>\s*<\/figure>/.test(home) && /<p class="foot-credit" id="foot-credit" hidden><\/p>/.test(home) && (home.match(/class="recent-photo"/g) || []).length === 1);
-  t('the new stylesheet only styles .wotd classes (nothing existing is overridden) and has the red border, the overhanging photograph, the 700px layout, the text-only layout and no blend mode', [...css.matchAll(/^([^\s@\/}][^{]*)\{/gm)].every(x => x[1].split(',').every(s => /\.wotd/.test(s))) && /border: 3px solid var\(--fz-red\)/.test(css) && /@media \(max-width: 700px\)/.test(css) && /\.wotd-no-photo/.test(css) && /overflow-x: clip/.test(css) && !/mix-blend-mode|opacity/.test(css));
+  t('the Recently added band is gone from the page: no band section, none of its ids, no photograph figure or footer-credit placeholder, no "Recently added" text', !/recent-band|recent-featured|recent-support|directory-recent-section|recent-photo|recent-heading|foot-credit|Recently added/i.test(home));
+  t('the markup has one block with no duplicate wrapper: the section holds a single .wotd-main grid (text + photograph) and the credit row, and no leftover .wotd-panel', (seg.match(/class="wotd-main"/g) || []).length === 1 && !/wotd-panel/.test(home) && !/wotd-panel/.test(css));
+  t('the stylesheet only styles .wotd classes (nothing existing is overridden)', [...css.matchAll(/^([^\s@\/}][^{]*)\{/gm)].every(x => x[1].split(',').every(s => /\.wotd/.test(s))));
+  t('the section is the flat red feature field with paper text and the old band\'s geometry: red background, 44px/52px padding, 112px lead-in, 440px photograph column, 72px rise, 50% 0 crop, negative top margin', /\.wotd \{[^}]*background: var\(--fz-red\);[^}]*color: var\(--fz-paper\);[^}]*padding: 44px 0 52px;[^}]*margin-top: 112px;/.test(css) && /--wotd-photo-w: 440px;/.test(css) && /--wotd-rise: 72px;/.test(css) && /object-fit: cover; object-position: 50% 0;/.test(css) && /margin: calc\(-44px - var\(--wotd-rise\)\) 0 0;/.test(css));
+  t('the responsive and fallback layouts exist: 300px column under 1000px, the 700px stacked layout (photograph above the text, 78% wide, 250px tall), and the text-only layout', /@media \(max-width: 1000px\)[\s\S]*--wotd-photo-w: 300px;/.test(css) && /@media \(max-width: 700px\)[\s\S]*\.wotd-photo \{ order: -1; width: 78%; height: 250px;/.test(css) && /\.wotd-no-photo \.wotd-main \{ grid-template-columns: minmax\(0, 1fr\); \}/.test(css));
+  t('legibility on red: all text is full-strength paper (no semi-transparent text colour, no opacity, no blend mode), the button is a paper button with red text, and the focus ring is paper (specific enough to beat the site-wide cobalt ring)', !/(^|[;{\s])color:\s*rgba/m.test(css) && !/mix-blend-mode|opacity/.test(css) && /\.wotd \.wotd-btn \{[^}]*background: var\(--fz-paper\); color: var\(--fz-red\);/.test(css) && /body\.directory \.wotd a:focus-visible \{ outline-color: var\(--fz-paper\); \}/.test(css));
   t('the module and the styles are public files (not hidden by .assetsignore), the library data is public, and the masters stay hidden', (() => { const ig = read('.assetsignore'); return !/website-of-the-day/.test(ig) && !/editorial-library\.json/.test(ig) && /^images\/resources\/_masters\/$/m.test(ig); })());
   console.log('\n' + pass + ' passed, ' + fail + ' failed'); process.exit(fail ? 1 : 0);
 })();

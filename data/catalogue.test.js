@@ -13,6 +13,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 const cat = require('../tools/build-catalogue.js');
 const paid = require('../tools/build-paid-resources.js');
@@ -320,14 +321,27 @@ function recordProblem(rel, committedText) {
   if (!approved.hasApprovedAdditions(was.id)) return 'changed (this record has no approved change, so any change at all, even formatting, is refused)';
   return approved.approvedRecordProblem(was, now);
 }
-test('directory.js, directory.css, originals.json and resources.js are identical to the last commit, and every existing directory record is too apart from the approved image_tags and teacher_note additions (new records are untracked, so they cannot hide a change to an old one)', () => {
-  let out, recs;
+/* The ONE approved edit to the shared directory files (homepage: the "Recently added" band was removed and the Website of the Day became the
+   homepage's red feature block): directory.js and directory.css may differ from the last commit only by being EXACTLY this approved content,
+   pinned by the SHA-256 of the line-ending-normalised file. Any other change to either file still fails; once the approved content is
+   committed the last commit equals it and the plain "identical to the last commit" rule applies again. To change either file later, change
+   it in git first (commit) and update the pin here only if the content is deliberately re-approved. */
+const APPROVED_DIRECTORY_FILES = {
+  'directory.js': '6f72beb1639d84b04241645e1fc3ecdad4b1aad16eb31baa69adad8ae1a27172',
+  'directory.css': '318e15e43b01ebace83ce3ffe842cb8f51cec279fa9c8c3cac6ee3319eb8aeff'
+};
+const sha256Lf = (rel) => crypto.createHash('sha256').update(read(rel).replace(/\r\n/g, '\n')).digest('hex');
+test('directory.js, directory.css, originals.json and resources.js are identical to the last commit (directory.js and directory.css may instead be exactly the approved content), and every existing directory record is too apart from the approved image_tags and teacher_note additions (new records are untracked, so they cannot hide a change to an old one)', () => {
+  let out, recs, dirChanged;
   try {
-    out = git(['diff', '--name-only', 'HEAD', '--', 'directory.js', 'directory.css', 'dispatch-tokens.css', 'data/originals.json', 'data/resources.js']).trim();
+    out = git(['diff', '--name-only', 'HEAD', '--', 'dispatch-tokens.css', 'data/originals.json', 'data/resources.js']).trim();
+    dirChanged = git(['diff', '--name-only', 'HEAD', '--', 'directory.js', 'directory.css']).split('\n').map((s) => s.trim()).filter(Boolean);
     recs = git(['diff', '--name-only', 'HEAD', '--', 'data/resources']).split('\n').map((s) => s.trim()).filter(Boolean);
   }
   catch (e) { console.log('        (skipped: git is not available here)'); return; }
   assert(out === '', 'changed: ' + out);
+  const unapproved = dirChanged.filter((f) => !APPROVED_DIRECTORY_FILES[f] || sha256Lf(f) !== APPROVED_DIRECTORY_FILES[f]);
+  assert(unapproved.length === 0, 'changed beyond the approved content: ' + unapproved.join(', '));
   const bad = recs.map((f) => [f, /^data\/resources\/[a-z0-9-]+\.json$/.test(f) ? recordProblem(f, git(['show', 'HEAD:' + f])) : 'not a record file']).filter((x) => x[1]);
   assert(bad.length === 0, 'existing records changed beyond the approved additions:\n        ' + bad.map((x) => x[0] + ': ' + x[1]).join('\n        '));
 });
