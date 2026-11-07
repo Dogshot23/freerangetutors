@@ -27,16 +27,14 @@ t('no two websites share a photograph (file or master): each featured website ha
 t('the retired Holyoke photograph is not attached to any current website', !entries.some(([, e]) => /holyoke/i.test(e.file + e.master)) && !!data.retired['holyoke-1941']);
 t('masters are excluded from the public site (.assetsignore lists images/resources/_masters/)', /^images\/resources\/_masters\/$/m.test(read('.assetsignore')));
 
-console.log('\nthe currently featured website');
-// Same rule as directory.js: newest FREE entry wins the red slot while FEATURED_ID is null.
+console.log('\nthe Gapminder feature photograph (a pinned, resource-specific photograph shown by the Website of the Day when Gapminder is selected)');
+// An entry in `images` is a "pinned" photograph: when that website is the Website of the Day, the red block shows it, with the credit built from
+// the entry, instead of a generic library photograph. No website is obliged to have an entry; websites without one use the library.
 const dirSrc = read('directory.js');
-const newest = recs.slice().sort((a, b) => (b.date_added > a.date_added) ? 1 : -1).filter(r => r.cost !== 'paid');
-const featured = newest[0];
-t('directory.js still lets the newest free entry take the featured slot (FEATURED_ID is null)', /const FEATURED_ID = null;/.test(dirSrc));
-t('the featured website (' + featured.id + ') has its own photograph entry, so adding a free website without one fails here', !!data.images[featured.id], 'add an entry by following tools/FEATURED_IMAGE_WORKFLOW.md');
-const fe = data.images[featured.id];
+t('Gapminder is still a real directory resource and still has its own photograph entry', manifest.includes('gapminder') && !!data.images.gapminder);
+const fe = data.images.gapminder;
 if (fe) {
-  t('its credit names the creator, the licence and the change, and the creator is Zoriah Miller for Gapminder', featured.id !== 'gapminder' || (fe.creator === 'Zoriah Miller' && fe.licence === 'CC BY 4.0' && /halftone/i.test(fe.change_note)));
+  t('its credit names the creator, the licence and the change: Zoriah Miller, CC BY 4.0, adapted as a halftone', fe.creator === 'Zoriah Miller' && fe.licence === 'CC BY 4.0' && /halftone/i.test(fe.change_note));
   if (pyOk) {
     const code = [
       'import sys, json, numpy as np', 'from PIL import Image',
@@ -65,10 +63,15 @@ else {
 const script = read('tools/make_feature_halftone.py');
 t('the script locks the look: width 1100, height 1364, pitch 9, 45 degrees, supersample 3, ink #17140F, and takes no look settings', /^W = 1100\b/m.test(script) && /^H_OUT = 1364\b/m.test(script) && /^PITCH = 9\b/m.test(script) && /^ANGLE = math\.radians\(45\)/m.test(script) && /^SS = 3\b/m.test(script) && /^INK = \(0x17, 0x14, 0x0F\)/m.test(script) && !/add_argument\('--(pitch|angle|width|ink|opacity|contrast|gamma|blur)/.test(script));
 
-console.log('\nhomepage wiring');
+console.log('\nhomepage wiring: pinned photographs are read by the Website of the Day only; the old "Recently added" band, its photograph and its credit are gone');
 const home = read('index.html'), css = read('directory.css');
-t('index.html no longer hard-codes any photograph or credit: the img has no src and the credit is an empty placeholder', !/halftone-holyoke|images\/editorial/.test(home) && !/Collier/.test(home) && /<figure class="recent-photo" aria-hidden="true">\s*<img width="1100" height="1364" alt="" decoding="async" \/>/.test(home) && /<p class="foot-credit" id="foot-credit" hidden><\/p>/.test(home));
-t('directory.js looks the photograph up by the featured id, has no fallback to another site, and builds the credit from the entry (creator, licence link, change note)', /fetch\('\/data\/featured-images\.json'\)/.test(dirSrc) && /renderFeaturePhoto\(featured\.id\)/.test(dirSrc) && /data\.images\[id\]/.test(dirSrc) && !/holyoke/i.test(dirSrc) && /p\.creator/.test(dirSrc) && /p\.licence_url/.test(dirSrc) && /p\.change_note/.test(dirSrc));
-t('the CSS that places the photograph is untouched: 440px column, 72px rise, 50% 0 crop, negative top margin, 700px mobile layout, no opacity or blend mode', /--photo-w: 440px;/.test(css) && /--photo-rise: 72px;/.test(css) && /object-fit: cover; object-position: 50% 0;/.test(css) && /margin: calc\(-44px - var\(--photo-rise\)\) 0 0;/.test(css) && /\.recent-photo \{ order: -1; width: 78%; height: 250px;/.test(css) && !/\.recent-photo[^{]*\{[^}]*(opacity|mix-blend-mode)/.test(css));
+t('index.html has no Recently added band: no recent-band section, no #recent-featured / #recent-support / #directory-recent-section, no .recent-photo figure, no "Recently added" heading', !/recent-band|recent-featured|recent-support|directory-recent-section|recent-photo|recent-heading|Recently added/i.test(home));
+t('index.html no longer carries the old footer credit placeholder and hard-codes no photograph or credit of its own', !/foot-credit/.test(home) && !/halftone-holyoke|feature-gapminder|Collier/.test(home) && !/images\/editorial/.test(home));
+t('directory.js no longer renders a featured band or photograph: no renderFeatured, renderFeaturePhoto, renderSupportList, pickFeatured, recentPool or FEATURED_ID, and it no longer fetches data/featured-images.json', !/renderFeatured|renderFeaturePhoto|renderSupportList|pickFeatured|recentPool|FEATURED_ID|featured-images/.test(dirSrc));
+t('directory.css has none of the old band\'s rules (.recent-*, .featured-*, .support-*, .foot-credit)', !/\.recent-|\.featured-(label|title|body|desc|meta)|\.support-(list|item|label|title|desc|meta)|\.foot-credit/.test(css));
+const wotdSrc = read('website-of-the-day.js');
+const wotdCode = wotdSrc.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+t('website-of-the-day.js reads data/featured-images.json, uses only its "images" (never "retired"), and has no website id hard-coded for the photograph', /data\/featured-images\.json/.test(wotdSrc) && /data\.images\b/.test(wotdCode) && !/\.retired\b|holyoke/i.test(wotdCode) && !/gapminder/i.test(wotdCode));
+t('every pinned entry is usable by the Website of the Day (complete credit fields, safe image path, https links), so none is silently ignored', entries.every(([, e]) => !!require('../website-of-the-day.js').usablePinnedPhoto(e)));
 t('the Christmas Dinner band is still present once and the Sixth Astronaut band is still absent', (home.match(/<section class="cd-feature"/g) || []).length === 1 && !/class="ts-feature"/.test(home) && home.includes('https://payhip.com/b/MWIoz'));
 console.log('\n' + pass + ' passed, ' + fail + ' failed' + (skip ? ', ' + skip + ' skipped' : '')); process.exit(fail ? 1 : 0);

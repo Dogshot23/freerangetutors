@@ -1,93 +1,99 @@
-/* Homepage "Website of the Day" section (filled in by website-of-the-day.js; markup in index.html).
+/* Homepage "Website of the Day": the one red feature block (filled in by website-of-the-day.js; markup in index.html).
    Uses the site's own tokens (dispatch-tokens.css) and fonts. Every class is prefixed .wotd so nothing existing is overridden.
-   Same device as the Recently added photograph: a black halftone PNG on a transparent background, not blended or faded, that
-   overhangs its frame. Here the frame is a red-bordered cream panel and the photograph crosses the red border into the
-   cream page. Photograph: 300px column (260px under 1000px); stacked above the text under 700px. */
+
+   One landmark: a full-bleed red field with the text in the left column on flat red. The halftone photograph is printed black
+   (dots on transparent, not blended or faded) so it reads on the cream above the field and on the red inside it; it climbs
+   over the top edge of the field on purpose. This is the geometry the homepage's red "Recently added" band used (44px top
+   padding, 112px lead-in, 440px photograph column, 72px rise), now carrying the Website of the Day.
+   Text is full-strength paper on red (4.98:1); nothing here is semi-transparent text. Photograph column: 440px, 300px under
+   1000px, stacked above the text under 700px. */
 
 .wotd {
-  --wotd-photo-w: 300px;
-  --wotd-rise: 64px;     /* how far the photograph climbs above the panel */
-  --wotd-bleed: 28px;    /* how far it crosses the right-hand border */
-  --wotd-drop: 22px;     /* how far it hangs below the panel */
-  padding: 92px 0 38px;
-  overflow-x: clip;      /* the bleed must never create a horizontal scrollbar */
+  --wotd-photo-w: 440px;
+  --wotd-rise: 72px;       /* how far the photograph climbs above the red field */
+  background: var(--fz-red);
+  color: var(--fz-paper);
+  padding: 44px 0 52px;
+  margin-top: 112px;
 }
 .wotd[hidden] { display: none; }
-.wotd.wotd-no-photo { padding-top: 64px; }
+/* No photograph for this website: nothing rises above the field, so the lead-in and the text padding shrink. */
+.wotd.wotd-no-photo { margin-top: 64px; }
 
-.wotd-panel {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--wotd-photo-w);
-  gap: 44px;
-  align-items: stretch;
-  border: 3px solid var(--fz-red);
-  padding: 34px 40px 36px;
-}
-.wotd-text { min-width: 0; }
-
-.wotd-head {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-  margin-bottom: 22px; padding-bottom: 12px;
-  border-bottom: 1px solid var(--fz-rule);
-}
-.wotd-heading {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-  margin: 0; color: var(--fz-red);
-}
-.wotd-day { font-size: 12px; font-weight: 600; color: var(--fz-ink-muted); }
-
-.wotd-title-link { display: block; color: var(--fz-ink); }
-.wotd-title-link:hover .wotd-title { text-decoration: underline; text-decoration-color: var(--fz-red); text-decoration-thickness: 3px; text-underline-offset: 8px; }
-.wotd-title {
-  font-family: 'Fraunces', serif; font-weight: 700;
-  font-size: clamp(34px, 4.4vw, 58px); line-height: 1; letter-spacing: -.02em;
-  margin: 0 0 10px; overflow-wrap: anywhere;
-}
-.wotd-meta { font-size: 13px; font-weight: 600; letter-spacing: .01em; color: var(--fz-ink-muted); margin: 0 0 18px; }
-.wotd-desc { font-size: 16.5px; line-height: 1.6; max-width: 54ch; margin: 0 0 14px; }
-.wotd-use { font-size: 15.5px; line-height: 1.55; max-width: 54ch; margin: 0 0 22px; padding-left: 14px; border-left: 3px solid var(--fz-red); }
-.wotd-use strong { font-weight: 700; }
-.wotd-use[hidden] { display: none; }
-
-.wotd .wotd-btn {
-  display: inline-block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.3;
-  padding: 13px 22px; min-height: 48px;
-  background: var(--fz-red); color: var(--fz-paper); border: 2px solid var(--fz-red);
-}
-.wotd .wotd-btn:hover { background: var(--fz-ink); border-color: var(--fz-ink); }
-.wotd a:focus-visible { outline: 3px solid var(--fz-ink); outline-offset: 3px; }
+.wotd-main { display: grid; grid-template-columns: minmax(0, 1fr) var(--wotd-photo-w); gap: 48px; align-items: stretch; }
+.wotd-text { min-width: 0; padding-bottom: 44px; }
+.wotd-no-photo .wotd-main { grid-template-columns: minmax(0, 1fr); }
+.wotd-no-photo .wotd-text { padding-bottom: 4px; }
 
 .wotd-photo {
-  position: relative; min-height: 340px;
-  margin: calc(-34px - var(--wotd-rise)) calc(-40px - var(--wotd-bleed)) calc(-36px - var(--wotd-drop)) 0;
+  position: relative;
+  margin: calc(-44px - var(--wotd-rise)) 0 0;   /* -(field top padding) - rise */
   pointer-events: none;
 }
 .wotd-photo[hidden] { display: none; }
 .wotd-photo img {
-  position: absolute; inset: 0; display: block; width: 100%; height: 100%;
+  position: absolute; inset: 0;
+  display: block; width: 100%; height: 100%;
   object-fit: cover; object-position: 50% 0;
 }
 
-.wotd-credit { font-size: 12.5px; line-height: 1.5; color: var(--fz-ink-muted); margin: 18px 0 0; max-width: 90ch; }
-.wotd-credit[hidden] { display: none; }
-.wotd-credit a { border-bottom: 1px solid var(--fz-ink-faint); }
-.wotd-credit a:hover { color: var(--fz-red); }
+.wotd-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+  margin-bottom: 26px; padding-bottom: 12px;
+  border-bottom: 1px solid rgba(243, 238, 225, .45);
+}
+.wotd-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  margin: 0; color: var(--fz-paper);
+}
+.wotd-day { font-size: 12px; font-weight: 600; color: var(--fz-paper); }
 
-/* No photograph for this website: a calm text-only panel. */
-.wotd-no-photo .wotd-panel { grid-template-columns: minmax(0, 1fr); }
+.wotd-title-link { display: block; color: var(--fz-paper); }
+.wotd-title-link:hover .wotd-title { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px; }
+.wotd-title {
+  font-family: 'Fraunces', serif; font-weight: 700;
+  font-size: clamp(38px, 5vw, 68px); line-height: .98; letter-spacing: -.02em;
+  margin: 0 0 12px; color: var(--fz-paper); overflow-wrap: anywhere;
+}
+.wotd-meta { font-size: 13.5px; font-weight: 600; letter-spacing: .01em; color: var(--fz-paper); margin: 0 0 20px; }
+.wotd-desc { font-size: 17px; line-height: 1.6; color: var(--fz-paper); max-width: 50ch; margin: 0 0 16px; }
+.wotd-use { font-size: 16px; line-height: 1.55; color: var(--fz-paper); max-width: 52ch; margin: 0 0 24px; padding-left: 14px; border-left: 3px solid var(--fz-paper); }
+.wotd-use strong { font-weight: 700; }
+.wotd-use[hidden] { display: none; }
+
+/* The prominent link to the external website: a paper button on the red field, inverting on hover. */
+.wotd .wotd-btn {
+  display: inline-block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px; line-height: 1.3;
+  padding: 13px 22px; min-height: 48px;
+  background: var(--fz-paper); color: var(--fz-red); border: 2px solid var(--fz-paper);
+}
+.wotd .wotd-btn:hover { background: transparent; color: var(--fz-paper); }
+/* One focus ring for the site is cobalt (directory.css); on red it needs to be paper. Higher specificity on purpose. */
+body.directory .wotd a:focus-visible { outline-color: var(--fz-paper); }
+
+/* Photograph credit and licence: a quiet row under the block, divided by a rule (the slot the old band's supporting list used). */
+.wotd-credit {
+  font-size: 12.5px; line-height: 1.55; color: var(--fz-paper);
+  margin: 0; padding-top: 18px; max-width: 90ch;
+  border-top: 1px solid rgba(243, 238, 225, .45);
+}
+.wotd-credit[hidden] { display: none; }
+.wotd-credit a { border-bottom: 1px solid var(--fz-paper); }
+.wotd-credit a:hover { border-bottom-width: 2px; }
 
 @media (max-width: 1000px) {
-  .wotd { --wotd-photo-w: 260px; }
-  .wotd-panel { gap: 30px; }
+  .wotd { --wotd-photo-w: 300px; }
+  .wotd-main { gap: 32px; }
 }
 @media (max-width: 700px) {
-  .wotd { --wotd-bleed: 12px; --wotd-rise: 70px; padding-top: 96px; padding-bottom: 28px; }
-  .wotd.wotd-no-photo { padding-top: 44px; }
-  .wotd-panel { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 24px 22px 28px; }
-  .wotd-photo { order: -1; width: 74%; height: 230px; min-height: 0; margin: calc(-24px - var(--wotd-rise)) calc(-22px - var(--wotd-bleed)) 22px auto; }
-  .wotd-head { margin-bottom: 16px; }
+  .wotd { --wotd-rise: 84px; margin-top: 124px; padding-bottom: 40px; }
+  .wotd.wotd-no-photo { margin-top: 44px; }
+  .wotd-main { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .wotd-photo { order: -1; width: 78%; height: 250px; margin: calc(-44px - var(--wotd-rise)) 0 28px auto; }
+  .wotd-text { padding-bottom: 28px; }
+  .wotd-no-photo .wotd-text { padding-bottom: 4px; }
+  .wotd-title { font-size: 40px; }
   .wotd .wotd-btn { display: block; text-align: center; }
 }
 @media print { .wotd-photo { display: none; } }

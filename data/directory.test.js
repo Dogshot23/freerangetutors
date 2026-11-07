@@ -355,7 +355,7 @@ console.log('\nNo stale references remain in the live source');
 
   const removedIds = ['backstory-objects', 'category-chain', 'escalation-chain', 'grammar-auction',
     'grammar-detective', 'listening-for-the-lie', 'speaking-experiments', 'student-missions'];
-  check('directory.js\'s presentation-rule ID lists (FEATURED_ID/accent lists) reference none of the removed activities',
+  check('directory.js\'s presentation-rule ID lists (the accent lists) reference none of the removed activities',
     removedIds.every(function (id) { return directorySrc.indexOf("'" + id + "'") === -1; }));
 
   check('the manifest lists none of the 8 removed FRT-original activities',
@@ -363,16 +363,15 @@ console.log('\nNo stale references remain in the live source');
 }
 
 /* ============================================================
-   9. Recently Added and All Resources are two views over the SAME
-      complete catalogue — All Resources must never exclude the
-      items shown in Recently Added.
+   9. All Resources is the complete catalogue — it must never
+      exclude anything (the homepage's red feature block, the
+      Website of the Day, is a separate feature and never removes
+      a resource from the list; the old "Recently added" band is
+      gone from the homepage).
    ============================================================ */
-console.log('\nRecently Added and All Resources — two views, one complete catalogue');
+console.log('\nAll Resources — one complete catalogue');
 {
-  /* ---- MUST MATCH directory.js: sortNewestFirst/sortAlphabetical/freeFirst ---- */
-  function sortNewestFirst(resources) {
-    return resources.slice().sort(function (a, b) { return (b.date_added > a.date_added) ? 1 : -1; });
-  }
+  /* ---- MUST MATCH directory.js: sortAlphabetical/freeFirst ---- */
   function sortAlphabetical(resources) {
     return resources.slice().sort(function (a, b) { return a.name.localeCompare(b.name); });
   }
@@ -381,13 +380,12 @@ console.log('\nRecently Added and All Resources — two views, one complete cata
       .concat(resources.filter(function (r) { return r.cost === 'paid'; }));
   }
 
-  const recent = sortNewestFirst(catalogue).slice(0, 4);
   const allResourcesDefault = freeFirst(sortAlphabetical(filterCatalogue(emptyState(), catalogue)));
 
   check('All Resources (default, unfiltered) contains all ' + catalogue.length + ' resources', allResourcesDefault.length === catalogue.length);
 
-  check('Every Recently Added item is also present in All Resources (never excluded)',
-    recent.every(function (r) { return allResourcesDefault.some(function (a) { return a.id === r.id; }); }));
+  check('Every catalogue resource, including the newest ones and the one currently featured as Website of the Day, is present in All Resources (never excluded)',
+    catalogue.every(function (r) { return allResourcesDefault.some(function (a) { return a.id === r.id; }); }));
 
   check('All Resources default order is alphabetical by name (within free and within paid), not newest-first',
     allResourcesDefault.every(function (r, i) {

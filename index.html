@@ -43,7 +43,7 @@
   <link rel="stylesheet" href="directory.css" />
   <link rel="stylesheet" href="/christmas-feature.css" />
   <link rel="stylesheet" href="/website-of-the-day.css" />
-  <noscript><style>.recent-band { display: none; } .recent-photo { display: none; } .index-head { padding-top: 40px; }</style></noscript>
+  <noscript><style>.index-head { padding-top: 40px; }</style></noscript>
 </head>
 <body class="directory">
   <a class="skip-link" href="#all-resources">Skip to the resources</a>
@@ -102,29 +102,10 @@
 
   </div>
 
-  <section class="recent-band" id="directory-recent-section" aria-labelledby="recent-heading">
-    <div class="wrap">
-      <div class="recent-main">
-        <div class="recent-text">
-          <div class="recent-head">
-            <h2 id="recent-heading">Recently added</h2>
-            <span class="n">4 newest</span>
-          </div>
-
-          <div id="recent-featured"></div>
-        </div>
-        <figure class="recent-photo" aria-hidden="true">
-          <img width="1100" height="1364" alt="" decoding="async" />
-        </figure>
-      </div>
-      <div id="recent-support"></div>
-    </div>
-  </section>
-
-  <!-- Website of the Day: one external website per weekday (Mon-Fri, UTC), chosen by website-of-the-day.js from the catalogue. Hidden until the script has filled it in; the photograph (src) and its credit are set from data/editorial-library.json, never hard-coded here. -->
+  <!-- Website of the Day: the homepage's one red feature block. One external website per weekday (Mon-Fri, UTC), chosen by website-of-the-day.js from the catalogue. Hidden until the script has filled it in; the photograph (src) and its credit are set from data/editorial-library.json, never hard-coded here. -->
   <section class="wotd" id="website-of-the-day" aria-labelledby="wotd-heading" hidden>
     <div class="wrap">
-      <div class="wotd-panel">
+      <div class="wotd-main">
         <div class="wotd-text">
           <div class="wotd-head">
             <h2 class="wotd-heading" id="wotd-heading">Website of the Day</h2>
@@ -236,7 +217,6 @@
           <a href="/stop-the-slop/">Stop the Slop</a>
           <a href="/about">About</a>
         </nav>
-        <p class="foot-credit" id="foot-credit" hidden></p>
       </div>
     </div>
   </footer>

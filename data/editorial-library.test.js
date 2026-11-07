@@ -87,7 +87,7 @@ else {
   t('every halftone is a 1100 x 1364 RGBA PNG (same size and format as the Gapminder and Holyoke photographs)', all.length === entries.length && all.every(x => x.size[0] === 1100 && x.size[1] === 1364 && x.mode === 'RGBA'), r.stderr || r.stdout.slice(0, 200));
   t('every halftone is printed in the same near-black ink (#17140F) with anti-aliased dot edges and real see-through areas (not near-black, not near-blank)', all.length === entries.length && all.every(x => x.ink_unique.length === 1 && JSON.stringify(x.ink_unique[0]) === '[23,20,15]' && x.partial > 0.01 && x.transparent > 0.12 && x.transparent < 0.9), JSON.stringify(m && Object.entries(m).filter(([, x]) => !(x.transparent > 0.12 && x.transparent < 0.9)).map(([p, x]) => [path.basename(p), x.transparent])));
 }
-t('the Recently added photograph is untouched: images/editorial/feature-gapminder.png still has its original checksum and its metadata entry still exists', sha('images/editorial/feature-gapminder.png') === '63b766087940bdfc33516a8b029ad9240fb98df129683224a722e1c6858634da' && !!JSON.parse(read('data/featured-images.json')).images.gapminder);
+t('the Gapminder feature photograph is untouched (kept as an asset and licence record, though the homepage band that showed it is gone): images/editorial/feature-gapminder.png still has its original checksum and its metadata entry still exists', sha('images/editorial/feature-gapminder.png') === '63b766087940bdfc33516a8b029ad9240fb98df129683224a722e1c6858634da' && !!JSON.parse(read('data/featured-images.json')).images.gapminder);
 
 console.log('\nREPRODUCIBLE: the unchanged script turns a master into the committed PNG');
 const script = read('tools/make_feature_halftone.py');
