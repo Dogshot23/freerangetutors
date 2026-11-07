@@ -4,3 +4,9 @@
 /paid-resources/ /made-by-frt/ 301
 /paid-resources /made-by-frt/ 301
 /paid-resources/index.html /made-by-frt/ 301
+# Stop the Slop has been retired from the site. The source page, PDFs and images stay in the repository, but nothing links to the page any more.
+# The page and anything under it go to the Made by FRT catalogue (the exact path, the folder, the index file and any subpath such as its stylesheet and script).
+/stop-the-slop /made-by-frt/ 301
+/stop-the-slop/ /made-by-frt/ 301
+/stop-the-slop/index.html /made-by-frt/ 301
+/stop-the-slop/* /made-by-frt/ 301

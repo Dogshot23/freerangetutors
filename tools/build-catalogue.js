@@ -153,7 +153,7 @@ function renderFilters(n) {
   ].join('\n');
 }
 
-const NAV = [['/#all-resources', 'Resources'], ['/rescue/', 'Rescue Cards'], ['/made-by-frt/', 'Made by FRT'], ['/stop-the-slop/', 'Stop the Slop'], ['/about', 'About']];
+const NAV = [['/#all-resources', 'Resources'], ['/rescue/', 'Rescue Cards'], ['/made-by-frt/', 'Made by FRT'], ['/about', 'About']];
 const navLinks = (indent, current) => NAV.map(([h, t]) => indent + '<a href="' + h + '"' + (h === current ? ' aria-current="page"' : '') + '>' + t + '</a>').join('\n');
 
 function render(src) {

@@ -74,7 +74,7 @@ const BASE = '366b6b064f4af07ebb024c0af3429e4111d7fb19'; /* the redesign baselin
 const FREE_ADDITIONS = ['gapminder'];
 
 /* Pages that carry the site navigation today. */
-const NAV_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html',
+const NAV_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html',
   'resources/the-school-trip-that-should-have-been-cancelled/index.html'];
 
 function resolveLocal(href) {
@@ -222,6 +222,11 @@ test('manifest lists every paid entry exactly once and lists nothing else new', 
    added or missing field, key order and the record's id must still equal the baseline. */
 const approved = require(path.join(ROOT, 'tools', 'approved-record-additions.js'));
 function baselineProblem(rel) {
+  /* data/originals.json: the one approved change since the baseline is the removal of the retired Stop the Slop entry (every other entry identical). */
+  if (rel === 'data/originals.json') {
+    const was = JSON.parse(git(['show', BASE + ':' + rel])).filter((o) => o.id !== 'stop-the-slop'), now = JSON.parse(read(rel));
+    return JSON.stringify(was) === JSON.stringify(now) ? null : 'changed beyond removing the retired Stop the Slop entry';
+  }
   if (!/^data\/resources\/[a-z0-9-]+\.json$/.test(rel)) return 'not a record file';
   if (!fs.existsSync(path.join(ROOT, rel))) return 'the record was deleted or moved';
   let now; try { now = JSON.parse(read(rel)); } catch (e) { return 'the record is not valid JSON'; }
@@ -318,7 +323,7 @@ test('no page links to /paid-resources/ any more: the masthead and footer lead t
 });
 test('only the catalogue marks Made by FRT as the current page in its own navigation', () => {
   assert(/<a href="\/made-by-frt\/" aria-current="page">Made by FRT<\/a>/.test(html), 'catalogue lacks aria-current');
-  ['index.html', 'about.html', 'stop-the-slop/index.html'].forEach((p) => assert(!/<a href="\/made-by-frt\/" aria-current/.test(read(p)), p + ' marks it current'));
+  ['index.html', 'about.html'].forEach((p) => assert(!/<a href="\/made-by-frt\/" aria-current/.test(read(p)), p + ' marks it current'));
 });
 test('sitemap.xml lists the catalogue, no longer lists /paid-resources/, and build-static reports nothing stale', () => {
   const sm = read('sitemap.xml');
@@ -409,7 +414,7 @@ const LEGACY_RE = /^(_archived-activities\/|files3\/|files4\/|data\/dispatch-mat
 const gitLines = (args) => git(args).split(/\r?\n/).filter(Boolean);
 const PROTOTYPE_AND_INTERNAL = () => gitLines(['ls-files', '-o']).concat(gitLines(['ls-files'])).filter((f) =>
   /^(shop\/|tools\/|data\/products\.json$|data\/PRODUCTS\.md$|PROJECT_NOTES\.md$|data\/[^/]+\.test\.js$|data\/[^/]+\.md$|data\/resource\.schema\.json$|.*\.zip$)/.test(f));
-const PUBLIC_MUST_PUBLISH = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html', 'sitemap.xml', 'robots.txt', 'favicon.ico',
+const PUBLIC_MUST_PUBLISH = ['index.html', 'about.html', 'made-by-frt/index.html', 'sitemap.xml', 'robots.txt', 'favicon.ico',
   'directory.js', 'directory.css', 'dispatch-tokens.css', 'data/resources.js', 'data/manifest.json', 'data/originals.json', 'data/resources/the-exploding-pudding.json',
   'images/resources/the-exploding-pudding.png', 'pdfs/stop-the-slop-guide.pdf', 'resources/the-school-trip-that-should-have-been-cancelled/index.html'];
 test('.assetsignore still contains every safeguard line, exactly (including the new prototype lines)', () => {

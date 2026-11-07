@@ -2,7 +2,7 @@
    FREE RANGE TUTORS — shared site styles
    "Contemporary Editorial Fanzine" visual system (Mockup 10,
    approved), refined in the editorial redesign. Loaded by every
-   page (home, Made by FRT, Stop the Slop, About, resource
+   page (home, Made by FRT, About, resource
    pages); page-specific sheets add only their own .mbf- / .sts- /
    .ab- / .rd- classes on top.
 
@@ -125,6 +125,13 @@ body.directory select:focus-visible {
 .intro-link:hover .intro-link-t { color: var(--fz-red); text-decoration: underline; text-underline-offset: 4px; }
 .intro-link-t { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 600; line-height: 1.2; display: block; margin-bottom: 3px; }
 .intro-link-d { color: var(--fz-ink-muted); font-size: 14px; font-weight: 400; }
+/* A "Made here" card with a small cover thumbnail on the left (The Hollow King). */
+.intro-link-img { display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: 16px; align-items: start; }
+.intro-thumb { display: block; width: 72px; height: 72px; object-fit: cover; border: 1px solid var(--fz-rule); background: var(--fz-rule); }
+.intro-link-body { min-width: 0; }
+/* Title and tag sit on one line while they fit, and the tag drops under the title (aligned with it) when they do not. */
+.intro-link-img .intro-link-t { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.intro-link-img .tag-new { margin-left: 0; vertical-align: baseline; }
 .tag-new {
   display: inline-block; vertical-align: 2px; margin-left: 8px;
   font-family: 'Inter', sans-serif; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
@@ -357,6 +364,8 @@ body.directory .search-line input:focus-visible { outline: none; }
   .intro-link { padding: 8px 0; }
   .intro-link-t { font-size: 19px; margin-bottom: 1px; }
   .intro-link-d { font-size: 13.5px; line-height: 1.4; }
+  .intro-link-img { grid-template-columns: 56px minmax(0, 1fr); column-gap: 12px; }
+  .intro-thumb { width: 56px; height: 56px; }
   .index-head { padding-top: 36px; }
 }
 @media (max-width: 400px) {

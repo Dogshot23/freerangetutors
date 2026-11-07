@@ -171,14 +171,14 @@ test('the script and stylesheet are loaded from the page and exist', () => {
 });
 
 console.log('navigation, sitemap and public site');
-const NAV_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'stop-the-slop/index.html', 'rescue/index.html',
+const NAV_PAGES = ['index.html', 'about.html', 'made-by-frt/index.html', 'rescue/index.html',
   'resources/the-school-trip-that-should-have-been-cancelled/index.html', 'resources/the-sixth-astronaut/index.html'];
 NAV_PAGES.forEach((p) => {
-  test(p + ': header navigation has five links in order, with Rescue Cards second', () => {
+  test(p + ': header navigation has four links in order (Stop the Slop retired), with Rescue Cards second', () => {
     const nav = read(p).match(/<nav class="site-nav" aria-label="Site">([\s\S]*?)<\/nav>/);
     assert(nav, 'no site nav');
     const links = [...nav[1].matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m) => m[2]);
-    eq(links, ['Resources', 'Rescue Cards', 'Made by FRT', 'Stop the Slop', 'About']);
+    eq(links, ['Resources', 'Rescue Cards', 'Made by FRT', 'About']);
     assert(nav[1].indexOf('<a href="/rescue/"') !== -1, 'rescue link target');
     eq(/aria-current="page"/.test(nav[1].match(/<a href="\/rescue\/"[^>]*>/)[0]), p === 'rescue/index.html', 'aria-current only on the Rescue Cards page');
   });
