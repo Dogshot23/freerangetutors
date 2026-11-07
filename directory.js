@@ -3,7 +3,9 @@
    Search + filters + resource index, no questionnaire before
    the resources are visible. (The red feature block above the
    index is the Website of the Day, see website-of-the-day.js;
-   the old "Recently added" band was removed from the homepage.)
+   the old "Recently added" band was removed from the homepage.
+   The Christmas Dinner promotional card is placed inside the list
+   after the first few entries, see placePromo below.)
 
    Visual system: "Contemporary Editorial Fanzine" (Mockup 10,
    approved) — a typeset resource index, rather than a card
@@ -34,6 +36,12 @@
   const COBALT_ACCENT_IDS = [];
 
   let allResources = [];
+
+  /* The Christmas Dinner promotional card (static markup in index.html, id "cd-promo") sits inside the list after the first PROMO_AFTER
+     resources. It is not a resource: it never changes what the search, filters or sort return, or the count. It is shown only in the
+     unfiltered list (a search result or a filtered list is just the matching resources) and is moved, never copied, so there is one card. */
+  const PROMO_AFTER = 4;
+  const promoCard = document.getElementById('cd-promo');
 
   function levelValues(resource) {
     const set = resource.cefr_level;
@@ -355,6 +363,21 @@
     }
   }
 
+  /* Put the promotional card after the first PROMO_AFTER entries, or take it out of the list when a search or filter is active
+     (or when there are not enough resources to put it after). Called after the entries are rebuilt, because rebuilding empties the list. */
+  function placePromo(container, shownCount) {
+    if (!promoCard) return;
+    const s = currentState();
+    const filtered = !!(s.query || s.category || s.type || s.use || s.level || s.cost);
+    if (filtered || shownCount <= PROMO_AFTER) {
+      if (promoCard.parentNode) promoCard.parentNode.removeChild(promoCard);
+      promoCard.classList.remove('cd-placed');
+      return;
+    }
+    container.insertBefore(promoCard, container.children[PROMO_AFTER]);
+    promoCard.classList.add('cd-placed');
+  }
+
   function renderEntries() {
     const list = freeFirst(sortAlphabetical(filteredResources()));
     const container = document.getElementById('entries');
@@ -363,6 +386,7 @@
 
     container.innerHTML = '';
     list.forEach(function (r) { container.appendChild(renderEntry(r)); });
+    placePromo(container, list.length);
 
     container.hidden = list.length === 0;
     empty.hidden = list.length !== 0;
@@ -419,6 +443,7 @@
     wireFiltersPanel();
   }).catch(function (err) {
     console.error('Directory failed to load resource data:', err);
+    if (promoCard) promoCard.classList.add('cd-placed');   // no list to place it in: show it where it is rather than lose it
     document.getElementById('index-count').textContent = 'Data unavailable';
   });
 

@@ -20,7 +20,7 @@ t('description only makes claims checked on gapminder.org (no lesson plans, work
 t('age, CEFR and group fit are left unknown (Gapminder does not state them)', g.age_group.mode === 'unknown' && g.cefr_level.mode === 'unknown' && g.group_fit.mode === 'unknown');
 // The red feature block used to be the "Recently added" band (featuring the newest free resource, Gapminder). It is now the Website of the Day.
 const wotdCss = read('website-of-the-day.css');
-t('the homepage\'s red feature block is the Website of the Day: one <section class="wotd"> with a flat red field, paper text, and the 440px halftone column that rises over the field', (home.match(/<section class="wotd"/g) || []).length === 1 && /\.wotd \{[^}]*background: var\(--fz-red\);[^}]*color: var\(--fz-paper\);/.test(wotdCss) && /--wotd-photo-w: 440px;/.test(wotdCss) && /--wotd-rise: 72px;/.test(wotdCss) && /margin-top: 112px;/.test(wotdCss));
+t('the homepage\'s red feature block is the Website of the Day: one <section class="wotd"> with a flat red field, paper text, and the compact 176px halftone column that still rises over the field', (home.match(/<section class="wotd"/g) || []).length === 1 && /\.wotd \{[^}]*background: var\(--fz-red\);[^}]*color: var\(--fz-paper\);/.test(wotdCss) && /--wotd-photo-w: 176px;/.test(wotdCss) && /--wotd-rise: 44px;/.test(wotdCss) && /margin-top: calc\(var\(--wotd-rise\) \+ 28px\);/.test(wotdCss));
 t('the old Recently added band is gone from the homepage and its code is gone from directory.js, so nothing competes with the Website of the Day', !/recent-band|recent-photo|Recently added/i.test(home) && !/renderFeatured|FEATURED_ID|recentPool|pickFeatured/.test(dirSrc));
 const WOTD = require('../website-of-the-day.js');
 const pinnedImages = JSON.parse(read('data/featured-images.json')).images;
@@ -36,17 +36,18 @@ t('the Christmas Dinner band appears exactly once, with its stylesheet link exac
 t('its Payhip link is https://payhip.com/b/MWIoz (once), and the other link goes to the catalogue card', (seg.match(/href="https:\/\/payhip\.com\/b\/MWIoz"/g) || []).length === 1 && seg.includes('href="/made-by-frt/#the-christmas-dinner-that-keeps-getting-bigger"'));
 t('the catalogue card is still present on /made-by-frt/ with the same Payhip link', read('made-by-frt/index.html').includes('id="the-christmas-dinner-that-keeps-getting-bigger"') && read('made-by-frt/index.html').includes('https://payhip.com/b/MWIoz'));
 
-console.log('\nthe homepage has exactly these two featured areas (the red Website of the Day block, then the Christmas Dinner band)');
+console.log('\nthe homepage has exactly these two featured areas (the compact red Website of the Day block, and the Christmas Dinner card inside the list)');
 t('the Sixth Astronaut band and its stylesheet link are gone from the homepage', !home.includes('class="ts-feature"') && !home.includes('the-sixth-astronaut.css') && !/ts-feature-h/.test(home));
 t('the Sixth Astronaut product page, its stylesheet and its sitemap entry are intact', fs.existsSync(path.join(root, 'resources/the-sixth-astronaut/index.html')) && fs.existsSync(path.join(root, 'resources/the-sixth-astronaut/the-sixth-astronaut.css')) && read('sitemap.xml').includes('<loc>https://www.freerangetutors.com/resources/the-sixth-astronaut/</loc>'));
 const order = [...home.matchAll(/<section class="(recent-band|wotd|cd-feature|ts-feature)"/g)].map(m => m[1]);
-t('section order is: the red Website of the Day block, then the Christmas Dinner band, with nothing else featured (no Recently added band)', JSON.stringify(order) === JSON.stringify(['wotd', 'cd-feature']), JSON.stringify(order));
+t('section order is: the red Website of the Day block, then All resources with the Christmas Dinner card inside the list, with nothing else featured (no Recently added band)', JSON.stringify(order) === JSON.stringify(['wotd', 'cd-feature']) && home.indexOf('<section class="wotd"') < home.indexOf('id="all-resources"') && home.indexOf('id="entries"') < home.indexOf('<section class="cd-feature"'), JSON.stringify(order));
 t('navigation, All resources and the directory script are intact', ['#all-resources', '/made-by-frt/', '/stop-the-slop/', '/about'].every(h => home.includes('href="' + h + '"')) && home.includes('id="all-resources"') && home.includes('<script src="directory.js">'));
 
-console.log('\nthe Christmas Dinner feature and the Gapminder assets are unchanged by the homepage change');
+console.log('\nthe Christmas Dinner card content and the Gapminder assets are unchanged by the layout change');
 const sha = (txt) => crypto.createHash('sha256').update(txt).digest('hex');
 const lf = (f) => read(f).replace(/\r\n/g, '\n');
 const cdStart = lf('index.html').indexOf('<section class="cd-feature"'), cdHtml = lf('index.html').slice(cdStart, lf('index.html').indexOf('</section>', cdStart) + '</section>'.length);
-t('the Christmas Dinner band markup and its stylesheet are byte-for-byte what they were (pinned)', sha(cdHtml) === 'd3d0fe8ab2498341dff5ac65b6fb53618c9f5ebcfeb58d38f673a8c41b997b95' && sha(lf('christmas-feature.css')) === '116eca0ede1d7b461378d412a5c5050df0a8f3126fb16dd34753efdd914099e5');
+const normCd = (s) => s.replace(/\s+/g, ' ').replace(/> </g, '><').replace(' id="cd-promo"', '').trim();
+t('the Christmas Dinner card has the same content as before the layout change (pinned, ignoring indentation and the placement id), and its stylesheet is still .cd- only', sha(normCd(cdHtml)) === 'b3be1f3d07d6898117539be24a3f246bbac4b12a0d022db9f3b9a3ee92c087d0' && [...lf('christmas-feature.css').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/^\s*([^@\s}][^{]*)\{/gm)].every(m => m[1].split(',').every(sel => /\.cd-/.test(sel))));
 t('the Gapminder feature assets are unchanged (pinned): the halftone photograph and its licence/metadata file are byte-for-byte as before, and the Gapminder resource is still in the catalogue', sha(fs.readFileSync(path.join(root, 'images/editorial/feature-gapminder.png'))) === '63b766087940bdfc33516a8b029ad9240fb98df129683224a722e1c6858634da' && sha(lf('data/featured-images.json')) === '8c7efd28f38e2e4fa99dfd39a4951e6fe2e426c4be2b164eea1658f844fa5050' && manifest.includes('gapminder'));
 console.log('\n' + pass + ' passed, ' + fail + ' failed'); process.exit(fail ? 1 : 0);
