@@ -41,7 +41,7 @@ t('the Sixth Astronaut band and its stylesheet link are gone from the homepage',
 t('the Sixth Astronaut product page, its stylesheet and its sitemap entry are intact', fs.existsSync(path.join(root, 'resources/the-sixth-astronaut/index.html')) && fs.existsSync(path.join(root, 'resources/the-sixth-astronaut/the-sixth-astronaut.css')) && read('sitemap.xml').includes('<loc>https://www.freerangetutors.com/resources/the-sixth-astronaut/</loc>'));
 const order = [...home.matchAll(/<section class="(recent-band|wotd|cd-feature|ts-feature)"/g)].map(m => m[1]);
 t('section order is: the red Website of the Day block, then All resources with the Christmas Dinner card inside the list, with nothing else featured (no Recently added band)', JSON.stringify(order) === JSON.stringify(['wotd', 'cd-feature']) && home.indexOf('<section class="wotd"') < home.indexOf('id="all-resources"') && home.indexOf('id="entries"') < home.indexOf('<section class="cd-feature"'), JSON.stringify(order));
-t('navigation, All resources and the directory script are intact', ['#all-resources', '/made-by-frt/', '/stop-the-slop/', '/about'].every(h => home.includes('href="' + h + '"')) && home.includes('id="all-resources"') && home.includes('<script src="directory.js">'));
+t('navigation, All resources and the directory script are intact', ['#all-resources', '/made-by-frt/', '/about'].every(h => home.includes('href="' + h + '"')) && !home.includes('/stop-the-slop/') && home.includes('id="all-resources"') && home.includes('<script src="directory.js">'));
 
 console.log('\nthe Christmas Dinner card content and the Gapminder assets are unchanged by the layout change');
 const sha = (txt) => crypto.createHash('sha256').update(txt).digest('hex');

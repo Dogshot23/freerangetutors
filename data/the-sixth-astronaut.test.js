@@ -23,7 +23,7 @@ const ids = new Set([...page.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]));
 t('product page: every #anchor link points at an existing id', [...page.matchAll(/href="#([^"]+)"/g)].every(m => ids.has(m[1])), [...page.matchAll(/href="#([^"]+)"/g)].filter(m => !ids.has(m[1])).map(m => m[1]).join());
 t('product page: has canonical URL on the real domain, a title, a description and exactly one h1', /rel="canonical" href="https:\/\/www\.freerangetutors\.com\/resources\/the-sixth-astronaut\/"/.test(page) && /<title>[^<]+<\/title>/.test(page) && /name="description"/.test(page) && (page.match(/<h1[ >]/g) || []).length === 1);
 t('product page: every image has alt text, width and height', [...page.matchAll(/<img\b[^>]*>/g)].every(m => /\balt="[^"]{10,}"/.test(m[0]) && /\bwidth="\d+"/.test(m[0]) && /\bheight="\d+"/.test(m[0])));
-t('product page: nav matches the site (Resources, Made by FRT, Stop the Slop, About)', ['/#all-resources', '/made-by-frt/', '/stop-the-slop/', '/about'].every(h => page.includes('href="' + h + '"')));
+t('product page: nav matches the site (Resources, Made by FRT, About; Stop the Slop is retired)', ['/#all-resources', '/made-by-frt/', '/about'].every(h => page.includes('href="' + h + '"')) && !page.includes('/stop-the-slop/'));
 // links to Payhip: none while the product is hidden
 const PAYHIP = 'https://payhip.com/b/Jsj4h';
 const payLinks = [...page.matchAll(/<a[^>]*href="([^"]*payhip[^"]*)"[^>]*>/g)].map(m => m[1]);
